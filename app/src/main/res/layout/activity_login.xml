@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/passwordSignIn"
+    android:id="@+id/signInConstraint"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.LogInActivity">
@@ -11,7 +11,7 @@
         android:id="@+id/emailSignIn"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="396dp"
+        android:layout_marginTop="328dp"
         android:ems="10"
         android:hint="@string/EMAIL"
         android:inputType="textEmailAddress"
@@ -42,4 +42,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordSIgnIn" />
+
+    <TextView
+        android:id="@+id/registrationNote"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/REGISTRATION_NOTE"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/signInBtn"
+        tools:textSize="18dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

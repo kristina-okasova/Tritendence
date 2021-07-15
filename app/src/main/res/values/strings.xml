@@ -3,4 +3,13 @@
     <string name="EMAIL">E-mail</string>
     <string name="PASSWORD">Heslo</string>
     <string name="SIGN_IN">Prihlásenie</string>
+    <string name="REGISTRATION_NOTE">Ešte nemáte konto? Zaregistrujte sa!</string>
+    <string name="REGISTRATION">Registrácia</string>
+    <string name="SIGN_IN_NOTE">Uz máte konto? Prihláste sa!</string>
+    <string name="REGISTRATION_NAME">Meno</string>
+    <string name="REGISTRATION_SURNAME">Priezvisko</string>
+    <string name="REGISTRATION_SPORT">Šport</string>
+    <string name="PASSWORD_CHECK">Potvrdenie hesla</string>
+    <string name="SWIMMING">Plávanie</string>
+    <string name="ATHLETICS">Atletika</string>
 </resources>

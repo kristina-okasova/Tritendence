@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import com.example.tritendence.R;
+
 public class HomeActivity extends AppCompatActivity {
 
     @Override

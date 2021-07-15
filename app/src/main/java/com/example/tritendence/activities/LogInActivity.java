@@ -8,6 +8,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.tritendence.R;
@@ -17,7 +18,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.regex.Pattern;
 
 public class LogInActivity extends AppCompatActivity {
-    private EditText emailText, passwordText;
+    private EditText email, password;
+    private TextView registration;
     private Button signInBtn;
 
     @Override
@@ -26,8 +28,9 @@ public class LogInActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         this.signInBtn = findViewById(R.id.signInBtn);
-        this.emailText = findViewById(R.id.emailSignIn);
-        this.passwordText = findViewById(R.id.passwordSIgnIn);
+        this.email = findViewById(R.id.emailSignIn);
+        this.password = findViewById(R.id.passwordSIgnIn);
+        this.registration = findViewById(R.id.registrationNote);
 
         this.signInBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -35,25 +38,32 @@ public class LogInActivity extends AppCompatActivity {
                 signIn();
             }
         });
+
+        this.registration.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadRegistration();
+            }
+        });
     }
 
     private void signIn() {
-        String email = this.emailText.getText().toString();
-        String password = this.passwordText.getText().toString();
+        String emailText = this.email.getText().toString();
+        String passwordText = this.password.getText().toString();
 
-        if (!email.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            if (!password.isEmpty()) {
+        if (!emailText.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(emailText).matches()) {
+            if (!passwordText.isEmpty()) {
                 Toast msg = Toast.makeText(LogInActivity.this, "Úspešné prihlásenie.", Toast.LENGTH_LONG);
                 msg.show();
 
-                Intent home = new Intent(LogInActivity.this, HomeActivity.class);
-                startActivity(home);
+                Intent homePage = new Intent(LogInActivity.this, HomeActivity.class);
+                startActivity(homePage);
             }
             else {
                 Toast msg = Toast.makeText(LogInActivity.this, "Je potrebné zadať heslo.", Toast.LENGTH_LONG);
                 msg.show();
             }
-        } else if (email.isEmpty()) {
+        } else if (emailText.isEmpty()) {
             Toast msg = Toast.makeText(LogInActivity.this, "Je nutné vyplniť potrebné údaje.", Toast.LENGTH_LONG);
             msg.show();
         }
@@ -62,4 +72,10 @@ public class LogInActivity extends AppCompatActivity {
             msg.show();
         }
     }
+
+    private void loadRegistration() {
+        Intent registrationPage = new Intent(LogInActivity.this, RegistrationActivity.class);
+        startActivity(registrationPage);
+    }
+
 }
