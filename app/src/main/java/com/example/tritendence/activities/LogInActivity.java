@@ -12,15 +12,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.tritendence.R;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.regex.Pattern;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class LogInActivity extends AppCompatActivity {
     private EditText email, password;
     private TextView registration;
     private Button signInBtn;
+    private FirebaseAuth authentication;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +29,7 @@ public class LogInActivity extends AppCompatActivity {
         this.email = findViewById(R.id.emailSignIn);
         this.password = findViewById(R.id.passwordSIgnIn);
         this.registration = findViewById(R.id.registrationNote);
+        this.authentication = FirebaseAuth.getInstance();
 
         this.signInBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,23 +52,23 @@ public class LogInActivity extends AppCompatActivity {
 
         if (!emailText.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(emailText).matches()) {
             if (!passwordText.isEmpty()) {
-                Toast msg = Toast.makeText(LogInActivity.this, "Úspešné prihlásenie.", Toast.LENGTH_LONG);
-                msg.show();
+                this.authentication.signInWithEmailAndPassword(emailText, passwordText).addOnSuccessListener(task -> {
+                    Intent homePage = new Intent(LogInActivity.this, HomeActivity.class);
+                    startActivity(homePage);
+                    finish();
+                }).addOnFailureListener(task -> {
+                    Toast.makeText(LogInActivity.this, "Zadané údaje nie sú správne.", Toast.LENGTH_LONG).show();
+                });
 
-                Intent homePage = new Intent(LogInActivity.this, HomeActivity.class);
-                startActivity(homePage);
             }
             else {
-                Toast msg = Toast.makeText(LogInActivity.this, "Je potrebné zadať heslo.", Toast.LENGTH_LONG);
-                msg.show();
+                this.password.setError("Je potrebné zadať heslo.");
             }
         } else if (emailText.isEmpty()) {
-            Toast msg = Toast.makeText(LogInActivity.this, "Je nutné vyplniť potrebné údaje.", Toast.LENGTH_LONG);
-            msg.show();
+            this.email.setError("Je nutné vyplniť potrebné údaje.");
         }
         else {
-            Toast msg = Toast.makeText(LogInActivity.this, "Zadaný e-mail nie je možné akceptovať.", Toast.LENGTH_LONG);
-            msg.show();
+            this.email.setError("Zadaný e-mail nie je možné akceptovať.");
         }
     }
 

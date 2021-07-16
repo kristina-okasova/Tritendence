@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "567252729379",
+    "project_id": "tritendence",
+    "storage_bucket": "tritendence.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:567252729379:android:12bc7d17949338bcfb3b96",
+        "android_client_info": {
+          "package_name": "com.example.tritendence"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "567252729379-bm6t06b3539qmqv95s0utq8248bbun8p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBZPwzq5GgVj4iaE0p8RmfAqQ3mh6c-6Ns"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "567252729379-bm6t06b3539qmqv95s0utq8248bbun8p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
