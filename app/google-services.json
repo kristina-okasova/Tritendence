@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "567252729379",
-    "project_id": "tritendence",
-    "storage_bucket": "tritendence.appspot.com"
+    "project_number": "916117439542",
+    "project_id": "tritendence1",
+    "storage_bucket": "tritendence1.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:567252729379:android:12bc7d17949338bcfb3b96",
+        "mobilesdk_app_id": "1:916117439542:android:9ab4a40a2449a0819d4497",
         "android_client_info": {
           "package_name": "com.example.tritendence"
         }
       },
       "oauth_client": [
         {
-          "client_id": "567252729379-bm6t06b3539qmqv95s0utq8248bbun8p.apps.googleusercontent.com",
+          "client_id": "916117439542-9v7r0gti1eg5isak1sl9bo68i6cg6c0q.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBZPwzq5GgVj4iaE0p8RmfAqQ3mh6c-6Ns"
+          "current_key": "AIzaSyDgvc0lj3ucEUw3XWBRjnU30SDqBEXuPQ8"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "567252729379-bm6t06b3539qmqv95s0utq8248bbun8p.apps.googleusercontent.com",
+              "client_id": "916117439542-9v7r0gti1eg5isak1sl9bo68i6cg6c0q.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

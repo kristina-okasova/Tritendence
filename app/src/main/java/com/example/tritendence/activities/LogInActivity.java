@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.tritendence.R;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class LogInActivity extends AppCompatActivity {
@@ -56,20 +57,16 @@ public class LogInActivity extends AppCompatActivity {
                     Intent homePage = new Intent(LogInActivity.this, HomeActivity.class);
                     startActivity(homePage);
                     finish();
-                }).addOnFailureListener(task -> {
-                    Toast.makeText(LogInActivity.this, "Zadané údaje nie sú správne.", Toast.LENGTH_LONG).show();
-                });
+                }).addOnFailureListener(task -> Toast.makeText(LogInActivity.this, "Zadané údaje nie sú správne.", Toast.LENGTH_LONG).show());
 
             }
-            else {
+            else
                 this.password.setError("Je potrebné zadať heslo.");
-            }
-        } else if (emailText.isEmpty()) {
+        }
+        else if (emailText.isEmpty())
             this.email.setError("Je nutné vyplniť potrebné údaje.");
-        }
-        else {
+        else
             this.email.setError("Zadaný e-mail nie je možné akceptovať.");
-        }
     }
 
     private void loadRegistration() {
