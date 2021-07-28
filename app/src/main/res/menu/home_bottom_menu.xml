@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/attendanceFragment"
+        android:title="@string/ATTENDANCE"
+        android:icon="@drawable/attendance_icon"/>
+    <item
+        android:id="@+id/groupsFragment"
+        android:title="@string/GROUPS"
+        android:icon="@drawable/groups_icon"/>
+    <item
+        android:id="@+id/profilFragment"
+        android:title="@string/PROFILE"
+        android:icon="@drawable/profil_icon"/>
+    <item
+        android:id="@+id/settingsFragment"
+        android:title="@string/SETTINGS"
+        android:icon="@drawable/settings_icon"/>
+</menu>

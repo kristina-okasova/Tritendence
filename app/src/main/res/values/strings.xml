@@ -12,4 +12,13 @@
     <string name="PASSWORD_CHECK">Potvrdenie hesla</string>
     <string name="SWIMMING">Plávanie</string>
     <string name="ATHLETICS">Atletika</string>
+    <string name="GROUPS">Skupiny</string>
+    <string name="ATTENDANCE">Dochádzka</string>
+    <string name="PROFILE">Používateľ</string>
+    <string name="SETTINGS">Nastavenia</string>
+    <string name="MONDAY">Pondelok</string>
+    <string name="TUESDAY">Utorok</string>
+    <string name="WEDNESDAY">Streda</string>
+    <string name="THURSDAY">Štvrtok</string>
+    <string name="FRIDAY">Piatok</string>
 </resources>
