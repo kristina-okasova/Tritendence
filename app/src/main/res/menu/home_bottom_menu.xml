@@ -10,9 +10,9 @@
         android:title="@string/GROUPS"
         android:icon="@drawable/groups_icon"/>
     <item
-        android:id="@+id/profilFragment"
+        android:id="@+id/profileFragment"
         android:title="@string/PROFILE"
-        android:icon="@drawable/profil_icon"/>
+        android:icon="@drawable/profile_icon"/>
     <item
         android:id="@+id/settingsFragment"
         android:title="@string/SETTINGS"

@@ -2,14 +2,19 @@ package com.example.tritendence.model;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ExpandableListView;
 import android.widget.TextView;
 
 import com.example.tritendence.R;
+import com.example.tritendence.activities.AttendanceSheetActivity;
+import com.example.tritendence.activities.HomeActivity;
+import com.example.tritendence.fragments.AttendanceFragment;
 
 import java.util.List;
 import java.util.Map;
@@ -17,11 +22,15 @@ import java.util.Objects;
 
 public class AdapterOfExpendableList extends BaseExpandableListAdapter {
     private Activity context;
+    private HomeActivity root;
+    private AttendanceFragment fragment;
     private Map<String, List<String>> timetable;
     private List<String> daysOfTheWeek;
 
-    public AdapterOfExpendableList(Activity context, List<String> daysOfTheWeek, Map<String, List<String>> timetable) {
+    public AdapterOfExpendableList(Activity context, HomeActivity root, AttendanceFragment fragment, List<String> daysOfTheWeek, Map<String, List<String>> timetable) {
         this.context = context;
+        this.root = root;
+        this.fragment = fragment;
         this.daysOfTheWeek = daysOfTheWeek;
         this.timetable = timetable;
     }
@@ -87,6 +96,14 @@ public class AdapterOfExpendableList extends BaseExpandableListAdapter {
 
         TextView groupName = convertView.findViewById(R.id.groupName);
         groupName.setText(group);
+
+        groupName.setOnClickListener(v -> {
+            //root.displayAttendanceSheet(groupName.getText().toString())
+
+            Intent attendanceSheetPage = new Intent(context, AttendanceSheetActivity.class);
+            this.context.startActivity(attendanceSheetPage);
+            this.context.finish();
+        });
 
         return convertView;
     }

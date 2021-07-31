@@ -3,33 +3,28 @@ package com.example.tritendence.activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import com.example.tritendence.R;
 import com.example.tritendence.fragments.AttendanceFragment;
+import com.example.tritendence.fragments.AttendanceSheetFragment;
 import com.example.tritendence.fragments.GroupsFragment;
 import com.example.tritendence.fragments.ProfileFragment;
 import com.example.tritendence.fragments.SettingsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.database.annotations.NotNull;
 
-import static com.google.android.material.internal.ContextUtils.getActivity;
-
-public class HomeActivity extends AppCompatActivity {
+public class AttendanceSheetActivity extends AppCompatActivity {
     private BottomNavigationView navigation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_attendance_sheet);
 
         this.navigation = findViewById(R.id.bottomNavigationView);
         this.navigation.setOnNavigationItemSelectedListener(navigationListener);
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, new AttendanceFragment(HomeActivity.this)).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, new AttendanceSheetFragment()).commit();
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navigationListener =
@@ -38,7 +33,7 @@ public class HomeActivity extends AppCompatActivity {
 
                 switch (item.getItemId()) {
                     case R.id.attendanceFragment:
-                        selectedFragment = new AttendanceFragment(HomeActivity.this);
+                        selectedFragment = new AttendanceFragment(new HomeActivity());
                         break;
                     case R.id.groupsFragment:
                         selectedFragment = new GroupsFragment();

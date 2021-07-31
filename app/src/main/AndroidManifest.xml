@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Tritendence">
-        <activity android:name=".activities.RegistrationActivity"></activity>
+        <activity android:name=".activities.AttendanceSheetActivity"></activity>
+        <activity android:name=".activities.RegistrationActivity" />
         <activity android:name=".activities.HomeActivity" />
         <activity android:name=".activities.LogInActivity">
             <intent-filter>

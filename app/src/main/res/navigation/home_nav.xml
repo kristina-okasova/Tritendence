@@ -7,22 +7,23 @@
 
     <fragment
         android:id="@+id/attendanceFragment"
-        android:name="com.example.tritendence.attendanceFragment"
+        android:name="com.example.tritendence.fragments.AttendanceFragment"
         android:label="fragment_attendance"
         tools:layout="@layout/fragment_attendance" />
     <fragment
         android:id="@+id/groupsFragment"
-        android:name="com.example.tritendence.groupsFragment"
+        android:name="com.example.tritendence.fragments.GroupsFragment"
         android:label="fragment_groups"
         tools:layout="@layout/fragment_groups" />
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.example.tritendence.settingsFragment"
+        android:name="com.example.tritendence.fragments.SettingsFragment"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" />
     <fragment
-        android:id="@+id/profilFragment"
-        android:name="com.example.tritendence.profilFragment"
-        android:label="fragment_profil"
-        tools:layout="@layout/fragment_profil" />
+        android:id="@+id/profileFragment"
+        android:name="com.example.tritendence.fragments.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
+
 </navigation>

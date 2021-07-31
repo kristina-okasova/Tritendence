@@ -22,12 +22,18 @@ import java.util.List;
 import java.util.Map;
 
 public class AttendanceFragment extends Fragment {
+    private HomeActivity activity;
     private List<String> daysOfTheWeek;
     private List<String> groupNames;
     private Map<String, List<String>> timetable;
     private ExpandableListView expandableTimetable;
     private ExpandableListAdapter adapter;
-    private View rootView;
+
+    public AttendanceFragment() {}
+
+    public AttendanceFragment(HomeActivity activity) {
+        this.activity = activity;
+    }
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,9 +45,7 @@ public class AttendanceFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        this.rootView = inflater.inflate(R.layout.fragment_attendance, container, false);
-
-        return this.rootView;
+        return inflater.inflate(R.layout.fragment_attendance, container, false);
     }
 
     @Override
@@ -49,7 +53,7 @@ public class AttendanceFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         this.expandableTimetable = view.findViewById(R.id.timetable);
-        this.expandableTimetable.setAdapter(new AdapterOfExpendableList(getActivity(), this.daysOfTheWeek, this.timetable));
+        this.expandableTimetable.setAdapter(new AdapterOfExpendableList(this.activity, new HomeActivity(), this, this.daysOfTheWeek, this.timetable));
         this.expandableTimetable.setGroupIndicator(null);
 
         this.expandableTimetable.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
@@ -60,12 +64,6 @@ public class AttendanceFragment extends Fragment {
                     expandableTimetable.collapseGroup(previousGroup);
                 previousGroup = groupPosition;
             }
-        });
-
-        this.expandableTimetable.setOnChildClickListener((parent, v, groupPosition, childPosition, id) -> {
-            String selected = adapter.getChild(groupPosition, childPosition).toString();
-
-            return !selected.equals("");
         });
     }
 

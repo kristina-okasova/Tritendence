@@ -72,6 +72,7 @@ public class LogInActivity extends AppCompatActivity {
     private void loadRegistration() {
         Intent registrationPage = new Intent(LogInActivity.this, RegistrationActivity.class);
         startActivity(registrationPage);
+        finish();
     }
 
 }

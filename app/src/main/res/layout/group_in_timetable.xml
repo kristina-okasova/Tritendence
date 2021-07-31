@@ -11,6 +11,7 @@
         android:layout_weight="1"
         android:background="@drawable/textview_border"
         android:paddingLeft="60dp"
-        android:paddingTop="5dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         android:textSize="16sp" />
 </LinearLayout>
