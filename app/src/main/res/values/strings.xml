@@ -12,6 +12,9 @@
     <string name="PASSWORD_CHECK">Potvrdenie hesla</string>
     <string name="SWIMMING">Plávanie</string>
     <string name="ATHLETICS">Atletika</string>
+    <string name="SWIMMING_DB">Swimming</string>
+    <string name="ATHLETICS_DB">Athletics</string>
+    <string name="CYCLING_DB">Cycling</string>
     <string name="GROUPS">Skupiny</string>
     <string name="ATTENDANCE">Dochádzka</string>
     <string name="PROFILE">Používateľ</string>
@@ -21,7 +24,15 @@
     <string name="WEDNESDAY">Streda</string>
     <string name="THURSDAY">Štvrtok</string>
     <string name="FRIDAY">Piatok</string>
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="SATURDAY">Sobota</string>
+    <string name="SUNDAY">Nedeľa</string>
+    <string name="MONDAY_DB">Monday</string>
+    <string name="TUESDAY_DB">Tuesday</string>
+    <string name="WEDNESDAY_DB">Wednesday</string>
+    <string name="THURSDAY_DB">Thursday</string>
+    <string name="FRIDAY_DB">Friday</string>
+    <string name="SATURDAY_DB">Saturday</string>
+    <string name="SUNDAY_DB">Sunday</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="ATTENDANCE_CONFIRMATION">Potvrdiť dochádzku</string>
 </resources>

@@ -11,16 +11,26 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import com.example.tritendence.R;
 import com.example.tritendence.activities.AttendanceSheetActivity;
 import com.example.tritendence.activities.HomeActivity;
 import com.example.tritendence.fragments.AttendanceFragment;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
 public class AdapterOfExpendableList extends BaseExpandableListAdapter {
+    private final static String GROUPS_CHILD_DATABASE = "Groups";
+
+    private DatabaseReference database;
     private Activity context;
     private HomeActivity root;
     private AttendanceFragment fragment;
@@ -96,16 +106,38 @@ public class AdapterOfExpendableList extends BaseExpandableListAdapter {
 
         TextView groupName = convertView.findViewById(R.id.groupName);
         groupName.setText(group);
-
-        groupName.setOnClickListener(v -> {
-            //root.displayAttendanceSheet(groupName.getText().toString())
-
-            Intent attendanceSheetPage = new Intent(context, AttendanceSheetActivity.class);
-            this.context.startActivity(attendanceSheetPage);
-            this.context.finish();
-        });
+        this.findGroupID(group.substring(group.indexOf(" ", group.indexOf(" ") + 1) + 1), groupName);
 
         return convertView;
+    }
+
+    private void findGroupID(String group, TextView groupView) {
+        this.database = FirebaseDatabase.getInstance().getReference().child(GROUPS_CHILD_DATABASE);
+        System.out.println("Group " + group);
+        this.database.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                int numberOfGroups = (int) snapshot.getChildrenCount();
+
+                for (int i = 1; i <= numberOfGroups; i++) {
+                    String groupID = String.valueOf(i);
+                    String groupName = (String) snapshot.child(groupID).child("Name").getValue();
+
+                    if (group.equals(groupName)) {
+                        groupView.setOnClickListener(v -> {
+                            Intent attendanceSheetPage = new Intent(context, AttendanceSheetActivity.class);
+                            System.out.println("intent " + groupID);
+                            attendanceSheetPage.putExtra("GROUP_ID", groupID);
+                            context.startActivity(attendanceSheetPage);
+                            //context.finish();
+                        });
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+        });
     }
 
     @Override
