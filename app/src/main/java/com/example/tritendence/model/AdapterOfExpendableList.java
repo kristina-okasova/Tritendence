@@ -82,6 +82,7 @@ public class AdapterOfExpendableList extends BaseExpandableListAdapter {
 
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+        System.out.println(this.context);
         String day = this.daysOfTheWeek.get(groupPosition);
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -106,14 +107,17 @@ public class AdapterOfExpendableList extends BaseExpandableListAdapter {
 
         TextView groupName = convertView.findViewById(R.id.groupName);
         groupName.setText(group);
-        this.findGroupID(group.substring(group.indexOf(" ", group.indexOf(" ") + 1) + 1), groupName);
+        String trainingTime = group.substring(0, group.indexOf(" "));
+        String sport = group.substring(group.indexOf(" ") + 1, group.indexOf(" ", group.indexOf(" ") + 1));
+        System.out.println(sport);
+        this.findGroupInfo(group.substring(group.indexOf(" ", group.indexOf(" ") + 1) + 1), trainingTime, sport, groupName);
 
         return convertView;
     }
 
-    private void findGroupID(String group, TextView groupView) {
+    private void findGroupInfo(String group, String time, String sport, TextView groupView) {
         this.database = FirebaseDatabase.getInstance().getReference().child(GROUPS_CHILD_DATABASE);
-        System.out.println("Group " + group);
+
         this.database.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -126,10 +130,12 @@ public class AdapterOfExpendableList extends BaseExpandableListAdapter {
                     if (group.equals(groupName)) {
                         groupView.setOnClickListener(v -> {
                             Intent attendanceSheetPage = new Intent(context, AttendanceSheetActivity.class);
-                            System.out.println("intent " + groupID);
                             attendanceSheetPage.putExtra("GROUP_ID", groupID);
+                            attendanceSheetPage.putExtra("GROUP_NAME", groupName);
+                            attendanceSheetPage.putExtra("TRAINING_TIME", time);
+                            attendanceSheetPage.putExtra("SPORT_TYPE", sport);
                             context.startActivity(attendanceSheetPage);
-                            //context.finish();
+                            context.finish();
                         });
                     }
                 }

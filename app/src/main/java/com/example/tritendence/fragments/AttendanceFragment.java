@@ -110,7 +110,7 @@ public class AttendanceFragment extends Fragment {
                             String trainingUnitID = String.valueOf(k);
                             TrainingUnit unit = snapshot.child(groupID).child(GROUPS_TIMETABLE).child(sportName).child(trainingUnitID).getValue(TrainingUnit.class);
 
-                            addGroupToParticularDay(nameOfGroup, unit.getDay(), unit.getTime());
+                            addGroupToParticularDay(nameOfGroup, unit.getDay(), unit.getTime(), sportName);
                         }
                     }
                 }
@@ -121,9 +121,21 @@ public class AttendanceFragment extends Fragment {
         });
     }
 
-    private void addGroupToParticularDay(String name, String day, String time) {
+    private void addGroupToParticularDay(String name, String day, String time, String sport) {
+        switch (sport) {
+            case "Athletics":
+                sport = "Atletika";
+                break;
+            case "Swimming":
+                sport = "Plávanie";
+                break;
+            case "Cycling":
+                sport = "Cyklistika";
+                break;
+        }
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-            this.timetable.computeIfAbsent(day, k -> new ArrayList<>()).add(time + " " + day + " " + name);
+            this.timetable.computeIfAbsent(day, k -> new ArrayList<>()).add(time + " " + sport + " " + name);
     }
 
     private void initializeTimetable() {
