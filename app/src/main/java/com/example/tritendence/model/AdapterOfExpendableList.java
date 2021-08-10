@@ -109,13 +109,13 @@ public class AdapterOfExpendableList extends BaseExpandableListAdapter {
         groupName.setText(group);
         String trainingTime = group.substring(0, group.indexOf(" "));
         String sport = group.substring(group.indexOf(" ") + 1, group.indexOf(" ", group.indexOf(" ") + 1));
-        System.out.println(sport);
-        this.findGroupInfo(group.substring(group.indexOf(" ", group.indexOf(" ") + 1) + 1), trainingTime, sport, groupName);
+        String trainersName = this.context.getIntent().getExtras().getString("SIGNED_USER");
+        this.findGroupInfo(group.substring(group.indexOf(" ", group.indexOf(" ") + 1) + 1), trainingTime, sport, trainersName, groupName);
 
         return convertView;
     }
 
-    private void findGroupInfo(String group, String time, String sport, TextView groupView) {
+    private void findGroupInfo(String group, String time, String sport, String trainersName, TextView groupView) {
         this.database = FirebaseDatabase.getInstance().getReference().child(GROUPS_CHILD_DATABASE);
 
         this.database.addValueEventListener(new ValueEventListener() {
@@ -134,6 +134,7 @@ public class AdapterOfExpendableList extends BaseExpandableListAdapter {
                             attendanceSheetPage.putExtra("GROUP_NAME", groupName);
                             attendanceSheetPage.putExtra("TRAINING_TIME", time);
                             attendanceSheetPage.putExtra("SPORT_TYPE", sport);
+                            attendanceSheetPage.putExtra("TRAINERS_NAME", trainersName);
                             context.startActivity(attendanceSheetPage);
                             context.finish();
                         });

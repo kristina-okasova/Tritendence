@@ -126,7 +126,8 @@ public class AttendanceSheetFragment extends Fragment {
         DecimalFormat dateFormat= new DecimalFormat("00");
         String date = String.valueOf(year) + String.valueOf(dateFormat.format(Double.valueOf(month))) + String.valueOf(dateFormat.format(Double.valueOf(day)));
         String trainingTime = getActivity().getIntent().getExtras().getString("TRAINING_TIME");
-        date += "_" + trainingTime;
+        String groupID = getActivity().getIntent().getExtras().getString("GROUP_ID");
+        date += "_" + trainingTime + "_" + groupID;
 
         Map<String, String> attendanceData = new HashMap<>();
         int number = 1;
@@ -135,7 +136,14 @@ public class AttendanceSheetFragment extends Fragment {
             number++;
         }
 
+        String groupsName = getActivity().getIntent().getExtras().getString("GROUPS_NAME");
+        String trainersName = getActivity().getIntent().getExtras().getString("TRAINERS_NAME");
+        String sportType = getActivity().getIntent().getExtras().getString("SPORT_TYPE");
+
         root.child(ATTENDANCE_CHILD_DATABASE + "/" + date).setValue(attendanceData);
+        root.child(ATTENDANCE_CHILD_DATABASE + "/" + date + "/GroupsName").setValue(groupsName);
+        root.child(ATTENDANCE_CHILD_DATABASE + "/" + date + "/Sport").setValue(sportType);
+        root.child(ATTENDANCE_CHILD_DATABASE + "/" + date + "/Trainer").setValue(trainersName);
     }
 
     private void initializeMembersOfGroup(View view) {
