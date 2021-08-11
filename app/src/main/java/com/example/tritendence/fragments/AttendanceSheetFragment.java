@@ -7,9 +7,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -19,11 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.tritendence.R;
-import com.example.tritendence.activities.AttendanceSheetActivity;
-import com.example.tritendence.model.TrainingUnit;
 import com.example.tritendence.model.users.Athlete;
-import com.example.tritendence.model.users.Member;
-import com.example.tritendence.model.users.Trainer;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -33,10 +26,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 public class AttendanceSheetFragment extends Fragment {
     private final static String ATHLETES_CHILD_DATABASE = "Athletes";
@@ -65,6 +56,12 @@ public class AttendanceSheetFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         this.initializeMembersOfGroup(view);
+
+        this.nameOfGroup = view.findViewById(R.id.nameOfGroup);
+        String groupName = getActivity().getIntent().getExtras().getString("GROUP_NAME");
+        String time = getActivity().getIntent().getExtras().getString("TRAINING_TIME");
+        String sport = getActivity().getIntent().getExtras().getString("SPORT_TYPE");
+        this.nameOfGroup.setText(String.format("%s\n%s - %s", groupName, sport, time));
 
         this.confirmation = view.findViewById(R.id.attendanceConfirmationButton);
         this.confirmation.setOnClickListener(v -> {
@@ -171,7 +168,6 @@ public class AttendanceSheetFragment extends Fragment {
                         membersOfGroup.add(athlete.getFullName());
                 }
 
-                System.out.println("Members in function: " + membersOfGroup);
                 notifyAttendanceSheet(view);
             }
 

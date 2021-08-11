@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.example.tritendence.R;
 import com.example.tritendence.fragments.AttendanceFragment;
@@ -20,6 +21,7 @@ import static com.google.android.material.internal.ContextUtils.getActivity;
 
 public class HomeActivity extends AppCompatActivity {
     private BottomNavigationView navigation;
+    private TextView nameOfGroup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

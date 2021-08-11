@@ -6,13 +6,25 @@
     android:layout_height="match_parent"
     tools:context=".fragments.GroupsFragment">
 
+    <ListView
+        android:id="@+id/listOfGroups"
+        android:layout_width="match_parent"
+        android:layout_height="600dp"
+        android:paddingRight="45dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="45dp"
+        android:gravity="center"
+        android:paddingRight="45dp"
         android:text="@string/GROUPS"
         android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/listOfGroups"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
