@@ -4,23 +4,14 @@ import com.example.tritendence.model.users.Trainer;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class AddEntity {
     private final static String TRAINERS_CHILD_DATABASE = "Trainers";
-    private TriathlonClub club;
-    private FirebaseDatabase database;
-    private DatabaseReference root;
+    private final TriathlonClub club;
 
-    public AddEntity() {
-        this.club = new TriathlonClub();
-        this.database = FirebaseDatabase.getInstance();
-        this.root = this.database.getReference();
-    }
-
-    private void addAdmin() {
-
+    public AddEntity(TriathlonClub club) {
+        this.club = club;
     }
 
     public void addUser(String name, String surname, String email, String sport) {
@@ -32,6 +23,4 @@ public class AddEntity {
         Map<String, Object> userData = trainer.getMappedData();
         root.child(TRAINERS_CHILD_DATABASE + "/" + trainer.getIDText()).setValue(userData);
     }
-
-    public void addGroup() {}
 }

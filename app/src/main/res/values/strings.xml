@@ -12,6 +12,7 @@
     <string name="PASSWORD_CHECK">Potvrdenie hesla</string>
     <string name="SWIMMING">Plávanie</string>
     <string name="ATHLETICS">Atletika</string>
+    <string name="CYCLING">Cyklistika</string>
     <string name="SWIMMING_DB">Swimming</string>
     <string name="ATHLETICS_DB">Athletics</string>
     <string name="CYCLING_DB">Cycling</string>
@@ -35,4 +36,18 @@
     <string name="SUNDAY_DB">Sunday</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="ATTENDANCE_CONFIRMATION">Potvrdiť dochádzku</string>
+    <string name="CATEGORY">Kategória</string>
+    <string name="MEMBERS">Členovia</string>
+    <string name="WRONG_SIGN_IN_DATA">Zadané údaje nie sú správne.</string>
+    <string name="PASSWORD_REQUIRED">Je potrebné zadať heslo.</string>
+    <string name="REQUIRED_DATA_MISSING">Je nutné vyplniť potrebné údaje.</string>
+    <string name="NOT_ACCEPTABLE_EMAIL">Zadaný e-mail nie je možné akceptovať.</string>
+    <string name="SIGNED_USER">SIGNED_USER</string>
+    <string name="TRIATHLON_CLUB">TRIATHLON_CLUB</string>
+    <string name="EMPTY_STRING"> </string>
+    <string name="ONLY_ONE_SPORT_REQUIRED">Je potrebné vybrať práve jeden šport.</string>
+    <string name="REQUIRED_MATCH_OF_PASSWORDS">Zadané heslá sa musia zhodovať.</string>
+    <string name="TOO_SHORT_PASSWORD">Heslo musí pozostávať minimálne zo 6 znakov.</string>
+    <string name="SUCCESSFUL_REGISTRATION">Úspešná registrácia.</string>
+    <string name="UNSUCCESSFUL_REGISTRATION">Neúspešná registrácia.</string>
 </resources>

@@ -3,10 +3,10 @@ package com.example.tritendence.activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.example.tritendence.R;
@@ -14,33 +14,30 @@ import com.example.tritendence.fragments.AttendanceFragment;
 import com.example.tritendence.fragments.GroupsFragment;
 import com.example.tritendence.fragments.ProfileFragment;
 import com.example.tritendence.fragments.SettingsFragment;
+import com.example.tritendence.model.TriathlonClub;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.database.annotations.NotNull;
-
-import static com.google.android.material.internal.ContextUtils.getActivity;
 
 public class HomeActivity extends AppCompatActivity {
-    private BottomNavigationView navigation;
-    private TextView nameOfGroup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        this.navigation = findViewById(R.id.bottomNavigationView);
-        this.navigation.setOnNavigationItemSelectedListener(navigationListener);
+        BottomNavigationView navigation = findViewById(R.id.bottomNavigationView);
+        navigation.setOnNavigationItemSelectedListener(navigationListener);
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, new AttendanceFragment(HomeActivity.this)).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, new AttendanceFragment(this)).commit();
     }
 
-    private BottomNavigationView.OnNavigationItemSelectedListener navigationListener =
+    @SuppressLint("NonConstantResourceId")
+    private final BottomNavigationView.OnNavigationItemSelectedListener navigationListener =
             item -> {
-                Fragment selectedFragment = null;
+                Fragment selectedFragment;
 
                 switch (item.getItemId()) {
                     case R.id.attendanceFragment:
-                        selectedFragment = new AttendanceFragment(HomeActivity.this);
+                        selectedFragment = new AttendanceFragment();
                         break;
                     case R.id.groupsFragment:
                         selectedFragment = new GroupsFragment();
@@ -58,4 +55,14 @@ public class HomeActivity extends AppCompatActivity {
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, selectedFragment).commit();
                 return true;
             };
+
+    public void showGroupInformation(View view) {
+        TriathlonClub club = (TriathlonClub) getIntent().getExtras().getSerializable("TRIATHLON_CLUB");
+        TextView nameOfGroup = view.findViewById(R.id.nameOfGroupInList);
+        Intent groupInformationPage = new Intent(this, GroupInformationActivity.class);
+        groupInformationPage.putExtra("GROUP_NAME", nameOfGroup.getText().toString());
+        groupInformationPage.putExtra("TRIATHLON_CLUB", club);
+        startActivity(groupInformationPage);
+        finish();
+    }
 }

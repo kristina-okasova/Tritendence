@@ -1,6 +1,8 @@
 package com.example.tritendence.model.users;
 
-public class Member {
+import java.io.Serializable;
+
+public class Member implements Serializable {
     protected String name, surname, email, groupID;
     protected int ID;
 
@@ -15,5 +17,9 @@ public class Member {
 
     public String getFullName() {
         return this.name + " " + this.surname;
+    }
+
+    public String getEmail() {
+        return this.email;
     }
 }

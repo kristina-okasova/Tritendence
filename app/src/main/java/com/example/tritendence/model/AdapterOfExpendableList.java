@@ -1,5 +1,6 @@
 package com.example.tritendence.model;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -8,15 +9,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.ExpandableListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
 import com.example.tritendence.R;
 import com.example.tritendence.activities.AttendanceSheetActivity;
-import com.example.tritendence.activities.HomeActivity;
-import com.example.tritendence.fragments.AttendanceFragment;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,19 +28,16 @@ import java.util.Objects;
 public class AdapterOfExpendableList extends BaseExpandableListAdapter {
     private final static String GROUPS_CHILD_DATABASE = "Groups";
 
-    private DatabaseReference database;
-    private Activity context;
-    private HomeActivity root;
-    private AttendanceFragment fragment;
-    private Map<String, List<String>> timetable;
-    private List<String> daysOfTheWeek;
+    private final Activity context;
+    private final Map<String, List<String>> timetable;
+    private final List<String> daysOfTheWeek;
+    private final TriathlonClub club;
 
-    public AdapterOfExpendableList(Activity context, HomeActivity root, AttendanceFragment fragment, List<String> daysOfTheWeek, Map<String, List<String>> timetable) {
+    public AdapterOfExpendableList(Activity context, List<String> daysOfTheWeek, Map<String, List<String>> timetable, TriathlonClub club) {
         this.context = context;
-        this.root = root;
-        this.fragment = fragment;
         this.daysOfTheWeek = daysOfTheWeek;
         this.timetable = timetable;
+        this.club = club;
     }
 
     @Override
@@ -62,7 +57,7 @@ public class AdapterOfExpendableList extends BaseExpandableListAdapter {
 
     @Override
     public Object getChild(int groupPosition, int childPosition) {
-        return this.timetable.get(this.daysOfTheWeek.get(groupPosition)).get(childPosition);
+        return Objects.requireNonNull(this.timetable.get(this.daysOfTheWeek.get(groupPosition))).get(childPosition);
     }
 
     @Override
@@ -80,31 +75,33 @@ public class AdapterOfExpendableList extends BaseExpandableListAdapter {
         return true;
     }
 
+    @SuppressLint("InflateParams")
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         String day = this.daysOfTheWeek.get(groupPosition);
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.day_of_the_week, null);
+            convertView = inflater.inflate(R.layout.expandable_list_view_group_name, null);
         }
 
-        TextView dayName = convertView.findViewById(R.id.dayName);
+        TextView dayName = convertView.findViewById(R.id.groupName);
         dayName.setTypeface(null, Typeface.BOLD);
         dayName.setText(day);
 
         return convertView;
     }
 
+    @SuppressLint("InflateParams")
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        String group = this.timetable.get(this.daysOfTheWeek.get(groupPosition)).get(childPosition);
+        String group = Objects.requireNonNull(this.timetable.get(this.daysOfTheWeek.get(groupPosition))).get(childPosition);
 
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.group_in_timetable, null);
+            convertView = inflater.inflate(R.layout.data_in_expandable_list_view, null);
         }
 
-        TextView groupName = convertView.findViewById(R.id.groupName);
+        TextView groupName = convertView.findViewById(R.id.data);
         groupName.setText(group);
         String trainingTime = group.substring(0, group.indexOf(" "));
         String sport = group.substring(group.indexOf(" ") + 1, group.indexOf(" ", group.indexOf(" ") + 1));
@@ -115,9 +112,9 @@ public class AdapterOfExpendableList extends BaseExpandableListAdapter {
     }
 
     private void findGroupInfo(String group, String time, String sport, String trainersName, TextView groupView) {
-        this.database = FirebaseDatabase.getInstance().getReference().child(GROUPS_CHILD_DATABASE);
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference().child(GROUPS_CHILD_DATABASE);
 
-        this.database.addValueEventListener(new ValueEventListener() {
+        database.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 int numberOfGroups = (int) snapshot.getChildrenCount();
@@ -134,6 +131,7 @@ public class AdapterOfExpendableList extends BaseExpandableListAdapter {
                             attendanceSheetPage.putExtra("TRAINING_TIME", time);
                             attendanceSheetPage.putExtra("SPORT_TYPE", sport);
                             attendanceSheetPage.putExtra("TRAINERS_NAME", trainersName);
+                            attendanceSheetPage.putExtra("TRIATHLON_CLUB", club);
                             context.startActivity(attendanceSheetPage);
                             context.finish();
                         });
