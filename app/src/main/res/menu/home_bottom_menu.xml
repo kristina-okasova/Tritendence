@@ -3,17 +3,21 @@
     <item
         android:id="@+id/attendanceFragment"
         android:title="@string/ATTENDANCE"
-        android:icon="@drawable/attendance_icon"/>
+        android:icon="@drawable/attendance_icon"
+        android:iconTint="#3AAFA9" />
     <item
         android:id="@+id/groupsFragment"
         android:title="@string/GROUPS"
-        android:icon="@drawable/groups_icon"/>
+        android:icon="@drawable/groups_icon"
+        android:iconTint="#3AAFA9" />
     <item
         android:id="@+id/profileFragment"
         android:title="@string/PROFILE"
-        android:icon="@drawable/profile_icon"/>
+        android:icon="@drawable/profile_icon"
+        android:iconTint="#3AAFA9" />
     <item
         android:id="@+id/settingsFragment"
         android:title="@string/SETTINGS"
-        android:icon="@drawable/settings_icon"/>
+        android:icon="@drawable/settings_icon"
+        android:iconTint="#3AAFA9" />
 </menu>

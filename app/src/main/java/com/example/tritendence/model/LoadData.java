@@ -1,7 +1,6 @@
 package com.example.tritendence.model;
 
 import android.os.Build;
-import android.provider.ContactsContract;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -41,6 +40,7 @@ public class LoadData {
     private static final String UNIT_TIME = "time";
 
     private static final String ATHLETE_GROUP_ID = "GroupID";
+    private static final String NUMBER_OF_TRAININGS = "NumberOfTrainings";
 
     private static final String ATTENDANCE_DATE = "Date";
     private static final String ATTENDANCE_TRAINER = "Trainer";
@@ -126,8 +126,9 @@ public class LoadData {
             String surname = Objects.requireNonNull(snapshot.child(trainerID).child(SURNAME).getValue()).toString();
             String eMail = Objects.requireNonNull(snapshot.child(trainerID).child(EMAIL).getValue()).toString();
             String sport = Objects.requireNonNull(snapshot.child(trainerID).child(SPORT).getValue()).toString();
+            int numberOfTrainings = Integer.parseInt(Objects.requireNonNull(snapshot.child(trainerID).child(NUMBER_OF_TRAININGS).getValue()).toString());
 
-            Trainer trainer = new Trainer(i, name, surname, eMail, sport);
+            Trainer trainer = new Trainer(i, name, surname, eMail, sport, numberOfTrainings);
             this.club.addMember(trainer);
         }
     }

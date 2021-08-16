@@ -61,4 +61,8 @@ public class AttendanceData implements Serializable {
     public ArrayList<Athlete> getAttendedAthletes() {
         return this.attendedAthletes;
     }
+
+    public Trainer getTrainer() {
+        return this.trainer;
+    }
 }

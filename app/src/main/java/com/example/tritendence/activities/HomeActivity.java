@@ -37,7 +37,7 @@ public class HomeActivity extends AppCompatActivity {
 
                 switch (item.getItemId()) {
                     case R.id.attendanceFragment:
-                        selectedFragment = new AttendanceFragment();
+                        selectedFragment = new AttendanceFragment(this);
                         break;
                     case R.id.groupsFragment:
                         selectedFragment = new GroupsFragment();

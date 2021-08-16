@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -86,6 +87,7 @@ public class AdapterOfExpendableList extends BaseExpandableListAdapter {
 
         TextView dayName = convertView.findViewById(R.id.groupName);
         dayName.setTypeface(null, Typeface.BOLD);
+        dayName.setTextColor(Color.parseColor("#FFFFFF"));
         dayName.setText(day);
 
         return convertView;
@@ -102,7 +104,9 @@ public class AdapterOfExpendableList extends BaseExpandableListAdapter {
         }
 
         TextView groupName = convertView.findViewById(R.id.data);
+        groupName.setTextColor(Color.parseColor("#FFFFFF"));
         groupName.setText(group);
+
         String trainingTime = group.substring(0, group.indexOf(" "));
         String sport = group.substring(group.indexOf(" ") + 1, group.indexOf(" ", group.indexOf(" ") + 1));
         String trainersName = this.context.getIntent().getExtras().getString("SIGNED_USER");

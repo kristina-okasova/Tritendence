@@ -50,4 +50,7 @@
     <string name="TOO_SHORT_PASSWORD">Heslo musí pozostávať minimálne zo 6 znakov.</string>
     <string name="SUCCESSFUL_REGISTRATION">Úspešná registrácia.</string>
     <string name="UNSUCCESSFUL_REGISTRATION">Neúspešná registrácia.</string>
+    <string name="SIGNED_TRAINER">Prihlásený tréner</string>
+    <string name="NUMBER_OF_TRAINING_UNITS">Počet odtrénovaných hodín</string>
+    <string name="TRAINING_OF_TRAINER">Odtrénované tréningy</string>
 </resources>

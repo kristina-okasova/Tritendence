@@ -5,10 +5,12 @@ import java.util.Map;
 
 public class Trainer extends Member {
     private String sport;
+    private int numberOfTrainings;
 
-    public Trainer(int ID, String name, String surname, String email, String sport) {
+    public Trainer(int ID, String name, String surname, String email, String sport, int numberOfTrainings) {
         super(ID, name, surname, email);
         this.sport = sport;
+        this.numberOfTrainings = numberOfTrainings;
     }
 
     public Map<String, Object> getMappedData() {
@@ -20,6 +22,10 @@ public class Trainer extends Member {
         data.put("Sport", this.sport);
 
         return data;
+    }
+
+    public int getNumberOfTrainings() {
+        return this.numberOfTrainings;
     }
 
     public String getIDText() {
