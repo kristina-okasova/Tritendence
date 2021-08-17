@@ -18,8 +18,9 @@ public class Trainer extends Member {
 
         data.put("Name", this.name);
         data.put("Surname", this.surname);
-        data.put("E-mail", this.email);
+        data.put("E-Mail", this.email);
         data.put("Sport", this.sport);
+        data.put("NumberOfTrainings", 0);
 
         return data;
     }

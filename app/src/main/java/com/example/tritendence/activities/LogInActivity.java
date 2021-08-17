@@ -72,6 +72,7 @@ public class LogInActivity extends AppCompatActivity {
 
     private void loadRegistration() {
         Intent registrationPage = new Intent(LogInActivity.this, RegistrationActivity.class);
+        registrationPage.putExtra(getString(R.string.TRIATHLON_CLUB), this.loadData.getClub());
         startActivity(registrationPage);
         finish();
     }

@@ -15,6 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="80dp"
+            android:textColor="#DEF2F1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -27,6 +28,7 @@
             android:layout_marginLeft="48dp"
             android:layout_marginTop="52dp"
             android:text="@string/CATEGORY"
+            android:textColor="#DEF2F1"
             app:layout_constraintBottom_toTopOf="@+id/membersOfGroupInformation"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/nameOfGroupInformation"
@@ -39,6 +41,7 @@
             android:layout_marginStart="104dp"
             android:layout_marginLeft="104dp"
             android:layout_marginTop="52dp"
+            android:textColor="#DEF2F1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/textView5"
@@ -65,6 +68,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="#17252A"
                     android:orientation="vertical">
 
                     <TextView
@@ -73,6 +77,7 @@
                         android:layout_height="wrap_content"
                         android:onClick="showMembersOfGroup"
                         android:text="@string/MEMBERS"
+                        android:textColor="#DEF2F1"
                         tools:ignore="UsingOnClickInXml" />
 
                 </LinearLayout>
@@ -81,6 +86,7 @@
                     android:id="@+id/expandableListOfMembers"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="#3AAFA9"
                     android:orientation="vertical"
                     android:visibility="gone">
 
@@ -98,6 +104,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
             android:text="@string/ATTENDANCE"
+            android:textColor="#DEF2F1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.14"
             app:layout_constraintStart_toStartOf="parent"

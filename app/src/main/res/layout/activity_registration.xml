@@ -4,7 +4,46 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#17252a"
     tools:context=".activities.RegistrationActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/sportSwitch"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sportRegistration">
+
+        <Switch
+            android:id="@+id/swimmingSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/SWIMMING"
+            android:textColor="#DEF2F1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Switch
+            android:id="@+id/athleticsSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ATHLETICS"
+            android:textColor="#DEF2F1"
+            app:layout_constraintEnd_toStartOf="@+id/cyclingSwitch"
+            app:layout_constraintStart_toEndOf="@+id/swimmingSwitch"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Switch
+            android:id="@+id/cyclingSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/CYCLING"
+            android:textColor="#DEF2F1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/signInNote"
@@ -12,10 +51,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="@string/SIGN_IN_NOTE"
+        android:textColor="#DEF2F1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/registrationBtn"
-        tools:textSize="18dp" />
+        tools:textSize="18sp" />
 
     <Button
         android:id="@+id/registrationBtn"
@@ -23,10 +63,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="@string/REGISTRATION"
+        app:backgroundTint="#2B7A78"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/swimmingSwitch" />
+        app:layout_constraintTop_toBottomOf="@+id/sportSwitch" />
 
     <EditText
         android:id="@+id/passwordRegistration"
@@ -36,10 +77,15 @@
         android:ems="10"
         android:hint="@string/PASSWORD"
         android:inputType="textPassword"
+        android:textColor="#DEF2F1"
+        android:textColorHint="#DEF2F1"
+        android:backgroundTint="#DEF2F1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailRegistration" />
+        app:layout_constraintTop_toBottomOf="@+id/emailRegistration"
+        tools:targetApi="lollipop"
+        android:autofillHints="@string/PASSWORD" />
 
     <EditText
         android:id="@+id/passwordCheckRegistration"
@@ -49,10 +95,15 @@
         android:ems="10"
         android:hint="@string/PASSWORD_CHECK"
         android:inputType="textPassword"
+        android:textColor="#DEF2F1"
+        android:textColorHint="#DEF2F1"
+        android:backgroundTint="#DEF2F1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passwordRegistration" />
+        app:layout_constraintTop_toBottomOf="@+id/passwordRegistration"
+        tools:targetApi="lollipop"
+        android:autofillHints="@string/PASSWORD_CHECK" />
 
     <EditText
         android:id="@+id/emailRegistration"
@@ -62,10 +113,15 @@
         android:ems="10"
         android:hint="@string/EMAIL"
         android:inputType="textEmailAddress"
+        android:textColor="#DEF2F1"
+        android:textColorHint="#DEF2F1"
+        android:backgroundTint="#DEF2F1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/surnameRegistration" />
+        app:layout_constraintTop_toBottomOf="@+id/surnameRegistration"
+        tools:targetApi="lollipop"
+        android:autofillHints="@string/EMAIL" />
 
     <EditText
         android:id="@+id/nameRegistration"
@@ -75,10 +131,15 @@
         android:ems="10"
         android:hint="@string/REGISTRATION_NAME"
         android:inputType="textPersonName"
+        android:textColor="#DEF2F1"
+        android:textColorHint="#DEF2F1"
+        android:backgroundTint="#DEF2F1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:targetApi="lollipop"
+        android:autofillHints="@string/REGISTRATION_NAME" />
 
     <EditText
         android:id="@+id/surnameRegistration"
@@ -88,33 +149,15 @@
         android:ems="10"
         android:hint="@string/REGISTRATION_SURNAME"
         android:inputType="textPersonName"
+        android:textColor="#DEF2F1"
+        android:textColorHint="#DEF2F1"
+        android:backgroundTint="#DEF2F1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nameRegistration" />
-
-    <Switch
-        android:id="@+id/swimmingSwitch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="@string/SWIMMING"
-        app:layout_constraintEnd_toStartOf="@+id/athleticsSwitch"
-        app:layout_constraintHorizontal_bias="0.345"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sportRegistration"
-        tools:layout_marginTop="20dp" />
-
-    <Switch
-        android:id="@+id/athleticsSwitch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="@string/ATHLETICS"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/swimmingSwitch"
-        app:layout_constraintTop_toBottomOf="@+id/sportRegistration"
-        tools:layout_marginTop="20dp" />
+        app:layout_constraintTop_toBottomOf="@+id/nameRegistration"
+        tools:targetApi="lollipop"
+        android:autofillHints="@string/REGISTRATION_SURNAME" />
 
     <TextView
         android:id="@+id/sportRegistration"
@@ -122,6 +165,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="@string/REGISTRATION_SPORT"
+        android:textColor="#DEF2F1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"

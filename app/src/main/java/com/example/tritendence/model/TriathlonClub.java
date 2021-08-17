@@ -1,7 +1,9 @@
 package com.example.tritendence.model;
 
 import com.example.tritendence.model.groups.Group;
+import com.example.tritendence.model.users.Athlete;
 import com.example.tritendence.model.users.Member;
+import com.example.tritendence.model.users.Trainer;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -24,7 +26,8 @@ public class TriathlonClub implements Serializable {
         this.attendanceData = new ArrayList<>();
     }
 
-    public void updateNumberOfUsers() {
+    public void updateNumberOfTrainers() {
+        this.numberOfTrainers++;
         this.numberOfUsers++;
     }
 
@@ -70,5 +73,9 @@ public class TriathlonClub implements Serializable {
 
     public ArrayList<AttendanceData> getAttendanceData() {
         return this.attendanceData;
+    }
+
+    public int getNumberOfTrainers() {
+        return this.numberOfTrainers;
     }
 }

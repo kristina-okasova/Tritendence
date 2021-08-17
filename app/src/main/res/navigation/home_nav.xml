@@ -9,12 +9,20 @@
         android:id="@+id/attendanceFragment"
         android:name="com.example.tritendence.fragments.AttendanceFragment"
         android:label="fragment_attendance"
-        tools:layout="@layout/fragment_attendance" />
+        tools:layout="@layout/fragment_attendance" >
+        <action
+            android:id="@+id/action_attendanceFragment_to_attendanceSheetFragment"
+            app:destination="@id/attendanceSheetFragment" />
+    </fragment>
     <fragment
         android:id="@+id/groupsFragment"
         android:name="com.example.tritendence.fragments.GroupsFragment"
         android:label="fragment_groups"
-        tools:layout="@layout/fragment_groups" />
+        tools:layout="@layout/fragment_groups" >
+        <action
+            android:id="@+id/action_groupsFragment_to_groupInformationActivity2"
+            app:destination="@id/groupInformationActivity" />
+    </fragment>
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.example.tritendence.fragments.SettingsFragment"
@@ -25,5 +33,14 @@
         android:name="com.example.tritendence.fragments.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
+    <activity
+        android:id="@+id/groupInformationActivity"
+        android:name="com.example.tritendence.activities.GroupInformationActivity"
+        android:label="GroupInformationActivity" />
+    <fragment
+        android:id="@+id/attendanceSheetFragment"
+        android:name="com.example.tritendence.fragments.AttendanceSheetFragment"
+        android:label="fragment_attendance_sheet"
+        tools:layout="@layout/fragment_attendance_sheet" />
 
 </navigation>

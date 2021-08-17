@@ -9,9 +9,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:background="@drawable/textview_border"
+        android:background="#3AAFA9"
         android:paddingLeft="60dp"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
+        android:textColor="#DEF2F1"
         android:textSize="16sp" />
 </LinearLayout>

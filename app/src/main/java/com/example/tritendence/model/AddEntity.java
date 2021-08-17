@@ -8,18 +8,15 @@ import java.util.Map;
 
 public class AddEntity {
     private final static String TRAINERS_CHILD_DATABASE = "Trainers";
-    private final TriathlonClub club;
 
-    public AddEntity(TriathlonClub club) {
-        this.club = club;
-    }
+    public AddEntity() {}
 
-    public void addUser(String name, String surname, String email, String sport) {
+    public void addUser(TriathlonClub club, String name, String surname, String email, String sport) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference root = database.getReference();
 
-        this.club.updateNumberOfUsers();
-        Trainer trainer = new Trainer(this.club.getNumberOfUsers(), name, surname, email, sport, 0);
+        club.updateNumberOfTrainers();
+        Trainer trainer = new Trainer(club.getNumberOfTrainers(), name, surname, email, sport, 0);
         Map<String, Object> userData = trainer.getMappedData();
         root.child(TRAINERS_CHILD_DATABASE + "/" + trainer.getIDText()).setValue(userData);
     }

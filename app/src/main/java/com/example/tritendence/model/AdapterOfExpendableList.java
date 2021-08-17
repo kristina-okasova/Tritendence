@@ -82,12 +82,11 @@ public class AdapterOfExpendableList extends BaseExpandableListAdapter {
         String day = this.daysOfTheWeek.get(groupPosition);
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.expandable_list_view_group_name, null);
+            convertView = inflater.inflate(R.layout.day_of_the_week, null);
         }
 
-        TextView dayName = convertView.findViewById(R.id.groupName);
+        TextView dayName = convertView.findViewById(R.id.dayName);
         dayName.setTypeface(null, Typeface.BOLD);
-        dayName.setTextColor(Color.parseColor("#FFFFFF"));
         dayName.setText(day);
 
         return convertView;
@@ -104,7 +103,6 @@ public class AdapterOfExpendableList extends BaseExpandableListAdapter {
         }
 
         TextView groupName = convertView.findViewById(R.id.data);
-        groupName.setTextColor(Color.parseColor("#FFFFFF"));
         groupName.setText(group);
 
         String trainingTime = group.substring(0, group.indexOf(" "));

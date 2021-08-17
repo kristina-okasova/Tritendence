@@ -5,6 +5,7 @@
     android:id="@+id/signInConstraint"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#17252a"
     tools:context=".activities.LogInActivity">
 
     <EditText
@@ -15,10 +16,14 @@
         android:ems="10"
         android:hint="@string/EMAIL"
         android:inputType="textEmailAddress"
+        android:textColor="#DEF2F1"
+        android:textColorHint="#DEF2F1"
+        android:backgroundTint="#DEF2F1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:targetApi="lollipop" />
 
     <EditText
         android:id="@+id/passwordSIgnIn"
@@ -28,10 +33,14 @@
         android:ems="10"
         android:hint="@string/PASSWORD"
         android:inputType="textPassword"
+        android:textColor="#DEF2F1"
+        android:textColorHint="#DEF2F1"
+        android:backgroundTint="#DEF2F1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailSignIn" />
+        app:layout_constraintTop_toBottomOf="@+id/emailSignIn"
+        tools:targetApi="lollipop" />
 
     <Button
         android:id="@+id/signInBtn"
@@ -39,6 +48,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="45dp"
         android:text="@string/SIGN_IN"
+        app:backgroundTint="#2B7A78"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordSIgnIn" />
@@ -49,6 +59,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="@string/REGISTRATION_NOTE"
+        android:textColor="#DEF2F1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/signInBtn"

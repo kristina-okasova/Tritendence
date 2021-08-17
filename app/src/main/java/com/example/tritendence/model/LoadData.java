@@ -45,6 +45,7 @@ public class LoadData {
     private static final String ATTENDANCE_DATE = "Date";
     private static final String ATTENDANCE_TRAINER = "Trainer";
     private static final int NUMBER_OF_REQUIRED_DATA_FOR_ATTENDANCE = 4;
+    private static final int NUMBER_OF_REQUIRED_DATA_FOR_TRAINER = 5;
 
     private TriathlonClub club;
     private final DatabaseReference database;
@@ -122,6 +123,9 @@ public class LoadData {
     private void loadTrainerInformation(DataSnapshot snapshot) {
         for (int i = 1; i <= this.numberOfTrainers; i++) {
             String trainerID = String.valueOf(i);
+            int numberOfInsertedData = (int) snapshot.child(trainerID).getChildrenCount();
+            if (numberOfInsertedData != NUMBER_OF_REQUIRED_DATA_FOR_TRAINER)
+                continue;
             String name = Objects.requireNonNull(snapshot.child(trainerID).child(NAME).getValue()).toString();
             String surname = Objects.requireNonNull(snapshot.child(trainerID).child(SURNAME).getValue()).toString();
             String eMail = Objects.requireNonNull(snapshot.child(trainerID).child(EMAIL).getValue()).toString();

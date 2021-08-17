@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="45dp"
         android:gravity="center"
+        android:textColor="#DEF2F1"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,6 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
+        android:background="#3AAFA9"
         android:choiceMode="multipleChoice"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -35,6 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="60dp"
         android:text="@string/ATTENDANCE_CONFIRMATION"
+        app:backgroundTint="#2B7A78"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

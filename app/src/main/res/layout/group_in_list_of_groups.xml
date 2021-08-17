@@ -26,6 +26,7 @@
         android:layout_toRightOf="@+id/iconToGroupName"
         android:gravity="center"
         android:padding="5dp"
+        android:textColor="#DEF2F1"
         android:textSize="16sp" />
 
 </RelativeLayout>

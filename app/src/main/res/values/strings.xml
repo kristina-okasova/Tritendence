@@ -45,9 +45,10 @@
     <string name="SIGNED_USER">SIGNED_USER</string>
     <string name="TRIATHLON_CLUB">TRIATHLON_CLUB</string>
     <string name="EMPTY_STRING"> </string>
-    <string name="ONLY_ONE_SPORT_REQUIRED">Je potrebné vybrať práve jeden šport.</string>
     <string name="REQUIRED_MATCH_OF_PASSWORDS">Zadané heslá sa musia zhodovať.</string>
     <string name="TOO_SHORT_PASSWORD">Heslo musí pozostávať minimálne zo 6 znakov.</string>
+    <string name="EMPTY_FIELDS">Je potrebné vyplniť všetky údaje.</string>
+    <string name="NO_SPORT_SELECTED">Je potrebné vybrať jeden z dostupných športov.</string>
     <string name="SUCCESSFUL_REGISTRATION">Úspešná registrácia.</string>
     <string name="UNSUCCESSFUL_REGISTRATION">Neúspešná registrácia.</string>
     <string name="SIGNED_TRAINER">Prihlásený tréner</string>
