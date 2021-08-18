@@ -52,7 +52,7 @@ public class GroupInformationActivity extends AppCompatActivity {
                         return false;
                 }
 
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, selectedFragment).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.groupFragmentContainerView, selectedFragment).commit();
                 return true;
             };
 

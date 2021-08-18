@@ -23,6 +23,7 @@ import com.example.tritendence.model.groups.Group;
 import com.example.tritendence.model.users.Member;
 import com.example.tritendence.model.users.Trainer;
 
+import java.io.Serializable;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -33,7 +34,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class AttendanceFragment extends Fragment {
+public class AttendanceFragment extends Fragment implements Serializable {
     private HomeActivity activity;
     private List<String> daysOfTheWeek;
     private final Map<String, List<String>> timetable;

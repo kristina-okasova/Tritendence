@@ -44,7 +44,6 @@ public class GroupInformationFragment extends Fragment {
     private TriathlonClub club;
     private List<String> dateOfAttendances;
     private final Map<String, List<String>> schedule;
-    private ExpandableListView expandableAttendance;
     private String selectedGroup;
 
     public GroupInformationFragment() {this.schedule = new HashMap<>(); }
@@ -74,16 +73,20 @@ public class GroupInformationFragment extends Fragment {
 
         this.initializeAttendanceDates();
 
-        this.expandableAttendance = view.findViewById(R.id.attendanceOfGroupInformation);
-        this.expandableAttendance.setAdapter(new AdapterOfExpendableAttendance(this.activity, this.dateOfAttendances, this.schedule));
-        this.expandableAttendance.setGroupIndicator(null);
+        ExpandableListView expandableAttendance = view.findViewById(R.id.attendanceOfGroupInformation);
+        expandableAttendance.setAdapter(new AdapterOfExpendableAttendance(this.activity, this.dateOfAttendances, this.schedule));
+        expandableAttendance.setGroupIndicator(null);
 
         this.getGroupInformation();
     }
 
     public void showMembersOfGroupInFragment(View view) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
-            TransitionManager.beginDelayedTransition(this.membersOfGroup, new AutoTransition());
+        AutoTransition autoTransition = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+            autoTransition = new AutoTransition();
+            autoTransition.setDuration(0);
+            TransitionManager.beginDelayedTransition(this.membersOfGroup, autoTransition);
+        };
 
         if (this.expandableListOfMembers.getVisibility() == View.GONE)
             this.expandableListOfMembers.setVisibility(View.VISIBLE);
@@ -111,10 +114,16 @@ public class GroupInformationFragment extends Fragment {
         this.categoryOfGroup.setText(Objects.requireNonNull(groupInformation.get(GROUPS_CATEGORY)).toString());
 
         ArrayList<Athlete> athletesOfGroup = (ArrayList<Athlete>) groupInformation.get(GROUPS_ATHLETES);
+        Athlete lastAthlete = athletesOfGroup.get(athletesOfGroup.size() - 1);
         StringBuilder listOfAthletes = new StringBuilder();
         assert athletesOfGroup != null;
-        for (Athlete athlete : athletesOfGroup)
-            listOfAthletes.append(athlete.getFullName()).append("\n");
+        for (Athlete athlete : athletesOfGroup) {
+            if (athlete.getFullName().equals(lastAthlete.getFullName()))
+                listOfAthletes.append(athlete.getFullName());
+            else
+                listOfAthletes.append(athlete.getFullName()).append("\n");
+        }
+
         this.membersOfGroupText.setText(listOfAthletes.toString());
     }
 

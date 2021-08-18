@@ -14,8 +14,10 @@
             android:id="@+id/nameOfGroupInformation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="30dp"
             android:textColor="#DEF2F1"
+            android:textSize="20sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -24,15 +26,14 @@
             android:id="@+id/textView5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="48dp"
-            android:layout_marginLeft="48dp"
-            android:layout_marginTop="52dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="40dp"
             android:text="@string/CATEGORY"
             android:textColor="#DEF2F1"
-            app:layout_constraintBottom_toTopOf="@+id/membersOfGroupInformation"
+            android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/nameOfGroupInformation"
-            app:layout_constraintVertical_bias="0.019" />
+            app:layout_constraintTop_toBottomOf="@+id/nameOfGroupInformation" />
 
         <TextView
             android:id="@+id/categoryOfGroupInformation"
@@ -40,8 +41,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="104dp"
             android:layout_marginLeft="104dp"
-            android:layout_marginTop="52dp"
+            android:layout_marginTop="35dp"
             android:textColor="#DEF2F1"
+            android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/textView5"
@@ -51,14 +53,14 @@
             android:id="@+id/membersOfGroupInformation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="50dp"
-            android:layout_marginLeft="50dp"
-            android:layout_marginTop="50dp"
-            android:layout_marginEnd="50dp"
-            android:layout_marginRight="50dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginRight="30dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/categoryOfGroupInformation">
+            app:layout_constraintTop_toBottomOf="@+id/textView5">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -68,8 +70,9 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#17252A"
-                    android:orientation="vertical">
+                    android:background="#2B7A78"
+                    android:orientation="vertical"
+                    android:padding="10dp">
 
                     <TextView
                         android:id="@+id/membersOfGroupHeader"
@@ -78,6 +81,7 @@
                         android:onClick="showMembersOfGroup"
                         android:text="@string/MEMBERS"
                         android:textColor="#DEF2F1"
+                        android:textSize="18sp"
                         tools:ignore="UsingOnClickInXml" />
 
                 </LinearLayout>
@@ -88,12 +92,14 @@
                     android:layout_height="wrap_content"
                     android:background="#3AAFA9"
                     android:orientation="vertical"
+                    android:padding="10dp"
                     android:visibility="gone">
 
                     <TextView
                         android:id="@+id/membersOfGroupText"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp" />
                 </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -102,11 +108,12 @@
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="20dp"
             android:text="@string/ATTENDANCE"
             android:textColor="#DEF2F1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.14"
+            android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/membersOfGroupInformation" />
 
@@ -116,7 +123,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
             android:layout_marginLeft="30dp"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="30dp"
             android:layout_marginRight="30dp"
             app:layout_constraintEnd_toEndOf="parent"

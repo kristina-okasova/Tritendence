@@ -42,7 +42,7 @@ public class HomeActivity extends AppCompatActivity {
 
                 switch (item.getItemId()) {
                     case R.id.attendanceFragment:
-                        selectedFragment = new AttendanceFragment(this);
+                        selectedFragment = this.attendanceFragment;
                         break;
                     case R.id.groupsFragment:
                         selectedFragment = new GroupsFragment();
@@ -64,10 +64,12 @@ public class HomeActivity extends AppCompatActivity {
 
     public void showGroupInformation(View view) {
         TriathlonClub club = (TriathlonClub) getIntent().getExtras().getSerializable("TRIATHLON_CLUB");
+        String signedUser = getIntent().getExtras().getString("SIGNED_USER");
         TextView nameOfGroup = view.findViewById(R.id.nameOfGroupInList);
         Intent groupInformationPage = new Intent(this, GroupInformationActivity.class);
         groupInformationPage.putExtra("GROUP_NAME", nameOfGroup.getText().toString());
         groupInformationPage.putExtra("TRIATHLON_CLUB", club);
+        groupInformationPage.putExtra("SIGNED_USER", signedUser);
         startActivity(groupInformationPage);
         finish();
     }
