@@ -11,11 +11,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 import com.example.tritendence.R;
 import com.example.tritendence.activities.AttendanceSheetActivity;
+import com.example.tritendence.model.groups.Group;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,12 +29,11 @@ import java.util.Map;
 import java.util.Objects;
 
 public class AdapterOfExpendableList extends BaseExpandableListAdapter {
-    private final static String GROUPS_CHILD_DATABASE = "Groups";
-
     private final Activity context;
     private final Map<String, List<String>> timetable;
     private final List<String> daysOfTheWeek;
     private final TriathlonClub club;
+    private TrainingUnit selectedUnit;
 
     public AdapterOfExpendableList(Activity context, List<String> daysOfTheWeek, Map<String, List<String>> timetable, TriathlonClub club) {
         this.context = context;
@@ -48,7 +49,11 @@ public class AdapterOfExpendableList extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return Objects.requireNonNull(this.timetable.get(this.daysOfTheWeek.get(groupPosition))).size();
+        int numberOfChildren = Objects.requireNonNull(this.timetable.get(this.daysOfTheWeek.get(groupPosition))).size();
+        if (numberOfChildren == 0)
+            Toast.makeText(this.context, this.context.getString(R.string.NO_TRAININGS), Toast.LENGTH_LONG).show();
+
+        return numberOfChildren;
     }
 
     @Override
@@ -106,15 +111,33 @@ public class AdapterOfExpendableList extends BaseExpandableListAdapter {
         groupName.setText(group);
 
         String trainingTime = group.substring(0, group.indexOf(" "));
-        String sport = group.substring(group.indexOf(" ") + 1, group.indexOf(" ", group.indexOf(" ") + 1));
-        String trainersName = this.context.getIntent().getExtras().getString("SIGNED_USER");
-        this.findGroupInfo(group.substring(group.indexOf(" ", group.indexOf(" ") + 1) + 1), trainingTime, sport, trainersName, groupName);
+        String selectedGroupName = group.substring(group.indexOf(" ", group.indexOf(" ") + 1) + 1);
+        this.findGroupInfo(selectedGroupName, trainingTime, groupName);
 
         return convertView;
     }
 
-    private void findGroupInfo(String group, String time, String sport, String trainersName, TextView groupView) {
-        DatabaseReference database = FirebaseDatabase.getInstance().getReference().child(GROUPS_CHILD_DATABASE);
+    private void findGroupInfo(String groupName, String time, TextView groupView) {
+        String signedUser = this.context.getIntent().getExtras().getString("SIGNED_USER");
+
+        for (Group group : this.club.getGroupsOfClub()) {
+            if (group.getName().equals(groupName)) {
+                for (TrainingUnit unit : group.getTimetable()) {
+                    if (unit.getTime().equals(time))
+                        selectedUnit = unit;
+                }
+                groupView.setOnClickListener(v -> {
+                    Intent attendanceSheetPage = new Intent(context, AttendanceSheetActivity.class);
+                    attendanceSheetPage.putExtra("GROUP", group);
+                    attendanceSheetPage.putExtra("SIGNED_USER", signedUser);
+                    attendanceSheetPage.putExtra("TRIATHLON_CLUB", club);
+                    attendanceSheetPage.putExtra("TRAINING_UNIT", selectedUnit);
+                    context.startActivity(attendanceSheetPage);
+                    context.finish();
+                });
+            }
+        }
+        /*DatabaseReference database = FirebaseDatabase.getInstance().getReference().child(GROUPS_CHILD_DATABASE);
 
         database.addValueEventListener(new ValueEventListener() {
             @Override
@@ -127,12 +150,13 @@ public class AdapterOfExpendableList extends BaseExpandableListAdapter {
 
                     if (group.equals(groupName)) {
                         groupView.setOnClickListener(v -> {
+                            System.out.println("on click");
                             Intent attendanceSheetPage = new Intent(context, AttendanceSheetActivity.class);
                             attendanceSheetPage.putExtra("GROUP_ID", groupID);
                             attendanceSheetPage.putExtra("GROUP_NAME", groupName);
                             attendanceSheetPage.putExtra("TRAINING_TIME", time);
                             attendanceSheetPage.putExtra("SPORT_TYPE", sport);
-                            attendanceSheetPage.putExtra("TRAINERS_NAME", trainersName);
+                            attendanceSheetPage.putExtra("SIGNED_USER", trainersName);
                             attendanceSheetPage.putExtra("TRIATHLON_CLUB", club);
                             context.startActivity(attendanceSheetPage);
                             context.finish();
@@ -143,7 +167,7 @@ public class AdapterOfExpendableList extends BaseExpandableListAdapter {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {}
-        });
+        });*/
     }
 
     @Override

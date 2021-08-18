@@ -22,7 +22,7 @@ public class AttendanceSheetActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_attendance_sheet);
-
+        System.out.println("on create attendanceSheetActivity");
         BottomNavigationView navigation = findViewById(R.id.bottomNavigationView);
         navigation.setOnNavigationItemSelectedListener(navigationListener);
 
@@ -36,7 +36,7 @@ public class AttendanceSheetActivity extends AppCompatActivity {
 
                 switch (item.getItemId()) {
                     case R.id.attendanceFragment:
-                        selectedFragment = new AttendanceFragment();
+                        selectedFragment = new AttendanceFragment(new HomeActivity());
                         break;
                     case R.id.groupsFragment:
                         selectedFragment = new GroupsFragment();

@@ -36,4 +36,22 @@ public class TrainingUnit implements Serializable {
     public String getLocation() {
         return location;
     }
+
+    public String getSportTranslation() {
+        String sportTranslation;
+        switch (this.sport) {
+            case "Athetics":
+                sportTranslation = "Atletika";
+                break;
+            case "Swimming":
+                sportTranslation = "Plávanie";
+                break;
+            case "Cycling":
+                sportTranslation = "Cyklistika";
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + sport);
+        }
+        return sportTranslation;
+    }
 }

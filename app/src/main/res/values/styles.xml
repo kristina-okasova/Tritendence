@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="attendanceChooseTrainerStyle" parent="@android:style/Widget.Holo.DropDownItem.Spinner">
+        <item name="android:textColor">#DEF2F1</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+</resources>

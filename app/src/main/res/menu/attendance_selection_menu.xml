@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/swimmingSelection"
+        android:title="@string/SWIMMING_SELECTION" />
+
+    <item
+        android:id="@+id/athleticsSelection"
+        android:title="@string/ATHLETICS_SELECTION" />
+
+    <item
+        android:id="@+id/cyclingSelection"
+        android:title="@string/CYCLING_SELECTION" />
+
+    <item
+        android:id="@+id/allTrainings"
+        android:title="@string/ALL_TRAININGS" />
+</menu>

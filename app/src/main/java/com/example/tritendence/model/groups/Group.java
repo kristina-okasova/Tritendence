@@ -53,4 +53,13 @@ public class Group implements Serializable {
     public ArrayList<Athlete> getAthletesOfGroup() {
         return this.athletesOfGroup;
     }
+
+    public ArrayList<String> getNamesOfAthletesOfGroup() {
+        ArrayList<String> namesOfAthletes = new ArrayList<>();
+        for (Athlete athlete : this.athletesOfGroup) {
+            namesOfAthletes.add(athlete.getFullName());
+        }
+
+        return namesOfAthletes;
+    }
 }

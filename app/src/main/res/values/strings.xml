@@ -34,6 +34,8 @@
     <string name="FRIDAY_DB">Friday</string>
     <string name="SATURDAY_DB">Saturday</string>
     <string name="SUNDAY_DB">Sunday</string>
+    <string name="MONDAY_DATE">MONDAY</string>
+    <string name="FRIDAY_DATE">FRIDAY</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="ATTENDANCE_CONFIRMATION">Potvrdiť dochádzku</string>
     <string name="CATEGORY">Kategória</string>
@@ -54,4 +56,11 @@
     <string name="SIGNED_TRAINER">Prihlásený tréner</string>
     <string name="NUMBER_OF_TRAINING_UNITS">Počet odtrénovaných hodín</string>
     <string name="TRAINING_OF_TRAINER">Odtrénované tréningy</string>
+    <string name="SWIMMING_SELECTION">Zobraziť plavecké tréningy</string>
+    <string name="ATHLETICS_SELECTION">Zobraziť atletické tréningy</string>
+    <string name="CYCLING_SELECTION">Zobraziť cyklistické tréningy</string>
+    <string name="ALL_TRAININGS">Zobraziť všetky tréningy</string>
+    <string name="NO_TRAININGS">"V daný deň nie sú žiadne z vybraných tréningov."</string>
+    <string name="GROUP_NAME">Názov skupiny</string>
+    <string name="TRAINER">Tréner</string>
 </resources>

@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.AttendanceSheetActivity">
+    tools:context=".activities.AttendanceSheetActivity"
+    tools:menu="@menu/attendance_selection_menu" >
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"

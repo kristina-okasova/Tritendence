@@ -1,11 +1,15 @@
 package com.example.tritendence.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -18,17 +22,18 @@ import com.example.tritendence.model.TriathlonClub;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class HomeActivity extends AppCompatActivity {
+    private AttendanceFragment attendanceFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
+        System.out.println("on create homeActivity");
+        this.attendanceFragment = new AttendanceFragment(this);
         BottomNavigationView navigation = findViewById(R.id.bottomNavigationView);
         navigation.setOnNavigationItemSelectedListener(navigationListener);
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, new AttendanceFragment(this)).commit();
-    }
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, this.attendanceFragment).commit();}
 
     @SuppressLint("NonConstantResourceId")
     private final BottomNavigationView.OnNavigationItemSelectedListener navigationListener =
@@ -56,6 +61,7 @@ public class HomeActivity extends AppCompatActivity {
                 return true;
             };
 
+
     public void showGroupInformation(View view) {
         TriathlonClub club = (TriathlonClub) getIntent().getExtras().getSerializable("TRIATHLON_CLUB");
         TextView nameOfGroup = view.findViewById(R.id.nameOfGroupInList);
@@ -64,5 +70,38 @@ public class HomeActivity extends AppCompatActivity {
         groupInformationPage.putExtra("TRIATHLON_CLUB", club);
         startActivity(groupInformationPage);
         finish();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.attendance_selection_menu, menu);
+        return true;
+    }
+
+    @SuppressLint("NonConstantResourceId")
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        this.attendanceFragment.clearTimetable();
+
+        switch (item.getItemId()) {
+            case R.id.swimmingSelection:
+                this.attendanceFragment.addGroups(getString(R.string.SWIMMING_DB));
+                break;
+            case R.id.athleticsSelection:
+                this.attendanceFragment.addGroups(getString(R.string.ATHLETICS_DB));
+                break;
+            case R.id.cyclingSelection:
+                this.attendanceFragment.addGroups(getString(R.string.CYCLING_DB));
+                break;
+            case R.id.allTrainings:
+                this.attendanceFragment.addGroups(getString(R.string.EMPTY_STRING));
+                break;
+            default:
+                break;
+        }
+
+        this.attendanceFragment.updateExpandableTimetable();
+        return super.onOptionsItemSelected(item);
     }
 }

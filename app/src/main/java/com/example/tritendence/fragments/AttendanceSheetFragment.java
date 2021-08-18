@@ -1,48 +1,48 @@
 package com.example.tritendence.fragments;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Size;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.tritendence.R;
+import com.example.tritendence.model.TrainingUnit;
 import com.example.tritendence.model.TriathlonClub;
+import com.example.tritendence.model.groups.Group;
 import com.example.tritendence.model.users.Athlete;
 import com.example.tritendence.model.users.Member;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 public class AttendanceSheetFragment extends Fragment {
-    private final static String ATHLETES_CHILD_DATABASE = "Athletes";
     private final static String ATTENDANCE_CHILD_DATABASE = "Attendance";
-    private final static String ATHLETES_NAME = "Name";
-    private final static String ATHLETES_SURNAME = "Surname";
-    private final static String ATHLETES_EMAIL = "E-Mail";
-    private final static String ATHLETES_GROUP_ID = "GroupID";
 
     private ListView attendanceSheet;
-    private ArrayList<String> membersOfGroup;
     private TriathlonClub club;
+    private Group group;
+    private TrainingUnit unit;
+    private Spinner trainersName;
+    private String currentTrainersName;
 
     public AttendanceSheetFragment() {}
 
@@ -55,13 +55,42 @@ public class AttendanceSheetFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         this.club = (TriathlonClub) requireActivity().getIntent().getExtras().getSerializable("TRIATHLON_CLUB");
-        this.initializeMembersOfGroup(view);
+        this.group = (Group) requireActivity().getIntent().getExtras().getSerializable("GROUP");
+        this.unit = (TrainingUnit) requireActivity().getIntent().getExtras().getSerializable("TRAINING_UNIT");
+        this.currentTrainersName = requireActivity().getIntent().getExtras().getString("SIGNED_USER");
+        ArrayList<String> membersOfGroup = this.group.getNamesOfAthletesOfGroup();
 
-        TextView nameOfGroup = view.findViewById(R.id.nameOfGroup);
-        String groupName = requireActivity().getIntent().getExtras().getString("GROUP_NAME");
-        String time = requireActivity().getIntent().getExtras().getString("TRAINING_TIME");
-        String sport = requireActivity().getIntent().getExtras().getString("SPORT_TYPE");
-        nameOfGroup.setText(String.format("%s\n%s - %s", groupName, sport, time));
+        TextView trainingData = view.findViewById(R.id.trainingData);
+        trainingData.setText(String.format("%s\n%s - %s", this.unit.getSportTranslation(), this.unit.getDay(), this.unit.getTime()));
+
+        TextView nameOfGroup = view.findViewById(R.id.attendanceGroupName);
+        nameOfGroup.setText(this.group.getName());
+
+        this.trainersName = view.findViewById(R.id.attendanceTrainersName);
+        ArrayList<String> namesOfTrainers = new ArrayList<>();
+        namesOfTrainers.add(this.currentTrainersName);
+        namesOfTrainers = this.club.getNamesOfTrainers(namesOfTrainers);
+
+        ArrayAdapter<String> adapterSpinner = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, namesOfTrainers);
+        adapterSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        this.trainersName.setAdapter(adapterSpinner);
+
+        this.trainersName.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                ((TextView) view).setTextColor(Color.parseColor("#DEF2F1"));
+                ((TextView) view).setTextSize(18);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        this.attendanceSheet = view.findViewById(R.id.attendanceSheet);
+        ArrayAdapter<String> adapterListView = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_multiple_choice, membersOfGroup);
+        this.attendanceSheet.setAdapter(adapterListView);
 
         Button confirmation = view.findViewById(R.id.attendanceConfirmationButton);
         confirmation.setOnClickListener(v -> {
@@ -102,9 +131,7 @@ public class AttendanceSheetFragment extends Fragment {
 
         DecimalFormat dateFormat= new DecimalFormat("00");
         String date = String.valueOf(year) + String.valueOf(dateFormat.format(Double.valueOf(month))) + String.valueOf(dateFormat.format(Double.valueOf(day)));
-        String trainingTime = requireActivity().getIntent().getExtras().getString("TRAINING_TIME");
-        String groupID = requireActivity().getIntent().getExtras().getString("GROUP_ID");
-        date += "_" + trainingTime + "_" + groupID;
+        date += "_" + this.unit.getTime() + "_" + this.group.getID();
 
         Map<String, String> attendanceData = new HashMap<>();
         int number = 1;
@@ -114,54 +141,11 @@ public class AttendanceSheetFragment extends Fragment {
         }
 
         numberOfFilledAttendance++;
-        String groupsName = requireActivity().getIntent().getExtras().getString("GROUPS_NAME");
-        String trainersName = requireActivity().getIntent().getExtras().getString("TRAINERS_NAME");
-        String sportType = requireActivity().getIntent().getExtras().getString("SPORT_TYPE");
-
         root.child(ATTENDANCE_CHILD_DATABASE + "/" + numberOfFilledAttendance + "/" + "/Date").setValue(date);
-        root.child(ATTENDANCE_CHILD_DATABASE + "/" + numberOfFilledAttendance + "/" + "/Sport").setValue(sportType);
+        root.child(ATTENDANCE_CHILD_DATABASE + "/" + numberOfFilledAttendance + "/" + "/Sport").setValue(this.unit.getSport());
         root.child(ATTENDANCE_CHILD_DATABASE + "/" + numberOfFilledAttendance + "/" + "/Trainer").setValue(trainersName);
         root.child(ATTENDANCE_CHILD_DATABASE + "/" + numberOfFilledAttendance + "/" + "/Athletes").setValue(attendanceData);
-        root.child(ATTENDANCE_CHILD_DATABASE + "/" + numberOfFilledAttendance + "/" + "/GroupsName").setValue(groupsName);
-    }
-
-    private void initializeMembersOfGroup(View view) {
-        membersOfGroup = new ArrayList<>();
-        DatabaseReference database = FirebaseDatabase.getInstance().getReference().child(ATHLETES_CHILD_DATABASE);
-
-        database.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                int numberOfAthletes = (int) snapshot.getChildrenCount();
-
-                for (int i = 1; i <= numberOfAthletes; i++) {
-                    String athleteID = String.valueOf(i);
-                    Athlete athlete = new Athlete();
-                    athlete.setID(i);
-                    athlete.setName(Objects.requireNonNull(snapshot.child(athleteID).child(ATHLETES_NAME).getValue()).toString());
-                    athlete.setSurname(Objects.requireNonNull(snapshot.child(athleteID).child(ATHLETES_SURNAME).getValue()).toString());
-                    athlete.setEmail(Objects.requireNonNull(snapshot.child(athleteID).child(ATHLETES_EMAIL).getValue()).toString());
-                    String athleteGroupID = Objects.requireNonNull(snapshot.child(athleteID).child(ATHLETES_GROUP_ID).getValue()).toString();
-                    athlete.setGroupID(Integer.parseInt(athleteGroupID));
-
-                    String groupID = requireActivity().getIntent().getExtras().getString("GROUP_ID");
-
-                    if (athlete.getGroupID() == Integer.parseInt(groupID))
-                        membersOfGroup.add(athlete.getFullName());
-                }
-
-                notifyAttendanceSheet(view);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) { }
-        });
-    }
-
-    private void notifyAttendanceSheet(View view) {
-        this.attendanceSheet = view.findViewById(R.id.attendanceSheet);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_multiple_choice, this.membersOfGroup);
-        this.attendanceSheet.setAdapter(adapter);
+        root.child(ATTENDANCE_CHILD_DATABASE + "/" + numberOfFilledAttendance + "/" + "/GroupsName").setValue(this.group.getName());
     }
 
     @Override

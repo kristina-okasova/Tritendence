@@ -1,5 +1,7 @@
 package com.example.tritendence.model;
 
+import android.widget.ArrayAdapter;
+
 import com.example.tritendence.model.groups.Group;
 import com.example.tritendence.model.users.Athlete;
 import com.example.tritendence.model.users.Member;
@@ -77,5 +79,14 @@ public class TriathlonClub implements Serializable {
 
     public int getNumberOfTrainers() {
         return this.numberOfTrainers;
+    }
+
+    public ArrayList<String> getNamesOfTrainers(ArrayList<String> trainersOfClub) {
+        String signedTrainer = trainersOfClub.get(0);
+        for (Member member : this.membersOfClub) {
+            if (member instanceof Trainer && !member.getFullName().equals(signedTrainer))
+                trainersOfClub.add(member.getFullName());
+        }
+        return trainersOfClub;
     }
 }
