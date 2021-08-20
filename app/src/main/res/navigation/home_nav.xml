@@ -24,11 +24,6 @@
             app:destination="@id/groupInformationActivity" />
     </fragment>
     <fragment
-        android:id="@+id/settingsFragment"
-        android:name="com.example.tritendence.fragments.SettingsFragment"
-        android:label="fragment_settings"
-        tools:layout="@layout/fragment_settings" />
-    <fragment
         android:id="@+id/profileFragment"
         android:name="com.example.tritendence.fragments.ProfileFragment"
         android:label="fragment_profile"
@@ -42,5 +37,10 @@
         android:name="com.example.tritendence.fragments.AttendanceSheetFragment"
         android:label="fragment_attendance_sheet"
         tools:layout="@layout/fragment_attendance_sheet" />
+    <fragment
+        android:id="@+id/athletesFragment"
+        android:name="com.example.tritendence.fragments.AthletesFragment"
+        android:label="fragment_athletes"
+        tools:layout="@layout/fragment_athletes" />
 
 </navigation>

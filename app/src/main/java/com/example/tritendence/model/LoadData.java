@@ -40,6 +40,7 @@ public class LoadData {
     private static final String UNIT_TIME = "time";
 
     private static final String ATHLETE_GROUP_ID = "GroupID";
+    private static final String ATHLETE_DAY_OF_BIRTH = "DayOfBirth";
     private static final String NUMBER_OF_TRAININGS = "NumberOfTrainings";
 
     private static final String ATTENDANCE_DATE = "Date";
@@ -114,8 +115,10 @@ public class LoadData {
             String surname = Objects.requireNonNull(snapshot.child(athleteID).child(SURNAME).getValue()).toString();
             String eMail = Objects.requireNonNull(snapshot.child(athleteID).child(EMAIL).getValue()).toString();
             String groupID = Objects.requireNonNull(snapshot.child(athleteID).child(ATHLETE_GROUP_ID).getValue()).toString();
+            String numberOfTrainings = Objects.requireNonNull(snapshot.child(athleteID).child(NUMBER_OF_TRAININGS).getValue()).toString();
+            String dayOfBirth = Objects.requireNonNull(snapshot.child(athleteID).child(ATHLETE_DAY_OF_BIRTH).getValue()).toString();
 
-            Athlete athlete = new Athlete(i, name, surname, eMail, Integer.parseInt(groupID));
+            Athlete athlete = new Athlete(i, name, surname, eMail, Integer.parseInt(groupID), Integer.parseInt(numberOfTrainings), dayOfBirth);
             this.club.addMember(athlete);
         }
     }

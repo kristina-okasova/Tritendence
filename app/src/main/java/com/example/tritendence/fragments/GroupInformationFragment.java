@@ -36,10 +36,11 @@ public class GroupInformationFragment extends Fragment {
     private static final String GROUPS_NAME = "Name";
     private static final String GROUPS_CATEGORY = "Category";
     private static final String GROUPS_ATHLETES = "Athletes";
+    private static final String NUMBER_OF_ATHLETES = "NumberOfAthletes";
 
     private GroupInformationActivity activity;
     private LinearLayout expandableListOfMembers;
-    private TextView membersOfGroupText, categoryOfGroup, nameOfGroup;
+    private TextView membersOfGroupText, categoryOfGroup, nameOfGroup, numberOfAthletes;
     private CardView membersOfGroup;
     private TriathlonClub club;
     private List<String> dateOfAttendances;
@@ -70,6 +71,7 @@ public class GroupInformationFragment extends Fragment {
         this.membersOfGroup = view.findViewById(R.id.membersOfGroupInformation);
         this.categoryOfGroup = view.findViewById(R.id.categoryOfGroupInformation);
         this.nameOfGroup = view.findViewById(R.id.nameOfGroupInformation);
+        this.numberOfAthletes = view.findViewById(R.id.numberOfAthletesInGroup);
 
         this.initializeAttendanceDates();
 
@@ -81,12 +83,12 @@ public class GroupInformationFragment extends Fragment {
     }
 
     public void showMembersOfGroupInFragment(View view) {
-        AutoTransition autoTransition = null;
+        AutoTransition autoTransition;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
             autoTransition = new AutoTransition();
             autoTransition.setDuration(0);
             TransitionManager.beginDelayedTransition(this.membersOfGroup, autoTransition);
-        };
+        }
 
         if (this.expandableListOfMembers.getVisibility() == View.GONE)
             this.expandableListOfMembers.setVisibility(View.VISIBLE);
@@ -101,7 +103,7 @@ public class GroupInformationFragment extends Fragment {
             if (group.getName().equals(selectedGroup)) {
                 groupInformation.put(GROUPS_NAME, group.getName());
                 groupInformation.put(GROUPS_CATEGORY, group.getCategory());
-
+                groupInformation.put(NUMBER_OF_ATHLETES, group.getNumberOfAthletes());
                 groupInformation.put(GROUPS_ATHLETES, group.getAthletesOfGroup());
 
                 fillInGroupInformation(groupInformation);
@@ -112,6 +114,7 @@ public class GroupInformationFragment extends Fragment {
     public void fillInGroupInformation(Map<String, Object> groupInformation) {
         this.nameOfGroup.setText(Objects.requireNonNull(groupInformation.get(GROUPS_NAME)).toString());
         this.categoryOfGroup.setText(Objects.requireNonNull(groupInformation.get(GROUPS_CATEGORY)).toString());
+        this.numberOfAthletes.setText(Objects.requireNonNull(groupInformation.get(NUMBER_OF_ATHLETES)).toString());
 
         ArrayList<Athlete> athletesOfGroup = (ArrayList<Athlete>) groupInformation.get(GROUPS_ATHLETES);
         Athlete lastAthlete = athletesOfGroup.get(athletesOfGroup.size() - 1);

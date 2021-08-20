@@ -14,7 +14,7 @@
         android:title="@string/PROFILE"
         android:icon="@drawable/profile_icon" />
     <item
-        android:id="@+id/settingsFragment"
-        android:title="@string/SETTINGS"
-        android:icon="@drawable/settings_icon" />
+        android:id="@+id/athletesFragment"
+        android:title="@string/ATHLETES"
+        android:icon="@drawable/athletes_icon" />
 </menu>

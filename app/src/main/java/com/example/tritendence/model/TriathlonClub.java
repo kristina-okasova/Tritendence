@@ -89,4 +89,20 @@ public class TriathlonClub implements Serializable {
         }
         return trainersOfClub;
     }
+
+    public int getNumberOfAthletes() {
+        return this.numberOfAthletes;
+    }
+
+    public Athlete getAthleteAtIndex(int i) {
+        int index = 0;
+        for (Member athlete : this.membersOfClub) {
+            if (athlete instanceof Athlete) {
+                if (index == i)
+                    return (Athlete) athlete;
+                index++;
+            }
+        }
+        return null;
+    }
 }

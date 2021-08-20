@@ -4,29 +4,33 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
 import com.example.tritendence.R;
+import com.example.tritendence.fragments.AthleteInformationFragment;
 import com.example.tritendence.fragments.AthletesFragment;
 import com.example.tritendence.fragments.AttendanceFragment;
-import com.example.tritendence.fragments.AttendanceSheetFragment;
+import com.example.tritendence.fragments.GroupInformationFragment;
 import com.example.tritendence.fragments.GroupsFragment;
 import com.example.tritendence.fragments.ProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class AttendanceSheetActivity extends AppCompatActivity {
+import static com.example.tritendence.R.*;
+
+public class AthleteInformationActivity extends AppCompatActivity {
+    private AthleteInformationFragment athleteInformationFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_attendance_sheet);
-        System.out.println("on create attendanceSheetActivity");
+        setContentView(R.layout.activity_athlete_information);
+
         BottomNavigationView navigation = findViewById(R.id.bottomNavigationView);
         navigation.setOnNavigationItemSelectedListener(navigationListener);
+        this.athleteInformationFragment = new AthleteInformationFragment(this);
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, new AttendanceSheetFragment()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.athleteFragmentContainerView, this.athleteInformationFragment).commit();
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -36,7 +40,7 @@ public class AttendanceSheetActivity extends AppCompatActivity {
 
                 switch (item.getItemId()) {
                     case R.id.attendanceFragment:
-                        selectedFragment = new AttendanceFragment(new HomeActivity());
+                        selectedFragment = new AttendanceFragment();
                         break;
                     case R.id.groupsFragment:
                         selectedFragment = new GroupsFragment();
@@ -51,13 +55,7 @@ public class AttendanceSheetActivity extends AppCompatActivity {
                         return false;
                 }
 
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, selectedFragment).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.athleteFragmentContainerView, selectedFragment).commit();
                 return true;
             };
-
-    public void showGroupInformation(View view) {
-        Intent groupInformationPage = new Intent(this, GroupInformationActivity.class);
-        startActivity(groupInformationPage);
-        finish();
-    }
 }

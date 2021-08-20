@@ -65,4 +65,12 @@ public class AttendanceData implements Serializable {
     public Trainer getTrainer() {
         return this.trainer;
     }
+
+    public boolean containsAthlete(String selectedAthlete) {
+        for (Athlete athlete : this.attendedAthletes) {
+            if (athlete.getFullName().equals(selectedAthlete))
+                return true;
+        }
+        return false;
+    }
 }

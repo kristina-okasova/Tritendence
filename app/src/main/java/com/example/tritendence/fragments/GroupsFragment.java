@@ -28,18 +28,17 @@ public class GroupsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        this.listOfGroups = view.findViewById(R.id.attendanceSheet);
-        this.displayGroups(view);
+        this.listOfGroups = view.findViewById(R.id.listOfGroups);
+        this.displayGroups();
     }
 
-    private void displayGroups(View view) {
+    private void displayGroups() {
         TriathlonClub club = (TriathlonClub) requireActivity().getIntent().getExtras().getSerializable("TRIATHLON_CLUB");
         ArrayList<HashMap<String, Object>> dataForListOfGroups = new ArrayList<>();
         int[] groupsImageIDs = new int[club.getNumberOfGroups()];
         for (int i = 0; i < club.getNumberOfGroups(); i++)
             groupsImageIDs[i] = R.drawable.groups_icon;
 
-        this.listOfGroups = view.findViewById(R.id.listOfGroups);
         for (int i = 0; i < club.getNumberOfGroups(); i++) {
             HashMap<String, Object> mappedData = new HashMap<>();
 

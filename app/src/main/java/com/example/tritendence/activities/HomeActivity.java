@@ -14,10 +14,10 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.tritendence.R;
+import com.example.tritendence.fragments.AthletesFragment;
 import com.example.tritendence.fragments.AttendanceFragment;
 import com.example.tritendence.fragments.GroupsFragment;
 import com.example.tritendence.fragments.ProfileFragment;
-import com.example.tritendence.fragments.SettingsFragment;
 import com.example.tritendence.model.TriathlonClub;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -50,8 +50,8 @@ public class HomeActivity extends AppCompatActivity {
                     case R.id.profileFragment:
                         selectedFragment = new ProfileFragment();
                         break;
-                    case R.id.settingsFragment:
-                        selectedFragment = new SettingsFragment();
+                    case R.id.athletesFragment:
+                        selectedFragment = new AthletesFragment();
                         break;
                     default:
                         return false;
@@ -71,6 +71,18 @@ public class HomeActivity extends AppCompatActivity {
         groupInformationPage.putExtra("TRIATHLON_CLUB", club);
         groupInformationPage.putExtra("SIGNED_USER", signedUser);
         startActivity(groupInformationPage);
+        finish();
+    }
+
+    public void showAthleteInformation(View view) {
+        TriathlonClub club = (TriathlonClub) getIntent().getExtras().getSerializable("TRIATHLON_CLUB");
+        String signedUser = getIntent().getExtras().getString("SIGNED_USER");
+        TextView nameOfAthlete = view.findViewById(R.id.nameOfAthleteInList);
+        Intent athleteInformationPage = new Intent(this, AthleteInformationActivity.class);
+        athleteInformationPage.putExtra("ATHLETE_NAME", nameOfAthlete.getText().toString());
+        athleteInformationPage.putExtra("TRIATHLON_CLUB", club);
+        athleteInformationPage.putExtra("SIGNED_USER", signedUser);
+        startActivity(athleteInformationPage);
         finish();
     }
 

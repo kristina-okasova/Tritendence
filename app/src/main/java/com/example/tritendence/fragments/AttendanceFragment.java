@@ -73,15 +73,19 @@ public class AttendanceFragment extends Fragment implements Serializable {
 
         this.currentWeek = view.findViewById(R.id.currentWeek);
         LocalDate date = LocalDate.now();
-        LocalDate monday = null, friday = null;
+        LocalDate monday, sunday;
         if (!date.getDayOfWeek().toString().equals(getString(R.string.MONDAY_DATE)))
             monday = date.with(TemporalAdjusters.previous(DayOfWeek.MONDAY));
+        else
+            monday = date;
 
-        if (!date.getDayOfWeek().toString().equals(getString(R.string.FRIDAY_DATE)))
-            friday = date.with(TemporalAdjusters.next(DayOfWeek.FRIDAY));
+        if (!date.getDayOfWeek().toString().equals(getString(R.string.SUNDAY_DATE)))
+            sunday = date.with(TemporalAdjusters.next(DayOfWeek.SUNDAY));
+        else
+            sunday = date;
 
         DateTimeFormatter format = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        this.currentWeek.setText(String.format("%s - %s", Objects.requireNonNull(monday).format(format), format.format(friday)));
+        this.currentWeek.setText(String.format("%s - %s", Objects.requireNonNull(monday).format(format), format.format(sunday)));
 
         this.expandableTimetable = view.findViewById(R.id.timetable);
         this.updateExpandableTimetable();
