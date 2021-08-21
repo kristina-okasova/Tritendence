@@ -22,4 +22,8 @@ public class Member implements Serializable {
     public String getEmail() {
         return this.email;
     }
+
+    public String getSurname() {
+        return this.surname;
+    }
 }

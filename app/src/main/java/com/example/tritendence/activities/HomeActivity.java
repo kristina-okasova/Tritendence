@@ -28,12 +28,13 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        System.out.println("on create homeActivity");
+
         this.attendanceFragment = new AttendanceFragment(this);
         BottomNavigationView navigation = findViewById(R.id.bottomNavigationView);
         navigation.setOnNavigationItemSelectedListener(navigationListener);
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, this.attendanceFragment).commit();}
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, this.attendanceFragment).commit();
+    }
 
     @SuppressLint("NonConstantResourceId")
     private final BottomNavigationView.OnNavigationItemSelectedListener navigationListener =
@@ -84,38 +85,5 @@ public class HomeActivity extends AppCompatActivity {
         athleteInformationPage.putExtra("SIGNED_USER", signedUser);
         startActivity(athleteInformationPage);
         finish();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.attendance_selection_menu, menu);
-        return true;
-    }
-
-    @SuppressLint("NonConstantResourceId")
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        this.attendanceFragment.clearTimetable();
-
-        switch (item.getItemId()) {
-            case R.id.swimmingSelection:
-                this.attendanceFragment.addGroups(getString(R.string.SWIMMING_DB));
-                break;
-            case R.id.athleticsSelection:
-                this.attendanceFragment.addGroups(getString(R.string.ATHLETICS_DB));
-                break;
-            case R.id.cyclingSelection:
-                this.attendanceFragment.addGroups(getString(R.string.CYCLING_DB));
-                break;
-            case R.id.allTrainings:
-                this.attendanceFragment.addGroups(getString(R.string.EMPTY_STRING));
-                break;
-            default:
-                break;
-        }
-
-        this.attendanceFragment.updateExpandableTimetable();
-        return super.onOptionsItemSelected(item);
     }
 }

@@ -1,8 +1,12 @@
 package com.example.tritendence.fragments;
 
+import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListAdapter;
@@ -53,6 +57,7 @@ public class AttendanceFragment extends Fragment implements Serializable {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Nullable
@@ -164,5 +169,38 @@ public class AttendanceFragment extends Fragment implements Serializable {
         this.timetable.put(getString(R.string.FRIDAY), new ArrayList<>());
         this.timetable.put(getString(R.string.SATURDAY), new ArrayList<>());
         this.timetable.put(getString(R.string.SUNDAY), new ArrayList<>());
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater = requireActivity().getMenuInflater();
+        inflater.inflate(R.menu.attendance_selection_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @SuppressLint("NonConstantResourceId")
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        this.clearTimetable();
+
+        switch (item.getItemId()) {
+            case R.id.swimmingSelection:
+                this.addGroups(getString(R.string.SWIMMING_DB));
+                break;
+            case R.id.athleticsSelection:
+                this.addGroups(getString(R.string.ATHLETICS_DB));
+                break;
+            case R.id.cyclingSelection:
+                this.addGroups(getString(R.string.CYCLING_DB));
+                break;
+            case R.id.allTrainings:
+                this.addGroups(getString(R.string.EMPTY_STRING));
+                break;
+            default:
+                break;
+        }
+
+        this.updateExpandableTimetable();
+        return super.onOptionsItemSelected(item);
     }
 }

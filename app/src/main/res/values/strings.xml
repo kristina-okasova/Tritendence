@@ -66,4 +66,6 @@
     <string name="NUMBER_OF_ATHLETES">Počet členov skupiny</string>
     <string name="DAY_OF_BIRTH">Dátum narodenia</string>
     <string name="NUMBER_OF_ATHLETES_TRAININGS">Počet účastí na tréningoch</string>
+    <string name="ALPHABET_SORTING">Zoradiť abecedne</string>
+    <string name="AGE_SORTING">Zoradiť podľa veku</string>
 </resources>

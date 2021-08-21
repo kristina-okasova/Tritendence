@@ -1,7 +1,5 @@
 package com.example.tritendence.model;
 
-import android.widget.ArrayAdapter;
-
 import com.example.tritendence.model.groups.Group;
 import com.example.tritendence.model.users.Athlete;
 import com.example.tritendence.model.users.Member;
@@ -9,6 +7,8 @@ import com.example.tritendence.model.users.Trainer;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class TriathlonClub implements Serializable {
     private ArrayList<Member> membersOfClub;
@@ -104,5 +104,28 @@ public class TriathlonClub implements Serializable {
             }
         }
         return null;
+    }
+
+    public ArrayList<Member> getAthletesSortedByAlphabet() {
+        ArrayList<Member> sortedMembers = new ArrayList<>(this.membersOfClub);
+        System.out.println("not sorted " + sortedMembers);
+        for (Member member : this.membersOfClub) {
+            if (!(member instanceof Athlete))
+                sortedMembers.remove(member);
+        }
+
+        Collections.sort(sortedMembers, (member1, member2) -> member1.getSurname().compareTo(member2.getSurname()));
+        return sortedMembers;
+    }
+
+    public ArrayList<Member> getAthletesSortedByAge() {
+        ArrayList<Member> sortedMembers = new ArrayList<>(this.membersOfClub);;
+        for (Member member : this.membersOfClub) {
+            if (!(member instanceof Athlete))
+                sortedMembers.remove(member);
+        }
+
+        Collections.sort(sortedMembers, (member1, member2) -> ((Athlete) member1).getDate().compareTo(((Athlete) member2).getDate()));
+        return sortedMembers;
     }
 }

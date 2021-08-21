@@ -60,4 +60,8 @@ public class Athlete extends Member {
             return this.dayOfBirth.getDayOfMonth() + "." + this.dayOfBirth.getMonthValue() + "." + this.dayOfBirth.getYear();
         return null;
     }
+
+    public LocalDate getDate() {
+        return this.dayOfBirth;
+    }
 }
