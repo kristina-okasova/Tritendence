@@ -8,21 +8,32 @@
     android:background="#17252a"
     tools:context=".activities.LogInActivity">
 
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/tritendence_logo" />
+
     <EditText
         android:id="@+id/emailSignIn"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="328dp"
+        android:backgroundTint="#DEF2F1"
         android:ems="10"
         android:hint="@string/EMAIL"
         android:inputType="textEmailAddress"
         android:textColor="#DEF2F1"
         android:textColorHint="#DEF2F1"
-        android:backgroundTint="#DEF2F1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2"
         tools:targetApi="lollipop" />
 
     <EditText

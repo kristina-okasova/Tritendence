@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.View;
 
 import com.example.tritendence.R;
@@ -13,6 +15,8 @@ import com.example.tritendence.fragments.AttendanceFragment;
 import com.example.tritendence.fragments.GroupInformationFragment;
 import com.example.tritendence.fragments.GroupsFragment;
 import com.example.tritendence.fragments.ProfileFragment;
+import com.example.tritendence.model.TriathlonClub;
+import com.example.tritendence.model.users.Athlete;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class GroupInformationActivity extends AppCompatActivity {
@@ -24,6 +28,7 @@ public class GroupInformationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_group_information);
 
         BottomNavigationView navigation = findViewById(R.id.bottomNavigationView);
+        navigation.setSelectedItemId(R.id.groupsFragment);
         navigation.setOnNavigationItemSelectedListener(navigationListener);
         this.groupInformationFragment = new GroupInformationFragment(this);
 
@@ -33,26 +38,14 @@ public class GroupInformationActivity extends AppCompatActivity {
     @SuppressLint("NonConstantResourceId")
     private final BottomNavigationView.OnNavigationItemSelectedListener navigationListener =
             item -> {
-                Fragment selectedFragment;
-
-                switch (item.getItemId()) {
-                    case R.id.attendanceFragment:
-                        selectedFragment = new AttendanceFragment();
-                        break;
-                    case R.id.groupsFragment:
-                        selectedFragment = new GroupsFragment();
-                        break;
-                    case R.id.profileFragment:
-                        selectedFragment = new ProfileFragment();
-                        break;
-                    case R.id.athletesFragment:
-                        selectedFragment = new AthletesFragment();
-                        break;
-                    default:
-                        return false;
-                }
-
-                getSupportFragmentManager().beginTransaction().replace(R.id.groupFragmentContainerView, selectedFragment).commit();
+                TriathlonClub club = (TriathlonClub) getIntent().getExtras().getSerializable("TRIATHLON_CLUB");
+                String signedUser = getIntent().getExtras().getString("SIGNED_USER");
+                Intent homePage = new Intent(this, HomeActivity.class);
+                homePage.putExtra("SIGNED_USER", signedUser);
+                homePage.putExtra("TRIATHLON_CLUB", club);
+                homePage.putExtra("SELECTED_FRAGMENT", item.getItemId());
+                startActivity(homePage);
+                finish();
                 return true;
             };
 

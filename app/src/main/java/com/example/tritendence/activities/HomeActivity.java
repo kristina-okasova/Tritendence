@@ -1,15 +1,11 @@
 package com.example.tritendence.activities;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -21,26 +17,46 @@ import com.example.tritendence.fragments.ProfileFragment;
 import com.example.tritendence.model.TriathlonClub;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class HomeActivity extends AppCompatActivity {
-    private AttendanceFragment attendanceFragment;
+import java.io.Serializable;
 
+public class HomeActivity extends AppCompatActivity implements Serializable {
+    private AttendanceFragment attendanceFragment;
+    private Fragment selectedFragment;
+
+    @SuppressLint("NonConstantResourceId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
         this.attendanceFragment = new AttendanceFragment(this);
+        int selectedItemID = getIntent().getExtras().getInt("SELECTED_FRAGMENT");
+        switch (selectedItemID) {
+            case R.id.attendanceFragment:
+                selectedFragment = this.attendanceFragment;
+                break;
+            case R.id.groupsFragment:
+                selectedFragment = new GroupsFragment();
+                break;
+            case R.id.profileFragment:
+                selectedFragment = new ProfileFragment();
+                break;
+            case R.id.athletesFragment:
+                selectedFragment = new AthletesFragment();
+                break;
+            default:
+                selectedFragment = this.attendanceFragment;
+        }
         BottomNavigationView navigation = findViewById(R.id.bottomNavigationView);
+        navigation.setSelectedItemId(selectedItemID);
         navigation.setOnNavigationItemSelectedListener(navigationListener);
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, this.attendanceFragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, selectedFragment).commit();
     }
 
     @SuppressLint("NonConstantResourceId")
     private final BottomNavigationView.OnNavigationItemSelectedListener navigationListener =
             item -> {
-                Fragment selectedFragment;
-
                 switch (item.getItemId()) {
                     case R.id.attendanceFragment:
                         selectedFragment = this.attendanceFragment;

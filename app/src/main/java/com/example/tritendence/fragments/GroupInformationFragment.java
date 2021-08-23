@@ -26,13 +26,14 @@ import com.example.tritendence.model.TriathlonClub;
 import com.example.tritendence.model.groups.Group;
 import com.example.tritendence.model.users.Athlete;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class GroupInformationFragment extends Fragment {
+public class GroupInformationFragment extends Fragment implements Serializable {
     private static final String GROUPS_NAME = "Name";
     private static final String GROUPS_CATEGORY = "Category";
     private static final String GROUPS_ATHLETES = "Athletes";

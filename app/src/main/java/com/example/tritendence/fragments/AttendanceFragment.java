@@ -38,7 +38,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class AttendanceFragment extends Fragment implements Serializable {
+public class AttendanceFragment extends Fragment {
     private HomeActivity activity;
     private List<String> daysOfTheWeek;
     private final Map<String, List<String>> timetable;

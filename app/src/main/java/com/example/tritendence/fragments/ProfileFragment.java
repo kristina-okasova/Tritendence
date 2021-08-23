@@ -18,6 +18,7 @@ import com.example.tritendence.model.TriathlonClub;
 import com.example.tritendence.model.users.Member;
 import com.example.tritendence.model.users.Trainer;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
