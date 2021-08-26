@@ -51,7 +51,7 @@ public class HomeActivity extends AppCompatActivity implements Serializable {
         navigation.setSelectedItemId(selectedItemID);
         navigation.setOnNavigationItemSelectedListener(navigationListener);
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, selectedFragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.attendanceSheetFragment, selectedFragment).commit();
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -74,7 +74,7 @@ public class HomeActivity extends AppCompatActivity implements Serializable {
                         return false;
                 }
 
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, selectedFragment).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.attendanceSheetFragment, selectedFragment).commit();
                 return true;
             };
 

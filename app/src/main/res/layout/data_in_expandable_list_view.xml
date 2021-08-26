@@ -7,13 +7,5 @@
 
     <TextView
         android:id="@+id/data"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:background="#3AAFA9"
-        android:paddingLeft="60dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:textSize="16sp"
-        android:textColor="#17252A"/>
+        style="@style/dataInExpendableListStyle" />
 </LinearLayout>

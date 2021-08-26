@@ -5,12 +5,15 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
+import android.text.SpannableStringBuilder;
 import android.util.Size;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -33,6 +36,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class AttendanceSheetFragment extends Fragment {
     private final static String ATTENDANCE_CHILD_DATABASE = "Attendance";
@@ -43,6 +47,9 @@ public class AttendanceSheetFragment extends Fragment {
     private TrainingUnit unit;
     private Spinner trainersName;
     private String currentTrainersName;
+    private SpannableStringBuilder noteText;
+    private TextView note;
+    private View inflated;
 
     public AttendanceSheetFragment() {}
 
@@ -58,6 +65,7 @@ public class AttendanceSheetFragment extends Fragment {
         this.group = (Group) requireActivity().getIntent().getExtras().getSerializable("GROUP");
         this.unit = (TrainingUnit) requireActivity().getIntent().getExtras().getSerializable("TRAINING_UNIT");
         this.currentTrainersName = requireActivity().getIntent().getExtras().getString("SIGNED_USER");
+        this.note = view.findViewById(R.id.attendanceNote);
         ArrayList<String> membersOfGroup = this.group.getNamesOfAthletesOfGroup();
 
         TextView trainingData = view.findViewById(R.id.trainingData);
@@ -66,27 +74,8 @@ public class AttendanceSheetFragment extends Fragment {
         TextView nameOfGroup = view.findViewById(R.id.attendanceGroupName);
         nameOfGroup.setText(this.group.getName());
 
-        this.trainersName = view.findViewById(R.id.attendanceTrainersName);
-        ArrayList<String> namesOfTrainers = new ArrayList<>();
-        namesOfTrainers.add(this.currentTrainersName);
-        namesOfTrainers = this.club.getNamesOfTrainers(namesOfTrainers);
-
-        ArrayAdapter<String> adapterSpinner = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, namesOfTrainers);
-        adapterSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        this.trainersName.setAdapter(adapterSpinner);
-
-        this.trainersName.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                ((TextView) view).setTextColor(Color.parseColor("#DEF2F1"));
-                ((TextView) view).setTextSize(18);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+        this.trainersName = view.findViewById(R.id.firstTrainersName);
+        this.addTrainersNames(this.trainersName);
 
         this.attendanceSheet = view.findViewById(R.id.attendanceSheet);
         ArrayAdapter<String> adapterListView = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_multiple_choice, membersOfGroup);
@@ -132,6 +121,8 @@ public class AttendanceSheetFragment extends Fragment {
         DecimalFormat dateFormat= new DecimalFormat("00");
         String date = String.valueOf(year) + String.valueOf(dateFormat.format(Double.valueOf(month))) + String.valueOf(dateFormat.format(Double.valueOf(day)));
         date += "_" + this.unit.getTime() + "_" + this.group.getID();
+        this.noteText = (SpannableStringBuilder) this.note.getText();
+        this.currentTrainersName = ((TextView) this.trainersName.getSelectedItem()).getText().toString();
 
         Map<String, String> attendanceData = new HashMap<>();
         int number = 1;
@@ -146,6 +137,31 @@ public class AttendanceSheetFragment extends Fragment {
         root.child(ATTENDANCE_CHILD_DATABASE + "/" + numberOfFilledAttendance + "/" + "/Trainer").setValue(this.currentTrainersName);
         root.child(ATTENDANCE_CHILD_DATABASE + "/" + numberOfFilledAttendance + "/" + "/Athletes").setValue(attendanceData);
         root.child(ATTENDANCE_CHILD_DATABASE + "/" + numberOfFilledAttendance + "/" + "/GroupsName").setValue(this.group.getName());
+        if (noteText != null)
+            root.child(ATTENDANCE_CHILD_DATABASE + "/" + numberOfFilledAttendance + "/" + "/Note").setValue(this.noteText);
+    }
+
+    public Spinner addTrainersNames(Spinner trainersNameSpinner) {
+        ArrayList<String> namesOfTrainers = new ArrayList<>();
+        namesOfTrainers.add(this.currentTrainersName);
+        namesOfTrainers = this.club.getNamesOfTrainers(namesOfTrainers);
+
+        ArrayAdapter<String> adapterSpinner = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, namesOfTrainers);
+        adapterSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        trainersNameSpinner.setAdapter(adapterSpinner);
+
+        trainersNameSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                ((TextView) view).setTextColor(Color.parseColor("#DEF2F1"));
+                ((TextView) view).setTextSize(18);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) { }
+        });
+
+        return trainersNameSpinner;
     }
 
     @Override

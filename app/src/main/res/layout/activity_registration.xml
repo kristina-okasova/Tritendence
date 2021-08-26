@@ -18,52 +18,44 @@
 
         <Switch
             android:id="@+id/swimmingSwitch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/switchStyle"
             android:text="@string/SWIMMING"
-            android:textColor="#DEF2F1"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="UseSwitchCompatOrMaterialXml" />
 
         <Switch
             android:id="@+id/athleticsSwitch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/switchStyle"
             android:text="@string/ATHLETICS"
-            android:textColor="#DEF2F1"
             app:layout_constraintEnd_toStartOf="@+id/cyclingSwitch"
             app:layout_constraintStart_toEndOf="@+id/swimmingSwitch"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="UseSwitchCompatOrMaterialXml" />
 
         <Switch
             android:id="@+id/cyclingSwitch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/switchStyle"
             android:text="@string/CYCLING"
-            android:textColor="#DEF2F1"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="UseSwitchCompatOrMaterialXml" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/signInNote"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/noteStyle"
         android:layout_marginTop="32dp"
         android:text="@string/SIGN_IN_NOTE"
-        android:textColor="#DEF2F1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/registrationBtn"
-        tools:textSize="18sp" />
+        app:layout_constraintTop_toBottomOf="@+id/registrationBtn" />
 
     <Button
         android:id="@+id/registrationBtn"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
+        style="@style/buttonStyle"
         android:layout_marginTop="32dp"
         android:text="@string/REGISTRATION"
-        app:backgroundTint="#2B7A78"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
@@ -71,103 +63,66 @@
 
     <EditText
         android:id="@+id/passwordRegistration"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
+        style="@style/textViewBasicStyle"
         android:layout_marginTop="32dp"
-        android:ems="10"
+        android:autofillHints="@string/PASSWORD"
         android:hint="@string/PASSWORD"
         android:inputType="textPassword"
-        android:textColor="#DEF2F1"
-        android:textColorHint="#DEF2F1"
-        android:backgroundTint="#DEF2F1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailRegistration"
-        tools:targetApi="lollipop"
-        android:autofillHints="@string/PASSWORD" />
+        app:layout_constraintTop_toBottomOf="@+id/emailRegistration" />
 
     <EditText
         android:id="@+id/passwordCheckRegistration"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
+        style="@style/textViewBasicStyle"
         android:layout_marginTop="32dp"
-        android:ems="10"
+        android:autofillHints="@string/PASSWORD_CHECK"
         android:hint="@string/PASSWORD_CHECK"
         android:inputType="textPassword"
-        android:textColor="#DEF2F1"
-        android:textColorHint="#DEF2F1"
-        android:backgroundTint="#DEF2F1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passwordRegistration"
-        tools:targetApi="lollipop"
-        android:autofillHints="@string/PASSWORD_CHECK" />
+        app:layout_constraintTop_toBottomOf="@+id/passwordRegistration" />
 
     <EditText
         android:id="@+id/emailRegistration"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
+        style="@style/textViewBasicStyle"
         android:layout_marginTop="32dp"
-        android:ems="10"
+        android:autofillHints="@string/EMAIL"
         android:hint="@string/EMAIL"
         android:inputType="textEmailAddress"
-        android:textColor="#DEF2F1"
-        android:textColorHint="#DEF2F1"
-        android:backgroundTint="#DEF2F1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/surnameRegistration"
-        tools:targetApi="lollipop"
-        android:autofillHints="@string/EMAIL" />
+        app:layout_constraintTop_toBottomOf="@+id/surnameRegistration" />
 
     <EditText
         android:id="@+id/nameRegistration"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
+        style="@style/textViewBasicStyle"
         android:layout_marginTop="40dp"
-        android:ems="10"
+        android:autofillHints="@string/REGISTRATION_NAME"
         android:hint="@string/REGISTRATION_NAME"
         android:inputType="textPersonName"
-        android:textColor="#DEF2F1"
-        android:textColorHint="#DEF2F1"
-        android:backgroundTint="#DEF2F1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:targetApi="lollipop"
-        android:autofillHints="@string/REGISTRATION_NAME" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/surnameRegistration"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
+        style="@style/textViewBasicStyle"
         android:layout_marginTop="32dp"
-        android:ems="10"
+        android:autofillHints="@string/REGISTRATION_SURNAME"
         android:hint="@string/REGISTRATION_SURNAME"
         android:inputType="textPersonName"
-        android:textColor="#DEF2F1"
-        android:textColorHint="#DEF2F1"
-        android:backgroundTint="#DEF2F1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nameRegistration"
-        tools:targetApi="lollipop"
-        android:autofillHints="@string/REGISTRATION_SURNAME" />
+        app:layout_constraintTop_toBottomOf="@+id/nameRegistration" />
 
     <TextView
         android:id="@+id/sportRegistration"
+        style="@style/noteStyle"
         android:layout_width="300dp"
-        android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="@string/REGISTRATION_SPORT"
-        android:textColor="#DEF2F1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordCheckRegistration" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,28 +9,12 @@
 
     <TextView
         android:id="@+id/nameOfAthleteInList"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_toRightOf="@id/iconToAthleteName"
-        android:gravity="center"
-        android:padding="5dp"
-        android:textColor="#DEF2F1"
-        android:textSize="16sp" />
+        style="@style/enumerationTextStyle"
+        android:layout_toRightOf="@id/iconToAthleteName" />
 
     <ImageView
         android:id="@+id/iconToAthleteName"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="20dp"
-        android:scaleType="fitCenter"
+        style="@style/enumerationIconStyle"
         app:srcCompat="@drawable/athletes_icon"
         tools:ignore="VectorDrawableCompat" />
 </RelativeLayout>
