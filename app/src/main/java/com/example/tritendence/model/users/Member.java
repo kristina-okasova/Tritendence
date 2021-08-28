@@ -26,4 +26,8 @@ public class Member implements Serializable {
     public String getSurname() {
         return this.surname;
     }
+
+    public int getID() {
+        return this.ID;
+    }
 }

@@ -12,10 +12,12 @@ import android.widget.Toast;
 
 import com.example.tritendence.R;
 import com.example.tritendence.model.LoadData;
+import com.example.tritendence.model.TriathlonClub;
 import com.example.tritendence.model.users.Member;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class LogInActivity extends AppCompatActivity {
+    private TriathlonClub club;
     private LoadData loadData;
     private EditText email, password;
     private FirebaseAuth authentication;
@@ -25,6 +27,7 @@ public class LogInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         this.loadData = new LoadData();
+        this.club = this.loadData.getClub();
 
         Button signInBtn = findViewById(R.id.signInBtn);
         TextView registration = findViewById(R.id.registrationNote);
@@ -65,14 +68,14 @@ public class LogInActivity extends AppCompatActivity {
     private void singIn(String fullName) {
         Intent homePage = new Intent(LogInActivity.this, HomeActivity.class);
         homePage.putExtra(getString(R.string.SIGNED_USER), fullName);
-        homePage.putExtra(getString(R.string.TRIATHLON_CLUB), this.loadData.getClub());
+        homePage.putExtra(getString(R.string.TRIATHLON_CLUB), this.club);
         startActivity(homePage);
         finish();
     }
 
     private void loadRegistration() {
         Intent registrationPage = new Intent(LogInActivity.this, RegistrationActivity.class);
-        registrationPage.putExtra(getString(R.string.TRIATHLON_CLUB), this.loadData.getClub());
+        registrationPage.putExtra(getString(R.string.TRIATHLON_CLUB), this.club);
         startActivity(registrationPage);
         finish();
     }

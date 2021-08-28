@@ -16,6 +16,7 @@
         <item name="android:ems">10</item>
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">?attr/colorOnPrimary</item>
+        <item name="android:textColorHint">#DDE6E6E6</item>
     </style>
 
     <style name="logoStyle" parent="Widget.MaterialComponents.TimePicker.ImageButton">

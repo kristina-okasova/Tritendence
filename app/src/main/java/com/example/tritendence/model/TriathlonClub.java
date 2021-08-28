@@ -1,5 +1,9 @@
 package com.example.tritendence.model;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
 import com.example.tritendence.model.groups.Group;
 import com.example.tritendence.model.users.Athlete;
 import com.example.tritendence.model.users.Member;
@@ -16,13 +20,7 @@ public class TriathlonClub implements Serializable {
     private ArrayList<AttendanceData> attendanceData;
     private int numberOfUsers, numberOfGroups, numberOfAthletes, numberOfTrainers, numberOfFilledAttendances;
 
-    public TriathlonClub(int numberOfAthletes, int numberOfTrainers, int numberOfGroups, int numberOfFilledAttendances) {
-        this.numberOfAthletes = numberOfAthletes;
-        this.numberOfTrainers = numberOfTrainers;
-        this.numberOfGroups = numberOfGroups;
-        this.numberOfFilledAttendances = numberOfFilledAttendances;
-        this.numberOfUsers = numberOfAthletes + numberOfTrainers;
-
+    public TriathlonClub() {
         this.membersOfClub = new ArrayList<>();
         this.groupsOfClub = new ArrayList<>();
         this.attendanceData = new ArrayList<>();
@@ -108,7 +106,6 @@ public class TriathlonClub implements Serializable {
 
     public ArrayList<Member> getAthletesSortedByAlphabet() {
         ArrayList<Member> sortedMembers = new ArrayList<>(this.membersOfClub);
-        System.out.println("not sorted " + sortedMembers);
         for (Member member : this.membersOfClub) {
             if (!(member instanceof Athlete))
                 sortedMembers.remove(member);
@@ -118,6 +115,7 @@ public class TriathlonClub implements Serializable {
         return sortedMembers;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public ArrayList<Member> getAthletesSortedByAge() {
         ArrayList<Member> sortedMembers = new ArrayList<>(this.membersOfClub);;
         for (Member member : this.membersOfClub) {
@@ -127,5 +125,29 @@ public class TriathlonClub implements Serializable {
 
         Collections.sort(sortedMembers, (member1, member2) -> ((Athlete) member1).getDate().compareTo(((Athlete) member2).getDate()));
         return sortedMembers;
+    }
+
+    public void increaseNumberOfGroups() {
+        this.numberOfGroups++;
+    }
+
+    public void setNumberOfGroups(int numberOfGroups) {
+        this.numberOfGroups = numberOfGroups;
+    }
+
+    public void setNumberOfAthletes(int numberOfAthletes) {
+        this.numberOfAthletes = numberOfAthletes;
+    }
+
+    public void setNumberOfTrainers(int numberOfTrainers) {
+        this.numberOfTrainers = numberOfTrainers;
+    }
+
+    public void setNumberOfFilledAttendances(int numberOfFilledAttendances) {
+        this.numberOfFilledAttendances = numberOfFilledAttendances;
+    }
+
+    public void setNumberOfUsers(int numberOfUsers) {
+        this.numberOfUsers = numberOfUsers;
     }
 }

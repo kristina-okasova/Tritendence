@@ -10,6 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DarkRed"
         android:windowSoftInputMode="adjustResize">
+        <activity android:name=".activities.AddGroupActivity" />
         <activity android:name=".activities.AthleteInformationActivity" />
         <activity android:name=".activities.GroupInformationActivity" />
         <activity android:name=".activities.AttendanceSheetActivity" />

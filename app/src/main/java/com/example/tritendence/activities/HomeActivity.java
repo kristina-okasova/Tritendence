@@ -14,14 +14,16 @@ import com.example.tritendence.fragments.AthletesFragment;
 import com.example.tritendence.fragments.AttendanceFragment;
 import com.example.tritendence.fragments.GroupsFragment;
 import com.example.tritendence.fragments.ProfileFragment;
+import com.example.tritendence.model.LoadData;
 import com.example.tritendence.model.TriathlonClub;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.io.Serializable;
 
-public class HomeActivity extends AppCompatActivity implements Serializable {
+public class HomeActivity extends AppCompatActivity {
     private AttendanceFragment attendanceFragment;
     private Fragment selectedFragment;
+    private TriathlonClub club;
 
     @SuppressLint("NonConstantResourceId")
     @Override
@@ -29,6 +31,7 @@ public class HomeActivity extends AppCompatActivity implements Serializable {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        this.club = (TriathlonClub) getIntent().getExtras().getSerializable("TRIATHLON_CLUB");
         this.attendanceFragment = new AttendanceFragment(this);
         int selectedItemID = getIntent().getExtras().getInt("SELECTED_FRAGMENT");
         switch (selectedItemID) {
@@ -80,26 +83,34 @@ public class HomeActivity extends AppCompatActivity implements Serializable {
 
 
     public void showGroupInformation(View view) {
-        TriathlonClub club = (TriathlonClub) getIntent().getExtras().getSerializable("TRIATHLON_CLUB");
         String signedUser = getIntent().getExtras().getString("SIGNED_USER");
         TextView nameOfGroup = view.findViewById(R.id.nameOfGroupInList);
         Intent groupInformationPage = new Intent(this, GroupInformationActivity.class);
         groupInformationPage.putExtra("GROUP_NAME", nameOfGroup.getText().toString());
-        groupInformationPage.putExtra("TRIATHLON_CLUB", club);
+        groupInformationPage.putExtra("TRIATHLON_CLUB", this.club);
         groupInformationPage.putExtra("SIGNED_USER", signedUser);
         startActivity(groupInformationPage);
         finish();
     }
 
     public void showAthleteInformation(View view) {
-        TriathlonClub club = (TriathlonClub) getIntent().getExtras().getSerializable("TRIATHLON_CLUB");
         String signedUser = getIntent().getExtras().getString("SIGNED_USER");
         TextView nameOfAthlete = view.findViewById(R.id.nameOfAthleteInList);
         Intent athleteInformationPage = new Intent(this, AthleteInformationActivity.class);
         athleteInformationPage.putExtra("ATHLETE_NAME", nameOfAthlete.getText().toString());
-        athleteInformationPage.putExtra("TRIATHLON_CLUB", club);
+        athleteInformationPage.putExtra("TRIATHLON_CLUB", this.club);
         athleteInformationPage.putExtra("SIGNED_USER", signedUser);
         startActivity(athleteInformationPage);
         finish();
     }
+
+    public void addGroup(View view) {
+        String signedUser = getIntent().getExtras().getString("SIGNED_USER");
+        Intent addGroupPage = new Intent(this, AddGroupActivity.class);
+        addGroupPage.putExtra("TRIATHLON_CLUB", this.club);
+        addGroupPage.putExtra("SIGNED_USER", signedUser);
+        startActivity(addGroupPage);
+        finish();
+    }
+
 }

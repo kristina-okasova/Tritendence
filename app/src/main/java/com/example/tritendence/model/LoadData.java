@@ -1,10 +1,15 @@
 package com.example.tritendence.model;
 
+import android.app.Activity;
 import android.os.Build;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.tritendence.activities.AddGroupActivity;
+import com.example.tritendence.activities.HomeActivity;
+import com.example.tritendence.activities.LogInActivity;
 import com.example.tritendence.model.groups.Group;
 import com.example.tritendence.model.users.Athlete;
 import com.example.tritendence.model.users.Member;
@@ -15,6 +20,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -47,12 +53,15 @@ public class LoadData {
     private static final String ATTENDANCE_TRAINER = "Trainer";
     private static final int NUMBER_OF_REQUIRED_DATA_FOR_ATTENDANCE = 4;
     private static final int NUMBER_OF_REQUIRED_DATA_FOR_TRAINER = 5;
+    private static final int NUMBER_OF_REQUIRED_DATA_FOR_GROUP = 3;
+    private static final int NUMBER_OF_REQUIRED_DATA_FOR_TRAINING_UNIT = 3;
 
     private TriathlonClub club;
-    private final DatabaseReference database;
+    private transient final DatabaseReference database;
     private int numberOfGroups, numberOfAthletes, numberOfTrainers, numberOfFilledAttendances;
 
     public LoadData() {
+        this.club = new TriathlonClub();
         this.database = FirebaseDatabase.getInstance().getReference();
         this.loadData();
     }
@@ -79,12 +88,19 @@ public class LoadData {
         this.numberOfAthletes = (int) snapshot.child(ATHLETES_CHILD_DATABASE).getChildrenCount();
         this.numberOfTrainers = (int) snapshot.child(TRAINERS_CHILD_DATABASE).getChildrenCount();
         this.numberOfFilledAttendances = (int) snapshot.child(ATTENDANCE_CHILD_DATABASE).getChildrenCount();
-        this.club = new TriathlonClub(numberOfAthletes, numberOfTrainers, numberOfGroups, numberOfFilledAttendances);
+
+        this.club.setNumberOfGroups(this.numberOfGroups);
+        this.club.setNumberOfAthletes(this.numberOfAthletes);
+        this.club.setNumberOfTrainers(this.numberOfTrainers);
+        this.club.setNumberOfFilledAttendances(this.numberOfFilledAttendances);
+        this.club.setNumberOfUsers(this.numberOfAthletes + this.numberOfTrainers);
     }
 
     private void loadGroupInformation(DataSnapshot snapshot) {
         for (int i = 1; i <= this.numberOfGroups; i++) {
             String groupID = String.valueOf(i);
+            if (snapshot.child(groupID).getChildrenCount() != NUMBER_OF_REQUIRED_DATA_FOR_GROUP)
+                continue;
             String nameOfGroup = Objects.requireNonNull(snapshot.child(groupID).child(NAME).getValue()).toString();
             String categoryOfGroup = Objects.requireNonNull(snapshot.child(groupID).child(GROUPS_CATEGORY).getValue()).toString();
 
@@ -108,6 +124,7 @@ public class LoadData {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void loadAthleteInformation(DataSnapshot snapshot) {
         for (int i = 1; i <= this.numberOfAthletes; i++) {
             String athleteID = String.valueOf(i);
@@ -172,6 +189,8 @@ public class LoadData {
 
     private void createTrainingUnit(DataSnapshot snapshot, Group group, String sport, int ID, String groupID) {
         String unitID = String.valueOf(ID);
+        if (snapshot.child(groupID).child(GROUPS_TIMETABLE).child(sport).child(unitID).getChildrenCount() != NUMBER_OF_REQUIRED_DATA_FOR_TRAINING_UNIT)
+            return;
         TrainingUnit unit = new TrainingUnit();
         String day = Objects.requireNonNull(snapshot.child(groupID).child(GROUPS_TIMETABLE).child(sport).child(unitID).child(UNIT_DAY).getValue()).toString();
         String location = Objects.requireNonNull(snapshot.child(groupID).child(GROUPS_TIMETABLE).child(sport).child(unitID).child(UNIT_LOCATION).getValue()).toString();

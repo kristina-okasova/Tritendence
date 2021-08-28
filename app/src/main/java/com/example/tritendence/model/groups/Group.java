@@ -66,4 +66,8 @@ public class Group implements Serializable {
     public int getNumberOfAthletes() {
         return this.athletesOfGroup.size();
     }
+
+    public void findAthletes() {
+
+    }
 }
