@@ -113,4 +113,13 @@ public class HomeActivity extends AppCompatActivity {
         finish();
     }
 
+    public void addAthlete(View view) {
+        String signedUser = getIntent().getExtras().getString("SIGNED_USER");
+        Intent addAthletePage = new Intent(this, AddAthleteActivity.class);
+        addAthletePage.putExtra("TRIATHLON_CLUB", this.club);
+        addAthletePage.putExtra("SIGNED_USER", signedUser);
+        startActivity(addAthletePage);
+        finish();
+    }
+
 }
