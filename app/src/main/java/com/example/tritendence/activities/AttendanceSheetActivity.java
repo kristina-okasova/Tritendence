@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewStub;
 
 import com.example.tritendence.R;
 import com.example.tritendence.fragments.AttendanceSheetFragment;
@@ -25,7 +24,7 @@ public class AttendanceSheetActivity extends AppCompatActivity {
         setContentView(R.layout.activity_attendance_sheet);
 
         BottomNavigationView navigation = findViewById(R.id.bottomNavigationView);
-        FragmentContainerView fragment = findViewById(R.id.attendanceSheetFragment);
+        FragmentContainerView fragment = findViewById(R.id.homeFragment);
         final View activityRootView = findViewById(R.id.attendanceSheetActivity);
         activityRootView.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
             int heightDiff = activityRootView.getRootView().getHeight() - activityRootView.getHeight() - 2*navigation.getHeight();
@@ -52,7 +51,7 @@ public class AttendanceSheetActivity extends AppCompatActivity {
         navigation.setOnNavigationItemSelectedListener(navigationListener);
         this.attendanceSheetFragment = new AttendanceSheetFragment();
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.attendanceSheetFragment, this.attendanceSheetFragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.homeFragment, this.attendanceSheetFragment).commit();
     }
 
     @SuppressLint("NonConstantResourceId")

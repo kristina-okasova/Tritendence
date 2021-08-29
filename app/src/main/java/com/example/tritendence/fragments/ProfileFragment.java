@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import com.example.tritendence.R;
 import com.example.tritendence.model.AttendanceData;
 import com.example.tritendence.model.TriathlonClub;
+import com.example.tritendence.model.users.Admin;
 import com.example.tritendence.model.users.Member;
 import com.example.tritendence.model.users.Trainer;
 
@@ -57,11 +58,14 @@ public class ProfileFragment extends Fragment {
         }
 
         for (Member member : this.club.getMembersOfClub()) {
-            if (member instanceof Trainer) {
+            if (member instanceof Trainer || member instanceof Admin) {
                 if (member.getFullName().equals(signedTrainer)) {
                     this.signedTrainerName.setText(member.getFullName());
                     this.signedTrainerEmail.setText(member.getEmail());
-                    this.numberOfTrainings.setText(String.valueOf(((Trainer) member).getNumberOfTrainings()));
+                    if (member instanceof Trainer)
+                        this.numberOfTrainings.setText(String.valueOf(((Trainer) member).getNumberOfTrainings()));
+                    if (member instanceof Admin)
+                        this.numberOfTrainings.setText(String.valueOf(((Admin) member).getNumberOfTrainings()));
 
                     String[] insertingData = {"trainingOfTrainer"};
                     int[] UIData = {R.id.trainersTrainingData};

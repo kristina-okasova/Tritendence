@@ -2,6 +2,7 @@ package com.example.tritendence.model;
 
 import android.app.Activity;
 import android.os.Build;
+import android.provider.ContactsContract;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -11,6 +12,7 @@ import com.example.tritendence.activities.AddGroupActivity;
 import com.example.tritendence.activities.HomeActivity;
 import com.example.tritendence.activities.LogInActivity;
 import com.example.tritendence.model.groups.Group;
+import com.example.tritendence.model.users.Admin;
 import com.example.tritendence.model.users.Athlete;
 import com.example.tritendence.model.users.Member;
 import com.example.tritendence.model.users.Trainer;
@@ -29,6 +31,7 @@ public class LoadData {
     private static final String ATHLETES_CHILD_DATABASE = "Athletes";
     private static final String TRAINERS_CHILD_DATABASE = "Trainers";
     private static final String ATTENDANCE_CHILD_DATABASE = "Attendance";
+    private static final String ADMINS_CHILD_DATABASE = "Admin";
 
     private static final String NAME = "Name";
     private static final String SURNAME = "Surname";
@@ -74,6 +77,7 @@ public class LoadData {
                 loadAmounts(snapshot);
                 loadAthleteInformation(snapshot.child(ATHLETES_CHILD_DATABASE));
                 loadTrainerInformation(snapshot.child(TRAINERS_CHILD_DATABASE));
+                loadAdminInformation(snapshot.child(ADMINS_CHILD_DATABASE));
                 loadGroupInformation(snapshot.child(GROUPS_CHILD_DATABASE));
                 loadAttendanceInformation(snapshot.child(ATTENDANCE_CHILD_DATABASE));
             }
@@ -155,6 +159,17 @@ public class LoadData {
             Trainer trainer = new Trainer(i, name, surname, eMail, sport, numberOfTrainings);
             this.club.addMember(trainer);
         }
+    }
+
+    private void loadAdminInformation(DataSnapshot snapshot) {
+        String name = Objects.requireNonNull(snapshot.child(NAME).getValue()).toString();
+        String surname = Objects.requireNonNull(snapshot.child(SURNAME).getValue()).toString();
+        String email = Objects.requireNonNull(snapshot.child(EMAIL).getValue()).toString();
+        int numberOfTrainings = Integer.parseInt(Objects.requireNonNull(snapshot.child(NUMBER_OF_TRAININGS).getValue()).toString());
+
+        Admin admin = new Admin(0, name, surname, email, numberOfTrainings);
+        this.club.setAdminOfClub(admin);
+        this.club.addMember(admin);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

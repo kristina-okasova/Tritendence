@@ -24,6 +24,7 @@ import com.example.tritendence.model.AdapterOfExpendableList;
 import com.example.tritendence.model.TrainingUnit;
 import com.example.tritendence.model.TriathlonClub;
 import com.example.tritendence.model.groups.Group;
+import com.example.tritendence.model.users.Admin;
 import com.example.tritendence.model.users.Member;
 import com.example.tritendence.model.users.Trainer;
 
@@ -72,9 +73,12 @@ public class AttendanceFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         this.club = (TriathlonClub) requireActivity().getIntent().getExtras().getSerializable("TRIATHLON_CLUB");
-        Trainer signedTrainer = this.findCurrentUser();
+        Member signedTrainer = this.findCurrentUser();
         this.initializeTimetable();
-        this.addGroups(Objects.requireNonNull(signedTrainer).getSportTranslation());
+        if (signedTrainer instanceof Trainer)
+            this.addGroups(Objects.requireNonNull((Trainer) signedTrainer).getSportTranslation());
+        else
+            this.addGroups(getString(R.string.EMPTY_STRING));
 
         this.currentWeek = view.findViewById(R.id.currentWeek);
         LocalDate date = LocalDate.now();
@@ -106,11 +110,11 @@ public class AttendanceFragment extends Fragment {
         });
     }
 
-    private Trainer findCurrentUser() {
+    private Member findCurrentUser() {
         String signedUserName = requireActivity().getIntent().getExtras().getString("SIGNED_USER");
         for (Member member : this.club.getMembersOfClub()) {
-            if (member instanceof Trainer && member.getFullName().equals(signedUserName))
-                return (Trainer) member;
+            if ((member instanceof Trainer || member instanceof Admin) && member.getFullName().equals(signedUserName))
+                return member;
         }
         return null;
     }

@@ -52,6 +52,7 @@ public class AddAthleteActivity extends AppCompatActivity {
     private void initializeGroupsOfClub() {
         ArrayList<Group> groupsOfClub = this.club.getGroupsOfClub();
         ArrayList<String> namesOfGroups = new ArrayList<>();
+        namesOfGroups.add("--nezaradený--");
         for (Group group : groupsOfClub)
             namesOfGroups.add(group.getID() + ": " + group.getName());
 
@@ -83,12 +84,14 @@ public class AddAthleteActivity extends AppCompatActivity {
         }
 
         int athleteID = this.club.getNumberOfAthletes() + 1;
-        String groupInformation = this.groupOfAthlete.getSelectedItem().toString();
+        String groupID = String.valueOf(this.groupOfAthlete.getSelectedItemPosition());
+        String dayOfBirth = this.dayOfBirthOfAthlete.getText().toString();
         root.child(ATHLETES_CHILD_DATABASE + "/" + athleteID + "/Name").setValue(this.nameOfAthlete.getText().toString());
         root.child(ATHLETES_CHILD_DATABASE + "/" + athleteID + "/Surname").setValue(this.surnameOfAthlete.getText().toString());
         root.child(ATHLETES_CHILD_DATABASE + "/" + athleteID + "/E-Mail").setValue(this.emailOfAthlete.getText().toString());
-        root.child(ATHLETES_CHILD_DATABASE + "/" + athleteID + "/GroupID").setValue(groupInformation.substring(0, groupInformation.indexOf(':')));
+        root.child(ATHLETES_CHILD_DATABASE + "/" + athleteID + "/GroupID").setValue(groupID);
         root.child(ATHLETES_CHILD_DATABASE + "/" + athleteID + "/NumberOfTrainings").setValue(0);
+        root.child(ATHLETES_CHILD_DATABASE + "/" + athleteID + "/DayOfBirth").setValue(dayOfBirth.substring(dayOfBirth.indexOf(':') + 2));
 
         String signedUser = getIntent().getExtras().getString("SIGNED_USER");
         Intent athletesPage = new Intent(this, HomeActivity.class);
@@ -103,9 +106,7 @@ public class AddAthleteActivity extends AppCompatActivity {
     public void displayDateSelection(View view) {
         DatePickerDialog.OnDateSetListener setListener = null;
 
-        setListener = (view1, year, month, dayOfMonth) -> {
-            this.dayOfBirthOfAthlete.setText(String.format("Dátum narodenia: %02d.%02d.%d", dayOfMonth, month, year));
-        };
+        setListener = (view1, year, month, dayOfMonth) -> this.dayOfBirthOfAthlete.setText(String.format("Dátum narodenia: %02d.%02d.%d", dayOfMonth, month, year));
 
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);

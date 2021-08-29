@@ -5,6 +5,7 @@ import android.os.Build;
 import androidx.annotation.RequiresApi;
 
 import com.example.tritendence.model.groups.Group;
+import com.example.tritendence.model.users.Admin;
 import com.example.tritendence.model.users.Athlete;
 import com.example.tritendence.model.users.Member;
 import com.example.tritendence.model.users.Trainer;
@@ -19,6 +20,7 @@ public class TriathlonClub implements Serializable {
     private ArrayList<Group> groupsOfClub;
     private ArrayList<AttendanceData> attendanceData;
     private int numberOfUsers, numberOfGroups, numberOfAthletes, numberOfTrainers, numberOfFilledAttendances;
+    private Admin adminOfClub;
 
     public TriathlonClub() {
         this.membersOfClub = new ArrayList<>();
@@ -149,5 +151,13 @@ public class TriathlonClub implements Serializable {
 
     public void setNumberOfUsers(int numberOfUsers) {
         this.numberOfUsers = numberOfUsers;
+    }
+
+    public void setAdminOfClub(Admin adminOfClub) {
+        this.adminOfClub = adminOfClub;
+    }
+
+    public Admin getAdminOfClub() {
+        return this.adminOfClub;
     }
 }

@@ -2,6 +2,9 @@ package com.example.tritendence.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentContainerView;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -14,16 +17,18 @@ import com.example.tritendence.fragments.AthletesFragment;
 import com.example.tritendence.fragments.AttendanceFragment;
 import com.example.tritendence.fragments.GroupsFragment;
 import com.example.tritendence.fragments.ProfileFragment;
-import com.example.tritendence.model.LoadData;
+import com.example.tritendence.fragments.TrainersFragment;
 import com.example.tritendence.model.TriathlonClub;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.io.Serializable;
+import java.util.zip.Inflater;
 
 public class HomeActivity extends AppCompatActivity {
+    private BottomNavigationView navigation;
     private AttendanceFragment attendanceFragment;
     private Fragment selectedFragment;
     private TriathlonClub club;
+    private String signedUser;
 
     @SuppressLint("NonConstantResourceId")
     @Override
@@ -32,6 +37,7 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         this.club = (TriathlonClub) getIntent().getExtras().getSerializable("TRIATHLON_CLUB");
+        this.signedUser = getIntent().getExtras().getString("SIGNED_USER");
         this.attendanceFragment = new AttendanceFragment(this);
         int selectedItemID = getIntent().getExtras().getInt("SELECTED_FRAGMENT");
         switch (selectedItemID) {
@@ -47,14 +53,29 @@ public class HomeActivity extends AppCompatActivity {
             case R.id.athletesFragment:
                 selectedFragment = new AthletesFragment();
                 break;
+            case R.id.trainersFragment:
+                selectedFragment = new TrainersFragment();
+                break;
             default:
                 selectedFragment = this.attendanceFragment;
         }
-        BottomNavigationView navigation = findViewById(R.id.bottomNavigationView);
-        navigation.setSelectedItemId(selectedItemID);
-        navigation.setOnNavigationItemSelectedListener(navigationListener);
+        this.navigation = findViewById(R.id.bottomNavigationView);
+        this.findTypeOfSignedUser();
+        this.navigation.setSelectedItemId(selectedItemID);
+        this.navigation.setOnNavigationItemSelectedListener(navigationListener);
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.attendanceSheetFragment, selectedFragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.homeFragment, selectedFragment).commit();
+    }
+
+    private void findTypeOfSignedUser() {
+        if (this.club.getAdminOfClub().getFullName().equals(signedUser)) {
+            System.out.println("admin");
+            this.navigation.getMenu().clear();
+            this.navigation.inflateMenu(R.menu.home_bottom_menu_admin);
+
+            //NavHostFragment finalHost = NavHostFragment.create(R.navigation.home_nav_admin);
+            //getSupportFragmentManager().beginTransaction().replace(R.id.home_nav, finalHost).setPrimaryNavigationFragment(finalHost).commit();
+        }
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -73,33 +94,34 @@ public class HomeActivity extends AppCompatActivity {
                     case R.id.athletesFragment:
                         selectedFragment = new AthletesFragment();
                         break;
+                    case R.id.trainersFragment:
+                        selectedFragment = new TrainersFragment();
+                        break;
                     default:
                         return false;
                 }
 
-                getSupportFragmentManager().beginTransaction().replace(R.id.attendanceSheetFragment, selectedFragment).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.homeFragment, selectedFragment).commit();
                 return true;
             };
 
 
     public void showGroupInformation(View view) {
-        String signedUser = getIntent().getExtras().getString("SIGNED_USER");
         TextView nameOfGroup = view.findViewById(R.id.nameOfGroupInList);
         Intent groupInformationPage = new Intent(this, GroupInformationActivity.class);
         groupInformationPage.putExtra("GROUP_NAME", nameOfGroup.getText().toString());
         groupInformationPage.putExtra("TRIATHLON_CLUB", this.club);
-        groupInformationPage.putExtra("SIGNED_USER", signedUser);
+        groupInformationPage.putExtra("SIGNED_USER", this.signedUser);
         startActivity(groupInformationPage);
         finish();
     }
 
     public void showAthleteInformation(View view) {
-        String signedUser = getIntent().getExtras().getString("SIGNED_USER");
         TextView nameOfAthlete = view.findViewById(R.id.nameOfAthleteInList);
         Intent athleteInformationPage = new Intent(this, AthleteInformationActivity.class);
         athleteInformationPage.putExtra("ATHLETE_NAME", nameOfAthlete.getText().toString());
         athleteInformationPage.putExtra("TRIATHLON_CLUB", this.club);
-        athleteInformationPage.putExtra("SIGNED_USER", signedUser);
+        athleteInformationPage.putExtra("SIGNED_USER", this.signedUser);
         startActivity(athleteInformationPage);
         finish();
     }
@@ -121,5 +143,4 @@ public class HomeActivity extends AppCompatActivity {
         startActivity(addAthletePage);
         finish();
     }
-
 }

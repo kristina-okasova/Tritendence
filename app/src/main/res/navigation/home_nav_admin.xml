@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/home_nav"
+    android:id="@+id/home_nav_admin"
     app:startDestination="@id/attendanceFragment">
 
     <fragment
@@ -22,8 +22,13 @@
         tools:layout="@layout/fragment_profile" />
     <fragment
         android:id="@+id/athletesFragment"
+        android:name="com.example.tritendence.fragments.AthletesFragment"
+        android:label="fragment_athletes"
+        tools:layout="@layout/fragment_athletes" />
+    <fragment
+        android:id="@+id/trainersFragment"
         android:name="com.example.tritendence.fragments.TrainersFragment"
         android:label="fragment_trainers"
-        tools:layout="@layout/fragment_athletes" />
+        tools:layout="@layout/fragment_trainers" />
 
 </navigation>

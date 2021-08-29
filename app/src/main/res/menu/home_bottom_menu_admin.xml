@@ -19,6 +19,5 @@
     <item
         android:id="@+id/trainersFragment"
         android:title="@string/TRAINERS"
-        android:icon="@drawable/trainers_icon"
-        android:visible="false"/>
+        android:icon="@drawable/trainers_icon" />
 </menu>

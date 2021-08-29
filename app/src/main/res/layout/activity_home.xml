@@ -17,7 +17,7 @@
         app:menu="@menu/home_bottom_menu" />
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/attendanceSheetFragment"
+        android:id="@+id/homeFragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
         style="@style/fragmentStyle"
         android:layout_marginBottom="60dp"
