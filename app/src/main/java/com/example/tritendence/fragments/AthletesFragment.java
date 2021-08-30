@@ -1,10 +1,12 @@
 package com.example.tritendence.fragments;
 
 import android.annotation.SuppressLint;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -65,6 +67,7 @@ public class AthletesFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -100,6 +103,7 @@ public class AthletesFragment extends Fragment {
         this.displayAthletes();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void getAgeSortingOfAthletes() {
         this.dataForListOfAthletes = new ArrayList<>();
         ArrayList<Member> athletesNames = this.club.getAthletesSortedByAge();

@@ -39,6 +39,9 @@ public class HomeActivity extends AppCompatActivity {
         this.club = (TriathlonClub) getIntent().getExtras().getSerializable("TRIATHLON_CLUB");
         this.signedUser = getIntent().getExtras().getString("SIGNED_USER");
         this.attendanceFragment = new AttendanceFragment(this);
+
+        this.navigation = findViewById(R.id.bottomNavigationView);
+        this.findTypeOfSignedUser();
         int selectedItemID = getIntent().getExtras().getInt("SELECTED_FRAGMENT");
         switch (selectedItemID) {
             case R.id.attendanceFragment:
@@ -59,8 +62,6 @@ public class HomeActivity extends AppCompatActivity {
             default:
                 selectedFragment = this.attendanceFragment;
         }
-        this.navigation = findViewById(R.id.bottomNavigationView);
-        this.findTypeOfSignedUser();
         this.navigation.setSelectedItemId(selectedItemID);
         this.navigation.setOnNavigationItemSelectedListener(navigationListener);
 
@@ -69,12 +70,8 @@ public class HomeActivity extends AppCompatActivity {
 
     private void findTypeOfSignedUser() {
         if (this.club.getAdminOfClub().getFullName().equals(signedUser)) {
-            System.out.println("admin");
             this.navigation.getMenu().clear();
             this.navigation.inflateMenu(R.menu.home_bottom_menu_admin);
-
-            //NavHostFragment finalHost = NavHostFragment.create(R.navigation.home_nav_admin);
-            //getSupportFragmentManager().beginTransaction().replace(R.id.home_nav, finalHost).setPrimaryNavigationFragment(finalHost).commit();
         }
     }
 
@@ -123,6 +120,16 @@ public class HomeActivity extends AppCompatActivity {
         athleteInformationPage.putExtra("TRIATHLON_CLUB", this.club);
         athleteInformationPage.putExtra("SIGNED_USER", this.signedUser);
         startActivity(athleteInformationPage);
+        finish();
+    }
+
+    public void showTrainerInformation(View view) {
+        TextView nameOfTrainer = view.findViewById(R.id.nameOfTrainerInList);
+        Intent trainerInformationPage = new Intent(this, TrainerInformationActivity.class);
+        trainerInformationPage.putExtra("TRAINER_NAME", nameOfTrainer.getText().toString());
+        trainerInformationPage.putExtra("TRIATHLON_CLUB", this.club);
+        trainerInformationPage.putExtra("SIGNED_USER", this.signedUser);
+        startActivity(trainerInformationPage);
         finish();
     }
 

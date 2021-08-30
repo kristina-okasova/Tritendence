@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.AthleteInformationActivity">
+    tools:context=".activities.TrainerInformationActivity">
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/athleteFragmentContainerView"
+        android:id="@+id/trainerFragmentContainerView"
         android:name="androidx.navigation.fragment.NavHostFragment"
         style="@style/fragmentStyle"
         android:layout_marginBottom="60dp"
@@ -15,7 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:navGraph="@navigation/home_nav" />
+        app:navGraph="@navigation/home_nav_admin" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
@@ -25,7 +25,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:itemIconTint="@drawable/bottom_nav_icon_color_selector"
         app:itemTextColor="@drawable/bottom_nav_icon_color_selector"
-        app:menu="@menu/home_bottom_menu">
+        app:menu="@menu/home_bottom_menu_admin">
 
     </com.google.android.material.bottomnavigation.BottomNavigationView>
 </androidx.constraintlayout.widget.ConstraintLayout>

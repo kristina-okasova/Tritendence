@@ -10,7 +10,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DarkRed"
         android:windowSoftInputMode="adjustResize">
-        <activity android:name=".activities.AddAthleteActivity"></activity>
+        <activity android:name=".activities.TrainerInformationActivity"></activity>
+        <activity android:name=".activities.AddAthleteActivity" />
         <activity android:name=".activities.AddGroupActivity" />
         <activity android:name=".activities.AthleteInformationActivity" />
         <activity android:name=".activities.GroupInformationActivity" />

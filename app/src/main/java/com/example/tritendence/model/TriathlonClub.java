@@ -160,4 +160,27 @@ public class TriathlonClub implements Serializable {
     public Admin getAdminOfClub() {
         return this.adminOfClub;
     }
+
+    public ArrayList<Member> getTrainersSortedByAlphabet() {
+        ArrayList<Member> sortedMembers = new ArrayList<>(this.membersOfClub);
+        for (Member member : this.membersOfClub) {
+            if (!(member instanceof Trainer))
+                sortedMembers.remove(member);
+        }
+
+        Collections.sort(sortedMembers, (member1, member2) -> member1.getSurname().compareTo(member2.getSurname()));
+        return sortedMembers;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public ArrayList<Member> getTrainersSortedByAge() {
+        ArrayList<Member> sortedMembers = new ArrayList<>(this.membersOfClub);;
+        for (Member member : this.membersOfClub) {
+            if (!(member instanceof Trainer))
+                sortedMembers.remove(member);
+        }
+
+        Collections.sort(sortedMembers, (member1, member2) -> ((Athlete) member1).getDate().compareTo(((Athlete) member2).getDate()));
+        return sortedMembers;
+    }
 }
