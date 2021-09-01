@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:context=".fragments.FilledAttendanceSheetFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/filledAttendanceSheetLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/filledAttendanceTrainingData">
+
+            <TextView
+                android:id="@+id/textView8"
+                style="@style/informationHeadingStyle"
+                android:text="@string/GROUP_NAME"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/filledAttendanceGroupName"
+                style="@style/informationInputStyle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textView8"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView19"
+                style="@style/informationHeadingStyle"
+                android:text="@string/TRAINER"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView8" />
+
+            <TextView
+                android:id="@+id/filledAttendanceTrainer"
+                style="@style/informationInputStyle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textView19"
+                app:layout_constraintTop_toBottomOf="@+id/filledAttendanceGroupName" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/filledAttendanceTrainingData"
+            style="@style/headingStyle"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.example.tritendence.model.ListScrollable
+            android:id="@+id/filledAttendanceSheet"
+            style="@style/listStyle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout3" />
+
+        <Button
+            android:id="@+id/filledAttendanceEditBtn"
+            style="@style/buttonStyle"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="20dp"
+            android:onClick="editAttendanceSheet"
+            android:text="@string/EDIT_ATTENDANCE"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/filledAttendanceNote" />
+
+        <AutoCompleteTextView
+            android:id="@+id/filledAttendanceNote"
+            style="@style/textViewBasicStyle"
+            android:layout_marginTop="30dp"
+            android:hint="@string/NOTE"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/filledAttendanceSheet" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

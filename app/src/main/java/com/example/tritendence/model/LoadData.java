@@ -176,13 +176,14 @@ public class LoadData {
     private void loadAttendanceInformation(DataSnapshot snapshot) {
         for (int i = 1; i <= this.numberOfFilledAttendances; i++) {
             String attendanceID = String.valueOf(i);
+            String trainerID = ATTENDANCE_TRAINER + "1";
             int numberOfInsertedData = (int) snapshot.child(attendanceID).getChildrenCount();
-            if (numberOfInsertedData != NUMBER_OF_REQUIRED_DATA_FOR_ATTENDANCE)
+            if (numberOfInsertedData < NUMBER_OF_REQUIRED_DATA_FOR_ATTENDANCE)
                 continue;
 
             String date =Objects.requireNonNull(snapshot.child(attendanceID).child(ATTENDANCE_DATE).getValue()).toString();
             String sport = Objects.requireNonNull(snapshot.child(attendanceID).child(SPORT).getValue()).toString();
-            String nameOfTrainer = Objects.requireNonNull(snapshot.child(attendanceID).child(ATTENDANCE_TRAINER).getValue()).toString();
+            String nameOfTrainer = Objects.requireNonNull(snapshot.child(attendanceID).child(trainerID).getValue()).toString();
 
             ArrayList<Athlete> attendedAthletes = new ArrayList<>();
             int numberOfAttendedAthletes = (int) snapshot.child(attendanceID).child(ATHLETES_CHILD_DATABASE).getChildrenCount();
@@ -198,6 +199,15 @@ public class LoadData {
             int groupID = Integer.parseInt(String.valueOf(date.charAt(date.length() - 1)));
             Group group = this.findGroup(groupID);
             AttendanceData data = new AttendanceData(group, sport, trainer, attendedAthletes, date);
+
+            int numberOfExtraTrainers = ((int) snapshot.child(attendanceID).getChildrenCount()) - NUMBER_OF_REQUIRED_DATA_FOR_ATTENDANCE;
+            for (int j = 0; j < numberOfExtraTrainers; j++) {
+                trainerID = ATTENDANCE_TRAINER + String.valueOf(j + 2);
+                nameOfTrainer = Objects.requireNonNull(snapshot.child(attendanceID).child(trainerID).getValue()).toString();
+                trainer = (Trainer) this.findMember(nameOfTrainer);
+                data.addTrainer(trainer);
+            }
+
             this.club.addAttendanceData(data);
         }
     }

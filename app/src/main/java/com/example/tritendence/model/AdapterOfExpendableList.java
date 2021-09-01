@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,16 +15,24 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 
 import com.example.tritendence.R;
 import com.example.tritendence.activities.AttendanceSheetActivity;
+import com.example.tritendence.activities.FilledAttendanceSheetActivity;
 import com.example.tritendence.model.groups.Group;
+import com.example.tritendence.model.users.Athlete;
+import com.example.tritendence.model.users.Trainer;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -81,22 +90,35 @@ public class AdapterOfExpendableList extends BaseExpandableListAdapter {
         return true;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @SuppressLint("InflateParams")
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         String day = this.daysOfTheWeek.get(groupPosition);
+
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.day_of_the_week, null);
         }
 
+        LocalDate date = LocalDate.now();
+        LocalDate monday;
+        if (!date.getDayOfWeek().toString().equals(this.context.getString(R.string.MONDAY_DATE)))
+            monday = date.with(TemporalAdjusters.previous(DayOfWeek.MONDAY));
+        else
+            monday = date;
+
+        date = monday.plusDays(groupPosition);
+
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         TextView dayName = convertView.findViewById(R.id.dayName);
         dayName.setTypeface(null, Typeface.BOLD);
-        dayName.setText(day);
+        dayName.setText(String.format("%s :  %s", date.format(format), day));
 
         return convertView;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @SuppressLint("InflateParams")
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
@@ -107,17 +129,34 @@ public class AdapterOfExpendableList extends BaseExpandableListAdapter {
             convertView = inflater.inflate(R.layout.data_in_expandable_list_view, null);
         }
 
+        LocalDate date = LocalDate.now();
+        LocalDate monday;
+        if (!date.getDayOfWeek().toString().equals(this.context.getString(R.string.MONDAY_DATE)))
+            monday = date.with(TemporalAdjusters.previous(DayOfWeek.MONDAY));
+        else
+            monday = date;
+
+        date = monday.plusDays(groupPosition);
         TextView groupName = convertView.findViewById(R.id.data);
         groupName.setText(group);
 
         String trainingTime = group.substring(0, group.indexOf(" "));
         String selectedGroupName = group.substring(group.indexOf(" ", group.indexOf(" ") + 1) + 1);
-        this.findGroupInfo(selectedGroupName, trainingTime, groupName);
+        this.findGroupInfo(selectedGroupName, trainingTime, groupName, date);
 
         return convertView;
     }
 
-    private void findGroupInfo(String groupName, String time, TextView groupView) {
+    private AttendanceData checkFilledAttendance(TrainingUnit unit, LocalDate date) {
+        for (AttendanceData attendanceData : this.club.getAttendanceData()) {
+            if (attendanceData.getSport().equals(unit.getSportTranslation()) && attendanceData.getTime().equals(unit.getTime()) && attendanceData.getDate().equals(date.toString()))
+                return attendanceData;
+        }
+        return null;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void findGroupInfo(String groupName, String time, TextView groupView, LocalDate date) {
         String signedUser = this.context.getIntent().getExtras().getString("SIGNED_USER");
 
         for (Group group : this.club.getGroupsOfClub()) {
@@ -126,48 +165,30 @@ public class AdapterOfExpendableList extends BaseExpandableListAdapter {
                     if (unit.getTime().equals(time))
                         selectedUnit = unit;
                 }
+
                 groupView.setOnClickListener(v -> {
-                    Intent attendanceSheetPage = new Intent(context, AttendanceSheetActivity.class);
-                    attendanceSheetPage.putExtra("GROUP", group);
-                    attendanceSheetPage.putExtra("SIGNED_USER", signedUser);
-                    attendanceSheetPage.putExtra("TRIATHLON_CLUB", club);
-                    attendanceSheetPage.putExtra("TRAINING_UNIT", selectedUnit);
-                    context.startActivity(attendanceSheetPage);
-                    context.finish();
+                    AttendanceData attendanceData = this.checkFilledAttendance(selectedUnit, date);
+                    if (attendanceData != null) {
+                        Intent filledAttendanceSheetPage = new Intent(context, FilledAttendanceSheetActivity.class);
+                        filledAttendanceSheetPage.putExtra("SIGNED_USER", signedUser);
+                        filledAttendanceSheetPage.putExtra("TRIATHLON_CLUB", club);
+                        filledAttendanceSheetPage.putExtra("ATTENDANCE_DATA", attendanceData);
+                        context.startActivity(filledAttendanceSheetPage);
+                        context.finish();
+                    }
+                    else {
+                        Intent attendanceSheetPage = new Intent(context, AttendanceSheetActivity.class);
+                        attendanceSheetPage.putExtra("GROUP", group);
+                        attendanceSheetPage.putExtra("SIGNED_USER", signedUser);
+                        attendanceSheetPage.putExtra("TRIATHLON_CLUB", club);
+                        attendanceSheetPage.putExtra("TRAINING_UNIT", selectedUnit);
+                        attendanceSheetPage.putExtra("DATE", date);
+                        context.startActivity(attendanceSheetPage);
+                        context.finish();
+                    }
                 });
             }
         }
-        /*DatabaseReference database = FirebaseDatabase.getInstance().getReference().child(GROUPS_CHILD_DATABASE);
-
-        database.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                int numberOfGroups = (int) snapshot.getChildrenCount();
-
-                for (int i = 1; i <= numberOfGroups; i++) {
-                    String groupID = String.valueOf(i);
-                    String groupName = (String) snapshot.child(groupID).child("Name").getValue();
-
-                    if (group.equals(groupName)) {
-                        groupView.setOnClickListener(v -> {
-                            System.out.println("on click");
-                            Intent attendanceSheetPage = new Intent(context, AttendanceSheetActivity.class);
-                            attendanceSheetPage.putExtra("GROUP_ID", groupID);
-                            attendanceSheetPage.putExtra("GROUP_NAME", groupName);
-                            attendanceSheetPage.putExtra("TRAINING_TIME", time);
-                            attendanceSheetPage.putExtra("SPORT_TYPE", sport);
-                            attendanceSheetPage.putExtra("SIGNED_USER", trainersName);
-                            attendanceSheetPage.putExtra("TRIATHLON_CLUB", club);
-                            context.startActivity(attendanceSheetPage);
-                            context.finish();
-                        });
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {}
-        });*/
     }
 
     @Override

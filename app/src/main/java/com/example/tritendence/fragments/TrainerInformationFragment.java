@@ -52,7 +52,7 @@ public class TrainerInformationFragment extends Fragment {
 
         ArrayList<HashMap<String, Object>> dataForListOfTrainings = new ArrayList<>();
         for (AttendanceData attendanceData : this.club.getAttendanceData()) {
-            if (attendanceData.getTrainer().getFullName().equals(this.selectedTrainer)) {
+            if (attendanceData.getTrainer(0).getFullName().equals(this.selectedTrainer)) {
                 HashMap<String, Object> mappedData = new HashMap<>();
 
                 mappedData.put("trainingData", attendanceData.getDate() + " " + attendanceData.getTime() + "\n" + attendanceData.getSport());

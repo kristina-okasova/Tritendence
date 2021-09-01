@@ -51,7 +51,7 @@ public class ProfileFragment extends Fragment {
 
         for (AttendanceData attendance : this.club.getAttendanceData()) {
             HashMap<String, Object> mappedData = new HashMap<>();
-            if (attendance.getTrainer().getFullName().equals(signedTrainer))
+            if (attendance.getTrainer(0).getFullName().equals(signedTrainer))
                 mappedData.put("trainingOfTrainer", attendance.getDate() + " " + attendance.getTime() + "\n" + attendance.getGroup().getName());
 
             dataForListOfTrainings.add(mappedData);

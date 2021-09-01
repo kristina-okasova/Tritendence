@@ -1,10 +1,12 @@
 package com.example.tritendence.fragments;
 
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
@@ -16,6 +18,7 @@ import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -23,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.tritendence.R;
+import com.example.tritendence.model.AttendanceData;
 import com.example.tritendence.model.TrainingUnit;
 import com.example.tritendence.model.TriathlonClub;
 import com.example.tritendence.model.groups.Group;
@@ -32,6 +36,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.DecimalFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -45,11 +50,13 @@ public class AttendanceSheetFragment extends Fragment {
     private TriathlonClub club;
     private Group group;
     private TrainingUnit unit;
-    private Spinner trainersName;
+    private Spinner firstTrainersName, secondTrainersName, thirdTrainersName;
+    private ConstraintLayout secondTrainerLayout, thirdTrainerLayout;
     private String currentTrainersName;
-    private SpannableStringBuilder noteText;
-    private TextView note;
-    private View inflated;
+    private String noteText;
+    private AutoCompleteTextView note;
+    private LocalDate date;
+    private ArrayList<String> trainersNames;
 
     public AttendanceSheetFragment() {}
 
@@ -58,13 +65,16 @@ public class AttendanceSheetFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         this.club = (TriathlonClub) requireActivity().getIntent().getExtras().getSerializable("TRIATHLON_CLUB");
         this.group = (Group) requireActivity().getIntent().getExtras().getSerializable("GROUP");
         this.unit = (TrainingUnit) requireActivity().getIntent().getExtras().getSerializable("TRAINING_UNIT");
         this.currentTrainersName = requireActivity().getIntent().getExtras().getString("SIGNED_USER");
+        this.date = (LocalDate) requireActivity().getIntent().getExtras().getSerializable("DATE");
         this.note = view.findViewById(R.id.attendanceNote);
         ArrayList<String> membersOfGroup = this.group.getNamesOfAthletesOfGroup();
 
@@ -74,8 +84,12 @@ public class AttendanceSheetFragment extends Fragment {
         TextView nameOfGroup = view.findViewById(R.id.attendanceGroupName);
         nameOfGroup.setText(this.group.getName());
 
-        this.trainersName = view.findViewById(R.id.firstTrainersName);
-        this.addTrainersNames(this.trainersName);
+        this.firstTrainersName = view.findViewById(R.id.firstTrainersName);
+        this.secondTrainersName = view.findViewById(R.id.secondTrainersName);
+        this.secondTrainerLayout = view.findViewById(R.id.secondTrainerSelection);
+        this.thirdTrainersName = view.findViewById(R.id.thirdTrainersName);
+        this.thirdTrainerLayout = view.findViewById(R.id.thirdTrainerSelection);
+        this.addTrainersNames(this.firstTrainersName);
 
         this.attendanceSheet = view.findViewById(R.id.attendanceSheet);
         ArrayAdapter<String> adapterListView = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_multiple_choice, membersOfGroup);
@@ -85,9 +99,9 @@ public class AttendanceSheetFragment extends Fragment {
         confirmation.setOnClickListener(v -> {
             ArrayList<String> athletesNames = new ArrayList<>();
 
-            for (int i = 0; i < attendanceSheet.getCount(); i++) {
-                if (attendanceSheet.isItemChecked(i)) {
-                    String name = attendanceSheet.getItemAtPosition(i).toString();
+            for (int i = 0; i < this.attendanceSheet.getCount(); i++) {
+                if (this.attendanceSheet.isItemChecked(i)) {
+                    String name = this.attendanceSheet.getItemAtPosition(i).toString();
                     athletesNames.add(name);
                 }
             }
@@ -97,6 +111,7 @@ public class AttendanceSheetFragment extends Fragment {
         });
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void findAthletesByName(ArrayList<String> athletesNames) {
         ArrayList<Athlete> requestedAthletes = new ArrayList<>();
         for (Member athlete : this.club.getMembersOfClub()) {
@@ -109,20 +124,20 @@ public class AttendanceSheetFragment extends Fragment {
         saveAttendance(requestedAthletes, this.club.getNumberOfFilledAttendances());
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void saveAttendance(ArrayList<Athlete> athletes, int numberOfFilledAttendance) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference root = database.getReference();
-
-        Calendar calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH) + 1;
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        this.trainersNames = new ArrayList<>();
 
         DecimalFormat dateFormat= new DecimalFormat("00");
-        String date = String.valueOf(year) + String.valueOf(dateFormat.format(Double.valueOf(month))) + String.valueOf(dateFormat.format(Double.valueOf(day)));
-        date += "_" + this.unit.getTime() + "_" + this.group.getID();
-        this.noteText = (SpannableStringBuilder) this.note.getText();
-        this.currentTrainersName = ((TextView) this.trainersName.getSelectedItem()).getText().toString();
+        this.noteText = this.note.getText().toString();
+        this.trainersNames.add((String) this.firstTrainersName.getSelectedItem());
+
+        if (this.secondTrainerLayout.getVisibility() == View.VISIBLE)
+            this.trainersNames.add((String) this.secondTrainersName.getSelectedItem());
+        if (this.thirdTrainerLayout.getVisibility() == View.VISIBLE)
+            this.trainersNames.add((String) this.thirdTrainersName.getSelectedItem());
 
         Map<String, String> attendanceData = new HashMap<>();
         int number = 1;
@@ -130,18 +145,21 @@ public class AttendanceSheetFragment extends Fragment {
             attendanceData.put(String.valueOf(number), athlete.getFullName());
             number++;
         }
+        String dateInformation = String.valueOf(this.date.getYear()) + String.valueOf(dateFormat.format(this.date.getMonthValue())) + String.valueOf(dateFormat.format(this.date.getDayOfMonth())) + "_" + this.unit.getTime() + "_" + this.group.getID();
 
         numberOfFilledAttendance++;
-        root.child(ATTENDANCE_CHILD_DATABASE + "/" + numberOfFilledAttendance + "/" + "/Date").setValue(date);
-        root.child(ATTENDANCE_CHILD_DATABASE + "/" + numberOfFilledAttendance + "/" + "/Sport").setValue(this.unit.getSport());
-        root.child(ATTENDANCE_CHILD_DATABASE + "/" + numberOfFilledAttendance + "/" + "/Trainer").setValue(this.currentTrainersName);
-        root.child(ATTENDANCE_CHILD_DATABASE + "/" + numberOfFilledAttendance + "/" + "/Athletes").setValue(attendanceData);
-        root.child(ATTENDANCE_CHILD_DATABASE + "/" + numberOfFilledAttendance + "/" + "/GroupsName").setValue(this.group.getName());
-        if (noteText != null)
-            root.child(ATTENDANCE_CHILD_DATABASE + "/" + numberOfFilledAttendance + "/" + "/Note").setValue(this.noteText);
+        root.child(ATTENDANCE_CHILD_DATABASE + "/" + numberOfFilledAttendance + "/Date").setValue(dateInformation);
+        root.child(ATTENDANCE_CHILD_DATABASE + "/" + numberOfFilledAttendance + "/Sport").setValue(this.unit.getSportTranslation());
+        root.child(ATTENDANCE_CHILD_DATABASE + "/" + numberOfFilledAttendance + "/Athletes").setValue(attendanceData);
+        if (noteText.length() != 0)
+            root.child(ATTENDANCE_CHILD_DATABASE + "/" + numberOfFilledAttendance + "/Note").setValue(this.noteText);
+        for (int i = 0; i < this.trainersNames.size(); i++) {
+            String trainerID = "Trainer" + String.valueOf(i+1);
+            root.child(ATTENDANCE_CHILD_DATABASE + "/" + numberOfFilledAttendance + "/" + trainerID).setValue(this.trainersNames.get(i));
+        }
     }
 
-    public Spinner addTrainersNames(Spinner trainersNameSpinner) {
+    public void addTrainersNames(Spinner trainersNameSpinner) {
         ArrayList<String> namesOfTrainers = new ArrayList<>();
         namesOfTrainers.add(this.currentTrainersName);
         namesOfTrainers = this.club.getNamesOfTrainers(namesOfTrainers);
@@ -160,8 +178,6 @@ public class AttendanceSheetFragment extends Fragment {
             @Override
             public void onNothingSelected(AdapterView<?> parent) { }
         });
-
-        return trainersNameSpinner;
     }
 
     @Override
