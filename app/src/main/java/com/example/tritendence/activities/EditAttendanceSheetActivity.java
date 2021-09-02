@@ -2,7 +2,6 @@ package com.example.tritendence.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.FragmentContainerView;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -12,7 +11,6 @@ import android.widget.Toast;
 
 import com.example.tritendence.R;
 import com.example.tritendence.fragments.EditAttendanceSheetFragment;
-import com.example.tritendence.fragments.FilledAttendanceSheetFragment;
 import com.example.tritendence.model.TriathlonClub;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 

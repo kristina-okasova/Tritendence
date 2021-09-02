@@ -13,12 +13,11 @@ import com.example.tritendence.model.users.Trainer;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 
 public class TriathlonClub implements Serializable {
-    private ArrayList<Member> membersOfClub;
-    private ArrayList<Group> groupsOfClub;
-    private ArrayList<AttendanceData> attendanceData;
+    private final ArrayList<Member> membersOfClub;
+    private final ArrayList<Group> groupsOfClub;
+    private final ArrayList<AttendanceData> attendanceData;
     private int numberOfUsers, numberOfGroups, numberOfAthletes, numberOfTrainers, numberOfFilledAttendances;
     private Admin adminOfClub;
 
@@ -94,18 +93,6 @@ public class TriathlonClub implements Serializable {
         return this.numberOfAthletes;
     }
 
-    public Athlete getAthleteAtIndex(int i) {
-        int index = 0;
-        for (Member athlete : this.membersOfClub) {
-            if (athlete instanceof Athlete) {
-                if (index == i)
-                    return (Athlete) athlete;
-                index++;
-            }
-        }
-        return null;
-    }
-
     public ArrayList<Member> getAthletesSortedByAlphabet() {
         ArrayList<Member> sortedMembers = new ArrayList<>(this.membersOfClub);
         for (Member member : this.membersOfClub) {
@@ -119,7 +106,7 @@ public class TriathlonClub implements Serializable {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public ArrayList<Member> getAthletesSortedByAge() {
-        ArrayList<Member> sortedMembers = new ArrayList<>(this.membersOfClub);;
+        ArrayList<Member> sortedMembers = new ArrayList<>(this.membersOfClub);
         for (Member member : this.membersOfClub) {
             if (!(member instanceof Athlete))
                 sortedMembers.remove(member);
@@ -174,7 +161,7 @@ public class TriathlonClub implements Serializable {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public ArrayList<Member> getTrainersSortedByAge() {
-        ArrayList<Member> sortedMembers = new ArrayList<>(this.membersOfClub);;
+        ArrayList<Member> sortedMembers = new ArrayList<>(this.membersOfClub);
         for (Member member : this.membersOfClub) {
             if (!(member instanceof Trainer))
                 sortedMembers.remove(member);

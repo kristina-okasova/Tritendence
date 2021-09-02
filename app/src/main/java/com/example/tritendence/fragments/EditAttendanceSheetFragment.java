@@ -46,9 +46,6 @@ public class EditAttendanceSheetFragment extends Fragment {
     private Spinner firstTrainersName, secondTrainersName, thirdTrainersName;
     private ListScrollable attendanceSheet;
     private AutoCompleteTextView note;
-    private SpannableStringBuilder noteText;
-    private String currentTrainersName;
-    private ArrayList<String> trainersNames;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -164,16 +161,16 @@ public class EditAttendanceSheetFragment extends Fragment {
     public void saveEditAttendance(ArrayList<Athlete> athletes, int numberOfFilledAttendance) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference root = database.getReference();
-        this.trainersNames = new ArrayList<>();
+        ArrayList<String> trainersNames = new ArrayList<>();
 
         DecimalFormat dateFormat= new DecimalFormat("00");
-        this.noteText = (SpannableStringBuilder) this.note.getText();
-        this.trainersNames.add((String) this.firstTrainersName.getSelectedItem());
+        SpannableStringBuilder noteText = (SpannableStringBuilder) this.note.getText();
+        trainersNames.add((String) this.firstTrainersName.getSelectedItem());
 
         if (this.secondTrainerLayout.getVisibility() == View.VISIBLE)
-            this.trainersNames.add((String) this.secondTrainersName.getSelectedItem());
+            trainersNames.add((String) this.secondTrainersName.getSelectedItem());
         if (this.thirdTrainerLayout.getVisibility() == View.VISIBLE)
-            this.trainersNames.add((String) this.thirdTrainersName.getSelectedItem());
+            trainersNames.add((String) this.thirdTrainersName.getSelectedItem());
 
         Map<String, String> attendanceData = new HashMap<>();
         int number = 1;
@@ -188,10 +185,10 @@ public class EditAttendanceSheetFragment extends Fragment {
         root.child(ATTENDANCE_CHILD_DATABASE + "/" + numberOfFilledAttendance + "/" + "/Sport").setValue(this.selectedAttendanceData.getSport());
         root.child(ATTENDANCE_CHILD_DATABASE + "/" + numberOfFilledAttendance + "/" + "/Athletes").setValue(attendanceData);
         if (noteText.length() != 0)
-            root.child(ATTENDANCE_CHILD_DATABASE + "/" + numberOfFilledAttendance + "/" + "/Note").setValue(this.noteText);
-        for (int i = 0; i < this.trainersNames.size(); i++) {
+            root.child(ATTENDANCE_CHILD_DATABASE + "/" + numberOfFilledAttendance + "/" + "/Note").setValue(noteText);
+        for (int i = 0; i < trainersNames.size(); i++) {
             String trainerID = "Trainer" + String.valueOf(i+1);
-            root.child(ATTENDANCE_CHILD_DATABASE + "/" + numberOfFilledAttendance + "/" + "/" + trainerID).setValue(this.trainersNames.get(i));
+            root.child(ATTENDANCE_CHILD_DATABASE + "/" + numberOfFilledAttendance + "/" + "/" + trainerID).setValue(trainersNames.get(i));
         }
     }
 

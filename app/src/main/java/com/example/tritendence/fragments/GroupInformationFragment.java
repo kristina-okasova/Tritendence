@@ -39,10 +39,6 @@ import java.util.Objects;
 
 public class GroupInformationFragment extends Fragment implements Serializable {
     private static final String GROUPS_CHILD_DATABASE = "Groups";
-    private static final String GROUPS_NAME = "Name";
-    private static final String GROUPS_CATEGORY = "Category";
-    private static final String GROUPS_ATHLETES = "Athletes";
-    private static final String NUMBER_OF_ATHLETES = "NumberOfAthletes";
 
     private GroupInformationActivity activity;
     private LinearLayout expandableListOfMembers;
@@ -85,10 +81,10 @@ public class GroupInformationFragment extends Fragment implements Serializable {
         expandableAttendance.setAdapter(new AdapterOfExpendableAttendance(this.activity, this.dateOfAttendances, this.schedule));
         expandableAttendance.setGroupIndicator(null);
 
-        this.getGroupInformation();
+        this.fillGroupInformation();
     }
 
-    public void showMembersOfGroupInFragment(View view) {
+    public void showMembersOfGroupInFragment() {
         AutoTransition autoTransition;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
             autoTransition = new AutoTransition();
@@ -102,38 +98,28 @@ public class GroupInformationFragment extends Fragment implements Serializable {
             this.expandableListOfMembers.setVisibility(View.GONE);
     }
 
-    public void getGroupInformation() {
-        Map<String, Object> groupInformation = new HashMap<>();
-
+    public void fillGroupInformation() {
         for (Group group : this.club.getGroupsOfClub()) {
             if (group.getName().equals(selectedGroup)) {
-                groupInformation.put(GROUPS_NAME, group.getName());
-                groupInformation.put(GROUPS_CATEGORY, group.getCategory());
-                groupInformation.put(NUMBER_OF_ATHLETES, group.getNumberOfAthletes());
-                groupInformation.put(GROUPS_ATHLETES, group.getAthletesOfGroup());
+                this.nameOfGroup.setText(group.getName());
+                this.categoryOfGroup.setText(group.getCategory());
+                this.numberOfAthletes.setText(String.valueOf(group.getNumberOfAthletes()));
+                ArrayList<Athlete> athletesOfGroup = group.getAthletesOfGroup();
 
-                fillInGroupInformation(groupInformation);
+                Athlete lastAthlete = null;
+                if (athletesOfGroup.size() != 0)
+                    lastAthlete = athletesOfGroup.get(athletesOfGroup.size() - 1);
+                StringBuilder listOfAthletes = new StringBuilder();
+                for (Athlete athlete : athletesOfGroup) {
+                    if (lastAthlete != null && athlete.getFullName().equals(lastAthlete.getFullName()))
+                        listOfAthletes.append(athlete.getFullName());
+                    else
+                        listOfAthletes.append(athlete.getFullName()).append("\n");
+                }
+
+                this.membersOfGroupText.setText(listOfAthletes.toString());
             }
         }
-    }
-
-    public void fillInGroupInformation(Map<String, Object> groupInformation) {
-        this.nameOfGroup.setText(Objects.requireNonNull(groupInformation.get(GROUPS_NAME)).toString());
-        this.categoryOfGroup.setText(Objects.requireNonNull(groupInformation.get(GROUPS_CATEGORY)).toString());
-        this.numberOfAthletes.setText(Objects.requireNonNull(groupInformation.get(NUMBER_OF_ATHLETES)).toString());
-
-        ArrayList<Athlete> athletesOfGroup = (ArrayList<Athlete>) groupInformation.get(GROUPS_ATHLETES);
-        Athlete lastAthlete = athletesOfGroup.get(athletesOfGroup.size() - 1);
-        StringBuilder listOfAthletes = new StringBuilder();
-        assert athletesOfGroup != null;
-        for (Athlete athlete : athletesOfGroup) {
-            if (athlete.getFullName().equals(lastAthlete.getFullName()))
-                listOfAthletes.append(athlete.getFullName());
-            else
-                listOfAthletes.append(athlete.getFullName()).append("\n");
-        }
-
-        this.membersOfGroupText.setText(listOfAthletes.toString());
     }
 
     @Override

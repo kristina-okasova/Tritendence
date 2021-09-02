@@ -71,7 +71,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/add_icon"
-                tools:ignore="OnClick,UsingOnClickInXml,VectorDrawableCompat" />
+                tools:ignore="OnClick,UsingOnClickInXml,VectorDrawableCompat"
+                android:contentDescription="@string/ADD_DESCRIPTION" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -99,7 +100,8 @@
                 android:theme="@style/attendanceChooseTrainerStyle"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/textView12"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="RtlHardcoded" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -127,7 +129,8 @@
                 android:theme="@style/attendanceChooseTrainerStyle"
                 app:layout_constraintStart_toEndOf="@+id/textView13"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="RtlHardcoded" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

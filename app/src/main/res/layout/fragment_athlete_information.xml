@@ -89,7 +89,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:tint="@color/middle_red"
-        tools:ignore="OnClick,UsingOnClickInXml" />
+        tools:ignore="OnClick,UsingOnClickInXml"
+        android:contentDescription="@string/EDIT_DESCRIPTION" />
 
     <ImageView
         android:id="@+id/imageView5"
@@ -103,5 +104,6 @@
         app:layout_constraintBottom_toTopOf="@+id/imageView4"
         app:layout_constraintEnd_toEndOf="parent"
         app:tint="@color/middle_red"
-        tools:ignore="OnClick,UsingOnClickInXml" />
+        tools:ignore="OnClick,UsingOnClickInXml"
+        android:contentDescription="@string/EDIT_DESCRIPTION" />
 </androidx.constraintlayout.widget.ConstraintLayout>

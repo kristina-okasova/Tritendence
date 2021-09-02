@@ -86,4 +86,15 @@
     <string name="EDIT_ATTENDANCE">Aktualizovať dochádzku</string>
     <string name="STRENGTH_DB">Strength</string>
     <string name="OTHER_DB">Other</string>
+    <string name="CHANGE_ATHLETE_INFORMATION">Upraviť údaje člena</string>
+    <string name="CHANGE_GROUP_INFORMATION">Upraviť údaje skupiny</string>
+    <string name="ADD_ATHLETE_DESCRIPTION">addNewAthlete</string>
+    <string name="TIME_OF_TRAINING_UNIT_DESCRIPTION">timeOfTrainingUnit</string>
+    <string name="ADD_TRAINING_UNIT_DESCRIPTION">addTrainingUnit</string>
+    <string name="LOGO_DESCRIPTION">appsLogo</string>
+    <string name="EDIT_DESCRIPTION">editData</string>
+    <string name="ADD_DESCRIPTION">addData</string>
+    <string name="DELETE_DESCRIPTION">deleteData</string>
+    <string name="GROUP_DESCRIPTION">groupData</string>
+    <string name="TRAINER_DESCRIPTION">trainerData</string>
 </resources>

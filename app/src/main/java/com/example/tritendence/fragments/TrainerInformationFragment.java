@@ -1,6 +1,5 @@
 package com.example.tritendence.fragments;
 
-import android.app.Activity;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -17,23 +16,16 @@ import android.widget.TextView;
 import com.example.tritendence.R;
 import com.example.tritendence.model.AttendanceData;
 import com.example.tritendence.model.TriathlonClub;
-import com.example.tritendence.model.users.Athlete;
 import com.example.tritendence.model.users.Member;
 import com.example.tritendence.model.users.Trainer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class TrainerInformationFragment extends Fragment {
     private TriathlonClub club;
-    private Activity activity;
     private TextView nameOfTrainer, email, numberOfTrainings;
     private String selectedTrainer;
-
-    public TrainerInformationFragment(Activity activity) {
-        this.activity = activity;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

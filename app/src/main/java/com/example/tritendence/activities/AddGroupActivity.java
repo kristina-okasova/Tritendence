@@ -7,7 +7,6 @@ import androidx.fragment.app.DialogFragment;
 import android.annotation.SuppressLint;
 import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -18,12 +17,9 @@ import android.widget.ImageView;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.tritendence.R;
-import com.example.tritendence.model.AttendanceData;
 import com.example.tritendence.model.ListScrollable;
-import com.example.tritendence.model.LoadData;
 import com.example.tritendence.model.TimePicker;
 import com.example.tritendence.model.TrainingUnit;
 import com.example.tritendence.model.TriathlonClub;
@@ -43,12 +39,12 @@ public class AddGroupActivity extends AppCompatActivity implements TimePickerDia
 
     private TriathlonClub club;
     private Group editGroup;
-    private ListScrollable listOfTrainingUnits, listOfAthletes;
+    private ListScrollable listOfAthletes;
     private ConstraintLayout trainingUnitLayout;
     private EditText nameOfGroup, placeOfTraining;
     private TextView timeInformation;
     private Spinner typeOfSport, dayOfTrainingUnit;
-    private ImageView timeIcon, addIcon;
+    private ImageView addIcon;
     private ArrayList<HashMap<String, Object>> dataForListOfTrainingUnits;
     private SimpleAdapter adapter;
     private Button addGroupBtn;
@@ -61,14 +57,13 @@ public class AddGroupActivity extends AppCompatActivity implements TimePickerDia
 
         this.club = (TriathlonClub) getIntent().getExtras().getSerializable("TRIATHLON_CLUB");
         this.editGroup = (Group) getIntent().getExtras().getSerializable("EDIT_GROUP");
-        this.listOfTrainingUnits = findViewById(R.id.listOfTrainingUnits);
+        ListScrollable listOfTrainingUnits = findViewById(R.id.listOfTrainingUnits);
         this.listOfAthletes = findViewById(R.id.listOfAthletesOfClub);
         this.trainingUnitLayout = findViewById(R.id.addTrainingUnit);
         this.nameOfGroup = findViewById(R.id.nameOfGroup);
         this.typeOfSport = findViewById(R.id.sportOfTraining);
         this.dayOfTrainingUnit = findViewById(R.id.dayOfTraining);
         this.timeInformation = findViewById(R.id.timeOfTrainingInformation);
-        this.timeIcon = findViewById(R.id.timeOfTrainingUnitIcon);
         this.placeOfTraining = findViewById(R.id.placeOfTraining);
         this.addIcon = findViewById(R.id.addIcon);
         this.addGroupBtn = findViewById(R.id.addGroupBtn);
@@ -80,7 +75,7 @@ public class AddGroupActivity extends AppCompatActivity implements TimePickerDia
         String[] insertingData = {"dayAndTimeOfTraining", "typeAndPlaceOfTraining"};
         int[] UIData = {R.id.dayAndTimeOfTrainingList, R.id.typeAndPlaceOfTrainingList};
         this.adapter = new SimpleAdapter(this, dataForListOfTrainingUnits, R.layout.training_unit_in_list_of_training_units, insertingData, UIData);
-        this.listOfTrainingUnits.setAdapter(adapter);
+        listOfTrainingUnits.setAdapter(adapter);
 
         if (this.editGroup != null)
             this.fillGroupInformation();
@@ -105,7 +100,7 @@ public class AddGroupActivity extends AppCompatActivity implements TimePickerDia
             this.adapter.notifyDataSetChanged();
         }
 
-        this.addGroupBtn.setText("Upraviť údaje skupiny");
+        this.addGroupBtn.setText(getString(R.string.CHANGE_GROUP_INFORMATION));
     }
 
     private void initializeTypeOfSport() {
@@ -275,7 +270,7 @@ public class AddGroupActivity extends AppCompatActivity implements TimePickerDia
     }
 
     public void displayTimeSelection(View view) {
-        DialogFragment timePicker = null;
+        DialogFragment timePicker;
         if (this.timeInformation.getText().length() != 0) {
             String time = this.timeInformation.getText().toString();
             int hour = Integer.parseInt(time.substring(0, time.indexOf(':')));

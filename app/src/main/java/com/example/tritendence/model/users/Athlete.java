@@ -5,13 +5,11 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
 import java.time.LocalDate;
 
 public class Athlete extends Member {
-    private int groupID, numberOfTrainings;
+    private int groupID;
+    private final int numberOfTrainings;
     private LocalDate dayOfBirth;
 
     @RequiresApi(api = Build.VERSION_CODES.O)

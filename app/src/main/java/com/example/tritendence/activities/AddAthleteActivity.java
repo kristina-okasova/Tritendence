@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -27,8 +26,6 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Objects;
 
 public class AddAthleteActivity extends AppCompatActivity {
     private static final String ATHLETES_CHILD_DATABASE = "Athletes";
@@ -64,8 +61,8 @@ public class AddAthleteActivity extends AppCompatActivity {
         this.nameOfAthlete.setText(this.editAthlete.getName());
         this.surnameOfAthlete.setText(this.editAthlete.getSurname());
         this.groupOfAthlete.setSelection(this.editAthlete.getGroupID());
-        this.dayOfBirthOfAthlete.setText("Dátum narodenia: " + this.editAthlete.getDayOfBirth());
-        this.addAthleteBtn.setText("Upraviť údaje člena");
+        this.dayOfBirthOfAthlete.setText(String.format("%s: %s", getString(R.string.DAY_OF_BIRTH), this.editAthlete.getDayOfBirth()));
+        this.addAthleteBtn.setText(getString(R.string.CHANGE_ATHLETE_INFORMATION));
     }
 
     private void initializeGroupsOfClub() {
@@ -120,7 +117,7 @@ public class AddAthleteActivity extends AppCompatActivity {
 
     @SuppressLint("DefaultLocale")
     public void displayDateSelection(View view) {
-        DatePickerDialog.OnDateSetListener setListener = null;
+        DatePickerDialog.OnDateSetListener setListener;
 
         setListener = (view1, year, month, dayOfMonth) -> this.dayOfBirthOfAthlete.setText(String.format("Dátum narodenia: %02d.%02d.%d", dayOfMonth, month, year));
 

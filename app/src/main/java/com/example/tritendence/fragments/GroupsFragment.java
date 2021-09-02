@@ -12,10 +12,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.tritendence.R;
-import com.example.tritendence.model.LoadData;
 import com.example.tritendence.model.TriathlonClub;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 

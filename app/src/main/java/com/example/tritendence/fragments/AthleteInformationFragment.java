@@ -17,7 +17,6 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.example.tritendence.R;
-import com.example.tritendence.activities.AthleteInformationActivity;
 import com.example.tritendence.activities.HomeActivity;
 import com.example.tritendence.model.AttendanceData;
 import com.example.tritendence.model.TriathlonClub;
@@ -29,23 +28,16 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Objects;
 
 public class AthleteInformationFragment extends Fragment {
     private static final String ATHLETES_CHILD_DATABASE = "Athletes";
 
-    private AthleteInformationActivity activity;
     private TextView nameOfAthlete, numberOfTrainings, dayOfBirth, group;
     private TriathlonClub club;
-    private List<String> dateOfAttendances;
     private String selectedAthlete;
 
     public AthleteInformationFragment() {}
-
-    public AthleteInformationFragment(AthleteInformationActivity activity) {
-        this.activity = activity;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -63,7 +55,6 @@ public class AthleteInformationFragment extends Fragment {
         this.dayOfBirth = view.findViewById(R.id.athletesDayOfBirth);
         this.numberOfTrainings = view.findViewById(R.id.numberOfAthletesTrainings);
         this.group = view.findViewById(R.id.athletesGroup);
-        this.initializeAttendanceDates();
 
         ArrayList<HashMap<String, Object>> dataForListOfAthletes = new ArrayList<>();
         for (AttendanceData attendanceData : this.club.getAttendanceData()) {
@@ -108,19 +99,6 @@ public class AthleteInformationFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_athlete_information, container, false);
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    public void initializeAttendanceDates () {
-        this.dateOfAttendances = new ArrayList<>();
-        for (AttendanceData attendanceData : this.club.getAttendanceData()) {
-            for (Athlete athlete : attendanceData.getAttendedAthletes()) {
-                if (athlete.getFullName().equals(this.selectedAthlete)) {
-                    String trainingData = attendanceData.getDate() + " " + attendanceData.getTime() + " " + attendanceData.getSport();
-                    this.dateOfAttendances.add(trainingData);
-                }
-            }
-        }
     }
 
     public void deleteAthlete() {

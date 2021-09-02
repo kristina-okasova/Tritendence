@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -19,11 +18,6 @@ import android.widget.TextView;
 import com.example.tritendence.R;
 import com.example.tritendence.model.AttendanceData;
 import com.example.tritendence.model.ListScrollable;
-import com.example.tritendence.model.TrainingUnit;
-import com.example.tritendence.model.TriathlonClub;
-import com.example.tritendence.model.groups.Group;
-import com.example.tritendence.model.users.Athlete;
-import com.example.tritendence.model.users.Trainer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,7 +26,6 @@ public class FilledAttendanceSheetFragment extends Fragment {
     private TextView trainingData, nameOfGroup, trainerOfGroup;
     private AutoCompleteTextView note;
     private ListScrollable attendanceSheet;
-    private TriathlonClub club;
     private AttendanceData selectedAttendanceData;
 
     @Override
@@ -45,7 +38,6 @@ public class FilledAttendanceSheetFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        this.club = (TriathlonClub) requireActivity().getIntent().getExtras().getSerializable("TRIATHLON_CLUB");
         this.selectedAttendanceData = (AttendanceData) requireActivity().getIntent().getExtras().getSerializable("ATTENDANCE_DATA");
 
         this.trainerOfGroup = view.findViewById(R.id.filledAttendanceTrainer);

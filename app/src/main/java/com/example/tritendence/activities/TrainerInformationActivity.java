@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.tritendence.R;
-import com.example.tritendence.fragments.AthleteInformationFragment;
 import com.example.tritendence.fragments.TrainerInformationFragment;
 import com.example.tritendence.model.TriathlonClub;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -22,7 +21,7 @@ public class TrainerInformationActivity extends AppCompatActivity {
         BottomNavigationView navigation = findViewById(R.id.bottomNavigationView);
         navigation.setSelectedItemId(R.id.trainersFragment);
         navigation.setOnNavigationItemSelectedListener(navigationListener);
-        TrainerInformationFragment trainerInformationFragment = new TrainerInformationFragment(this);
+        TrainerInformationFragment trainerInformationFragment = new TrainerInformationFragment();
 
         getSupportFragmentManager().beginTransaction().replace(R.id.trainerFragmentContainerView, trainerInformationFragment).commit();
     }

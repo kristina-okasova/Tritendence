@@ -132,7 +132,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:tint="@color/middle_red"
-            tools:ignore="OnClick,UsingOnClickInXml" />
+            tools:ignore="OnClick,UsingOnClickInXml"
+            android:contentDescription="@string/EDIT_DESCRIPTION" />
 
         <ImageView
             android:layout_width="30dp"
@@ -145,7 +146,8 @@
             app:layout_constraintBottom_toTopOf="@+id/imageView6"
             app:layout_constraintEnd_toEndOf="parent"
             app:tint="@color/middle_red"
-            tools:ignore="OnClick,UsingOnClickInXml" />
+            tools:ignore="OnClick,UsingOnClickInXml"
+            android:contentDescription="@string/DELETE_DESCRIPTION" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

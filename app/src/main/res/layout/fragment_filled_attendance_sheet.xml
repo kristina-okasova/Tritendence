@@ -73,11 +73,13 @@
             style="@style/buttonStyle"
             android:layout_marginTop="30dp"
             android:layout_marginBottom="20dp"
+            android:onClick="editAttendanceSheet"
             android:text="@string/EDIT_ATTENDANCE"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/filledAttendanceNote" />
+            app:layout_constraintTop_toBottomOf="@+id/filledAttendanceNote"
+            tools:ignore="OnClick,UsingOnClickInXml" />
 
         <AutoCompleteTextView
             android:id="@+id/filledAttendanceNote"

@@ -10,11 +10,13 @@
     <TextView
         android:id="@+id/nameOfTrainerInList"
         style="@style/enumerationTextStyle"
-        android:layout_toRightOf="@id/iconToTrainerName" />
+        android:layout_toRightOf="@id/iconToTrainerName"
+        tools:ignore="RtlHardcoded" />
 
     <ImageView
         android:id="@+id/iconToTrainerName"
         style="@style/enumerationIconStyle"
         app:srcCompat="@drawable/trainers_icon"
-        tools:ignore="VectorDrawableCompat" />
+        tools:ignore="VectorDrawableCompat"
+        android:contentDescription="@string/TRAINER_DESCRIPTION" />
 </RelativeLayout>

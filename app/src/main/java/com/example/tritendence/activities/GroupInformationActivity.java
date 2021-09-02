@@ -1,24 +1,17 @@
 package com.example.tritendence.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.view.View;
 
 import com.example.tritendence.R;
-import com.example.tritendence.fragments.AthletesFragment;
-import com.example.tritendence.fragments.AttendanceFragment;
 import com.example.tritendence.fragments.GroupInformationFragment;
-import com.example.tritendence.fragments.GroupsFragment;
-import com.example.tritendence.fragments.ProfileFragment;
 import com.example.tritendence.model.TriathlonClub;
 import com.example.tritendence.model.groups.Group;
-import com.example.tritendence.model.users.Athlete;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class GroupInformationActivity extends AppCompatActivity {
@@ -53,7 +46,7 @@ public class GroupInformationActivity extends AppCompatActivity {
             };
 
     public void showMembersOfGroup(View view) {
-        this.groupInformationFragment.showMembersOfGroupInFragment(view);
+        this.groupInformationFragment.showMembersOfGroupInFragment();
     }
 
     public void deleteGroup(View view) {

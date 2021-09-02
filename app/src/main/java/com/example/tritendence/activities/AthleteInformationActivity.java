@@ -1,22 +1,17 @@
 package com.example.tritendence.activities;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
 import com.example.tritendence.R;
 import com.example.tritendence.fragments.AthleteInformationFragment;
-import com.example.tritendence.fragments.AthletesFragment;
-import com.example.tritendence.fragments.AttendanceFragment;
-import com.example.tritendence.fragments.GroupInformationFragment;
-import com.example.tritendence.fragments.GroupsFragment;
-import com.example.tritendence.fragments.ProfileFragment;
 import com.example.tritendence.model.TriathlonClub;
 import com.example.tritendence.model.users.Athlete;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -36,7 +31,7 @@ public class AthleteInformationActivity extends AppCompatActivity {
         BottomNavigationView navigation = findViewById(R.id.bottomNavigationView);
         navigation.setSelectedItemId(id.athletesFragment);
         navigation.setOnNavigationItemSelectedListener(navigationListener);
-        this.athleteInformationFragment = new AthleteInformationFragment(this);
+        this.athleteInformationFragment = new AthleteInformationFragment();
 
         getSupportFragmentManager().beginTransaction().replace(R.id.athleteFragmentContainerView, this.athleteInformationFragment).commit();
     }
@@ -54,6 +49,7 @@ public class AthleteInformationActivity extends AppCompatActivity {
                 return true;
             };
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void deleteAthlete(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(true);

@@ -2,9 +2,6 @@ package com.example.tritendence.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentContainerView;
-import androidx.navigation.NavController;
-import androidx.navigation.fragment.NavHostFragment;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -20,8 +17,6 @@ import com.example.tritendence.fragments.ProfileFragment;
 import com.example.tritendence.fragments.TrainersFragment;
 import com.example.tritendence.model.TriathlonClub;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
-import java.util.zip.Inflater;
 
 public class HomeActivity extends AppCompatActivity {
     private BottomNavigationView navigation;

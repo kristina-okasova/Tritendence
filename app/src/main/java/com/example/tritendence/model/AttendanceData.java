@@ -1,11 +1,9 @@
 package com.example.tritendence.model;
 
-import android.icu.number.Scale;
 import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
-import com.example.tritendence.R;
 import com.example.tritendence.model.groups.Group;
 import com.example.tritendence.model.users.Athlete;
 import com.example.tritendence.model.users.Trainer;
@@ -14,14 +12,14 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Objects;
 
 public class AttendanceData implements Serializable {
-    private String sport, note;
-    private Group group;
-    private ArrayList<Trainer> trainers;
-    private ArrayList<Athlete> attendedAthletes;
+    private final String sport;
+    private String note;
+    private final Group group;
+    private final ArrayList<Trainer> trainers;
+    private final ArrayList<Athlete> attendedAthletes;
     private LocalDate date;
     private LocalTime time;
 
@@ -81,11 +79,6 @@ public class AttendanceData implements Serializable {
                 return true;
         }
         return false;
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public String getDay() {
-        return this.date.getDayOfWeek().toString();
     }
 
     public String getNote() {

@@ -1,15 +1,11 @@
 package com.example.tritendence.model.users;
 
-import com.example.tritendence.R;
-
 import java.util.HashMap;
 import java.util.Map;
 
-import static android.provider.Settings.System.getString;
-
 public class Trainer extends Member {
-    private String email, sport;
-    private int numberOfTrainings;
+    private final String email, sport;
+    private final int numberOfTrainings;
 
     public Trainer(int ID, String name, String surname, String email, String sport, int numberOfTrainings) {
         super(ID, name, surname);
@@ -19,7 +15,7 @@ public class Trainer extends Member {
     }
 
     public Map<String, Object> getMappedData() {
-        Map<String, Object> data = new HashMap<String, Object>();
+        Map<String, Object> data = new HashMap<>();
 
         data.put("Name", this.name);
         data.put("Surname", this.surname);

@@ -20,7 +20,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/listOfAthletesOfClub" />
+            app:layout_constraintTop_toBottomOf="@+id/listOfAthletesOfClub"
+            tools:ignore="UsingOnClickInXml" />
 
         <EditText
             android:id="@+id/nameOfGroup"
@@ -28,6 +29,7 @@
             android:layout_marginTop="40dp"
             android:autofillHints="@string/NAME_OF_GROUP"
             android:hint="@string/NAME_OF_GROUP"
+            android:inputType="textShortMessage"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -97,7 +99,8 @@
                 app:layout_constraintTop_toBottomOf="@+id/placeOfTraining"
                 app:srcCompat="@drawable/time_icon"
                 app:tint="@color/middle_red"
-                tools:ignore="VectorDrawableCompat" />
+                tools:ignore="UsingOnClickInXml,VectorDrawableCompat"
+                android:contentDescription="@string/TIME_OF_TRAINING_UNIT_DESCRIPTION" />
 
             <TextView
                 android:id="@+id/timeOfTrainingInformation"
@@ -112,8 +115,9 @@
             <EditText
                 android:id="@+id/placeOfTraining"
                 style="@style/textViewBasicStyle"
-                android:autofillHints="@string/NAME_OF_GROUP"
+                android:autofillHints="@string/PLACE"
                 android:hint="@string/PLACE"
+                android:inputType="textShortMessage"
                 android:padding="15dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -132,7 +136,8 @@
             app:layout_constraintTop_toBottomOf="@+id/addTrainingUnit"
             app:srcCompat="@drawable/add_circle_icon"
             app:tint="@color/middle_red"
-            tools:ignore="UsingOnClickInXml,VectorDrawableCompat" />
+            tools:ignore="UsingOnClickInXml,VectorDrawableCompat"
+            android:contentDescription="@string/ADD_TRAINING_UNIT_DESCRIPTION" />
 
         <TextView
             android:id="@+id/textView5"

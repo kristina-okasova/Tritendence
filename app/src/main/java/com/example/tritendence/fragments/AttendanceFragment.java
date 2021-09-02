@@ -9,7 +9,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
@@ -28,7 +27,6 @@ import com.example.tritendence.model.users.Admin;
 import com.example.tritendence.model.users.Member;
 import com.example.tritendence.model.users.Trainer;
 
-import java.io.Serializable;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -45,7 +43,6 @@ public class AttendanceFragment extends Fragment {
     private final Map<String, List<String>> timetable;
     private ExpandableListView expandableTimetable;
     private TriathlonClub club;
-    private TextView currentWeek;
 
     public AttendanceFragment() {
         this.timetable = new HashMap<>();
@@ -80,7 +77,7 @@ public class AttendanceFragment extends Fragment {
         else
             this.addGroups(getString(R.string.EMPTY_STRING));
 
-        this.currentWeek = view.findViewById(R.id.currentWeek);
+        TextView currentWeek = view.findViewById(R.id.currentWeek);
         LocalDate date = LocalDate.now();
         LocalDate monday, sunday;
         if (!date.getDayOfWeek().toString().equals(getString(R.string.MONDAY_DATE)))
@@ -94,7 +91,7 @@ public class AttendanceFragment extends Fragment {
             sunday = date;
 
         DateTimeFormatter format = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        this.currentWeek.setText(String.format("%s - %s", Objects.requireNonNull(monday).format(format), format.format(sunday)));
+        currentWeek.setText(String.format("%s - %s", Objects.requireNonNull(monday).format(format), format.format(sunday)));
 
         this.expandableTimetable = view.findViewById(R.id.timetable);
         this.updateExpandableTimetable();
