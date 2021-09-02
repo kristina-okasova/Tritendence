@@ -40,16 +40,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/nameOfAthleteCreate" />
 
-    <EditText
-        android:id="@+id/emailOfAthleteCreate"
-        style="@style/textViewBasicStyle"
-        android:layout_marginTop="20dp"
-        android:autofillHints="@string/EMAIL"
-        android:hint="@string/EMAIL"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/surnameOfAthleteCreate" />
-
     <TextView
         android:id="@+id/groupOfAthleteInformation"
         style="@style/informationHeadingStyle"
@@ -60,7 +50,7 @@
         android:text="@string/ATHLETES_GROUP"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailOfAthleteCreate" />
+        app:layout_constraintTop_toBottomOf="@+id/surnameOfAthleteCreate" />
 
     <Spinner
         android:id="@+id/groupOfAthlete"

@@ -14,6 +14,7 @@ import com.example.tritendence.R;
 import com.example.tritendence.model.LoadData;
 import com.example.tritendence.model.TriathlonClub;
 import com.example.tritendence.model.users.Member;
+import com.example.tritendence.model.users.Trainer;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class LogInActivity extends AppCompatActivity {
@@ -60,7 +61,7 @@ public class LogInActivity extends AppCompatActivity {
 
     private void findUser(String emailText) {
         for (Member member : this.loadData.getClub().getMembersOfClub()) {
-            if ((member.getEmail()).equals(emailText))
+            if (member instanceof Trainer && (((Trainer) member).getEmail()).equals(emailText))
                 singIn(member.getFullName());
         }
     }

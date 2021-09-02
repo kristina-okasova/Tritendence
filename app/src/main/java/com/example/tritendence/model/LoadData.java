@@ -134,12 +134,11 @@ public class LoadData {
             String athleteID = String.valueOf(i);
             String name = Objects.requireNonNull(snapshot.child(athleteID).child(NAME).getValue()).toString();
             String surname = Objects.requireNonNull(snapshot.child(athleteID).child(SURNAME).getValue()).toString();
-            String eMail = Objects.requireNonNull(snapshot.child(athleteID).child(EMAIL).getValue()).toString();
             String groupID = Objects.requireNonNull(snapshot.child(athleteID).child(ATHLETE_GROUP_ID).getValue()).toString();
             String numberOfTrainings = Objects.requireNonNull(snapshot.child(athleteID).child(NUMBER_OF_TRAININGS).getValue()).toString();
             String dayOfBirth = Objects.requireNonNull(snapshot.child(athleteID).child(ATHLETE_DAY_OF_BIRTH).getValue()).toString();
 
-            Athlete athlete = new Athlete(i, name, surname, eMail, Integer.parseInt(groupID), Integer.parseInt(numberOfTrainings), dayOfBirth);
+            Athlete athlete = new Athlete(i, name, surname, Integer.parseInt(groupID), Integer.parseInt(numberOfTrainings), dayOfBirth);
             this.club.addMember(athlete);
         }
     }

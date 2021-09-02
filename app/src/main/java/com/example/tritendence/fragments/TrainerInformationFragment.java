@@ -74,7 +74,7 @@ public class TrainerInformationFragment extends Fragment {
         for (Member member : this.club.getMembersOfClub()) {
             if (member instanceof Trainer && member.getFullName().equals(this.selectedTrainer)) {
                 this.nameOfTrainer.setText(member.getFullName());
-                this.email.setText(member.getEmail());
+                this.email.setText(((Trainer) member).getEmail());
                 this.numberOfTrainings.setText(String.valueOf(((Trainer) member).getNumberOfTrainings()));
             }
         }

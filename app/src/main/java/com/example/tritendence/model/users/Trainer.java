@@ -8,11 +8,12 @@ import java.util.Map;
 import static android.provider.Settings.System.getString;
 
 public class Trainer extends Member {
-    private String sport;
+    private String email, sport;
     private int numberOfTrainings;
 
     public Trainer(int ID, String name, String surname, String email, String sport, int numberOfTrainings) {
-        super(ID, name, surname, email);
+        super(ID, name, surname);
+        this.email = email;
         this.sport = sport;
         this.numberOfTrainings = numberOfTrainings;
     }
@@ -27,6 +28,10 @@ public class Trainer extends Member {
         data.put("NumberOfTrainings", 0);
 
         return data;
+    }
+
+    public String getEmail() {
+        return this.email;
     }
 
     public int getNumberOfTrainings() {

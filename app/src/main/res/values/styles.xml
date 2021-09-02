@@ -120,7 +120,7 @@
         <item name="android:textSize">18sp</item>
     </style>
 
-    <style name="optionMenuStyle" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="android:itemBackground">?attr/colorOnBackground</item>
+    <style name="optionMenuStyle" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:panelFullBackground">#000000</item>
     </style>
 </resources>

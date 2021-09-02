@@ -61,11 +61,16 @@ public class ProfileFragment extends Fragment {
             if (member instanceof Trainer || member instanceof Admin) {
                 if (member.getFullName().equals(signedTrainer)) {
                     this.signedTrainerName.setText(member.getFullName());
-                    this.signedTrainerEmail.setText(member.getEmail());
-                    if (member instanceof Trainer)
+
+                    if (member instanceof Trainer) {
+                        this.signedTrainerEmail.setText(((Trainer) member).getEmail());
                         this.numberOfTrainings.setText(String.valueOf(((Trainer) member).getNumberOfTrainings()));
-                    if (member instanceof Admin)
+                    }
+
+                    if (member instanceof Admin) {
+                        this.signedTrainerEmail.setText(((Admin) member).getEmail());
                         this.numberOfTrainings.setText(String.valueOf(((Admin) member).getNumberOfTrainings()));
+                    }
 
                     String[] insertingData = {"trainingOfTrainer"};
                     int[] UIData = {R.id.trainersTrainingData};

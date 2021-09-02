@@ -30,7 +30,7 @@ public class AddAthleteActivity extends AppCompatActivity {
     private static final String ATHLETES_CHILD_DATABASE = "Athletes";
 
     private TriathlonClub club;
-    private EditText nameOfAthlete, surnameOfAthlete, emailOfAthlete;
+    private EditText nameOfAthlete, surnameOfAthlete;
     private Spinner groupOfAthlete;
     private TextView dayOfBirthOfAthlete;
 
@@ -42,7 +42,6 @@ public class AddAthleteActivity extends AppCompatActivity {
         this.club =  (TriathlonClub) getIntent().getExtras().getSerializable("TRIATHLON_CLUB");
         this.nameOfAthlete = findViewById(R.id.nameOfAthleteCreate);
         this.surnameOfAthlete = findViewById(R.id.surnameOfAthleteCreate);
-        this.emailOfAthlete = findViewById(R.id.emailOfAthleteCreate);
         this.groupOfAthlete = findViewById(R.id.groupOfAthlete);
         this.dayOfBirthOfAthlete = findViewById(R.id.dayOfBirthOfAthlete);
 
@@ -77,18 +76,11 @@ public class AddAthleteActivity extends AppCompatActivity {
             return;
         }
 
-        String email = this.emailOfAthlete.getText().toString();
-        if (email.equals(getString(R.string.EMPTY_STRING))) {
-            this.emailOfAthlete.setError("Je potrebné zadať e-mail člena.");
-            return;
-        }
-
         int athleteID = this.club.getNumberOfAthletes() + 1;
         String groupID = String.valueOf(this.groupOfAthlete.getSelectedItemPosition());
         String dayOfBirth = this.dayOfBirthOfAthlete.getText().toString();
         root.child(ATHLETES_CHILD_DATABASE + "/" + athleteID + "/Name").setValue(this.nameOfAthlete.getText().toString());
         root.child(ATHLETES_CHILD_DATABASE + "/" + athleteID + "/Surname").setValue(this.surnameOfAthlete.getText().toString());
-        root.child(ATHLETES_CHILD_DATABASE + "/" + athleteID + "/E-Mail").setValue(this.emailOfAthlete.getText().toString());
         root.child(ATHLETES_CHILD_DATABASE + "/" + athleteID + "/GroupID").setValue(groupID);
         root.child(ATHLETES_CHILD_DATABASE + "/" + athleteID + "/NumberOfTrainings").setValue(0);
         root.child(ATHLETES_CHILD_DATABASE + "/" + athleteID + "/DayOfBirth").setValue(dayOfBirth.substring(dayOfBirth.indexOf(':') + 2));
