@@ -1,5 +1,6 @@
 package com.example.tritendence.activities;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -7,9 +8,11 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -18,6 +21,7 @@ import android.widget.TextView;
 import com.example.tritendence.R;
 import com.example.tritendence.model.TriathlonClub;
 import com.example.tritendence.model.groups.Group;
+import com.example.tritendence.model.users.Athlete;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -33,19 +37,35 @@ public class AddAthleteActivity extends AppCompatActivity {
     private EditText nameOfAthlete, surnameOfAthlete;
     private Spinner groupOfAthlete;
     private TextView dayOfBirthOfAthlete;
+    private Athlete editAthlete;
+    private Button addAthleteBtn;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_athlete);
 
         this.club =  (TriathlonClub) getIntent().getExtras().getSerializable("TRIATHLON_CLUB");
+        this.editAthlete = (Athlete) getIntent().getExtras().getSerializable("EDIT_ATHLETE");
         this.nameOfAthlete = findViewById(R.id.nameOfAthleteCreate);
         this.surnameOfAthlete = findViewById(R.id.surnameOfAthleteCreate);
         this.groupOfAthlete = findViewById(R.id.groupOfAthlete);
         this.dayOfBirthOfAthlete = findViewById(R.id.dayOfBirthOfAthlete);
+        this.addAthleteBtn = findViewById(R.id.addAthleteBtn);
 
         this.initializeGroupsOfClub();
+        if (this.editAthlete != null)
+            this.fillAthleteInformation();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void fillAthleteInformation() {
+        this.nameOfAthlete.setText(this.editAthlete.getName());
+        this.surnameOfAthlete.setText(this.editAthlete.getSurname());
+        this.groupOfAthlete.setSelection(this.editAthlete.getGroupID());
+        this.dayOfBirthOfAthlete.setText("Dátum narodenia: " + this.editAthlete.getDayOfBirth());
+        this.addAthleteBtn.setText("Upraviť údaje člena");
     }
 
     private void initializeGroupsOfClub() {
@@ -76,7 +96,11 @@ public class AddAthleteActivity extends AppCompatActivity {
             return;
         }
 
-        int athleteID = this.club.getNumberOfAthletes() + 1;
+        int athleteID;
+        if (this.editAthlete != null)
+            athleteID = this.editAthlete.getID();
+        else
+            athleteID = this.club.getNumberOfAthletes() + 1;
         String groupID = String.valueOf(this.groupOfAthlete.getSelectedItemPosition());
         String dayOfBirth = this.dayOfBirthOfAthlete.getText().toString();
         root.child(ATHLETES_CHILD_DATABASE + "/" + athleteID + "/Name").setValue(this.nameOfAthlete.getText().toString());

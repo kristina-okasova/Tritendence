@@ -1,5 +1,6 @@
 package com.example.tritendence.fragments;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -17,17 +18,23 @@ import android.widget.TextView;
 
 import com.example.tritendence.R;
 import com.example.tritendence.activities.AthleteInformationActivity;
+import com.example.tritendence.activities.HomeActivity;
 import com.example.tritendence.model.AttendanceData;
 import com.example.tritendence.model.TriathlonClub;
 import com.example.tritendence.model.groups.Group;
 import com.example.tritendence.model.users.Athlete;
 import com.example.tritendence.model.users.Member;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class AthleteInformationFragment extends Fragment {
+    private static final String ATHLETES_CHILD_DATABASE = "Athletes";
+
     private AthleteInformationActivity activity;
     private TextView nameOfAthlete, numberOfTrainings, dayOfBirth, group;
     private TriathlonClub club;
@@ -45,7 +52,7 @@ public class AthleteInformationFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -78,6 +85,7 @@ public class AthleteInformationFragment extends Fragment {
         this.fillInAthleteInformation();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void fillInAthleteInformation() {
         for (Member athlete : this.club.getMembersOfClub()) {
             if (athlete instanceof Athlete && athlete.getFullName().equals(selectedAthlete)) {
@@ -94,7 +102,7 @@ public class AthleteInformationFragment extends Fragment {
             if (group.getID() == groupID)
                 return group.getName();
         }
-        return null;
+        return "--nezaradený--";
     }
 
     @Override
@@ -113,5 +121,32 @@ public class AthleteInformationFragment extends Fragment {
                 }
             }
         }
+    }
+
+    public void deleteAthlete() {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference root = database.getReference();
+
+        Athlete athleteToDelete = this.findAthleteByName(this.selectedAthlete);
+        root.child(ATHLETES_CHILD_DATABASE + "/" + Objects.requireNonNull(athleteToDelete).getID()).removeValue();
+
+        String signedUser = requireActivity().getIntent().getExtras().getString("SIGNED_USER");
+        Intent athleteInformationPage = new Intent(this.getContext(), HomeActivity.class);
+        athleteInformationPage.putExtra("TRIATHLON_CLUB", this.club);
+        athleteInformationPage.putExtra("SIGNED_USER", signedUser);
+        athleteInformationPage.putExtra("SELECTED_FRAGMENT", R.id.athletesFragment);
+        startActivity(athleteInformationPage);
+    }
+
+    private Athlete findAthleteByName(String selectedAthlete) {
+        for (Member member : this.club.getMembersOfClub()) {
+            if (member instanceof Athlete && member.getFullName().equals(selectedAthlete))
+                return (Athlete) member;
+        }
+        return null;
+    }
+
+    public Athlete findSelectedAthlete() {
+        return this.findAthleteByName(this.selectedAthlete);
     }
 }

@@ -17,6 +17,8 @@ import com.example.tritendence.model.users.Member;
 import com.example.tritendence.model.users.Trainer;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.io.IOException;
+
 public class LogInActivity extends AppCompatActivity {
     private TriathlonClub club;
     private LoadData loadData;
@@ -27,6 +29,7 @@ public class LogInActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
         this.loadData = new LoadData();
         this.club = this.loadData.getClub();
 
@@ -41,6 +44,10 @@ public class LogInActivity extends AppCompatActivity {
     }
 
     private void checkData() {
+        if (!this.isOnline()) {
+            Toast.makeText(this, "Je potrebné internetové pripojenie.", Toast.LENGTH_LONG).show();
+            return;
+        }
         String emailText = this.email.getText().toString();
         String passwordText = this.password.getText().toString();
 
@@ -79,6 +86,23 @@ public class LogInActivity extends AppCompatActivity {
         registrationPage.putExtra(getString(R.string.TRIATHLON_CLUB), this.club);
         startActivity(registrationPage);
         finish();
+    }
+
+    private boolean isOnline() {
+        Runtime runtime = Runtime.getRuntime();
+        try {
+            Process ipProcess = runtime.exec("/system/bin/ping -c 1 8.8.8.8");
+            int     exitValue = ipProcess.waitFor();
+            return (exitValue == 0);
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return false;
     }
 
 }

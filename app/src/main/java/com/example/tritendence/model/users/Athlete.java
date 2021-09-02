@@ -1,5 +1,6 @@
 package com.example.tritendence.model.users;
 
+import android.annotation.SuppressLint;
 import android.os.Build;
 
 import androidx.annotation.RequiresApi;
@@ -50,10 +51,10 @@ public class Athlete extends Member {
         this.dayOfBirth = LocalDate.of(year, month, day);
     }
 
+    @SuppressLint("DefaultLocale")
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public String getDayOfBirth() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-            return this.dayOfBirth.getDayOfMonth() + "." + this.dayOfBirth.getMonthValue() + "." + this.dayOfBirth.getYear();
-        return null;
+        return String.format("%02d.%02d.%d", this.dayOfBirth.getDayOfMonth(), this.dayOfBirth.getMonthValue(), this.dayOfBirth.getYear());
     }
 
     public LocalDate getDate() {
