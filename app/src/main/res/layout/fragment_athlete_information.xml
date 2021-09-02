@@ -30,18 +30,34 @@
         app:layout_constraintTop_toBottomOf="@+id/nameOfAthlete" />
 
     <TextView
+        android:id="@+id/textView20"
+        style="@style/informationHeadingStyle"
+        android:layout_marginStart="40dp"
+        android:layout_marginLeft="40dp"
+        android:text="@string/ATHLETES_GROUP"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView10" />
+
+    <TextView
+        android:id="@+id/athletesGroup"
+        style="@style/informationInputStyle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView10"
+        app:layout_constraintTop_toBottomOf="@+id/athletesDayOfBirth" />
+
+    <TextView
         android:id="@+id/textView13"
         style="@style/informationHeadingStyle"
         android:text="@string/NUMBER_OF_ATHLETES_TRAININGS"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView10" />
+        app:layout_constraintTop_toBottomOf="@+id/textView20" />
 
     <TextView
         android:id="@+id/numberOfAthletesTrainings"
         style="@style/informationInputStyle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView13"
-        app:layout_constraintTop_toBottomOf="@+id/athletesDayOfBirth" />
+        app:layout_constraintTop_toBottomOf="@+id/athletesGroup" />
 
     <TextView
         android:id="@+id/textView15"

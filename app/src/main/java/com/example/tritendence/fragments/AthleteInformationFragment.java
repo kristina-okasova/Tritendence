@@ -19,6 +19,7 @@ import com.example.tritendence.R;
 import com.example.tritendence.activities.AthleteInformationActivity;
 import com.example.tritendence.model.AttendanceData;
 import com.example.tritendence.model.TriathlonClub;
+import com.example.tritendence.model.groups.Group;
 import com.example.tritendence.model.users.Athlete;
 import com.example.tritendence.model.users.Member;
 
@@ -28,7 +29,7 @@ import java.util.List;
 
 public class AthleteInformationFragment extends Fragment {
     private AthleteInformationActivity activity;
-    private TextView nameOfAthlete, numberOfTrainings, dayOfBirth;
+    private TextView nameOfAthlete, numberOfTrainings, dayOfBirth, group;
     private TriathlonClub club;
     private List<String> dateOfAttendances;
     private String selectedAthlete;
@@ -54,6 +55,7 @@ public class AthleteInformationFragment extends Fragment {
         this.nameOfAthlete = view.findViewById(R.id.nameOfAthlete);
         this.dayOfBirth = view.findViewById(R.id.athletesDayOfBirth);
         this.numberOfTrainings = view.findViewById(R.id.numberOfAthletesTrainings);
+        this.group = view.findViewById(R.id.athletesGroup);
         this.initializeAttendanceDates();
 
         ArrayList<HashMap<String, Object>> dataForListOfAthletes = new ArrayList<>();
@@ -82,8 +84,17 @@ public class AthleteInformationFragment extends Fragment {
                 this.nameOfAthlete.setText(athlete.getFullName());
                 this.dayOfBirth.setText(((Athlete) athlete).getDayOfBirth());
                 this.numberOfTrainings.setText(String.valueOf(((Athlete) athlete).getNumberOfTrainings()));
+                this.group.setText(this.findGroupByID(((Athlete) athlete).getGroupID()));
             }
         }
+    }
+
+    private String findGroupByID(int groupID) {
+        for (Group group : this.club.getGroupsOfClub()) {
+            if (group.getID() == groupID)
+                return group.getName();
+        }
+        return null;
     }
 
     @Override
