@@ -59,7 +59,7 @@
             android:layout_width="320dp"
             android:layout_height="wrap_content"
             android:background="#423E3E"
-            android:visibility="visible"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/listOfTrainingUnits">

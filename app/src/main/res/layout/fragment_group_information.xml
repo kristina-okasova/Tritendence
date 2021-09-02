@@ -120,5 +120,32 @@
             app:layout_constraintStart_toEndOf="@+id/textView3"
             app:layout_constraintTop_toBottomOf="@+id/categoryOfGroupInformation" />
 
+        <ImageView
+            android:id="@+id/imageView6"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="30dp"
+            android:onClick="editGroup"
+            android:src="@drawable/edit_icon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:tint="@color/middle_red"
+            tools:ignore="OnClick,UsingOnClickInXml" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="20dp"
+            android:onClick="deleteGroup"
+            android:src="@drawable/delete_icon"
+            app:layout_constraintBottom_toTopOf="@+id/imageView6"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:tint="@color/middle_red"
+            tools:ignore="OnClick,UsingOnClickInXml" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

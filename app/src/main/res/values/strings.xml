@@ -84,4 +84,6 @@
     <string name="ATHLETES_DAY_OF_BIRTH">Dátum narodenia</string>
     <string name="TRAINERS">Tréneri</string>
     <string name="EDIT_ATTENDANCE">Aktualizovať dochádzku</string>
+    <string name="STRENGTH_DB">Strength</string>
+    <string name="OTHER_DB">Other</string>
 </resources>

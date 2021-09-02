@@ -12,6 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.SimpleAdapter;
@@ -20,9 +21,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.tritendence.R;
+import com.example.tritendence.model.AttendanceData;
 import com.example.tritendence.model.ListScrollable;
 import com.example.tritendence.model.LoadData;
 import com.example.tritendence.model.TimePicker;
+import com.example.tritendence.model.TrainingUnit;
 import com.example.tritendence.model.TriathlonClub;
 import com.example.tritendence.model.groups.Group;
 import com.example.tritendence.model.users.Athlete;
@@ -39,6 +42,7 @@ public class AddGroupActivity extends AppCompatActivity implements TimePickerDia
     private final static String ATHLETES_CHILD_DATABASE = "Athletes";
 
     private TriathlonClub club;
+    private Group editGroup;
     private ListScrollable listOfTrainingUnits, listOfAthletes;
     private ConstraintLayout trainingUnitLayout;
     private EditText nameOfGroup, placeOfTraining;
@@ -47,6 +51,7 @@ public class AddGroupActivity extends AppCompatActivity implements TimePickerDia
     private ImageView timeIcon, addIcon;
     private ArrayList<HashMap<String, Object>> dataForListOfTrainingUnits;
     private SimpleAdapter adapter;
+    private Button addGroupBtn;
     private int groupID;
 
     @Override
@@ -55,6 +60,7 @@ public class AddGroupActivity extends AppCompatActivity implements TimePickerDia
         setContentView(R.layout.activity_add_group);
 
         this.club = (TriathlonClub) getIntent().getExtras().getSerializable("TRIATHLON_CLUB");
+        this.editGroup = (Group) getIntent().getExtras().getSerializable("EDIT_GROUP");
         this.listOfTrainingUnits = findViewById(R.id.listOfTrainingUnits);
         this.listOfAthletes = findViewById(R.id.listOfAthletesOfClub);
         this.trainingUnitLayout = findViewById(R.id.addTrainingUnit);
@@ -65,6 +71,7 @@ public class AddGroupActivity extends AppCompatActivity implements TimePickerDia
         this.timeIcon = findViewById(R.id.timeOfTrainingUnitIcon);
         this.placeOfTraining = findViewById(R.id.placeOfTraining);
         this.addIcon = findViewById(R.id.addIcon);
+        this.addGroupBtn = findViewById(R.id.addGroupBtn);
         this.dataForListOfTrainingUnits = new ArrayList<>();
         this.initializeTypeOfSport();
         this.initializeDayOfTheWeek();
@@ -75,6 +82,30 @@ public class AddGroupActivity extends AppCompatActivity implements TimePickerDia
         this.adapter = new SimpleAdapter(this, dataForListOfTrainingUnits, R.layout.training_unit_in_list_of_training_units, insertingData, UIData);
         this.listOfTrainingUnits.setAdapter(adapter);
 
+        if (this.editGroup != null)
+            this.fillGroupInformation();
+    }
+
+    private void fillGroupInformation() {
+        this.nameOfGroup.setText(this.editGroup.getName());
+        for (Athlete athlete : this.editGroup.getAthletesOfGroup()) {
+            for (int i = 0; i < this.listOfAthletes.getCount(); i++) {
+                if (this.listOfAthletes.getItemAtPosition(i).toString().equals(athlete.getFullName()))
+                    this.listOfAthletes.setItemChecked(i, true);
+            }
+        }
+
+        for (TrainingUnit unit : this.editGroup.getTimetable()) {
+            HashMap<String, Object> mappedData = new HashMap<>();
+
+            mappedData.put("dayAndTimeOfTraining", unit.getDay() + " " + unit.getTime());
+            mappedData.put("typeAndPlaceOfTraining", unit.getSportTranslation() + ", " + unit.getLocation());
+
+            this.dataForListOfTrainingUnits.add(mappedData);
+            this.adapter.notifyDataSetChanged();
+        }
+
+        this.addGroupBtn.setText("Upraviť údaje skupiny");
     }
 
     private void initializeTypeOfSport() {
@@ -156,7 +187,7 @@ public class AddGroupActivity extends AppCompatActivity implements TimePickerDia
     public void createGroup(View view) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference root = database.getReference();
-        int numberOfSwimmingTrainings = 0, numberOfAthleticTrainings = 0, numberOfCyclingTrainings = 0;
+        int numberOfSwimmingTrainings = 0, numberOfAthleticTrainings = 0, numberOfCyclingTrainings = 0, numberOfStrengthTrainings = 0, numberOfOtherTrainings = 0;
 
         String name = this.nameOfGroup.getText().toString();
         if (name.equals(getString(R.string.EMPTY_STRING))) {
@@ -164,7 +195,10 @@ public class AddGroupActivity extends AppCompatActivity implements TimePickerDia
             return;
         }
 
-        this.groupID = this.club.getNumberOfGroups() + 1;
+        if (this.editGroup != null)
+            this.groupID = this.editGroup.getID();
+        else
+            this.groupID = this.club.getNumberOfGroups() + 1;
         root.child(GROUPS_CHILD_DATABASE + "/" + this.groupID + "/Category").setValue(1);
         root.child(GROUPS_CHILD_DATABASE + "/" + this.groupID + "/Name").setValue(name);
 
@@ -190,6 +224,14 @@ public class AddGroupActivity extends AppCompatActivity implements TimePickerDia
                 case "Cyklistika":
                     timetableRoot = getString(R.string.CYCLING_DB);
                     trainingUnitID = ++numberOfCyclingTrainings;
+                    break;
+                case "Sila":
+                    timetableRoot = getString(R.string.STRENGTH_DB);
+                    trainingUnitID = ++numberOfStrengthTrainings;
+                    break;
+                case "Iné":
+                    timetableRoot = getString(R.string.OTHER_DB);
+                    trainingUnitID = ++numberOfOtherTrainings;
                     break;
                 default:
                     throw new IllegalStateException("Unexpected value: " + sport);

@@ -40,7 +40,7 @@ public class TrainingUnit implements Serializable {
     public String getSportTranslation() {
         String sportTranslation;
         switch (this.sport) {
-            case "Athetics":
+            case "Athletics":
                 sportTranslation = "Atletika";
                 break;
             case "Swimming":

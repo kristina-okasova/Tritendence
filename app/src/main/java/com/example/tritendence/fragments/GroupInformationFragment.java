@@ -1,5 +1,6 @@
 package com.example.tritendence.fragments;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -20,11 +21,14 @@ import android.widget.TextView;
 
 import com.example.tritendence.R;
 import com.example.tritendence.activities.GroupInformationActivity;
+import com.example.tritendence.activities.HomeActivity;
 import com.example.tritendence.model.AdapterOfExpendableAttendance;
 import com.example.tritendence.model.AttendanceData;
 import com.example.tritendence.model.TriathlonClub;
 import com.example.tritendence.model.groups.Group;
 import com.example.tritendence.model.users.Athlete;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -34,6 +38,7 @@ import java.util.Map;
 import java.util.Objects;
 
 public class GroupInformationFragment extends Fragment implements Serializable {
+    private static final String GROUPS_CHILD_DATABASE = "Groups";
     private static final String GROUPS_NAME = "Name";
     private static final String GROUPS_CATEGORY = "Category";
     private static final String GROUPS_ATHLETES = "Athletes";
@@ -149,5 +154,28 @@ public class GroupInformationFragment extends Fragment implements Serializable {
                     this.schedule.computeIfAbsent(trainingData, k -> new ArrayList<>()).add(athlete.getFullName());
             }
         }
+    }
+
+    public void deleteGroup() {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference root = database.getReference();
+
+        Group groupToDelete = this.findSelectedGroup();
+        root.child(GROUPS_CHILD_DATABASE + "/" + Objects.requireNonNull(groupToDelete).getID()).removeValue();
+
+        String signedUser = requireActivity().getIntent().getExtras().getString("SIGNED_USER");
+        Intent athleteInformationPage = new Intent(this.getContext(), HomeActivity.class);
+        athleteInformationPage.putExtra("TRIATHLON_CLUB", this.club);
+        athleteInformationPage.putExtra("SIGNED_USER", signedUser);
+        athleteInformationPage.putExtra("SELECTED_FRAGMENT", R.id.groupsFragment);
+        startActivity(athleteInformationPage);
+    }
+
+    public Group findSelectedGroup() {
+        for (Group group : this.club.getGroupsOfClub()) {
+            if (group.getName().equals(this.selectedGroup))
+                return group;
+        }
+        return null;
     }
 }
