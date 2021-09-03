@@ -3,7 +3,6 @@ package com.example.tritendence.activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.FragmentContainerView;
 
 import android.annotation.SuppressLint;
 import android.app.TimePickerDialog;
@@ -11,10 +10,13 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -45,7 +47,7 @@ public class AddGroupActivity extends AppCompatActivity implements TimePickerDia
     private ConstraintLayout trainingUnitLayout;
     private EditText nameOfGroup, placeOfTraining;
     private TextView timeInformation;
-    private Spinner typeOfSport, dayOfTrainingUnit;
+    private Spinner typeOfSport, dayOfTrainingUnit, categoryOfGroup;
     private ImageView addIcon;
     private ArrayList<HashMap<String, Object>> dataForListOfTrainingUnits;
     private SimpleAdapter adapter;
@@ -58,6 +60,27 @@ public class AddGroupActivity extends AppCompatActivity implements TimePickerDia
         setContentView(R.layout.activity_add_group);
 
         BottomNavigationView navigation = findViewById(R.id.bottomNavigationView);
+        ScrollView scrollView = findViewById(R.id.addGroupScrollView);
+        final View activityRootView = findViewById(R.id.addGroupActivity);
+        activityRootView.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
+            int heightDiff = activityRootView.getRootView().getHeight() - activityRootView.getHeight() - 2*navigation.getHeight();
+
+            if (heightDiff > navigation.getHeight()) {
+                navigation.setVisibility(View.GONE);
+                ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) scrollView.getLayoutParams();
+                params.setMargins(0, 0, 0, 0);
+                scrollView.setLayoutParams(params);
+                scrollView.requestLayout();
+            }
+
+            if (heightDiff < navigation.getHeight()) {
+                navigation.setVisibility(View.VISIBLE);
+                ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) scrollView.getLayoutParams();
+                params.setMargins(0, 0, 0, 60);
+                scrollView.setLayoutParams(params);
+                scrollView.requestLayout();
+            }
+        });
         navigation.setSelectedItemId(R.id.groupsFragment);
         navigation.setOnNavigationItemSelectedListener(navigationListener);
 
@@ -67,6 +90,7 @@ public class AddGroupActivity extends AppCompatActivity implements TimePickerDia
         this.listOfAthletes = findViewById(R.id.listOfAthletesOfClub);
         this.trainingUnitLayout = findViewById(R.id.addTrainingUnit);
         this.nameOfGroup = findViewById(R.id.nameOfGroup);
+        this.categoryOfGroup = findViewById(R.id.categoryOfGroup);
         this.typeOfSport = findViewById(R.id.sportOfTraining);
         this.dayOfTrainingUnit = findViewById(R.id.dayOfTraining);
         this.timeInformation = findViewById(R.id.timeOfTrainingInformation);
@@ -77,6 +101,7 @@ public class AddGroupActivity extends AppCompatActivity implements TimePickerDia
         this.initializeTypeOfSport();
         this.initializeDayOfTheWeek();
         this.initializeAthletesOfClub();
+        this.initializeCategoriesOfGroup();
 
         String[] insertingData = {"dayAndTimeOfTraining", "typeAndPlaceOfTraining"};
         int[] UIData = {R.id.dayAndTimeOfTrainingList, R.id.typeAndPlaceOfTrainingList};
@@ -89,6 +114,7 @@ public class AddGroupActivity extends AppCompatActivity implements TimePickerDia
 
     private void fillGroupInformation() {
         this.nameOfGroup.setText(this.editGroup.getName());
+        this.categoryOfGroup.setSelection(Integer.parseInt(this.editGroup.getCategory()) - 1);
         for (Athlete athlete : this.editGroup.getAthletesOfGroup()) {
             for (int i = 0; i < this.listOfAthletes.getCount(); i++) {
                 if (this.listOfAthletes.getItemAtPosition(i).toString().equals(athlete.getFullName()))
@@ -146,6 +172,17 @@ public class AddGroupActivity extends AppCompatActivity implements TimePickerDia
         this.dayOfTrainingUnit.setAdapter(adapterSpinner);
     }
 
+    private void initializeCategoriesOfGroup() {
+        ArrayList<String> categories = new ArrayList<>();
+        categories.add("Športovci");
+        categories.add("Prípravka");
+        categories.add("Začiatočníci");
+
+        ArrayAdapter<String> adapterSpinner = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, categories);
+        adapterSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        this.categoryOfGroup.setAdapter(adapterSpinner);
+    }
+
     @SuppressLint("UseCompatLoadingForDrawables")
     public void addTrainingUnit(View view) {
         if (this.trainingUnitLayout.getVisibility() == View.GONE) {
@@ -195,12 +232,13 @@ public class AddGroupActivity extends AppCompatActivity implements TimePickerDia
             this.nameOfGroup.setError("Skupina musí mať názov.");
             return;
         }
+        String category = this.categoryOfGroup.getSelectedItem().toString();
 
         if (this.editGroup != null)
             this.groupID = this.editGroup.getID();
         else
             this.groupID = this.club.getNumberOfGroups() + 1;
-        root.child(GROUPS_CHILD_DATABASE + "/" + this.groupID + "/Category").setValue(1);
+        root.child(GROUPS_CHILD_DATABASE + "/" + this.groupID + "/Category").setValue(category);
         root.child(GROUPS_CHILD_DATABASE + "/" + this.groupID + "/Name").setValue(name);
 
         for (HashMap<String, Object> data : this.dataForListOfTrainingUnits) {

@@ -2,6 +2,7 @@ package com.example.tritendence.activities;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -45,6 +47,27 @@ public class AddAthleteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_athlete);
 
         BottomNavigationView navigation = findViewById(R.id.bottomNavigationView);
+        ConstraintLayout constraintLayout = findViewById(R.id.addAthleteConstraintView);
+        final View activityRootView = findViewById(R.id.addAthleteActivity);
+        activityRootView.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
+            int heightDiff = activityRootView.getRootView().getHeight() - activityRootView.getHeight() - 2*navigation.getHeight();
+
+            if (heightDiff > navigation.getHeight()) {
+                navigation.setVisibility(View.GONE);
+                ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) constraintLayout.getLayoutParams();
+                params.setMargins(0, 0, 0, 0);
+                constraintLayout.setLayoutParams(params);
+                constraintLayout.requestLayout();
+            }
+
+            if (heightDiff < navigation.getHeight()) {
+                navigation.setVisibility(View.VISIBLE);
+                ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) constraintLayout.getLayoutParams();
+                params.setMargins(0, 0, 0, 60);
+                constraintLayout.setLayoutParams(params);
+                constraintLayout.requestLayout();
+            }
+        });
         navigation.setSelectedItemId(R.id.athletesFragment);
         navigation.setOnNavigationItemSelectedListener(navigationListener);
 

@@ -111,7 +111,7 @@ public class GroupInformationFragment extends Fragment implements Serializable {
         for (Group group : this.club.getGroupsOfClub()) {
             if (group.getName().equals(selectedGroup)) {
                 this.nameOfGroup.setText(group.getName());
-                this.categoryOfGroup.setText(group.getCategory());
+                this.categoryOfGroup.setText(group.getCategoryTranslation());
                 this.numberOfAthletes.setText(String.valueOf(group.getNumberOfAthletes()));
                 ArrayList<Athlete> athletesOfGroup = group.getAthletesOfGroup();
 

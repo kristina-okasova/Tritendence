@@ -66,4 +66,17 @@ public class Group implements Serializable {
     public int getNumberOfAthletes() {
         return this.athletesOfGroup.size();
     }
+
+    public String getCategoryTranslation() {
+        switch(this.category) {
+            case "1":
+                return "Športovci";
+            case "2":
+                return "Prípravka";
+            case "3":
+                return "Začiatočníci";
+            default:
+                return null;
+        }
+    }
 }
