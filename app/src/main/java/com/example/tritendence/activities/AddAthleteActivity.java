@@ -21,6 +21,7 @@ import com.example.tritendence.R;
 import com.example.tritendence.model.TriathlonClub;
 import com.example.tritendence.model.groups.Group;
 import com.example.tritendence.model.users.Athlete;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -42,6 +43,10 @@ public class AddAthleteActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_athlete);
+
+        BottomNavigationView navigation = findViewById(R.id.bottomNavigationView);
+        navigation.setSelectedItemId(R.id.athletesFragment);
+        navigation.setOnNavigationItemSelectedListener(navigationListener);
 
         this.club =  (TriathlonClub) getIntent().getExtras().getSerializable("TRIATHLON_CLUB");
         this.editAthlete = (Athlete) getIntent().getExtras().getSerializable("EDIT_ATHLETE");
@@ -100,8 +105,8 @@ public class AddAthleteActivity extends AppCompatActivity {
             athleteID = this.club.getNumberOfAthletes() + 1;
         String groupID = String.valueOf(this.groupOfAthlete.getSelectedItemPosition());
         String dayOfBirth = this.dayOfBirthOfAthlete.getText().toString();
-        root.child(ATHLETES_CHILD_DATABASE + "/" + athleteID + "/Name").setValue(this.nameOfAthlete.getText().toString());
-        root.child(ATHLETES_CHILD_DATABASE + "/" + athleteID + "/Surname").setValue(this.surnameOfAthlete.getText().toString());
+        root.child(ATHLETES_CHILD_DATABASE + "/" + athleteID + "/Name").setValue(this.nameOfAthlete.getText().toString().trim());
+        root.child(ATHLETES_CHILD_DATABASE + "/" + athleteID + "/Surname").setValue(this.surnameOfAthlete.getText().toString().trim());
         root.child(ATHLETES_CHILD_DATABASE + "/" + athleteID + "/GroupID").setValue(groupID);
         root.child(ATHLETES_CHILD_DATABASE + "/" + athleteID + "/NumberOfTrainings").setValue(0);
         root.child(ATHLETES_CHILD_DATABASE + "/" + athleteID + "/DayOfBirth").setValue(dayOfBirth.substring(dayOfBirth.indexOf(':') + 2));
@@ -130,4 +135,18 @@ public class AddAthleteActivity extends AppCompatActivity {
         datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         datePickerDialog.show();
     }
+
+    @SuppressLint("NonConstantResourceId")
+    private final BottomNavigationView.OnNavigationItemSelectedListener navigationListener =
+            item -> {
+                TriathlonClub club = (TriathlonClub) getIntent().getExtras().getSerializable("TRIATHLON_CLUB");
+                String signedUser = getIntent().getExtras().getString("SIGNED_USER");
+                Intent homePage = new Intent(this, HomeActivity.class);
+                homePage.putExtra("SIGNED_USER", signedUser);
+                homePage.putExtra("TRIATHLON_CLUB", club);
+                homePage.putExtra("SELECTED_FRAGMENT", item.getItemId());
+                startActivity(homePage);
+                finish();
+                return true;
+            };
 }

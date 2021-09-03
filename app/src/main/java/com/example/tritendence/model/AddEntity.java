@@ -16,7 +16,7 @@ public class AddEntity {
         DatabaseReference root = database.getReference();
 
         club.updateNumberOfTrainers();
-        Trainer trainer = new Trainer(club.getNumberOfTrainers(), name, surname, email, sport, 0);
+        Trainer trainer = new Trainer(club.getNumberOfTrainers(), name.trim(), surname.trim(), email.trim(), sport, 0);
         Map<String, Object> userData = trainer.getMappedData();
         root.child(TRAINERS_CHILD_DATABASE + "/" + trainer.getIDText()).setValue(userData);
     }

@@ -82,6 +82,10 @@ public class LogInActivity extends AppCompatActivity {
     }
 
     private void loadRegistration() {
+        if (!this.isOnline()) {
+            Toast.makeText(this, "Je potrebné internetové pripojenie.", Toast.LENGTH_LONG).show();
+            return;
+        }
         Intent registrationPage = new Intent(LogInActivity.this, RegistrationActivity.class);
         registrationPage.putExtra(getString(R.string.TRIATHLON_CLUB), this.club);
         startActivity(registrationPage);

@@ -23,7 +23,9 @@ import com.example.tritendence.R;
 import com.example.tritendence.activities.GroupInformationActivity;
 import com.example.tritendence.activities.HomeActivity;
 import com.example.tritendence.model.AdapterOfExpendableAttendance;
+import com.example.tritendence.model.AdapterOfExpendableTrainingUnits;
 import com.example.tritendence.model.AttendanceData;
+import com.example.tritendence.model.TrainingUnit;
 import com.example.tritendence.model.TriathlonClub;
 import com.example.tritendence.model.groups.Group;
 import com.example.tritendence.model.users.Athlete;
@@ -45,8 +47,9 @@ public class GroupInformationFragment extends Fragment implements Serializable {
     private TextView membersOfGroupText, categoryOfGroup, nameOfGroup, numberOfAthletes;
     private CardView membersOfGroup;
     private TriathlonClub club;
-    private List<String> dateOfAttendances;
+    private List<String> dateOfAttendances, sportTypes;
     private final Map<String, List<String>> schedule;
+    private Map<String, List<String>> timetable;
     private String selectedGroup;
 
     public GroupInformationFragment() {this.schedule = new HashMap<>(); }
@@ -54,6 +57,7 @@ public class GroupInformationFragment extends Fragment implements Serializable {
     public GroupInformationFragment(GroupInformationActivity activity) {
         this.activity = activity;
         this.schedule = new HashMap<>();
+        this.timetable = new HashMap<>();
     }
 
     @Override
@@ -76,10 +80,15 @@ public class GroupInformationFragment extends Fragment implements Serializable {
         this.numberOfAthletes = view.findViewById(R.id.numberOfAthletesInGroup);
 
         this.initializeAttendanceDates();
+        this.initializeTrainingUnits();
 
         ExpandableListView expandableAttendance = view.findViewById(R.id.attendanceOfGroupInformation);
         expandableAttendance.setAdapter(new AdapterOfExpendableAttendance(this.activity, this.dateOfAttendances, this.schedule));
         expandableAttendance.setGroupIndicator(null);
+
+        ExpandableListView expandableTimetable = view.findViewById(R.id.timetableOfGroupInformation);
+        expandableTimetable.setAdapter(new AdapterOfExpendableTrainingUnits(this.activity, this.sportTypes, this.timetable));
+        expandableTimetable.setGroupIndicator(null);
 
         this.fillGroupInformation();
     }
@@ -140,6 +149,31 @@ public class GroupInformationFragment extends Fragment implements Serializable {
                     this.schedule.computeIfAbsent(trainingData, k -> new ArrayList<>()).add(athlete.getFullName());
             }
         }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void initializeTrainingUnits () {
+        this.initializeSports();
+        Group group = this.findSelectedGroup();
+        for (TrainingUnit unit : group.getTimetable()) {
+            String unitData = unit.getDay() + " " + unit.getTime() + "\n" + unit.getSportTranslation() + ", " + unit.getLocation();
+            this.timetable.computeIfAbsent(unit.getSportTranslation(), k -> new ArrayList<>()).add(unitData);
+        }
+    }
+
+    private void initializeSports() {
+        this.timetable.put(getString(R.string.SWIMMING), new ArrayList<>());
+        this.timetable.put(getString(R.string.ATHLETICS), new ArrayList<>());
+        this.timetable.put(getString(R.string.CYCLING), new ArrayList<>());
+        this.timetable.put(getString(R.string.STRENGTH), new ArrayList<>());
+        this.timetable.put(getString(R.string.OTHER), new ArrayList<>());
+
+        this.sportTypes = new ArrayList<>();
+        this.sportTypes.add(getString(R.string.SWIMMING));
+        this.sportTypes.add(getString(R.string.ATHLETICS));
+        this.sportTypes.add(getString(R.string.CYCLING));
+        this.sportTypes.add(getString(R.string.STRENGTH));
+        this.sportTypes.add(getString(R.string.OTHER));
     }
 
     public void deleteGroup() {

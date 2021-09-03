@@ -123,7 +123,7 @@ public class AttendanceSheetFragment extends Fragment {
         ArrayList<String> trainersNames = new ArrayList<>();
 
         DecimalFormat dateFormat= new DecimalFormat("00");
-        String noteText = this.note.getText().toString();
+        String noteText = this.note.getText().toString().trim();
         trainersNames.add((String) this.firstTrainersName.getSelectedItem());
 
         if (this.secondTrainerLayout.getVisibility() == View.VISIBLE)

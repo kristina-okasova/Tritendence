@@ -1,165 +1,186 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
-    <androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_height="match_parent"
+    tools:context=".activities.AddGroupActivity">
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationView"
+        style="@style/bottomNavigationStyle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:itemIconTint="@drawable/bottom_nav_icon_color_selector"
+        app:itemTextColor="@drawable/bottom_nav_icon_color_selector"
+        app:menu="@menu/home_bottom_menu" />
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#17252a"
-        tools:context=".activities.AddGroupActivity">
-
-        <Button
-            android:id="@+id/addGroupBtn"
-            style="@style/buttonStyle"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="30dp"
-            android:onClick="createGroup"
-            android:text="@string/CREATE_GROUP"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/listOfAthletesOfClub"
-            tools:ignore="UsingOnClickInXml" />
-
-        <EditText
-            android:id="@+id/nameOfGroup"
-            style="@style/textViewBasicStyle"
-            android:layout_marginTop="40dp"
-            android:autofillHints="@string/NAME_OF_GROUP"
-            android:hint="@string/NAME_OF_GROUP"
-            android:inputType="textShortMessage"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/textView4"
-            style="@style/informationHeadingStyle"
-            android:layout_width="300dp"
-            android:layout_marginStart="1dp"
-            android:layout_marginLeft="1dp"
-            android:layout_marginTop="20dp"
-            android:padding="5dp"
-            android:text="@string/TIMETABLE"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/nameOfGroup" />
-
-        <com.example.tritendence.model.ListScrollable
-            android:id="@+id/listOfTrainingUnits"
-            style="@style/listStyle"
-            android:layout_width="300dp"
-            android:layout_marginTop="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        android:layout_height="match_parent"
+        android:layout_marginBottom="60dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" >
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/addTrainingUnit"
-            android:layout_width="320dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#423E3E"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/listOfTrainingUnits">
+            android:background="#17252a">
 
-            <Spinner
-                android:id="@+id/sportOfTraining"
-                style="@style/informationInputStyle"
-                android:layout_width="300dp"
-                android:layout_marginTop="5dp"
-                android:theme="@style/attendanceChooseTrainerStyle"
+            <Button
+                android:id="@+id/addGroupBtn"
+                style="@style/buttonStyle"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="30dp"
+                android:onClick="createGroup"
+                android:text="@string/CREATE_GROUP"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/listOfAthletesOfClub"
+                tools:ignore="UsingOnClickInXml" />
+
+            <EditText
+                android:id="@+id/nameOfGroup"
+                style="@style/textViewBasicStyle"
+                android:layout_marginTop="40dp"
+                android:autofillHints="@string/NAME_OF_GROUP"
+                android:hint="@string/NAME_OF_GROUP"
+                android:inputType="textShortMessage"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <Spinner
-                android:id="@+id/dayOfTraining"
-                style="@style/informationInputStyle"
+            <TextView
+                android:id="@+id/textView4"
+                style="@style/informationHeadingStyle"
                 android:layout_width="300dp"
-                android:layout_marginTop="5dp"
-                android:theme="@style/attendanceChooseTrainerStyle"
+                android:layout_marginStart="1dp"
+                android:layout_marginLeft="1dp"
+                android:layout_marginTop="20dp"
+                android:padding="5dp"
+                android:text="@string/TIMETABLE"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/sportOfTraining" />
+                app:layout_constraintTop_toBottomOf="@+id/nameOfGroup" />
+
+            <com.example.tritendence.model.ListScrollable
+                android:id="@+id/listOfTrainingUnits"
+                style="@style/listStyle"
+                android:layout_width="300dp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/addTrainingUnit"
+                android:layout_width="320dp"
+                android:layout_height="wrap_content"
+                android:background="#423E3E"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/listOfTrainingUnits">
+
+                <Spinner
+                    android:id="@+id/sportOfTraining"
+                    style="@style/informationInputStyle"
+                    android:layout_width="300dp"
+                    android:layout_marginTop="5dp"
+                    android:theme="@style/attendanceChooseTrainerStyle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Spinner
+                    android:id="@+id/dayOfTraining"
+                    style="@style/informationInputStyle"
+                    android:layout_width="300dp"
+                    android:layout_marginTop="5dp"
+                    android:theme="@style/attendanceChooseTrainerStyle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/sportOfTraining" />
+
+                <ImageView
+                    android:id="@+id/timeOfTrainingUnitIcon"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:onClick="displayTimeSelection"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/timeOfTrainingInformation"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/placeOfTraining"
+                    app:srcCompat="@drawable/time_icon"
+                    app:tint="@color/middle_red"
+                    tools:ignore="UsingOnClickInXml,VectorDrawableCompat"
+                    android:contentDescription="@string/TIME_OF_TRAINING_UNIT_DESCRIPTION" />
+
+                <TextView
+                    android:id="@+id/timeOfTrainingInformation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/timeOfTrainingUnitIcon"
+                    app:layout_constraintTop_toBottomOf="@+id/placeOfTraining" />
+
+                <EditText
+                    android:id="@+id/placeOfTraining"
+                    style="@style/textViewBasicStyle"
+                    android:autofillHints="@string/PLACE"
+                    android:hint="@string/PLACE"
+                    android:inputType="textShortMessage"
+                    android:padding="15dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/dayOfTraining" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <ImageView
-                android:id="@+id/timeOfTrainingUnitIcon"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:id="@+id/addIcon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:onClick="displayTimeSelection"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/timeOfTrainingInformation"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/placeOfTraining"
-                app:srcCompat="@drawable/time_icon"
+                android:layout_marginEnd="50dp"
+                android:layout_marginRight="50dp"
+                android:onClick="addTrainingUnit"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/addTrainingUnit"
+                app:srcCompat="@drawable/add_circle_icon"
                 app:tint="@color/middle_red"
                 tools:ignore="UsingOnClickInXml,VectorDrawableCompat"
-                android:contentDescription="@string/TIME_OF_TRAINING_UNIT_DESCRIPTION" />
+                android:contentDescription="@string/ADD_TRAINING_UNIT_DESCRIPTION" />
 
             <TextView
-                android:id="@+id/timeOfTrainingInformation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/textView5"
+                style="@style/informationHeadingStyle"
+                android:layout_width="300dp"
+                android:layout_marginStart="1dp"
+                android:layout_marginLeft="1dp"
                 android:layout_marginTop="10dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/timeOfTrainingUnitIcon"
-                app:layout_constraintTop_toBottomOf="@+id/placeOfTraining" />
-
-            <EditText
-                android:id="@+id/placeOfTraining"
-                style="@style/textViewBasicStyle"
-                android:autofillHints="@string/PLACE"
-                android:hint="@string/PLACE"
-                android:inputType="textShortMessage"
-                android:padding="15dp"
+                android:padding="5dp"
+                android:text="@string/MEMBERS_OF_GROUP"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/dayOfTraining" />
+                app:layout_constraintTop_toBottomOf="@+id/addIcon" />
+
+            <com.example.tritendence.model.ListScrollable
+                android:id="@+id/listOfAthletesOfClub"
+                style="@style/listStyle"
+                android:layout_width="300dp"
+                android:choiceMode="multipleChoice"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <ImageView
-            android:id="@+id/addIcon"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="50dp"
-            android:layout_marginRight="50dp"
-            android:onClick="addTrainingUnit"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/addTrainingUnit"
-            app:srcCompat="@drawable/add_circle_icon"
-            app:tint="@color/middle_red"
-            tools:ignore="UsingOnClickInXml,VectorDrawableCompat"
-            android:contentDescription="@string/ADD_TRAINING_UNIT_DESCRIPTION" />
-
-        <TextView
-            android:id="@+id/textView5"
-            style="@style/informationHeadingStyle"
-            android:layout_width="300dp"
-            android:layout_marginStart="1dp"
-            android:layout_marginLeft="1dp"
-            android:layout_marginTop="10dp"
-            android:padding="5dp"
-            android:text="@string/MEMBERS_OF_GROUP"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/addIcon" />
-
-        <com.example.tritendence.model.ListScrollable
-            android:id="@+id/listOfAthletesOfClub"
-            style="@style/listStyle"
-            android:layout_width="300dp"
-            android:choiceMode="multipleChoice"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView5" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

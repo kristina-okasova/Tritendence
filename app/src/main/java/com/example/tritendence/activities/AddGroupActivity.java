@@ -3,6 +3,7 @@ package com.example.tritendence.activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentContainerView;
 
 import android.annotation.SuppressLint;
 import android.app.TimePickerDialog;
@@ -26,6 +27,7 @@ import com.example.tritendence.model.TriathlonClub;
 import com.example.tritendence.model.groups.Group;
 import com.example.tritendence.model.users.Athlete;
 import com.example.tritendence.model.users.Member;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -54,6 +56,10 @@ public class AddGroupActivity extends AppCompatActivity implements TimePickerDia
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_group);
+
+        BottomNavigationView navigation = findViewById(R.id.bottomNavigationView);
+        navigation.setSelectedItemId(R.id.groupsFragment);
+        navigation.setOnNavigationItemSelectedListener(navigationListener);
 
         this.club = (TriathlonClub) getIntent().getExtras().getSerializable("TRIATHLON_CLUB");
         this.editGroup = (Group) getIntent().getExtras().getSerializable("EDIT_GROUP");
@@ -172,8 +178,8 @@ public class AddGroupActivity extends AppCompatActivity implements TimePickerDia
 
         HashMap<String, Object> mappedData = new HashMap<>();
 
-        mappedData.put("dayAndTimeOfTraining", this.dayOfTrainingUnit.getSelectedItem() + " " + this.timeInformation.getText());
-        mappedData.put("typeAndPlaceOfTraining", this.typeOfSport.getSelectedItem() + ", " + this.placeOfTraining.getText());
+        mappedData.put("dayAndTimeOfTraining", this.dayOfTrainingUnit.getSelectedItem() + " " + this.timeInformation.getText().toString().trim());
+        mappedData.put("typeAndPlaceOfTraining", this.typeOfSport.getSelectedItem() + ", " + this.placeOfTraining.getText().toString().trim());
 
         this.dataForListOfTrainingUnits.add(mappedData);
         this.adapter.notifyDataSetChanged();
@@ -184,7 +190,7 @@ public class AddGroupActivity extends AppCompatActivity implements TimePickerDia
         DatabaseReference root = database.getReference();
         int numberOfSwimmingTrainings = 0, numberOfAthleticTrainings = 0, numberOfCyclingTrainings = 0, numberOfStrengthTrainings = 0, numberOfOtherTrainings = 0;
 
-        String name = this.nameOfGroup.getText().toString();
+        String name = this.nameOfGroup.getText().toString().trim();
         if (name.equals(getString(R.string.EMPTY_STRING))) {
             this.nameOfGroup.setError("Skupina musí mať názov.");
             return;
@@ -287,4 +293,18 @@ public class AddGroupActivity extends AppCompatActivity implements TimePickerDia
     public void onTimeSet(android.widget.TimePicker view, int hourOfDay, int minute) {
         this.timeInformation.setText(String.format("%02d:%02d", hourOfDay, minute));
     }
+
+    @SuppressLint("NonConstantResourceId")
+    private final BottomNavigationView.OnNavigationItemSelectedListener navigationListener =
+            item -> {
+                TriathlonClub club = (TriathlonClub) getIntent().getExtras().getSerializable("TRIATHLON_CLUB");
+                String signedUser = getIntent().getExtras().getString("SIGNED_USER");
+                Intent homePage = new Intent(this, HomeActivity.class);
+                homePage.putExtra("SIGNED_USER", signedUser);
+                homePage.putExtra("TRIATHLON_CLUB", club);
+                homePage.putExtra("SELECTED_FRAGMENT", item.getItemId());
+                startActivity(homePage);
+                finish();
+                return true;
+            };
 }

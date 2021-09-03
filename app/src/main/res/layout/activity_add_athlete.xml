@@ -4,99 +4,121 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#17252a"
     tools:context=".activities.AddAthleteActivity">
 
-    <Button
-        android:id="@+id/addAthleteBtn"
-        style="@style/buttonStyle"
-        android:layout_marginBottom="30dp"
-        android:onClick="createAthlete"
-        android:text="@string/CREATE_ATHLETE"
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationView"
+        style="@style/bottomNavigationStyle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_constraintTop_toBottomOf="@id/groupOfAthlete"
-        tools:ignore="UsingOnClickInXml" />
-
-    <EditText
-        android:id="@+id/nameOfAthleteCreate"
-        style="@style/textViewBasicStyle"
-        android:layout_marginTop="40dp"
-        android:autofillHints="@string/REGISTRATION_NAME"
-        android:hint="@string/REGISTRATION_NAME"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/surnameOfAthleteCreate"
-        style="@style/textViewBasicStyle"
-        android:layout_marginTop="20dp"
-        android:autofillHints="@string/REGISTRATION_SURNAME"
-        android:hint="@string/REGISTRATION_SURNAME"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/nameOfAthleteCreate" />
-
-    <TextView
-        android:id="@+id/groupOfAthleteInformation"
-        style="@style/informationHeadingStyle"
-        android:layout_width="300dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginLeft="1dp"
-        android:padding="5dp"
-        android:text="@string/ATHLETES_GROUP"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/surnameOfAthleteCreate" />
-
-    <Spinner
-        android:id="@+id/groupOfAthlete"
-        style="@style/informationInputStyle"
-        android:layout_width="300dp"
-        android:layout_marginTop="10dp"
-        android:theme="@style/attendanceChooseTrainerStyle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/groupOfAthleteInformation" />
+        app:itemIconTint="@drawable/bottom_nav_icon_color_selector"
+        app:itemTextColor="@drawable/bottom_nav_icon_color_selector"
+        app:menu="@menu/home_bottom_menu" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#17252a"
+        android:layout_marginBottom="60dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/groupOfAthlete">
+        app:layout_constraintTop_toTopOf="parent"
+        tools:context=".activities.AddAthleteActivity">
 
-        <TextView
-            android:id="@+id/dayOfBirthOfAthlete"
-            style="@style/informationHeadingStyle"
-            android:layout_width="wrap_content"
-            android:layout_marginStart="1dp"
-            android:layout_marginLeft="1dp"
-            android:padding="5dp"
-            android:text="@string/ATHLETES_DAY_OF_BIRTH"
+        <Button
+            android:id="@+id/addAthleteBtn"
+            style="@style/buttonStyle"
+            android:layout_marginBottom="30dp"
+            android:onClick="createAthlete"
+            android:text="@string/CREATE_ATHLETE"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="UsingOnClickInXml"
+            tools:layout_constraintTop_toBottomOf="@id/groupOfAthlete" />
+
+        <EditText
+            android:id="@+id/nameOfAthleteCreate"
+            style="@style/textViewBasicStyle"
+            android:layout_marginTop="40dp"
+            android:autofillHints="@string/REGISTRATION_NAME"
+            android:hint="@string/REGISTRATION_NAME"
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/dayOfBirthPicker"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginLeft="40dp"
+        <EditText
+            android:id="@+id/surnameOfAthleteCreate"
+            style="@style/textViewBasicStyle"
             android:layout_marginTop="20dp"
-            android:onClick="displayDateSelection"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:autofillHints="@string/REGISTRATION_SURNAME"
+            android:hint="@string/REGISTRATION_SURNAME"
+            android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/dayOfBirthOfAthlete"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/calendar_icon"
-            app:tint="@color/middle_red"
-            tools:ignore="UsingOnClickInXml,VectorDrawableCompat"
-            android:contentDescription="@string/ADD_ATHLETE_DESCRIPTION" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/nameOfAthleteCreate" />
 
+        <TextView
+            android:id="@+id/groupOfAthleteInformation"
+            style="@style/informationHeadingStyle"
+            android:layout_width="300dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginLeft="1dp"
+            android:padding="5dp"
+            android:text="@string/ATHLETES_GROUP"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/surnameOfAthleteCreate" />
+
+        <Spinner
+            android:id="@+id/groupOfAthlete"
+            style="@style/informationInputStyle"
+            android:layout_width="300dp"
+            android:layout_marginTop="10dp"
+            android:theme="@style/attendanceChooseTrainerStyle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/groupOfAthleteInformation" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout4"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/groupOfAthlete">
+
+            <TextView
+                android:id="@+id/dayOfBirthOfAthlete"
+                style="@style/informationHeadingStyle"
+                android:layout_width="wrap_content"
+                android:layout_marginStart="1dp"
+                android:layout_marginLeft="1dp"
+                android:padding="5dp"
+                android:text="@string/ATHLETES_DAY_OF_BIRTH"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/dayOfBirthPicker"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="20dp"
+                android:contentDescription="@string/ADD_ATHLETE_DESCRIPTION"
+                android:onClick="displayDateSelection"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/dayOfBirthOfAthlete"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/calendar_icon"
+                app:tint="@color/middle_red"
+                tools:ignore="UsingOnClickInXml,VectorDrawableCompat" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
