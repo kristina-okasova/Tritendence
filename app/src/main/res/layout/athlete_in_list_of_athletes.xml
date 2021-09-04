@@ -10,7 +10,8 @@
     <TextView
         android:id="@+id/nameOfAthleteInList"
         style="@style/enumerationTextStyle"
-        android:layout_toRightOf="@id/iconToAthleteName" />
+        android:layout_toRightOf="@id/iconToAthleteName"
+        tools:ignore="RtlHardcoded" />
 
     <ImageView
         android:id="@+id/iconToAthleteName"

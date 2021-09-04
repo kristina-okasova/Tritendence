@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <style name="attendanceChooseTrainerStyle" parent="@android:style/Widget.Holo.DropDownItem.Spinner">
         <item name="android:textColor">#DEF2F1</item>
         <item name="android:textSize">18sp</item>
@@ -8,6 +8,7 @@
     <style name="buttonStyle" parent="Widget.MaterialComponents.Button">
         <item name="android:layout_width">300dp</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="textViewBasicStyle" parent="Widget.MaterialComponents.TextView">
@@ -16,7 +17,8 @@
         <item name="android:ems">10</item>
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">?attr/colorOnPrimary</item>
-        <item name="android:textColorHint">#DDE6E6E6</item>
+        <item name="android:textColorHint">#66E6E6E6</item>
+        <item name="android:backgroundTint" tools:targetApi="lollipop">?attr/colorOnPrimary</item>
     </style>
 
     <style name="logoStyle" parent="Widget.MaterialComponents.TimePicker.ImageButton">
@@ -63,7 +65,7 @@
     <style name="enumerationIconStyle" parent="Theme.DarkRed">
         <item name="android:layout_width">30dp</item>
         <item name="android:layout_height">30dp</item>
-        <item name="android:layout_margin">20dp</item>
+        <item name="android:layout_margin">18dp</item>
         <item name="android:scaleType">fitCenter</item>
         <item name="android:tint">?attr/colorSecondary</item>
     </style>
@@ -72,10 +74,33 @@
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_weight">1</item>
-        <item name="android:background">?attr/colorSecondary</item>
         <item name="android:paddingLeft">60dp</item>
         <item name="android:paddingTop">10dp</item>
         <item name="android:paddingBottom">10dp</item>
+        <item name="android:textColor">?attr/colorOnPrimary</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="groupDataInExpendableListStyle" parent="Theme.DarkRed">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">?attr/colorPrimary</item>
+        <item name="android:paddingLeft">60dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="childDataInExpendableListStyle" parent="Theme.DarkRed">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">?attr/colorOnSecondary</item>
+        <item name="android:paddingLeft">60dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:textColor">?attr/colorOnBackground</item>
         <item name="android:textSize">16sp</item>
     </style>
 
@@ -83,14 +108,33 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginTop">20dp</item>
+        <item name="android:divider">?attr/colorPrimary</item>
+        <item name="android:dividerHeight">3dp</item>
+    </style>
+
+    <style name="groupInformationListStyle" parent="Theme.DarkRed">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:backgroundTint" tools:targetApi="lollipop">?attr/colorPrimary</item>
+        <item name="android:textColor">?attr/colorOnPrimary</item>
+        <item name="android:divider">?attr/colorOnBackground</item>
+        <item name="android:dividerHeight">2dp</item>
+    </style>
+
+    <style name="profileListStyle" parent="Theme.DarkRed">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:textColor">?attr/colorOnPrimary</item>
         <item name="android:divider">?attr/colorSecondary</item>
         <item name="android:dividerHeight">2dp</item>
+        <item name="backgroundColor">?attr/colorOnBackground</item>
     </style>
 
     <style name="dataInRelativeLayoutStyle" parent="Theme.DarkRed">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">?attr/colorSecondary</item>
         <item name="android:layout_marginTop">20dp</item>
         <item name="android:textSize">16sp</item>
         <item name="android:padding">5dp</item>
@@ -111,13 +155,24 @@
         <item name="android:layout_marginTop">20dp</item>
         <item name="android:layout_marginLeft">40dp</item>
         <item name="android:textSize">16sp</item>
+        <item name="android:textColor">#E6E6E6E6</item>
     </style>
 
     <style name="informationInputStyle" parent="Widget.MaterialComponents.TextView">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginTop">20dp</item>
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="spinnerStyle" parent="Widget.MaterialComponents.TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:popupBackground">?attr/colorSecondary</item>
+        <item name="android:background">@drawable/gradient_spinner</item>
+        <item name="android:overlapAnchor" tools:targetApi="lollipop">false</item>
     </style>
 
     <style name="optionMenuStyle" parent="Theme.AppCompat.Light.NoActionBar">

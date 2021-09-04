@@ -161,8 +161,7 @@ public class AttendanceSheetFragment extends Fragment {
         trainersNameSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                ((TextView) view).setTextColor(Color.parseColor("#DEF2F1"));
-                ((TextView) view).setTextSize(18);
+                ((TextView) view).setTextColor(Color.parseColor("#E6E6E6"));
             }
 
             @Override

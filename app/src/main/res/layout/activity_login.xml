@@ -20,28 +20,26 @@
     <EditText
         android:id="@+id/emailSignIn"
         style="@style/textViewBasicStyle"
+        android:autofillHints="@string/EMAIL"
         android:backgroundTint="#DEF2F1"
         android:hint="@string/EMAIL"
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView2"
-        android:autofillHints="@string/EMAIL"
         tools:targetApi="lollipop" />
 
     <EditText
         android:id="@+id/passwordSIgnIn"
         style="@style/textViewBasicStyle"
         android:layout_marginTop="32dp"
+        android:autofillHints="@string/PASSWORD"
         android:backgroundTint="#DEF2F1"
         android:hint="@string/PASSWORD"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/emailSignIn"
-        android:autofillHints="@string/PASSWORD"
         tools:targetApi="lollipop" />
 
     <Button

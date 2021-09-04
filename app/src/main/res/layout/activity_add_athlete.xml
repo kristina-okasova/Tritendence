@@ -77,9 +77,10 @@
 
         <Spinner
             android:id="@+id/groupOfAthlete"
-            style="@style/informationInputStyle"
+            style="@style/spinnerStyle"
             android:layout_width="300dp"
             android:layout_marginTop="10dp"
+            android:dropDownWidth="300dp"
             android:theme="@style/attendanceChooseTrainerStyle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

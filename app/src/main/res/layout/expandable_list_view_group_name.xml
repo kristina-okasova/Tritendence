@@ -7,8 +7,8 @@
 
     <TextView
         android:id="@+id/groupName"
-        style="@style/dataInExpendableListStyle"
-        android:paddingLeft="20dp"
+        style="@style/childDataInExpendableListStyle"
+        android:paddingLeft="10dp"
         android:textSize="22sp"
         tools:ignore="RtlHardcoded,RtlSymmetry" />
 </LinearLayout>

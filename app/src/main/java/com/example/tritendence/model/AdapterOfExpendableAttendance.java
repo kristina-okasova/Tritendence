@@ -67,10 +67,10 @@ public class AdapterOfExpendableAttendance extends BaseExpandableListAdapter {
         String trainingData = this.dateOfAttendance.get(groupPosition);
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.expandable_list_view_group_name, null);
+            convertView = inflater.inflate(R.layout.group_data_in_expandable_list_view, null);
         }
 
-        TextView dateData = convertView.findViewById(R.id.groupName);
+        TextView dateData = convertView.findViewById(R.id.data);
         dateData.setText(trainingData);
 
         return convertView;
@@ -83,7 +83,7 @@ public class AdapterOfExpendableAttendance extends BaseExpandableListAdapter {
 
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.data_in_expandable_list_view, null);
+            convertView = inflater.inflate(R.layout.child_data_in_expandable_list_view, null);
         }
 
         TextView athleteName = convertView.findViewById(R.id.data);

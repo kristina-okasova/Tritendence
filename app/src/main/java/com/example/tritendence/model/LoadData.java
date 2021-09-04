@@ -1,16 +1,9 @@
 package com.example.tritendence.model;
 
-import android.app.Activity;
 import android.os.Build;
-import android.provider.ContactsContract;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.example.tritendence.activities.AddGroupActivity;
-import com.example.tritendence.activities.HomeActivity;
-import com.example.tritendence.activities.LogInActivity;
 import com.example.tritendence.model.groups.Group;
 import com.example.tritendence.model.users.Admin;
 import com.example.tritendence.model.users.Athlete;
@@ -22,7 +15,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -32,6 +24,7 @@ public class LoadData {
     private static final String TRAINERS_CHILD_DATABASE = "Trainers";
     private static final String ATTENDANCE_CHILD_DATABASE = "Attendance";
     private static final String ADMINS_CHILD_DATABASE = "Admin";
+    private static final String NUMBER_OF_WEEK = "NumberOfWeek";
 
     private static final String NAME = "Name";
     private static final String SURNAME = "Surname";
@@ -59,7 +52,7 @@ public class LoadData {
     private static final int NUMBER_OF_REQUIRED_DATA_FOR_GROUP = 3;
     private static final int NUMBER_OF_REQUIRED_DATA_FOR_TRAINING_UNIT = 3;
 
-    private TriathlonClub club;
+    private final TriathlonClub club;
     private transient final DatabaseReference database;
     private int numberOfGroups, numberOfAthletes, numberOfTrainers, numberOfFilledAttendances;
 
@@ -92,12 +85,14 @@ public class LoadData {
         this.numberOfAthletes = (int) snapshot.child(ATHLETES_CHILD_DATABASE).getChildrenCount();
         this.numberOfTrainers = (int) snapshot.child(TRAINERS_CHILD_DATABASE).getChildrenCount();
         this.numberOfFilledAttendances = (int) snapshot.child(ATTENDANCE_CHILD_DATABASE).getChildrenCount();
+        int numberOfWeek = Integer.parseInt(Objects.requireNonNull(snapshot.child(NUMBER_OF_WEEK).getValue()).toString());
 
         this.club.setNumberOfGroups(this.numberOfGroups);
         this.club.setNumberOfAthletes(this.numberOfAthletes);
         this.club.setNumberOfTrainers(this.numberOfTrainers);
         this.club.setNumberOfFilledAttendances(this.numberOfFilledAttendances);
         this.club.setNumberOfUsers(this.numberOfAthletes + this.numberOfTrainers);
+        this.club.setNumberOfWeek(numberOfWeek);
     }
 
     private void loadGroupInformation(DataSnapshot snapshot) {

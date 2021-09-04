@@ -24,7 +24,7 @@
     <TextView
         android:id="@+id/athletesDayOfBirth"
         style="@style/informationInputStyle"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="40dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView10"
         app:layout_constraintTop_toBottomOf="@+id/nameOfAthlete" />
@@ -96,14 +96,16 @@
         android:id="@+id/imageView5"
         android:layout_width="30dp"
         android:layout_height="30dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="30dp"
         android:layout_marginRight="30dp"
         android:layout_marginBottom="20dp"
+        android:contentDescription="@string/EDIT_DESCRIPTION"
         android:onClick="deleteAthlete"
         android:src="@drawable/delete_icon"
         app:layout_constraintBottom_toTopOf="@+id/imageView4"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/attendanceOfAthleteInformation"
         app:tint="@color/middle_red"
-        tools:ignore="OnClick,UsingOnClickInXml"
-        android:contentDescription="@string/EDIT_DESCRIPTION" />
+        tools:ignore="OnClick,UsingOnClickInXml" />
 </androidx.constraintlayout.widget.ConstraintLayout>

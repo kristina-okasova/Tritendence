@@ -2,10 +2,8 @@ package com.example.tritendence.model;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.RecoverableSecurityException;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -104,7 +102,6 @@ public class AdapterOfExpendableList extends BaseExpandableListAdapter {
 
         DateTimeFormatter format = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         TextView dayName = convertView.findViewById(R.id.dayName);
-        dayName.setTypeface(null, Typeface.BOLD);
         dayName.setText(String.format("%s :  %s", date.format(format), day));
 
         return convertView;
@@ -118,7 +115,7 @@ public class AdapterOfExpendableList extends BaseExpandableListAdapter {
 
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.data_in_expandable_list_view, null);
+            convertView = inflater.inflate(R.layout.child_data_in_expandable_list_view, null);
         }
 
         LocalDate date = LocalDate.now();

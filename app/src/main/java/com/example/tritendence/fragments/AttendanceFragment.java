@@ -64,6 +64,7 @@ public class AttendanceFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_attendance, container, false);
     }
 
+    @SuppressLint("DefaultLocale")
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
@@ -78,20 +79,7 @@ public class AttendanceFragment extends Fragment {
             this.addGroups(getString(R.string.EMPTY_STRING));
 
         TextView currentWeek = view.findViewById(R.id.currentWeek);
-        LocalDate date = LocalDate.now();
-        LocalDate monday, sunday;
-        if (!date.getDayOfWeek().toString().equals(getString(R.string.MONDAY_DATE)))
-            monday = date.with(TemporalAdjusters.previous(DayOfWeek.MONDAY));
-        else
-            monday = date;
-
-        if (!date.getDayOfWeek().toString().equals(getString(R.string.SUNDAY_DATE)))
-            sunday = date.with(TemporalAdjusters.next(DayOfWeek.SUNDAY));
-        else
-            sunday = date;
-
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        currentWeek.setText(String.format("%s - %s", Objects.requireNonNull(monday).format(format), format.format(sunday)));
+        currentWeek.setText(String.format("%s %d", getString(R.string.WEEK), this.club.getNumberOfWeek()));
 
         this.expandableTimetable = view.findViewById(R.id.timetable);
         this.updateExpandableTimetable();

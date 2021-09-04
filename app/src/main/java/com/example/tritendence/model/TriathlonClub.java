@@ -18,7 +18,7 @@ public class TriathlonClub implements Serializable {
     private final ArrayList<Member> membersOfClub;
     private final ArrayList<Group> groupsOfClub;
     private final ArrayList<AttendanceData> attendanceData;
-    private int numberOfUsers, numberOfGroups, numberOfAthletes, numberOfTrainers, numberOfFilledAttendances;
+    private int numberOfUsers, numberOfGroups, numberOfAthletes, numberOfTrainers, numberOfFilledAttendances, numberOfWeek;
     private Admin adminOfClub;
 
     public TriathlonClub() {
@@ -169,5 +169,13 @@ public class TriathlonClub implements Serializable {
 
         Collections.sort(sortedMembers, (member1, member2) -> ((Athlete) member1).getDate().compareTo(((Athlete) member2).getDate()));
         return sortedMembers;
+    }
+
+    public void setNumberOfWeek(int numberOfWeek) {
+        this.numberOfWeek = numberOfWeek;
+    }
+
+    public int getNumberOfWeek() {
+        return this.numberOfWeek;
     }
 }

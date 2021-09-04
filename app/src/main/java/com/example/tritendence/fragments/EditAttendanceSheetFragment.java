@@ -70,7 +70,7 @@ public class EditAttendanceSheetFragment extends Fragment {
         this.addTrainersNames(this.firstTrainersName, this.selectedAttendanceData.getTrainer(0).getFullName());
         this.fillAttendanceInformation();
 
-        Button confirmation = view.findViewById(R.id.attendanceConfirmationButton);
+        Button confirmation = view.findViewById(R.id.attendanceEditButton);
         confirmation.setOnClickListener(v -> {
             ArrayList<String> athletesNames = new ArrayList<>();
 

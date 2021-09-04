@@ -28,7 +28,7 @@
         <TextView
             android:id="@+id/categoryOfGroupInformation"
             style="@style/informationInputStyle"
-            android:layout_marginTop="35dp"
+            android:layout_marginTop="40dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/textView5"
             app:layout_constraintTop_toBottomOf="@+id/nameOfGroupInformation" />
@@ -54,7 +54,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#2B7A78"
+                    android:background="@color/dark_red"
                     android:orientation="vertical"
                     android:padding="10dp">
 
@@ -74,7 +74,7 @@
                     android:id="@+id/expandableListOfMembers"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#3AAFA9"
+                    android:background="@color/middle_red"
                     android:orientation="vertical"
                     android:padding="10dp"
                     android:visibility="gone">
@@ -94,12 +94,13 @@
             android:layout_marginStart="40dp"
             android:layout_marginLeft="40dp"
             android:text="@string/TIMETABLE"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/membersOfGroupInformation" />
 
         <com.example.tritendence.model.ExpandableListScrollable
             android:id="@+id/timetableOfGroupInformation"
-            style="@style/listStyle"
+            style="@style/groupInformationListStyle"
             android:layout_marginStart="30dp"
             android:layout_marginLeft="30dp"
             android:layout_marginEnd="30dp"
@@ -115,12 +116,13 @@
             android:layout_marginStart="40dp"
             android:layout_marginLeft="40dp"
             android:text="@string/ATTENDANCE"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/timetableOfGroupInformation" />
 
         <com.example.tritendence.model.ExpandableListScrollable
             android:id="@+id/attendanceOfGroupInformation"
-            style="@style/listStyle"
+            style="@style/groupInformationListStyle"
             android:layout_marginStart="30dp"
             android:layout_marginLeft="30dp"
             android:layout_marginEnd="30dp"
@@ -162,16 +164,18 @@
         <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="30dp"
             android:layout_marginRight="30dp"
             android:layout_marginBottom="20dp"
+            android:contentDescription="@string/DELETE_DESCRIPTION"
             android:onClick="deleteGroup"
             android:src="@drawable/delete_icon"
             app:layout_constraintBottom_toTopOf="@+id/imageView6"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/attendanceOfGroupInformation"
             app:tint="@color/middle_red"
-            tools:ignore="OnClick,UsingOnClickInXml"
-            android:contentDescription="@string/DELETE_DESCRIPTION" />
+            tools:ignore="OnClick,UsingOnClickInXml" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

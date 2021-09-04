@@ -72,10 +72,10 @@ public class AdapterOfExpendableTrainingUnits extends BaseExpandableListAdapter 
         String sportData = this.sportTypes.get(groupPosition);
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.expandable_list_view_group_name, null);
+            convertView = inflater.inflate(R.layout.group_data_in_expandable_list_view, null);
         }
 
-        TextView sportType = convertView.findViewById(R.id.groupName);
+        TextView sportType = convertView.findViewById(R.id.data);
         sportType.setText(sportData);
 
         return convertView;
@@ -88,7 +88,7 @@ public class AdapterOfExpendableTrainingUnits extends BaseExpandableListAdapter 
 
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.data_in_expandable_list_view, null);
+            convertView = inflater.inflate(R.layout.child_data_in_expandable_list_view, null);
         }
 
         TextView athleteName = convertView.findViewById(R.id.data);

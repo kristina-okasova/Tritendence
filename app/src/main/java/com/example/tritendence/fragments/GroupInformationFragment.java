@@ -33,6 +33,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.Serializable;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -63,7 +64,7 @@ public class GroupInformationFragment extends Fragment implements Serializable {
         super.onCreate(savedInstanceState);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -134,12 +135,13 @@ public class GroupInformationFragment extends Fragment implements Serializable {
         return inflater.inflate(R.layout.fragment_group_information, container, false);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void initializeAttendanceDates () {
         this.dateOfAttendances = new ArrayList<>();
         for (AttendanceData attendanceData : this.club.getAttendanceData()) {
             if (attendanceData.getGroup().getName().equals(selectedGroup)) {
-                String trainingData = attendanceData.getDate() + " " + attendanceData.getTime() + " " + attendanceData.getSport();
+                DateTimeFormatter format = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+                String trainingData = String.format(attendanceData.getDate(), format) + " " + attendanceData.getTime() + " " + attendanceData.getSport();
                 this.dateOfAttendances.add(trainingData);
 
                 this.schedule.put(trainingData, new ArrayList<>());
