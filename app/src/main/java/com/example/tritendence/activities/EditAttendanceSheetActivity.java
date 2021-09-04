@@ -23,7 +23,7 @@ public class EditAttendanceSheetActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_attendance_sheet);
 
-        this.signedUser = getIntent().getExtras().getString("SIGNED_USER");
+        this.signedUser = getIntent().getExtras().getString(getString(R.string.SIGNED_USER_EXTRA));
         BottomNavigationView navigation = findViewById(R.id.bottomNavigationView);
         navigation.setSelectedItemId(R.id.attendanceFragment);
         navigation.setOnNavigationItemSelectedListener(navigationListener);
@@ -35,11 +35,11 @@ public class EditAttendanceSheetActivity extends AppCompatActivity {
     @SuppressLint("NonConstantResourceId")
     private final BottomNavigationView.OnNavigationItemSelectedListener navigationListener =
             item -> {
-                TriathlonClub club = (TriathlonClub) getIntent().getExtras().getSerializable("TRIATHLON_CLUB");
+                TriathlonClub club = (TriathlonClub) getIntent().getExtras().getSerializable(getString(R.string.TRIATHLON_CLUB_EXTRA));
                 Intent homePage = new Intent(this, HomeActivity.class);
-                homePage.putExtra("SIGNED_USER", this.signedUser);
-                homePage.putExtra("TRIATHLON_CLUB", club);
-                homePage.putExtra("SELECTED_FRAGMENT", item.getItemId());
+                homePage.putExtra(getString(R.string.SIGNED_USER_EXTRA), this.signedUser);
+                homePage.putExtra(getString(R.string.TRIATHLON_CLUB_EXTRA), club);
+                homePage.putExtra(getString(R.string.SELECTED_FRAGMENT_EXTRA), item.getItemId());
                 startActivity(homePage);
                 finish();
                 return true;
@@ -62,6 +62,6 @@ public class EditAttendanceSheetActivity extends AppCompatActivity {
             return;
         }
 
-        Toast.makeText(this, "Už bol pridaný maximálny počet trénerov.", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, getString(R.string.MAX_AMOUNT_OF_TRAINERS), Toast.LENGTH_LONG).show();
     }
 }

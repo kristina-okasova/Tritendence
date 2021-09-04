@@ -84,8 +84,8 @@ public class AddGroupActivity extends AppCompatActivity implements TimePickerDia
         navigation.setSelectedItemId(R.id.groupsFragment);
         navigation.setOnNavigationItemSelectedListener(navigationListener);
 
-        this.club = (TriathlonClub) getIntent().getExtras().getSerializable("TRIATHLON_CLUB");
-        this.editGroup = (Group) getIntent().getExtras().getSerializable("EDIT_GROUP");
+        this.club = (TriathlonClub) getIntent().getExtras().getSerializable(getString(R.string.TRIATHLON_CLUB_EXTRA));
+        this.editGroup = (Group) getIntent().getExtras().getSerializable(getString(R.string.EDIT_GROUP_EXTRA));
         ListScrollable listOfTrainingUnits = findViewById(R.id.listOfTrainingUnits);
         this.listOfAthletes = findViewById(R.id.listOfAthletesOfClub);
         this.trainingUnitLayout = findViewById(R.id.addTrainingUnit);
@@ -103,7 +103,7 @@ public class AddGroupActivity extends AppCompatActivity implements TimePickerDia
         this.initializeAthletesOfClub();
         this.initializeCategoriesOfGroup();
 
-        String[] insertingData = {"dayAndTimeOfTraining", "typeAndPlaceOfTraining"};
+        String[] insertingData = {getString(R.string.DAY_AND_TIME_TRAINING), getString(R.string.TYPE_AND_PLACE_TRAINING)};
         int[] UIData = {R.id.dayAndTimeOfTrainingList, R.id.typeAndPlaceOfTrainingList};
         this.adapter = new SimpleAdapter(this, dataForListOfTrainingUnits, R.layout.training_unit_in_list_of_training_units, insertingData, UIData);
         listOfTrainingUnits.setAdapter(adapter);
@@ -125,8 +125,8 @@ public class AddGroupActivity extends AppCompatActivity implements TimePickerDia
         for (TrainingUnit unit : this.editGroup.getTimetable()) {
             HashMap<String, Object> mappedData = new HashMap<>();
 
-            mappedData.put("dayAndTimeOfTraining", unit.getDay() + " " + unit.getTime());
-            mappedData.put("typeAndPlaceOfTraining", unit.getSportTranslation() + ", " + unit.getLocation());
+            mappedData.put(getString(R.string.DAY_AND_TIME_TRAINING), unit.getDay() + " " + unit.getTime());
+            mappedData.put(getString(R.string.TYPE_AND_PLACE_TRAINING), unit.getSportTranslation() + ", " + unit.getLocation());
 
             this.dataForListOfTrainingUnits.add(mappedData);
             this.adapter.notifyDataSetChanged();
@@ -174,9 +174,9 @@ public class AddGroupActivity extends AppCompatActivity implements TimePickerDia
 
     private void initializeCategoriesOfGroup() {
         ArrayList<String> categories = new ArrayList<>();
-        categories.add("Športovci");
-        categories.add("Prípravka");
-        categories.add("Začiatočníci");
+        categories.add(getString(R.string.SPORTING_ATHLETES));
+        categories.add(getString(R.string.START_SPORTING_ATHLETES));
+        categories.add(getString(R.string.BEGINNER_ATHLETES));
 
         ArrayAdapter<String> adapterSpinner = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, categories);
         adapterSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -204,19 +204,19 @@ public class AddGroupActivity extends AppCompatActivity implements TimePickerDia
 
     private void addTrainingUnitToList() {
         if (this.timeInformation.getText().toString().equals(getString(R.string.EMPTY_STRING))) {
-            this.timeInformation.setError("Je potrebné zvoliť čas tréningu.");
+            this.timeInformation.setError(getString(R.string.REQUIRED_TIME_OF_TRAINING));
             return;
         }
 
         if (this.placeOfTraining.getText().toString().equals(getString(R.string.EMPTY_STRING))) {
-            this.placeOfTraining.setError("Je potrebné zvoliť miesto tréningu.");
+            this.placeOfTraining.setError(getString(R.string.REQUIRED_LOCATION_OF_TRAINING));
             return;
         }
 
         HashMap<String, Object> mappedData = new HashMap<>();
 
-        mappedData.put("dayAndTimeOfTraining", this.dayOfTrainingUnit.getSelectedItem() + " " + this.timeInformation.getText().toString().trim());
-        mappedData.put("typeAndPlaceOfTraining", this.typeOfSport.getSelectedItem() + ", " + this.placeOfTraining.getText().toString().trim());
+        mappedData.put(getString(R.string.DAY_AND_TIME_TRAINING), this.dayOfTrainingUnit.getSelectedItem() + " " + this.timeInformation.getText().toString().trim());
+        mappedData.put(getString(R.string.TYPE_AND_PLACE_TRAINING), this.typeOfSport.getSelectedItem() + ", " + this.placeOfTraining.getText().toString().trim());
 
         this.dataForListOfTrainingUnits.add(mappedData);
         this.adapter.notifyDataSetChanged();
@@ -229,7 +229,7 @@ public class AddGroupActivity extends AppCompatActivity implements TimePickerDia
 
         String name = this.nameOfGroup.getText().toString().trim();
         if (name.equals(getString(R.string.EMPTY_STRING))) {
-            this.nameOfGroup.setError("Skupina musí mať názov.");
+            this.nameOfGroup.setError(getString(R.string.REQUIRED_NAME_OF_GROUP));
             return;
         }
         String category = this.categoryOfGroup.getSelectedItem().toString();
@@ -238,12 +238,12 @@ public class AddGroupActivity extends AppCompatActivity implements TimePickerDia
             this.groupID = this.editGroup.getID();
         else
             this.groupID = this.club.getNumberOfGroups() + 1;
-        root.child(GROUPS_CHILD_DATABASE + "/" + this.groupID + "/Category").setValue(category);
-        root.child(GROUPS_CHILD_DATABASE + "/" + this.groupID + "/Name").setValue(name);
+        root.child(GROUPS_CHILD_DATABASE + "/" + this.groupID + "/" + getString(R.string.CATEGORY_DB)).setValue(category);
+        root.child(GROUPS_CHILD_DATABASE + "/" + this.groupID + "/" + getString(R.string.NAME_DB)).setValue(name);
 
         for (HashMap<String, Object> data : this.dataForListOfTrainingUnits) {
-            String firstPart = Objects.requireNonNull(data.get("dayAndTimeOfTraining")).toString();
-            String secondPart = Objects.requireNonNull(data.get("typeAndPlaceOfTraining")).toString();
+            String firstPart = Objects.requireNonNull(data.get(getString(R.string.DAY_AND_TIME_TRAINING))).toString();
+            String secondPart = Objects.requireNonNull(data.get(getString(R.string.TYPE_AND_PLACE_TRAINING))).toString();
             String day = firstPart.substring(0, firstPart.indexOf(' '));
             String time = firstPart.substring(firstPart.indexOf(' ') + 1);
             String sport = secondPart.substring(0, secondPart.indexOf(','));
@@ -276,9 +276,9 @@ public class AddGroupActivity extends AppCompatActivity implements TimePickerDia
                     throw new IllegalStateException("Unexpected value: " + sport);
             }
 
-            root.child(GROUPS_CHILD_DATABASE + "/" + this.groupID + "/Timetable/" + timetableRoot + "/" + trainingUnitID + "/day").setValue(day);
-            root.child(GROUPS_CHILD_DATABASE + "/" + this.groupID + "/Timetable/" + timetableRoot + "/" + trainingUnitID + "/time").setValue(time);
-            root.child(GROUPS_CHILD_DATABASE + "/" + this.groupID + "/Timetable/" + timetableRoot + "/" + trainingUnitID + "/location").setValue(location);
+            root.child(GROUPS_CHILD_DATABASE + "/" + this.groupID + "/" + getString(R.string.TIMETABLE_DB) + "/" + timetableRoot + "/" + trainingUnitID + "/" + getString(R.string.DAY_DB)).setValue(day);
+            root.child(GROUPS_CHILD_DATABASE + "/" + this.groupID + "/" + getString(R.string.TIMETABLE_DB) + "/" + timetableRoot + "/" + trainingUnitID + "/" + getString(R.string.TIME_DB)).setValue(time);
+            root.child(GROUPS_CHILD_DATABASE + "/" + this.groupID + "/" + getString(R.string.TIMETABLE_DB) + "/" + timetableRoot + "/" + trainingUnitID + "/" + getString(R.string.LOCATION_DB)).setValue(location);
         }
 
         ArrayList<String> namesOfAthletesOfGroup = new ArrayList<>();
@@ -290,11 +290,11 @@ public class AddGroupActivity extends AppCompatActivity implements TimePickerDia
         }
         this.findAthletesByNames(namesOfAthletesOfGroup);
 
-        String signedUser = getIntent().getExtras().getString("SIGNED_USER");
+        String signedUser = getIntent().getExtras().getString(getString(R.string.SIGNED_USER_EXTRA));
         Intent groupsPage = new Intent(this, HomeActivity.class);
-        groupsPage.putExtra("SIGNED_USER", signedUser);
-        groupsPage.putExtra("TRIATHLON_CLUB", this.club);
-        groupsPage.putExtra("SELECTED_FRAGMENT", R.id.groupsFragment);
+        groupsPage.putExtra(getString(R.string.SIGNED_USER_EXTRA), signedUser);
+        groupsPage.putExtra(getString(R.string.TRIATHLON_CLUB_EXTRA), this.club);
+        groupsPage.putExtra(getString(R.string.SELECTED_FRAGMENT_EXTRA), R.id.groupsFragment);
         startActivity(groupsPage);
         finish();
     }
@@ -307,7 +307,7 @@ public class AddGroupActivity extends AppCompatActivity implements TimePickerDia
             for (Member athlete : this.club.getAthletesSortedByAlphabet()) {
                 if (athlete.getFullName().equals(nameOfAthlete)) {
                     ((Athlete) athlete).setGroupID(groupID);
-                    root.child(ATHLETES_CHILD_DATABASE + "/" + athlete.getID() + "/GroupID").setValue(groupID);
+                    root.child(ATHLETES_CHILD_DATABASE + "/" + athlete.getID() + "/" + getString(R.string.GROUP_ID_DB)).setValue(groupID);
                 }
             }
         }
@@ -323,7 +323,7 @@ public class AddGroupActivity extends AppCompatActivity implements TimePickerDia
         }
         else
             timePicker = new TimePicker();
-        timePicker.show(getSupportFragmentManager(), "Time Picker");
+        timePicker.show(getSupportFragmentManager(), getString(R.string.TIME_PICKER_TAG));
     }
 
     @SuppressLint("DefaultLocale")
@@ -335,12 +335,12 @@ public class AddGroupActivity extends AppCompatActivity implements TimePickerDia
     @SuppressLint("NonConstantResourceId")
     private final BottomNavigationView.OnNavigationItemSelectedListener navigationListener =
             item -> {
-                TriathlonClub club = (TriathlonClub) getIntent().getExtras().getSerializable("TRIATHLON_CLUB");
-                String signedUser = getIntent().getExtras().getString("SIGNED_USER");
+                TriathlonClub club = (TriathlonClub) getIntent().getExtras().getSerializable(getString(R.string.TRIATHLON_CLUB_EXTRA));
+                String signedUser = getIntent().getExtras().getString(getString(R.string.SIGNED_USER_EXTRA));
                 Intent homePage = new Intent(this, HomeActivity.class);
-                homePage.putExtra("SIGNED_USER", signedUser);
-                homePage.putExtra("TRIATHLON_CLUB", club);
-                homePage.putExtra("SELECTED_FRAGMENT", item.getItemId());
+                homePage.putExtra(getString(R.string.SIGNED_USER_EXTRA), signedUser);
+                homePage.putExtra(getString(R.string.TRIATHLON_CLUB_EXTRA), club);
+                homePage.putExtra(getString(R.string.SELECTED_FRAGMENT_EXTRA), item.getItemId());
                 startActivity(homePage);
                 finish();
                 return true;

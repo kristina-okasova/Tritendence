@@ -69,7 +69,7 @@ public class AttendanceFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        this.club = (TriathlonClub) requireActivity().getIntent().getExtras().getSerializable("TRIATHLON_CLUB");
+        this.club = (TriathlonClub) requireActivity().getIntent().getExtras().getSerializable(getString(R.string.TRIATHLON_CLUB_EXTRA));
         Member signedTrainer = this.findCurrentUser();
         this.initializeTimetable();
         if (signedTrainer instanceof Trainer)
@@ -108,7 +108,7 @@ public class AttendanceFragment extends Fragment {
     }
 
     private Member findCurrentUser() {
-        String signedUserName = requireActivity().getIntent().getExtras().getString("SIGNED_USER");
+        String signedUserName = requireActivity().getIntent().getExtras().getString(getString(R.string.SIGNED_USER_EXTRA));
         for (Member member : this.club.getMembersOfClub()) {
             if ((member instanceof Trainer || member instanceof Admin) && member.getFullName().equals(signedUserName))
                 return member;

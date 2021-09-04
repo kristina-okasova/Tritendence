@@ -3,6 +3,7 @@ package com.example.tritendence.model;
 import android.os.Build;
 
 import androidx.annotation.RequiresApi;
+import androidx.fragment.app.FragmentContainerView;
 
 import com.example.tritendence.model.groups.Group;
 import com.example.tritendence.model.users.Athlete;
@@ -15,6 +16,22 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class AttendanceData implements Serializable {
+    private static final String MONDAY_DB = "MONDAY";
+    private static final String TUESDAY_DB = "TUESDAY";
+    private static final String WEDNESDAY_DB = "WEDNESDAY";
+    private static final String THURSDAY_DB = "THURSDAY";
+    private static final String FRIDAY_DB = "FRIDAY";
+    private static final String SATURDAY_DB = "SATURDAY";
+    private static final String SUNDAY_DB = "SUNDAY";
+
+    private static final String MONDAY = "Pondelok";
+    private static final String TUESDAY = "Utorok";
+    private static final String WEDNESDAY = "Streda";
+    private static final String THURSDAY = "Štvrtok";
+    private static final String FRIDAY = "Piatok";
+    private static final String SATURDAY = "Sobota";
+    private static final String SUNDAY = "Nedeľa";
+
     private final String sport;
     private String note;
     private final Group group;
@@ -99,20 +116,20 @@ public class AttendanceData implements Serializable {
     public String getDayTranslation() {
         String day = this.date.getDayOfWeek().toString();
         switch (day) {
-            case "MONDAY":
-                return "Pondelok";
-            case "TUESDAY":
-                return "Utorok";
-            case "WEDNESDAY":
-                return "Streda";
-            case "THURSDAY":
-                return "Štvrtok";
-            case "FRIDAY":
-                return "Piatok";
-            case "SATURDAY":
-                return "Sobota";
-            case "SUNDAY":
-                return "Nedeľa";
+            case MONDAY_DB:
+                return MONDAY;
+            case TUESDAY_DB:
+                return TUESDAY;
+            case WEDNESDAY_DB:
+                return WEDNESDAY;
+            case THURSDAY_DB:
+                return THURSDAY;
+            case FRIDAY_DB:
+                return FRIDAY;
+            case SATURDAY_DB:
+                return SATURDAY;
+            case SUNDAY_DB:
+                return SUNDAY;
             default:
                 return null;
         }

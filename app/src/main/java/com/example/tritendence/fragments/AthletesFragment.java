@@ -40,12 +40,12 @@ public class AthletesFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         this.listOfAthletes = view.findViewById(R.id.listOfAthletes);
-        this.club = (TriathlonClub) requireActivity().getIntent().getExtras().getSerializable("TRIATHLON_CLUB");
+        this.club = (TriathlonClub) requireActivity().getIntent().getExtras().getSerializable(getString(R.string.TRIATHLON_CLUB_EXTRA));
         this.getAlphabetSortingOfAthletes();
     }
 
     private void displayAthletes() {
-        String[] insertingData = {"nameOfAthlete", "iconOfAthlete"};
+        String[] insertingData = {getString(R.string.NAME_OF_ATHLETE_ADAPTER), getString(R.string.ICON_OF_ATHLETE_ADAPTER)};
         int[] UIData = {R.id.nameOfAthleteInList, R.id.iconToAthleteName};
         SimpleAdapter adapter = new SimpleAdapter(getActivity(), this.dataForListOfAthletes, R.layout.athlete_in_list_of_athletes, insertingData, UIData);
         this.listOfAthletes.setAdapter(adapter);
@@ -91,8 +91,8 @@ public class AthletesFragment extends Fragment {
         for (int i = 0; i < this.club.getNumberOfAthletes(); i++) {
             HashMap<String, Object> mappedData = new HashMap<>();
 
-            mappedData.put("nameOfAthlete", athletesNames.get(i).getFullName());
-            mappedData.put("iconOfAthlete", athletesImageIDs[i]);
+            mappedData.put(getString(R.string.NAME_OF_ATHLETE_ADAPTER), athletesNames.get(i).getFullName());
+            mappedData.put(getString(R.string.ICON_OF_ATHLETE_ADAPTER), athletesImageIDs[i]);
 
             this.dataForListOfAthletes.add(mappedData);
         }
@@ -111,8 +111,8 @@ public class AthletesFragment extends Fragment {
         for (int i = 0; i < this.club.getNumberOfAthletes(); i++) {
             HashMap<String, Object> mappedData = new HashMap<>();
 
-            mappedData.put("nameOfAthlete", athletesNames.get(i).getFullName());
-            mappedData.put("iconOfAthlete", athletesImageIDs[i]);
+            mappedData.put(getString(R.string.NAME_OF_ATHLETE_ADAPTER), athletesNames.get(i).getFullName());
+            mappedData.put(getString(R.string.ICON_OF_ATHLETE_ADAPTER), athletesImageIDs[i]);
 
             this.dataForListOfAthletes.add(mappedData);
         }

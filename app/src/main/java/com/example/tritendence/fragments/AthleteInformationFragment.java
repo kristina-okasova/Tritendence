@@ -31,8 +31,6 @@ import java.util.HashMap;
 import java.util.Objects;
 
 public class AthleteInformationFragment extends Fragment {
-    private static final String ATHLETES_CHILD_DATABASE = "Athletes";
-
     private TextView nameOfAthlete, numberOfTrainings, dayOfBirth, group;
     private TriathlonClub club;
     private String selectedAthlete;
@@ -48,8 +46,8 @@ public class AthleteInformationFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        this.club = (TriathlonClub) requireActivity().getIntent().getExtras().getSerializable("TRIATHLON_CLUB");
-        this.selectedAthlete =  requireActivity().getIntent().getExtras().getString("ATHLETE_NAME");
+        this.club = (TriathlonClub) requireActivity().getIntent().getExtras().getSerializable(getString(R.string.TRIATHLON_CLUB_EXTRA));
+        this.selectedAthlete =  requireActivity().getIntent().getExtras().getString(getString(R.string.ATHLETE_NAME_EXTRA));
 
         this.nameOfAthlete = view.findViewById(R.id.nameOfAthlete);
         this.dayOfBirth = view.findViewById(R.id.athletesDayOfBirth);
@@ -61,12 +59,12 @@ public class AthleteInformationFragment extends Fragment {
             if (attendanceData.containsAthlete(this.selectedAthlete)) {
                 HashMap<String, Object> mappedData = new HashMap<>();
 
-                mappedData.put("trainingData", attendanceData.getDate() + " " + attendanceData.getTime() + "\n" + attendanceData.getSport());
+                mappedData.put(getString(R.string.TRAINING_DATA), attendanceData.getDate() + " " + attendanceData.getTime() + "\n" + attendanceData.getSport());
                 dataForListOfAthletes.add(mappedData);
             }
         }
 
-        String[] insertingData = {"trainingData"};
+        String[] insertingData = {getString(R.string.TRAINING_DATA)};
         int[] UIData = {R.id.athletesAttendance};
 
         ListView athletesAttendance = view.findViewById(R.id.attendanceOfAthleteInformation);
@@ -93,7 +91,7 @@ public class AthleteInformationFragment extends Fragment {
             if (group.getID() == groupID)
                 return group.getName();
         }
-        return "--nezaradený--";
+        return getString(R.string.GROUP_NOT_ASSIGNED);
     }
 
     @Override
@@ -106,13 +104,13 @@ public class AthleteInformationFragment extends Fragment {
         DatabaseReference root = database.getReference();
 
         Athlete athleteToDelete = this.findAthleteByName(this.selectedAthlete);
-        root.child(ATHLETES_CHILD_DATABASE + "/" + Objects.requireNonNull(athleteToDelete).getID()).removeValue();
+        root.child(getString(R.string.ATHLETES_CHILD_DB) + "/" + Objects.requireNonNull(athleteToDelete).getID()).removeValue();
 
-        String signedUser = requireActivity().getIntent().getExtras().getString("SIGNED_USER");
+        String signedUser = requireActivity().getIntent().getExtras().getString(getString(R.string.SIGNED_USER_EXTRA));
         Intent athleteInformationPage = new Intent(this.getContext(), HomeActivity.class);
-        athleteInformationPage.putExtra("TRIATHLON_CLUB", this.club);
-        athleteInformationPage.putExtra("SIGNED_USER", signedUser);
-        athleteInformationPage.putExtra("SELECTED_FRAGMENT", R.id.athletesFragment);
+        athleteInformationPage.putExtra(getString(R.string.TRIATHLON_CLUB_EXTRA), this.club);
+        athleteInformationPage.putExtra(getString(R.string.SIGNED_USER_EXTRA), signedUser);
+        athleteInformationPage.putExtra(getString(R.string.SELECTED_FRAGMENT_EXTRA), R.id.athletesFragment);
         startActivity(athleteInformationPage);
     }
 

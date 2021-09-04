@@ -31,7 +31,7 @@ public class RegistrationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
-        this.club = (TriathlonClub) getIntent().getExtras().getSerializable("TRIATHLON_CLUB");
+        this.club = (TriathlonClub) getIntent().getExtras().getSerializable(getString(R.string.TRIATHLON_CLUB_EXTRA));
 
         this.name = findViewById(R.id.nameRegistration);
         this.surname = findViewById(R.id.surnameRegistration);

@@ -2,6 +2,7 @@ package com.example.tritendence.model;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.RecoverableSecurityException;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -148,7 +149,7 @@ public class AdapterOfExpendableList extends BaseExpandableListAdapter {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void findGroupInfo(String groupName, String time, TextView groupView, LocalDate date) {
-        String signedUser = this.context.getIntent().getExtras().getString("SIGNED_USER");
+        String signedUser = this.context.getIntent().getExtras().getString(this.context.getString(R.string.SIGNED_USER_EXTRA));
 
         for (Group group : this.club.getGroupsOfClub()) {
             if (group.getName().equals(groupName)) {
@@ -161,19 +162,19 @@ public class AdapterOfExpendableList extends BaseExpandableListAdapter {
                     AttendanceData attendanceData = this.checkFilledAttendance(selectedUnit, date);
                     if (attendanceData != null) {
                         Intent filledAttendanceSheetPage = new Intent(context, FilledAttendanceSheetActivity.class);
-                        filledAttendanceSheetPage.putExtra("SIGNED_USER", signedUser);
-                        filledAttendanceSheetPage.putExtra("TRIATHLON_CLUB", club);
-                        filledAttendanceSheetPage.putExtra("ATTENDANCE_DATA", attendanceData);
+                        filledAttendanceSheetPage.putExtra(this.context.getString(R.string.SIGNED_USER_EXTRA), signedUser);
+                        filledAttendanceSheetPage.putExtra(this.context.getString(R.string.TRIATHLON_CLUB_EXTRA), club);
+                        filledAttendanceSheetPage.putExtra(this.context.getString(R.string.ATTENDANCE_DATA_EXTRA), attendanceData);
                         context.startActivity(filledAttendanceSheetPage);
                         context.finish();
                     }
                     else {
                         Intent attendanceSheetPage = new Intent(context, AttendanceSheetActivity.class);
-                        attendanceSheetPage.putExtra("GROUP", group);
-                        attendanceSheetPage.putExtra("SIGNED_USER", signedUser);
-                        attendanceSheetPage.putExtra("TRIATHLON_CLUB", club);
-                        attendanceSheetPage.putExtra("TRAINING_UNIT", selectedUnit);
-                        attendanceSheetPage.putExtra("DATE", date);
+                        attendanceSheetPage.putExtra(this.context.getString(R.string.GROUP_EXTRA), group);
+                        attendanceSheetPage.putExtra(this.context.getString(R.string.SIGNED_USER_EXTRA), signedUser);
+                        attendanceSheetPage.putExtra(this.context.getString(R.string.TRIATHLON_CLUB_EXTRA), club);
+                        attendanceSheetPage.putExtra(this.context.getString(R.string.TRAINING_UNIT_EXTRA), selectedUnit);
+                        attendanceSheetPage.putExtra(this.context.getString(R.string.DATE_EXTRA), date);
                         context.startActivity(attendanceSheetPage);
                         context.finish();
                     }

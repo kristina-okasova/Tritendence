@@ -27,7 +27,7 @@ public class AthleteInformationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_athlete_information);
 
-        this.club = (TriathlonClub) getIntent().getExtras().getSerializable("TRIATHLON_CLUB");
+        this.club = (TriathlonClub) getIntent().getExtras().getSerializable(getString(string.TRIATHLON_CLUB_EXTRA));
         BottomNavigationView navigation = findViewById(R.id.bottomNavigationView);
         navigation.setSelectedItemId(id.athletesFragment);
         navigation.setOnNavigationItemSelectedListener(navigationListener);
@@ -39,11 +39,11 @@ public class AthleteInformationActivity extends AppCompatActivity {
     @SuppressLint("NonConstantResourceId")
     private final BottomNavigationView.OnNavigationItemSelectedListener navigationListener =
             item -> {
-                String signedUser = getIntent().getExtras().getString("SIGNED_USER");
+                String signedUser = getIntent().getExtras().getString(getString(string.SIGNED_USER_EXTRA));
                 Intent homePage = new Intent(this, HomeActivity.class);
-                homePage.putExtra("SIGNED_USER", signedUser);
-                homePage.putExtra("TRIATHLON_CLUB", this.club);
-                homePage.putExtra("SELECTED_FRAGMENT", item.getItemId());
+                homePage.putExtra(getString(string.SIGNED_USER_EXTRA), signedUser);
+                homePage.putExtra(getString(string.TRIATHLON_CLUB_EXTRA), this.club);
+                homePage.putExtra(getString(string.SELECTED_FRAGMENT_EXTRA), item.getItemId());
                 startActivity(homePage);
                 finish();
                 return true;
@@ -53,23 +53,23 @@ public class AthleteInformationActivity extends AppCompatActivity {
     public void deleteAthlete(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(true);
-        builder.setTitle("Odstránenie športovca");
-        builder.setMessage("Ste si istí, že chcete odstrániť daného športovca?");
+        builder.setTitle(getString(string.DELETE_ATHLETE));
+        builder.setMessage(getString(string.DELETE_ATHLETE_QUESTION));
 
-        builder.setPositiveButton("Áno",
+        builder.setPositiveButton(getString(string.YES),
                 (dialog, which) -> this.athleteInformationFragment.deleteAthlete());
-        builder.setNegativeButton("Nie", (dialog, which) -> dialog.dismiss());
+        builder.setNegativeButton(getString(string.NO), (dialog, which) -> dialog.dismiss());
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
 
     public void editAthlete(View view) {
         Athlete editAthlete = this.athleteInformationFragment.findSelectedAthlete();
-        String signedUser = getIntent().getExtras().getString("SIGNED_USER");
+        String signedUser = getIntent().getExtras().getString(getString(string.SIGNED_USER_EXTRA));
         Intent addAthletePage = new Intent(this, AddAthleteActivity.class);
-        addAthletePage.putExtra("TRIATHLON_CLUB", this.club);
-        addAthletePage.putExtra("SIGNED_USER", signedUser);
-        addAthletePage.putExtra("EDIT_ATHLETE", editAthlete);
+        addAthletePage.putExtra(getString(string.TRIATHLON_CLUB_EXTRA), this.club);
+        addAthletePage.putExtra(getString(string.SIGNED_USER_EXTRA), signedUser);
+        addAthletePage.putExtra(getString(string.EDIT_ATHLETE_EXTRA), editAthlete);
         startActivity(addAthletePage);
         finish();
     }

@@ -40,8 +40,6 @@ import java.util.Map;
 import java.util.Objects;
 
 public class GroupInformationFragment extends Fragment implements Serializable {
-    private static final String GROUPS_CHILD_DATABASE = "Groups";
-
     private GroupInformationActivity activity;
     private LinearLayout expandableListOfMembers;
     private TextView membersOfGroupText, categoryOfGroup, nameOfGroup, numberOfAthletes;
@@ -69,8 +67,8 @@ public class GroupInformationFragment extends Fragment implements Serializable {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        this.club = (TriathlonClub) requireActivity().getIntent().getExtras().getSerializable("TRIATHLON_CLUB");
-        this.selectedGroup =  requireActivity().getIntent().getExtras().getString("GROUP_NAME");
+        this.club = (TriathlonClub) requireActivity().getIntent().getExtras().getSerializable(getString(R.string.TRIATHLON_CLUB_EXTRA));
+        this.selectedGroup =  requireActivity().getIntent().getExtras().getString(getString(R.string.GROUP_NAME_EXTRA));
 
         this.expandableListOfMembers = view.findViewById(R.id.expandableListOfMembers);
         this.membersOfGroupText = view.findViewById(R.id.membersOfGroupText);
@@ -181,13 +179,13 @@ public class GroupInformationFragment extends Fragment implements Serializable {
         DatabaseReference root = database.getReference();
 
         Group groupToDelete = this.findSelectedGroup();
-        root.child(GROUPS_CHILD_DATABASE + "/" + Objects.requireNonNull(groupToDelete).getID()).removeValue();
+        root.child(getString(R.string.GROUP_CHILD_DB)+ "/" + Objects.requireNonNull(groupToDelete).getID()).removeValue();
 
-        String signedUser = requireActivity().getIntent().getExtras().getString("SIGNED_USER");
+        String signedUser = requireActivity().getIntent().getExtras().getString(getString(R.string.SIGNED_USER_EXTRA));
         Intent athleteInformationPage = new Intent(this.getContext(), HomeActivity.class);
-        athleteInformationPage.putExtra("TRIATHLON_CLUB", this.club);
-        athleteInformationPage.putExtra("SIGNED_USER", signedUser);
-        athleteInformationPage.putExtra("SELECTED_FRAGMENT", R.id.groupsFragment);
+        athleteInformationPage.putExtra(getString(R.string.TRIATHLON_CLUB_EXTRA), this.club);
+        athleteInformationPage.putExtra(getString(R.string.SIGNED_USER_EXTRA), signedUser);
+        athleteInformationPage.putExtra(getString(R.string.SELECTED_FRAGMENT_EXTRA), R.id.groupsFragment);
         startActivity(athleteInformationPage);
     }
 

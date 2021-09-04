@@ -31,8 +31,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 public class AddAthleteActivity extends AppCompatActivity {
-    private static final String ATHLETES_CHILD_DATABASE = "Athletes";
-
     private TriathlonClub club;
     private EditText nameOfAthlete, surnameOfAthlete;
     private Spinner groupOfAthlete;
@@ -71,8 +69,8 @@ public class AddAthleteActivity extends AppCompatActivity {
         navigation.setSelectedItemId(R.id.athletesFragment);
         navigation.setOnNavigationItemSelectedListener(navigationListener);
 
-        this.club =  (TriathlonClub) getIntent().getExtras().getSerializable("TRIATHLON_CLUB");
-        this.editAthlete = (Athlete) getIntent().getExtras().getSerializable("EDIT_ATHLETE");
+        this.club =  (TriathlonClub) getIntent().getExtras().getSerializable(getString(R.string.TRIATHLON_CLUB_EXTRA));
+        this.editAthlete = (Athlete) getIntent().getExtras().getSerializable(getString(R.string.EDIT_ATHLETE_EXTRA));
         this.nameOfAthlete = findViewById(R.id.nameOfAthleteCreate);
         this.surnameOfAthlete = findViewById(R.id.surnameOfAthleteCreate);
         this.groupOfAthlete = findViewById(R.id.groupOfAthlete);
@@ -96,7 +94,7 @@ public class AddAthleteActivity extends AppCompatActivity {
     private void initializeGroupsOfClub() {
         ArrayList<Group> groupsOfClub = this.club.getGroupsOfClub();
         ArrayList<String> namesOfGroups = new ArrayList<>();
-        namesOfGroups.add("--nezaradený--");
+        namesOfGroups.add(getString(R.string.GROUP_NOT_ASSIGNED));
         for (Group group : groupsOfClub)
             namesOfGroups.add(group.getID() + ": " + group.getName());
 
@@ -111,13 +109,13 @@ public class AddAthleteActivity extends AppCompatActivity {
 
         String name = this.nameOfAthlete.getText().toString();
         if (name.equals(getString(R.string.EMPTY_STRING))) {
-            this.nameOfAthlete.setError("Je potrebné zadať meno člena.");
+            this.nameOfAthlete.setError(getString(R.string.REQUIRED_NAME_OF_ATHLETE));
             return;
         }
 
         String surname = this.surnameOfAthlete.getText().toString();
         if (surname.equals(getString(R.string.EMPTY_STRING))) {
-            this.surnameOfAthlete.setError("Je potrebné zadať priezvisko člena.");
+            this.surnameOfAthlete.setError(getString(R.string.REQUIRED_SURNAME_OF_ATHLETE));
             return;
         }
 
@@ -128,17 +126,17 @@ public class AddAthleteActivity extends AppCompatActivity {
             athleteID = this.club.getNumberOfAthletes() + 1;
         String groupID = String.valueOf(this.groupOfAthlete.getSelectedItemPosition());
         String dayOfBirth = this.dayOfBirthOfAthlete.getText().toString();
-        root.child(ATHLETES_CHILD_DATABASE + "/" + athleteID + "/Name").setValue(this.nameOfAthlete.getText().toString().trim());
-        root.child(ATHLETES_CHILD_DATABASE + "/" + athleteID + "/Surname").setValue(this.surnameOfAthlete.getText().toString().trim());
-        root.child(ATHLETES_CHILD_DATABASE + "/" + athleteID + "/GroupID").setValue(groupID);
-        root.child(ATHLETES_CHILD_DATABASE + "/" + athleteID + "/NumberOfTrainings").setValue(0);
-        root.child(ATHLETES_CHILD_DATABASE + "/" + athleteID + "/DayOfBirth").setValue(dayOfBirth.substring(dayOfBirth.indexOf(':') + 2));
+        root.child(getString(R.string.ATHLETES_CHILD_DB) + "/" + athleteID + "/" + getString(R.string.NAME_DB)).setValue(this.nameOfAthlete.getText().toString().trim());
+        root.child(getString(R.string.ATHLETES_CHILD_DB) + "/" + athleteID + "/" + getString(R.string.SURNAME_DB)).setValue(this.surnameOfAthlete.getText().toString().trim());
+        root.child(getString(R.string.ATHLETES_CHILD_DB) + "/" + athleteID + "/" + getString(R.string.GROUP_ID_DB)).setValue(groupID);
+        root.child(getString(R.string.ATHLETES_CHILD_DB) + "/" + athleteID + "/" + getString(R.string.NUMBER_OF_TRAININGS_DB)).setValue(0);
+        root.child(getString(R.string.ATHLETES_CHILD_DB) + "/" + athleteID + "/" + getString(R.string.DAY_OF_BIRTH_DB)).setValue(dayOfBirth.substring(dayOfBirth.indexOf(':') + 2));
 
-        String signedUser = getIntent().getExtras().getString("SIGNED_USER");
+        String signedUser = getIntent().getExtras().getString(getString(R.string.SIGNED_USER_EXTRA));
         Intent athletesPage = new Intent(this, HomeActivity.class);
-        athletesPage.putExtra("SIGNED_USER", signedUser);
-        athletesPage.putExtra("TRIATHLON_CLUB", this.club);
-        athletesPage.putExtra("SELECTED_FRAGMENT", R.id.athletesFragment);
+        athletesPage.putExtra(getString(R.string.SIGNED_USER_EXTRA), signedUser);
+        athletesPage.putExtra(getString(R.string.TRIATHLON_CLUB_EXTRA), this.club);
+        athletesPage.putExtra(getString(R.string.SELECTED_FRAGMENT_EXTRA), R.id.athletesFragment);
         startActivity(athletesPage);
         finish();
     }
@@ -147,7 +145,7 @@ public class AddAthleteActivity extends AppCompatActivity {
     public void displayDateSelection(View view) {
         DatePickerDialog.OnDateSetListener setListener;
 
-        setListener = (view1, year, month, dayOfMonth) -> this.dayOfBirthOfAthlete.setText(String.format("Dátum narodenia: %02d.%02d.%d", dayOfMonth, month, year));
+        setListener = (view1, year, month, dayOfMonth) -> this.dayOfBirthOfAthlete.setText(String.format(getString(R.string.DAY_OF_BIRTH) + ": %02d.%02d.%d", dayOfMonth, month, year));
 
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
@@ -162,12 +160,12 @@ public class AddAthleteActivity extends AppCompatActivity {
     @SuppressLint("NonConstantResourceId")
     private final BottomNavigationView.OnNavigationItemSelectedListener navigationListener =
             item -> {
-                TriathlonClub club = (TriathlonClub) getIntent().getExtras().getSerializable("TRIATHLON_CLUB");
-                String signedUser = getIntent().getExtras().getString("SIGNED_USER");
+                TriathlonClub club = (TriathlonClub) getIntent().getExtras().getSerializable(getString(R.string.TRIATHLON_CLUB_EXTRA));
+                String signedUser = getIntent().getExtras().getString(getString(R.string.SIGNED_USER_EXTRA));
                 Intent homePage = new Intent(this, HomeActivity.class);
-                homePage.putExtra("SIGNED_USER", signedUser);
-                homePage.putExtra("TRIATHLON_CLUB", club);
-                homePage.putExtra("SELECTED_FRAGMENT", item.getItemId());
+                homePage.putExtra(getString(R.string.SIGNED_USER_EXTRA), signedUser);
+                homePage.putExtra(getString(R.string.TRIATHLON_CLUB_EXTRA), club);
+                homePage.putExtra(getString(R.string.SELECTED_FRAGMENT_EXTRA), item.getItemId());
                 startActivity(homePage);
                 finish();
                 return true;

@@ -38,8 +38,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class AttendanceSheetFragment extends Fragment {
-    private final static String ATTENDANCE_CHILD_DATABASE = "Attendance";
-
     private ListView attendanceSheet;
     private TriathlonClub club;
     private Group group;
@@ -62,11 +60,11 @@ public class AttendanceSheetFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        this.club = (TriathlonClub) requireActivity().getIntent().getExtras().getSerializable("TRIATHLON_CLUB");
-        this.group = (Group) requireActivity().getIntent().getExtras().getSerializable("GROUP");
-        this.unit = (TrainingUnit) requireActivity().getIntent().getExtras().getSerializable("TRAINING_UNIT");
-        this.currentTrainersName = requireActivity().getIntent().getExtras().getString("SIGNED_USER");
-        this.date = (LocalDate) requireActivity().getIntent().getExtras().getSerializable("DATE");
+        this.club = (TriathlonClub) requireActivity().getIntent().getExtras().getSerializable(getString(R.string.TRIATHLON_CLUB_EXTRA));
+        this.group = (Group) requireActivity().getIntent().getExtras().getSerializable(getString(R.string.GROUP_EXTRA));
+        this.unit = (TrainingUnit) requireActivity().getIntent().getExtras().getSerializable(getString(R.string.TRAINING_UNIT_EXTRA));
+        this.currentTrainersName = requireActivity().getIntent().getExtras().getString(getString(R.string.SIGNED_USER_EXTRA));
+        this.date = (LocalDate) requireActivity().getIntent().getExtras().getSerializable(getString(R.string.DATE_EXTRA));
         this.note = view.findViewById(R.id.attendanceNote);
         ArrayList<String> membersOfGroup = this.group.getNamesOfAthletesOfGroup();
 
@@ -140,14 +138,14 @@ public class AttendanceSheetFragment extends Fragment {
         String dateInformation = String.valueOf(this.date.getYear()) + String.valueOf(dateFormat.format(this.date.getMonthValue())) + String.valueOf(dateFormat.format(this.date.getDayOfMonth())) + "_" + this.unit.getTime() + "_" + this.group.getID();
 
         numberOfFilledAttendance++;
-        root.child(ATTENDANCE_CHILD_DATABASE + "/" + numberOfFilledAttendance + "/Date").setValue(dateInformation);
-        root.child(ATTENDANCE_CHILD_DATABASE + "/" + numberOfFilledAttendance + "/Sport").setValue(this.unit.getSportTranslation());
-        root.child(ATTENDANCE_CHILD_DATABASE + "/" + numberOfFilledAttendance + "/Athletes").setValue(attendanceData);
+        root.child(getString(R.string.ATTENDANCE_CHILD_DB) + "/" + numberOfFilledAttendance + "/" + getString(R.string.DATE_DB)).setValue(dateInformation);
+        root.child(getString(R.string.ATTENDANCE_CHILD_DB) + "/" + numberOfFilledAttendance + "/" + getString(R.string.SPORT_DB)).setValue(this.unit.getSportTranslation());
+        root.child(getString(R.string.ATTENDANCE_CHILD_DB) + "/" + numberOfFilledAttendance + "/" + getString(R.string.ATHLETES_DB)).setValue(attendanceData);
         if (noteText.length() != 0)
-            root.child(ATTENDANCE_CHILD_DATABASE + "/" + numberOfFilledAttendance + "/Note").setValue(noteText);
+            root.child(getString(R.string.ATTENDANCE_CHILD_DB) + "/" + numberOfFilledAttendance + "/" + getString(R.string.NOTE_DB)).setValue(noteText);
         for (int i = 0; i < trainersNames.size(); i++) {
-            String trainerID = "Trainer" + String.valueOf(i+1);
-            root.child(ATTENDANCE_CHILD_DATABASE + "/" + numberOfFilledAttendance + "/" + trainerID).setValue(trainersNames.get(i));
+            String trainerID = getString(R.string.TRAINER_DB) + String.valueOf(i+1);
+            root.child(getString(R.string.ATTENDANCE_CHILD_DB) + "/" + numberOfFilledAttendance + "/" + trainerID).setValue(trainersNames.get(i));
         }
     }
 

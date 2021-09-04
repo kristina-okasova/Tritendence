@@ -36,8 +36,8 @@ public class TrainerInformationFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        this.club = (TriathlonClub) requireActivity().getIntent().getExtras().getSerializable("TRIATHLON_CLUB");
-        this.selectedTrainer = requireActivity().getIntent().getExtras().getString("TRAINER_NAME");
+        this.club = (TriathlonClub) requireActivity().getIntent().getExtras().getSerializable(getString(R.string.TRIATHLON_CLUB_EXTRA));
+        this.selectedTrainer = requireActivity().getIntent().getExtras().getString(getString(R.string.TRAINER_NAME_EXTRA));
         this.nameOfTrainer = view.findViewById(R.id.nameOfTrainer);
         this.email = view.findViewById(R.id.trainersEmail);
         this.numberOfTrainings = view.findViewById(R.id.numberOfTrainersTrainings);
@@ -47,12 +47,12 @@ public class TrainerInformationFragment extends Fragment {
             if (attendanceData.getTrainer(0).getFullName().equals(this.selectedTrainer)) {
                 HashMap<String, Object> mappedData = new HashMap<>();
 
-                mappedData.put("trainingData", attendanceData.getDate() + " " + attendanceData.getTime() + "\n" + attendanceData.getSport());
+                mappedData.put(getString(R.string.TRAINING_DATA_ADAPTER), attendanceData.getDate() + " " + attendanceData.getTime() + "\n" + attendanceData.getSport());
                 dataForListOfTrainings.add(mappedData);
             }
         }
 
-        String[] insertingData = {"trainingData"};
+        String[] insertingData = {getString(R.string.TRAINING_DATA_ADAPTER)};
         int[] UIData = {R.id.athletesAttendance};
 
         ListView trainersAttendance = view.findViewById(R.id.attendanceOfTrainerInformation);

@@ -38,7 +38,7 @@ public class FilledAttendanceSheetFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        this.selectedAttendanceData = (AttendanceData) requireActivity().getIntent().getExtras().getSerializable("ATTENDANCE_DATA");
+        this.selectedAttendanceData = (AttendanceData) requireActivity().getIntent().getExtras().getSerializable(getString(R.string.ATTENDANCE_DATA_EXTRA));
 
         this.trainerOfGroup = view.findViewById(R.id.filledAttendanceTrainer);
         this.nameOfGroup = view.findViewById(R.id.filledAttendanceGroupName);
@@ -59,12 +59,12 @@ public class FilledAttendanceSheetFragment extends Fragment {
         ArrayList<HashMap<String, Object>> dataForListOfAthletes = new ArrayList<>();
         for (int i = 0; i < this.selectedAttendanceData.getAttendedAthletes().size(); i++) {
             HashMap<String, Object> mappedData = new HashMap<>();
-            mappedData.put("nameOfAthlete", this.selectedAttendanceData.getNameOfAthleteAtIndex(i));
+            mappedData.put(getString(R.string.NAME_OF_ATHLETE_ADAPTER), this.selectedAttendanceData.getNameOfAthleteAtIndex(i));
 
             dataForListOfAthletes.add(mappedData);
         }
 
-        String[] insertingData = {"nameOfAthlete"};
+        String[] insertingData = {getString(R.string.NAME_OF_ATHLETE_ADAPTER)};
         int[] UIData = {R.id.athletesAttendance};
         SimpleAdapter adapter = new SimpleAdapter(getActivity(), dataForListOfAthletes, R.layout.attendance_of_athlete, insertingData, UIData);
         this.attendanceSheet.setAdapter(adapter);

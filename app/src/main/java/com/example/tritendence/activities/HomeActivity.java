@@ -31,13 +31,13 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        this.club = (TriathlonClub) getIntent().getExtras().getSerializable("TRIATHLON_CLUB");
-        this.signedUser = getIntent().getExtras().getString("SIGNED_USER");
+        this.club = (TriathlonClub) getIntent().getExtras().getSerializable(getString(R.string.TRIATHLON_CLUB_EXTRA));
+        this.signedUser = getIntent().getExtras().getString(getString(R.string.SIGNED_USER_EXTRA));
         this.attendanceFragment = new AttendanceFragment(this);
 
         this.navigation = findViewById(R.id.bottomNavigationView);
         this.findTypeOfSignedUser();
-        int selectedItemID = getIntent().getExtras().getInt("SELECTED_FRAGMENT");
+        int selectedItemID = getIntent().getExtras().getInt(getString(R.string.SELECTED_FRAGMENT_EXTRA));
         switch (selectedItemID) {
             case R.id.attendanceFragment:
                 selectedFragment = this.attendanceFragment;
@@ -101,9 +101,9 @@ public class HomeActivity extends AppCompatActivity {
     public void showGroupInformation(View view) {
         TextView nameOfGroup = view.findViewById(R.id.nameOfGroupInList);
         Intent groupInformationPage = new Intent(this, GroupInformationActivity.class);
-        groupInformationPage.putExtra("GROUP_NAME", nameOfGroup.getText().toString());
-        groupInformationPage.putExtra("TRIATHLON_CLUB", this.club);
-        groupInformationPage.putExtra("SIGNED_USER", this.signedUser);
+        groupInformationPage.putExtra(getString(R.string.GROUP_NAME_EXTRA), nameOfGroup.getText().toString());
+        groupInformationPage.putExtra(getString(R.string.TRIATHLON_CLUB_EXTRA), this.club);
+        groupInformationPage.putExtra(getString(R.string.SIGNED_USER_EXTRA), this.signedUser);
         startActivity(groupInformationPage);
         finish();
     }
@@ -111,9 +111,9 @@ public class HomeActivity extends AppCompatActivity {
     public void showAthleteInformation(View view) {
         TextView nameOfAthlete = view.findViewById(R.id.nameOfAthleteInList);
         Intent athleteInformationPage = new Intent(this, AthleteInformationActivity.class);
-        athleteInformationPage.putExtra("ATHLETE_NAME", nameOfAthlete.getText().toString());
-        athleteInformationPage.putExtra("TRIATHLON_CLUB", this.club);
-        athleteInformationPage.putExtra("SIGNED_USER", this.signedUser);
+        athleteInformationPage.putExtra(getString(R.string.ATHLETE_NAME_EXTRA), nameOfAthlete.getText().toString());
+        athleteInformationPage.putExtra(getString(R.string.TRIATHLON_CLUB_EXTRA), this.club);
+        athleteInformationPage.putExtra(getString(R.string.SIGNED_USER_EXTRA), this.signedUser);
         startActivity(athleteInformationPage);
         finish();
     }
@@ -121,27 +121,27 @@ public class HomeActivity extends AppCompatActivity {
     public void showTrainerInformation(View view) {
         TextView nameOfTrainer = view.findViewById(R.id.nameOfTrainerInList);
         Intent trainerInformationPage = new Intent(this, TrainerInformationActivity.class);
-        trainerInformationPage.putExtra("TRAINER_NAME", nameOfTrainer.getText().toString());
-        trainerInformationPage.putExtra("TRIATHLON_CLUB", this.club);
-        trainerInformationPage.putExtra("SIGNED_USER", this.signedUser);
+        trainerInformationPage.putExtra(getString(R.string.TRAINER_NAME_EXTRA), nameOfTrainer.getText().toString());
+        trainerInformationPage.putExtra(getString(R.string.TRIATHLON_CLUB_EXTRA), this.club);
+        trainerInformationPage.putExtra(getString(R.string.SIGNED_USER_EXTRA), this.signedUser);
         startActivity(trainerInformationPage);
         finish();
     }
 
     public void addGroup(View view) {
-        String signedUser = getIntent().getExtras().getString("SIGNED_USER");
+        String signedUser = getIntent().getExtras().getString(getString(R.string.SIGNED_USER_EXTRA));
         Intent addGroupPage = new Intent(this, AddGroupActivity.class);
-        addGroupPage.putExtra("TRIATHLON_CLUB", this.club);
-        addGroupPage.putExtra("SIGNED_USER", signedUser);
+        addGroupPage.putExtra(getString(R.string.TRIATHLON_CLUB_EXTRA), this.club);
+        addGroupPage.putExtra(getString(R.string.SIGNED_USER_EXTRA), signedUser);
         startActivity(addGroupPage);
         finish();
     }
 
     public void addAthlete(View view) {
-        String signedUser = getIntent().getExtras().getString("SIGNED_USER");
+        String signedUser = getIntent().getExtras().getString(getString(R.string.SIGNED_USER_EXTRA));
         Intent addAthletePage = new Intent(this, AddAthleteActivity.class);
-        addAthletePage.putExtra("TRIATHLON_CLUB", this.club);
-        addAthletePage.putExtra("SIGNED_USER", signedUser);
+        addAthletePage.putExtra(getString(R.string.TRIATHLON_CLUB_EXTRA), this.club);
+        addAthletePage.putExtra(getString(R.string.SIGNED_USER_EXTRA), signedUser);
         startActivity(addAthletePage);
         finish();
     }

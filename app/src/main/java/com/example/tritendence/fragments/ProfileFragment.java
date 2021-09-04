@@ -35,7 +35,7 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        this.club = (TriathlonClub) requireActivity().getIntent().getExtras().getSerializable("TRIATHLON_CLUB");
+        this.club = (TriathlonClub) requireActivity().getIntent().getExtras().getSerializable(getString(R.string.TRIATHLON_CLUB_EXTRA));
         this.signedTrainerName = view.findViewById(R.id.signedTrainerName);
         this.signedTrainerEmail = view.findViewById(R.id.signedTrainerEmail);
         this.numberOfTrainings = view.findViewById(R.id.numberOfTrainingUnits);
@@ -45,13 +45,13 @@ public class ProfileFragment extends Fragment {
     }
 
     private void fillTrainerInformation() {
-        String signedTrainer = requireActivity().getIntent().getExtras().getString("SIGNED_USER");
+        String signedTrainer = requireActivity().getIntent().getExtras().getString(getString(R.string.SIGNED_USER_EXTRA));
         ArrayList<HashMap<String, Object>> dataForListOfTrainings = new ArrayList<>();
 
         for (AttendanceData attendance : this.club.getAttendanceData()) {
             HashMap<String, Object> mappedData = new HashMap<>();
             if (attendance.getTrainer(0).getFullName().equals(signedTrainer))
-                mappedData.put("trainingOfTrainer", attendance.getDate() + " " + attendance.getTime() + "\n" + attendance.getGroup().getName());
+                mappedData.put(getString(R.string.TRAINING_OF_TRAINER_ADAPTER), attendance.getDate() + " " + attendance.getTime() + "\n" + attendance.getGroup().getName());
 
             dataForListOfTrainings.add(mappedData);
         }
@@ -71,7 +71,7 @@ public class ProfileFragment extends Fragment {
                         this.numberOfTrainings.setText(String.valueOf(((Admin) member).getNumberOfTrainings()));
                     }
 
-                    String[] insertingData = {"trainingOfTrainer"};
+                    String[] insertingData = {getString(R.string.TRAINING_OF_TRAINER_ADAPTER)};
                     int[] UIData = {R.id.trainersTrainingData};
                     SimpleAdapter adapter = new SimpleAdapter(getActivity(), dataForListOfTrainings, R.layout.training_in_list_of_trainers_trainings, insertingData, UIData);
                     this.trainersTrainings.setAdapter(adapter);

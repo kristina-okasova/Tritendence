@@ -39,7 +39,7 @@ public class TrainersFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         this.listOfTrainers = view.findViewById(R.id.listOfTrainers);
-        this.club = (TriathlonClub) requireActivity().getIntent().getExtras().getSerializable("TRIATHLON_CLUB");
+        this.club = (TriathlonClub) requireActivity().getIntent().getExtras().getSerializable(getString(R.string.TRIATHLON_CLUB_EXTRA));
         this.getAlphabetSortingOfTrainers();
     }
 
@@ -53,8 +53,8 @@ public class TrainersFragment extends Fragment {
         for (int i = 0; i < this.club.getNumberOfTrainers(); i++) {
             HashMap<String, Object> mappedData = new HashMap<>();
 
-            mappedData.put("nameOfTrainer", trainersNames.get(i).getFullName());
-            mappedData.put("iconOfTrainer", trainersImageIDs[i]);
+            mappedData.put(getString(R.string.NAME_OF_TRAINER_ADAPTER), trainersNames.get(i).getFullName());
+            mappedData.put(getString(R.string.ICON_OF_TRAINER_ADAPTER), trainersImageIDs[i]);
 
             this.dataForListOfTrainers.add(mappedData);
         }
@@ -73,8 +73,8 @@ public class TrainersFragment extends Fragment {
         for (int i = 0; i < this.club.getNumberOfTrainers(); i++) {
             HashMap<String, Object> mappedData = new HashMap<>();
 
-            mappedData.put("nameOfTrainer", trainersNames.get(i).getFullName());
-            mappedData.put("iconOfTrainer", trainersImageIDs[i]);
+            mappedData.put(getString(R.string.NAME_OF_TRAINER_ADAPTER), trainersNames.get(i).getFullName());
+            mappedData.put(getString(R.string.ICON_OF_TRAINER_ADAPTER), trainersImageIDs[i]);
 
             this.dataForListOfTrainers.add(mappedData);
         }
@@ -83,7 +83,7 @@ public class TrainersFragment extends Fragment {
     }
 
     private void displayTrainers() {
-        String[] insertingData = {"nameOfTrainer", "iconOfTrainer"};
+        String[] insertingData = {getString(R.string.NAME_OF_TRAINER_ADAPTER), getString(R.string.ICON_OF_TRAINER_ADAPTER)};
         int[] UIData = {R.id.nameOfTrainerInList, R.id.iconToTrainerName};
         SimpleAdapter adapter = new SimpleAdapter(getActivity(), this.dataForListOfTrainers, R.layout.trainer_in_list_of_trainers, insertingData, UIData);
         this.listOfTrainers.setAdapter(adapter);

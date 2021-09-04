@@ -10,7 +10,6 @@ import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
-import android.text.SpannableStringBuilder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,8 +36,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class EditAttendanceSheetFragment extends Fragment {
-    private final static String ATTENDANCE_CHILD_DATABASE = "Attendance";
-
     private TriathlonClub club;
     private AttendanceData selectedAttendanceData;
     private TextView trainingData, groupName;
@@ -57,8 +54,8 @@ public class EditAttendanceSheetFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        this.club = (TriathlonClub) requireActivity().getIntent().getExtras().getSerializable("TRIATHLON_CLUB");
-        this.selectedAttendanceData = (AttendanceData) requireActivity().getIntent().getExtras().getSerializable("ATTENDANCE_DATA");
+        this.club = (TriathlonClub) requireActivity().getIntent().getExtras().getSerializable(getString(R.string.TRIATHLON_CLUB_EXTRA));
+        this.selectedAttendanceData = (AttendanceData) requireActivity().getIntent().getExtras().getSerializable(getString(R.string.ATTENDANCE_DATA_EXTRA));
 
         this.trainingData = view.findViewById(R.id.trainingDataEdit);
         this.groupName = view.findViewById(R.id.attendanceGroupNameEdit);
@@ -181,14 +178,14 @@ public class EditAttendanceSheetFragment extends Fragment {
         String dateInformation = String.valueOf(this.selectedAttendanceData.getLocalDate().getYear()) + String.valueOf(dateFormat.format(this.selectedAttendanceData.getLocalDate().getMonthValue())) + String.valueOf(dateFormat.format(this.selectedAttendanceData.getLocalDate().getDayOfMonth())) + "_" + this.selectedAttendanceData.getTime() + "_" + this.selectedAttendanceData.getGroup().getID();
 
         numberOfFilledAttendance++;
-        root.child(ATTENDANCE_CHILD_DATABASE + "/" + numberOfFilledAttendance + "/" + "/Date").setValue(dateInformation);
-        root.child(ATTENDANCE_CHILD_DATABASE + "/" + numberOfFilledAttendance + "/" + "/Sport").setValue(this.selectedAttendanceData.getSport());
-        root.child(ATTENDANCE_CHILD_DATABASE + "/" + numberOfFilledAttendance + "/" + "/Athletes").setValue(attendanceData);
+        root.child(getString(R.string.ATTENDANCE_CHILD_DB) + "/" + numberOfFilledAttendance + "/" + getString(R.string.DATE_DB)).setValue(dateInformation);
+        root.child(getString(R.string.ATTENDANCE_CHILD_DB) + "/" + numberOfFilledAttendance + "/" + getString(R.string.SPORT_DB)).setValue(this.selectedAttendanceData.getSport());
+        root.child(getString(R.string.ATTENDANCE_CHILD_DB) + "/" + numberOfFilledAttendance + "/" + getString(R.string.ATHLETES_DB)).setValue(attendanceData);
         if (noteText.length() != 0)
-            root.child(ATTENDANCE_CHILD_DATABASE + "/" + numberOfFilledAttendance + "/" + "/Note").setValue(noteText);
+            root.child(getString(R.string.ATTENDANCE_CHILD_DB) + "/" + numberOfFilledAttendance + "/" + getString(R.string.NOTE_DB)).setValue(noteText);
         for (int i = 0; i < trainersNames.size(); i++) {
-            String trainerID = "Trainer" + String.valueOf(i+1);
-            root.child(ATTENDANCE_CHILD_DATABASE + "/" + numberOfFilledAttendance + "/" + "/" + trainerID).setValue(trainersNames.get(i));
+            String trainerID = getString(R.string.TRAINER_DB) + String.valueOf(i+1);
+            root.child(getString(R.string.ATTENDANCE_CHILD_DB) + "/" + numberOfFilledAttendance + "/" + trainerID).setValue(trainersNames.get(i));
         }
     }
 

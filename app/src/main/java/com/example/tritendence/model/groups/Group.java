@@ -7,6 +7,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Group implements Serializable {
+    private static final String ONE = "1";
+    private static final String TWO = "2";
+    private static final String THREE = "3";
+    private static final String CATEGORY_ONE = "Športovci";
+    private static final String CATEGORY_TWO = "Prípravka";
+    private static final String CATEGORY_THREE = "Začiatočníci";
+
     private final int ID;
     private String name;
     private final String category;
@@ -69,12 +76,12 @@ public class Group implements Serializable {
 
     public String getCategoryTranslation() {
         switch(this.category) {
-            case "1":
-                return "Športovci";
-            case "2":
-                return "Prípravka";
-            case "3":
-                return "Začiatočníci";
+            case ONE:
+                return CATEGORY_ONE;
+            case TWO:
+                return CATEGORY_TWO;
+            case THREE:
+                return CATEGORY_THREE;
             default:
                 return null;
         }

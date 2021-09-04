@@ -29,12 +29,12 @@ public class TrainerInformationActivity extends AppCompatActivity {
     @SuppressLint("NonConstantResourceId")
     private final BottomNavigationView.OnNavigationItemSelectedListener navigationListener =
             item -> {
-                TriathlonClub club = (TriathlonClub) getIntent().getExtras().getSerializable("TRIATHLON_CLUB");
-                String signedUser = getIntent().getExtras().getString("SIGNED_USER");
+                TriathlonClub club = (TriathlonClub) getIntent().getExtras().getSerializable(getString(R.string.TRIATHLON_CLUB_EXTRA));
+                String signedUser = getIntent().getExtras().getString(getString(R.string.SIGNED_USER_EXTRA));
                 Intent homePage = new Intent(this, HomeActivity.class);
-                homePage.putExtra("SIGNED_USER", signedUser);
-                homePage.putExtra("TRIATHLON_CLUB", club);
-                homePage.putExtra("SELECTED_FRAGMENT", item.getItemId());
+                homePage.putExtra(getString(R.string.SIGNED_USER_EXTRA), signedUser);
+                homePage.putExtra(getString(R.string.TRIATHLON_CLUB_EXTRA), club);
+                homePage.putExtra(getString(R.string.SELECTED_FRAGMENT_EXTRA), item.getItemId());
                 startActivity(homePage);
                 finish();
                 return true;

@@ -36,7 +36,7 @@ public class AdapterOfExpendableTrainingUnits extends BaseExpandableListAdapter 
     public int getChildrenCount(int groupPosition) {
         int numberOfChildren = Objects.requireNonNull(this.timetable.get(this.sportTypes.get(groupPosition))).size();
         if (numberOfChildren == 0)
-            Toast.makeText(this.context, "Skupina nemá v danej kategórii žiadne tréningy.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this.context, this.context.getString(R.string.NO_TRAININGS_IN_CATEGORY), Toast.LENGTH_LONG).show();
 
         return numberOfChildren;
     }

@@ -23,7 +23,7 @@ public class GroupInformationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_information);
 
-        this.club = (TriathlonClub) getIntent().getExtras().getSerializable("TRIATHLON_CLUB");
+        this.club = (TriathlonClub) getIntent().getExtras().getSerializable(getString(R.string.TRIATHLON_CLUB_EXTRA));
         BottomNavigationView navigation = findViewById(R.id.bottomNavigationView);
         navigation.setSelectedItemId(R.id.groupsFragment);
         navigation.setOnNavigationItemSelectedListener(navigationListener);
@@ -35,11 +35,11 @@ public class GroupInformationActivity extends AppCompatActivity {
     @SuppressLint("NonConstantResourceId")
     private final BottomNavigationView.OnNavigationItemSelectedListener navigationListener =
             item -> {
-                String signedUser = getIntent().getExtras().getString("SIGNED_USER");
+                String signedUser = getIntent().getExtras().getString(getString(R.string.SIGNED_USER_EXTRA));
                 Intent homePage = new Intent(this, HomeActivity.class);
-                homePage.putExtra("SIGNED_USER", signedUser);
-                homePage.putExtra("TRIATHLON_CLUB", club);
-                homePage.putExtra("SELECTED_FRAGMENT", item.getItemId());
+                homePage.putExtra(getString(R.string.SIGNED_USER_EXTRA), signedUser);
+                homePage.putExtra(getString(R.string.TRIATHLON_CLUB_EXTRA), club);
+                homePage.putExtra(getString(R.string.SELECTED_FRAGMENT_EXTRA), item.getItemId());
                 startActivity(homePage);
                 finish();
                 return true;
@@ -52,23 +52,23 @@ public class GroupInformationActivity extends AppCompatActivity {
     public void deleteGroup(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(true);
-        builder.setTitle("Odstránenie skupiny");
-        builder.setMessage("Ste si istí, že chcete odstrániť danú skupinu?");
+        builder.setTitle(getString(R.string.DELETE_GROUP));
+        builder.setMessage(getString(R.string.DELETE_GROUP_QUESTION));
 
-        builder.setPositiveButton("Áno",
+        builder.setPositiveButton(getString(R.string.YES),
                 (dialog, which) -> this.groupInformationFragment.deleteGroup());
-        builder.setNegativeButton("Nie", (dialog, which) -> dialog.dismiss());
+        builder.setNegativeButton(getString(R.string.NO), (dialog, which) -> dialog.dismiss());
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
 
     public void editGroup(View view) {
         Group editGroup = this.groupInformationFragment.findSelectedGroup();
-        String signedUser = getIntent().getExtras().getString("SIGNED_USER");
+        String signedUser = getIntent().getExtras().getString(getString(R.string.SIGNED_USER_EXTRA));
         Intent addGroupPage = new Intent(this, AddGroupActivity.class);
-        addGroupPage.putExtra("TRIATHLON_CLUB", this.club);
-        addGroupPage.putExtra("SIGNED_USER", signedUser);
-        addGroupPage.putExtra("EDIT_GROUP", editGroup);
+        addGroupPage.putExtra(getString(R.string.TRIATHLON_CLUB_EXTRA), this.club);
+        addGroupPage.putExtra(getString(R.string.SIGNED_USER_EXTRA), signedUser);
+        addGroupPage.putExtra(getString(R.string.EDIT_GROUP_EXTRA), editGroup);
         startActivity(addGroupPage);
         finish();
     }

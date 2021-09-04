@@ -45,7 +45,7 @@ public class LogInActivity extends AppCompatActivity {
 
     private void checkData() {
         if (!this.isOnline()) {
-            Toast.makeText(this, "Je potrebné internetové pripojenie.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.INTERNET_CONNECTION_REQUIRED), Toast.LENGTH_LONG).show();
             return;
         }
         String emailText = this.email.getText().toString();
@@ -75,19 +75,19 @@ public class LogInActivity extends AppCompatActivity {
 
     private void singIn(String fullName) {
         Intent homePage = new Intent(LogInActivity.this, HomeActivity.class);
-        homePage.putExtra(getString(R.string.SIGNED_USER), fullName);
-        homePage.putExtra(getString(R.string.TRIATHLON_CLUB), this.club);
+        homePage.putExtra(getString(R.string.SIGNED_USER_EXTRA), fullName);
+        homePage.putExtra(getString(R.string.TRIATHLON_CLUB_EXTRA), this.club);
         startActivity(homePage);
         finish();
     }
 
     private void loadRegistration() {
         if (!this.isOnline()) {
-            Toast.makeText(this, "Je potrebné internetové pripojenie.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.INTERNET_CONNECTION_REQUIRED), Toast.LENGTH_LONG).show();
             return;
         }
         Intent registrationPage = new Intent(LogInActivity.this, RegistrationActivity.class);
-        registrationPage.putExtra(getString(R.string.TRIATHLON_CLUB), this.club);
+        registrationPage.putExtra(getString(R.string.TRIATHLON_CLUB_EXTRA), this.club);
         startActivity(registrationPage);
         finish();
     }
