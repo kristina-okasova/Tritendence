@@ -16,6 +16,7 @@ public class TrainingUnit implements Serializable {
     private static final String OTHER = "Iné";
 
     private String location, day, time, sport;
+    private int groupID;
 
     public String getDay() {
         return this.day;
@@ -71,5 +72,13 @@ public class TrainingUnit implements Serializable {
                 throw new IllegalStateException("Unexpected value: " + sport);
         }
         return sportTranslation;
+    }
+
+    public void setGroupID(int ID) {
+        this.groupID = ID;
+    }
+
+    public int getGroupID() {
+        return this.groupID;
     }
 }

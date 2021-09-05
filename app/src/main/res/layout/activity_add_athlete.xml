@@ -15,7 +15,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:itemIconTint="@drawable/bottom_nav_icon_color_selector"
         app:itemTextColor="@drawable/bottom_nav_icon_color_selector"
-        app:menu="@menu/home_bottom_menu" />
+        app:menu="@menu/home_bottom_menu_admin" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/addAthleteConstraintView"

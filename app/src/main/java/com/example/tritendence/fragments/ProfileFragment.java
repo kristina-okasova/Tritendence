@@ -50,10 +50,12 @@ public class ProfileFragment extends Fragment {
 
         for (AttendanceData attendance : this.club.getAttendanceData()) {
             HashMap<String, Object> mappedData = new HashMap<>();
-            if (attendance.getTrainer(0).getFullName().equals(signedTrainer))
-                mappedData.put(getString(R.string.TRAINING_OF_TRAINER_ADAPTER), attendance.getDate() + " " + attendance.getTime() + "\n" + attendance.getGroup().getName());
-
-            dataForListOfTrainings.add(mappedData);
+            for (Trainer trainer : attendance.getTrainers()) {
+                if (trainer.getFullName().equals(signedTrainer)) {
+                    mappedData.put(getString(R.string.TRAINING_OF_TRAINER_ADAPTER), attendance.getDate() + " " + attendance.getTime() + "\n" + attendance.getGroup().getName());
+                    dataForListOfTrainings.add(mappedData);
+                }
+            }
         }
 
         for (Member member : this.club.getMembersOfClub()) {

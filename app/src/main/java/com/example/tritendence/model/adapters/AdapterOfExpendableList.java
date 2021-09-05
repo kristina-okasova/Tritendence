@@ -1,4 +1,4 @@
-package com.example.tritendence.model;
+package com.example.tritendence.model.adapters;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -17,6 +17,9 @@ import androidx.annotation.RequiresApi;
 import com.example.tritendence.R;
 import com.example.tritendence.activities.AttendanceSheetActivity;
 import com.example.tritendence.activities.FilledAttendanceSheetActivity;
+import com.example.tritendence.model.AttendanceData;
+import com.example.tritendence.model.TrainingUnit;
+import com.example.tritendence.model.TriathlonClub;
 import com.example.tritendence.model.groups.Group;
 
 import java.time.DayOfWeek;
@@ -129,16 +132,19 @@ public class AdapterOfExpendableList extends BaseExpandableListAdapter {
         TextView groupName = convertView.findViewById(R.id.data);
         groupName.setText(group);
 
-        String trainingTime = group.substring(0, group.indexOf(" "));
-        String selectedGroupName = group.substring(group.indexOf(" ", group.indexOf(" ") + 1) + 1);
-        this.findGroupInfo(selectedGroupName, trainingTime, groupName, date);
+        LocalDate finalDate = date;
+        convertView.setOnClickListener(v -> {
+            String trainingTime = group.substring(0, group.indexOf(" "));
+            String selectedGroupName = group.substring(group.indexOf(" ", group.indexOf(" ") + 1) + 1);
+            this.findGroupInfo(selectedGroupName, trainingTime, groupName, finalDate);
+        });
 
         return convertView;
     }
 
     private AttendanceData checkFilledAttendance(TrainingUnit unit, LocalDate date) {
         for (AttendanceData attendanceData : this.club.getAttendanceData()) {
-            if (attendanceData.getSport().equals(unit.getSportTranslation()) && attendanceData.getTime().equals(unit.getTime()) && attendanceData.getDate().equals(date.toString()))
+            if (attendanceData.getSport().equals(unit.getSportTranslation()) && attendanceData.getTime().equals(unit.getTime()) && attendanceData.getDate().equals(date.toString()) && attendanceData.getGroup().getID() == unit.getGroupID())
                 return attendanceData;
         }
         return null;
@@ -155,7 +161,7 @@ public class AdapterOfExpendableList extends BaseExpandableListAdapter {
                         selectedUnit = unit;
                 }
 
-                groupView.setOnClickListener(v -> {
+                //groupView.setOnClickListener(v -> {
                     AttendanceData attendanceData = this.checkFilledAttendance(selectedUnit, date);
                     if (attendanceData != null) {
                         Intent filledAttendanceSheetPage = new Intent(context, FilledAttendanceSheetActivity.class);
@@ -175,7 +181,7 @@ public class AdapterOfExpendableList extends BaseExpandableListAdapter {
                         context.startActivity(attendanceSheetPage);
                         context.finish();
                     }
-                });
+                //});
             }
         }
     }

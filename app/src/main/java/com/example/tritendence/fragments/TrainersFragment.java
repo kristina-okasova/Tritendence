@@ -18,7 +18,7 @@ import android.view.ViewGroup;
 import android.widget.SimpleAdapter;
 
 import com.example.tritendence.R;
-import com.example.tritendence.model.ListScrollable;
+import com.example.tritendence.model.lists.ListScrollable;
 import com.example.tritendence.model.TriathlonClub;
 import com.example.tritendence.model.users.Member;
 

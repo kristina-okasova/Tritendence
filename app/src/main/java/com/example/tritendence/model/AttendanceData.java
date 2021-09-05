@@ -41,12 +41,13 @@ public class AttendanceData implements Serializable {
     private LocalTime time;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public AttendanceData(Group group, String sport, Trainer trainer, ArrayList<Athlete> attendedAthletes, String data) {
+    public AttendanceData(Group group, String sport, Trainer trainer, ArrayList<Athlete> attendedAthletes, String data, String note) {
         this.group = group;
         this.sport = sport;
         this.attendedAthletes = attendedAthletes;
         this.trainers = new ArrayList<>();
         this.trainers.add(trainer);
+        this.note = note;
 
         this.extractDateAndTime(data);
     }
@@ -151,5 +152,9 @@ public class AttendanceData implements Serializable {
 
     public int getNumberOfTrainers() {
         return this.trainers.size();
+    }
+
+    public ArrayList<Trainer> getTrainers() {
+        return this.trainers;
     }
 }

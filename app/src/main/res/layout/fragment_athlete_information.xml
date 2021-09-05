@@ -1,111 +1,121 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.AthleteInformationFragment" >
+    android:fillViewport="true">
 
-    <TextView
-        android:id="@+id/nameOfAthlete"
-        style="@style/headingStyle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".fragments.AthleteInformationFragment" >
 
-    <TextView
-        android:id="@+id/textView10"
-        style="@style/informationHeadingStyle"
-        android:layout_marginTop="40dp"
-        android:text="@string/DAY_OF_BIRTH"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nameOfAthlete" />
+        <TextView
+            android:id="@+id/nameOfAthlete"
+            style="@style/headingStyle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/athletesDayOfBirth"
-        style="@style/informationInputStyle"
-        android:layout_marginTop="40dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView10"
-        app:layout_constraintTop_toBottomOf="@+id/nameOfAthlete" />
+        <TextView
+            android:id="@+id/textView10"
+            style="@style/informationHeadingStyle"
+            android:layout_marginTop="40dp"
+            android:text="@string/DAY_OF_BIRTH"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/nameOfAthlete" />
 
-    <TextView
-        android:id="@+id/textView20"
-        style="@style/informationHeadingStyle"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
-        android:text="@string/ATHLETES_GROUP"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView10" />
+        <TextView
+            android:id="@+id/athletesDayOfBirth"
+            style="@style/informationInputStyle"
+            android:layout_marginTop="40dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/textView10"
+            app:layout_constraintTop_toBottomOf="@+id/nameOfAthlete" />
 
-    <TextView
-        android:id="@+id/athletesGroup"
-        style="@style/informationInputStyle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView10"
-        app:layout_constraintTop_toBottomOf="@+id/athletesDayOfBirth" />
+        <TextView
+            android:id="@+id/textView20"
+            style="@style/informationHeadingStyle"
+            android:layout_marginStart="40dp"
+            android:layout_marginLeft="40dp"
+            android:text="@string/ATHLETES_GROUP"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
-    <TextView
-        android:id="@+id/textView13"
-        style="@style/informationHeadingStyle"
-        android:text="@string/NUMBER_OF_ATHLETES_TRAININGS"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView20" />
+        <TextView
+            android:id="@+id/athletesGroup"
+            style="@style/informationInputStyle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/textView10"
+            app:layout_constraintTop_toBottomOf="@+id/athletesDayOfBirth" />
 
-    <TextView
-        android:id="@+id/numberOfAthletesTrainings"
-        style="@style/informationInputStyle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView13"
-        app:layout_constraintTop_toBottomOf="@+id/athletesGroup" />
+        <TextView
+            android:id="@+id/textView13"
+            style="@style/informationHeadingStyle"
+            android:text="@string/NUMBER_OF_ATHLETES_TRAININGS"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView20" />
 
-    <TextView
-        android:id="@+id/textView15"
-        style="@style/informationHeadingStyle"
-        android:text="@string/ATTENDANCE"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView13" />
+        <TextView
+            android:id="@+id/numberOfAthletesTrainings"
+            style="@style/informationInputStyle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/textView13"
+            app:layout_constraintTop_toBottomOf="@+id/athletesGroup" />
 
-    <ListView
-        android:id="@+id/attendanceOfAthleteInformation"
-        style="@style/listStyle"
-        android:layout_marginStart="30dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginRight="30dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView15" />
+        <TextView
+            android:id="@+id/textView15"
+            style="@style/informationHeadingStyle"
+            android:text="@string/ATTENDANCE"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView13" />
 
-    <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginBottom="30dp"
-        android:onClick="editAthlete"
-        android:src="@drawable/edit_icon"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:tint="@color/middle_red"
-        tools:ignore="OnClick,UsingOnClickInXml"
-        android:contentDescription="@string/EDIT_DESCRIPTION" />
+        <com.example.tritendence.model.lists.ListScrollable
+            android:id="@+id/attendanceOfAthleteInformation"
+            style="@style/listStyle"
+            android:layout_marginStart="30dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="50dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
-    <ImageView
-        android:id="@+id/imageView5"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginBottom="20dp"
-        android:contentDescription="@string/EDIT_DESCRIPTION"
-        android:onClick="deleteAthlete"
-        android:src="@drawable/delete_icon"
-        app:layout_constraintBottom_toTopOf="@+id/imageView4"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/attendanceOfAthleteInformation"
-        app:tint="@color/middle_red"
-        tools:ignore="OnClick,UsingOnClickInXml" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageView
+            android:id="@+id/editAthleteIcon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="30dp"
+            android:contentDescription="@string/EDIT_DESCRIPTION"
+            android:onClick="editAthlete"
+            android:src="@drawable/edit_icon"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:tint="@color/middle_red"
+            tools:ignore="OnClick,UsingOnClickInXml" />
+
+        <ImageView
+            android:id="@+id/deleteAthleteIcon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="20dp"
+            android:contentDescription="@string/EDIT_DESCRIPTION"
+            android:onClick="deleteAthlete"
+            android:src="@drawable/delete_icon"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/editAthleteIcon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/attendanceOfAthleteInformation"
+            app:tint="@color/middle_red"
+            tools:ignore="OnClick,UsingOnClickInXml" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

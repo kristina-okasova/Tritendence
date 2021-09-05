@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 import com.example.tritendence.R;
 import com.example.tritendence.model.AttendanceData;
-import com.example.tritendence.model.ListScrollable;
+import com.example.tritendence.model.lists.ListScrollable;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,11 +1,18 @@
 package com.example.tritendence.model.users;
 
+import com.example.tritendence.R;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class Trainer extends Member {
+    private static final String TRAINERS_CHILD_DB = "Trainers";
+    private static final String NUMBER_OF_TRAININGS = "NumberOfTrainings";
+
     private final String email, sport;
-    private final int numberOfTrainings;
+    private int numberOfTrainings;
 
     public Trainer(int ID, String name, String surname, String email, String sport, int numberOfTrainings) {
         super(ID, name, surname);
@@ -54,5 +61,13 @@ public class Trainer extends Member {
                 throw new IllegalStateException("Unexpected value: " + sport);
         }
         return sportTranslation;
+    }
+
+    public void addTraining() {
+        this.numberOfTrainings++;
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference root = database.getReference();
+        root.child(TRAINERS_CHILD_DB + "/" + this.ID + "/" + NUMBER_OF_TRAININGS).setValue(this.numberOfTrainings);
     }
 }

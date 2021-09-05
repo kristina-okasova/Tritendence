@@ -156,4 +156,5 @@
     <string name="ICON_OF_TRAINER_ADAPTER">iconOfTrainer</string>
     <string name="NO_TRAININGS_IN_CATEGORY">Skupina nemá v danej kategórii žiadne tréningy.</string>
     <string name="WEEK">Týždeň</string>
+    <string name="ATTENDANCE_SUCCESS">Úspešne zadaná dochádzka</string>
 </resources>

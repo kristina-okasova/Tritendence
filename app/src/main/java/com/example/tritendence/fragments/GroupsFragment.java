@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
@@ -13,12 +14,15 @@ import androidx.fragment.app.Fragment;
 
 import com.example.tritendence.R;
 import com.example.tritendence.model.TriathlonClub;
+import com.example.tritendence.model.groups.Group;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class GroupsFragment extends Fragment {
+    private TriathlonClub club;
     private ListView listOfGroups;
+    private String signedUser;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,12 +32,23 @@ public class GroupsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        this.club = (TriathlonClub) requireActivity().getIntent().getExtras().getSerializable(getString(R.string.TRIATHLON_CLUB_EXTRA));
+        this.signedUser = requireActivity().getIntent().getExtras().getString(getString(R.string.SIGNED_USER_EXTRA));
+
         this.listOfGroups = view.findViewById(R.id.listOfGroups);
+        this.findTypeOfUser(view);
         this.displayGroups();
     }
 
+    private void findTypeOfUser(View view) {
+        if (this.club.getAdminOfClub().getFullName().equals(this.signedUser)) {
+            ImageView addGroupIcon = view.findViewById(R.id.addGroupIcon);
+
+            addGroupIcon.setVisibility(View.VISIBLE);
+        }
+    }
+
     private void displayGroups() {
-        TriathlonClub club = (TriathlonClub) requireActivity().getIntent().getExtras().getSerializable(getString(R.string.TRIATHLON_CLUB_EXTRA));
         ArrayList<HashMap<String, Object>> dataForListOfGroups = new ArrayList<>();
         int[] groupsImageIDs = new int[club.getNumberOfGroups()];
         for (int i = 0; i < club.getNumberOfGroups(); i++)
@@ -42,7 +57,10 @@ public class GroupsFragment extends Fragment {
         for (int i = 0; i < club.getNumberOfGroups(); i++) {
             HashMap<String, Object> mappedData = new HashMap<>();
 
-            mappedData.put(getString(R.string.NAME_OF_GROUP_ADAPTER), club.getGroupAtIndex(i));
+            Group group = club.getGroupAtIndex(i);
+            if (group.getCategory().equals("-1"))
+                continue;
+            mappedData.put(getString(R.string.NAME_OF_GROUP_ADAPTER), club.getGroupAtIndex(i).getName());
             mappedData.put(getString(R.string.ICON_OF_GROUP_ADAPTER), groupsImageIDs[i]);
 
             dataForListOfGroups.add(mappedData);

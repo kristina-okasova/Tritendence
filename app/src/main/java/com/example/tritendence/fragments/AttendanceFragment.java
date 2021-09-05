@@ -19,7 +19,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.tritendence.R;
 import com.example.tritendence.activities.HomeActivity;
-import com.example.tritendence.model.AdapterOfExpendableList;
+import com.example.tritendence.model.adapters.AdapterOfExpendableList;
 import com.example.tritendence.model.TrainingUnit;
 import com.example.tritendence.model.TriathlonClub;
 import com.example.tritendence.model.groups.Group;
@@ -27,10 +27,6 @@ import com.example.tritendence.model.users.Admin;
 import com.example.tritendence.model.users.Member;
 import com.example.tritendence.model.users.Trainer;
 
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -111,6 +107,8 @@ public class AttendanceFragment extends Fragment {
 
     public void addGroups(String sport) {
         for (Group group : this.club.getGroupsOfClub()) {
+            if (group.getCategory().equals("-1"))
+                continue;
             for (TrainingUnit unit : group.getTimetable()) {
                 if (unit.getSport().equals(sport) || sport.equals(getString(R.string.EMPTY_STRING)))
                     addGroupToParticularDay(group.getName(), unit.getDay(), unit.getTime(), unit.getSport());

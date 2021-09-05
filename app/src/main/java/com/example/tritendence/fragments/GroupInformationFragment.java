@@ -16,14 +16,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.tritendence.R;
 import com.example.tritendence.activities.GroupInformationActivity;
 import com.example.tritendence.activities.HomeActivity;
-import com.example.tritendence.model.AdapterOfExpendableAttendance;
-import com.example.tritendence.model.AdapterOfExpendableTrainingUnits;
+import com.example.tritendence.model.adapters.AdapterOfExpendableAttendance;
+import com.example.tritendence.model.adapters.AdapterOfExpendableTrainingUnits;
 import com.example.tritendence.model.AttendanceData;
 import com.example.tritendence.model.TrainingUnit;
 import com.example.tritendence.model.TriathlonClub;
@@ -49,7 +50,7 @@ public class GroupInformationFragment extends Fragment implements Serializable {
     private List<String> dateOfAttendances, sportTypes;
     private final Map<String, List<String>> schedule;
     private Map<String, List<String>> timetable;
-    private String selectedGroup;
+    private String selectedGroup, signedUser;
 
     public GroupInformationFragment() {this.schedule = new HashMap<>(); }
 
@@ -69,6 +70,7 @@ public class GroupInformationFragment extends Fragment implements Serializable {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         this.club = (TriathlonClub) requireActivity().getIntent().getExtras().getSerializable(getString(R.string.TRIATHLON_CLUB_EXTRA));
+        this.signedUser = requireActivity().getIntent().getExtras().getString(getString(R.string.SIGNED_USER_EXTRA));
         this.selectedGroup =  requireActivity().getIntent().getExtras().getString(getString(R.string.GROUP_NAME_EXTRA));
 
         this.expandableListOfMembers = view.findViewById(R.id.expandableListOfMembers);
@@ -78,6 +80,7 @@ public class GroupInformationFragment extends Fragment implements Serializable {
         this.nameOfGroup = view.findViewById(R.id.nameOfGroupInformation);
         this.numberOfAthletes = view.findViewById(R.id.numberOfAthletesInGroup);
 
+        this.findTypeOfUser(view);
         this.initializeAttendanceDates();
         this.initializeTrainingUnits();
 
@@ -90,6 +93,16 @@ public class GroupInformationFragment extends Fragment implements Serializable {
         expandableTimetable.setGroupIndicator(null);
 
         this.fillGroupInformation();
+    }
+
+    private void findTypeOfUser(View view) {
+        if (this.club.getAdminOfClub().getFullName().equals(this.signedUser)) {
+            ImageView deleteGroupIcon = view.findViewById(R.id.deleteGroupIcon);
+            ImageView editGroupIcon = view.findViewById(R.id.editGroupIcon);
+
+            deleteGroupIcon.setVisibility(View.VISIBLE);
+            editGroupIcon.setVisibility(View.VISIBLE);
+        }
     }
 
     public void showMembersOfGroupInFragment() {
@@ -181,9 +194,10 @@ public class GroupInformationFragment extends Fragment implements Serializable {
         DatabaseReference root = database.getReference();
 
         Group groupToDelete = this.findSelectedGroup();
-        root.child(getString(R.string.GROUP_CHILD_DB)+ "/" + Objects.requireNonNull(groupToDelete).getID()).removeValue();
+        root.child(getString(R.string.GROUP_CHILD_DB)+ "/" + Objects.requireNonNull(groupToDelete).getID()).child(getString(R.string.CATEGORY_DB)).setValue(-1);
+        for (Athlete athlete : groupToDelete.getAthletesOfGroup())
+            athlete.setGroupID(0);
 
-        String signedUser = requireActivity().getIntent().getExtras().getString(getString(R.string.SIGNED_USER_EXTRA));
         Intent athleteInformationPage = new Intent(this.getContext(), HomeActivity.class);
         athleteInformationPage.putExtra(getString(R.string.TRIATHLON_CLUB_EXTRA), this.club);
         athleteInformationPage.putExtra(getString(R.string.SIGNED_USER_EXTRA), signedUser);

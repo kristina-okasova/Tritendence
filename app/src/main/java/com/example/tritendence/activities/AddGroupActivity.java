@@ -10,19 +10,17 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.tritendence.R;
-import com.example.tritendence.model.ListScrollable;
+import com.example.tritendence.model.lists.ListScrollable;
 import com.example.tritendence.model.TimePicker;
 import com.example.tritendence.model.TrainingUnit;
 import com.example.tritendence.model.TriathlonClub;
@@ -232,14 +230,14 @@ public class AddGroupActivity extends AppCompatActivity implements TimePickerDia
             this.nameOfGroup.setError(getString(R.string.REQUIRED_NAME_OF_GROUP));
             return;
         }
-        String category = this.categoryOfGroup.getSelectedItem().toString();
+        int category = this.categoryOfGroup.getSelectedItemPosition() + 1;
 
         if (this.editGroup != null)
             this.groupID = this.editGroup.getID();
         else
             this.groupID = this.club.getNumberOfGroups() + 1;
-        root.child(GROUPS_CHILD_DATABASE + "/" + this.groupID + "/" + getString(R.string.CATEGORY_DB)).setValue(category);
-        root.child(GROUPS_CHILD_DATABASE + "/" + this.groupID + "/" + getString(R.string.NAME_DB)).setValue(name);
+        root.child(getString(R.string.GROUP_CHILD_DB) + "/" + this.groupID + "/" + getString(R.string.CATEGORY_DB)).setValue(category);
+        root.child(getString(R.string.GROUP_CHILD_DB) + "/" + this.groupID + "/" + getString(R.string.NAME_DB)).setValue(name);
 
         for (HashMap<String, Object> data : this.dataForListOfTrainingUnits) {
             String firstPart = Objects.requireNonNull(data.get(getString(R.string.DAY_AND_TIME_TRAINING))).toString();
@@ -276,9 +274,9 @@ public class AddGroupActivity extends AppCompatActivity implements TimePickerDia
                     throw new IllegalStateException("Unexpected value: " + sport);
             }
 
-            root.child(GROUPS_CHILD_DATABASE + "/" + this.groupID + "/" + getString(R.string.TIMETABLE_DB) + "/" + timetableRoot + "/" + trainingUnitID + "/" + getString(R.string.DAY_DB)).setValue(day);
-            root.child(GROUPS_CHILD_DATABASE + "/" + this.groupID + "/" + getString(R.string.TIMETABLE_DB) + "/" + timetableRoot + "/" + trainingUnitID + "/" + getString(R.string.TIME_DB)).setValue(time);
-            root.child(GROUPS_CHILD_DATABASE + "/" + this.groupID + "/" + getString(R.string.TIMETABLE_DB) + "/" + timetableRoot + "/" + trainingUnitID + "/" + getString(R.string.LOCATION_DB)).setValue(location);
+            root.child(getString(R.string.GROUP_CHILD_DB) + "/" + this.groupID + "/" + getString(R.string.TIMETABLE_DB) + "/" + timetableRoot + "/" + trainingUnitID + "/" + getString(R.string.DAY_DB)).setValue(day);
+            root.child(getString(R.string.GROUP_CHILD_DB) + "/" + this.groupID + "/" + getString(R.string.TIMETABLE_DB) + "/" + timetableRoot + "/" + trainingUnitID + "/" + getString(R.string.TIME_DB)).setValue(time);
+            root.child(getString(R.string.GROUP_CHILD_DB) + "/" + this.groupID + "/" + getString(R.string.TIMETABLE_DB) + "/" + timetableRoot + "/" + trainingUnitID + "/" + getString(R.string.LOCATION_DB)).setValue(location);
         }
 
         ArrayList<String> namesOfAthletesOfGroup = new ArrayList<>();

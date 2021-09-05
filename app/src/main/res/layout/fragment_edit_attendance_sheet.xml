@@ -128,7 +128,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.example.tritendence.model.ListScrollable
+        <com.example.tritendence.model.lists.ListScrollable
             android:id="@+id/attendanceSheetEdit"
             style="@style/listStyle"
             android:layout_marginTop="30dp"

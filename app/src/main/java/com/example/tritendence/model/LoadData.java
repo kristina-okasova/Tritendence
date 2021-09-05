@@ -37,9 +37,9 @@ public class LoadData {
     private static final String TIMETABLE_SWIMMING = "Swimming";
     private static final String TIMETABLE_CYCLING = "Cycling";
 
-    private static final String UNIT_DAY = "day";
-    private static final String UNIT_LOCATION = "location";
-    private static final String UNIT_TIME = "time";
+    private static final String UNIT_DAY = "Day";
+    private static final String UNIT_LOCATION = "Location";
+    private static final String UNIT_TIME = "Time";
 
     private static final String ATHLETE_GROUP_ID = "GroupID";
     private static final String ATHLETE_DAY_OF_BIRTH = "DayOfBirth";
@@ -47,7 +47,8 @@ public class LoadData {
 
     private static final String ATTENDANCE_DATE = "Date";
     private static final String ATTENDANCE_TRAINER = "Trainer";
-    private static final int NUMBER_OF_REQUIRED_DATA_FOR_ATTENDANCE = 4;
+    private static final String ATTENDANCE_NOTE = "Note";
+    private static final int NUMBER_OF_REQUIRED_DATA_FOR_ATTENDANCE = 5;
     private static final int NUMBER_OF_REQUIRED_DATA_FOR_TRAINER = 5;
     private static final int NUMBER_OF_REQUIRED_DATA_FOR_GROUP = 3;
     private static final int NUMBER_OF_REQUIRED_DATA_FOR_TRAINING_UNIT = 3;
@@ -103,6 +104,8 @@ public class LoadData {
             String nameOfGroup = Objects.requireNonNull(snapshot.child(groupID).child(NAME).getValue()).toString();
             String categoryOfGroup = Objects.requireNonNull(snapshot.child(groupID).child(GROUPS_CATEGORY).getValue()).toString();
 
+            if (Integer.parseInt(categoryOfGroup) == -1)
+                continue;
             Group group = new Group(i, nameOfGroup, categoryOfGroup);
 
             int numberOfAthleticTrainingUnits = (int) snapshot.child(groupID).child(GROUPS_TIMETABLE).child(TIMETABLE_ATHLETICS).getChildrenCount();
@@ -133,6 +136,8 @@ public class LoadData {
             String numberOfTrainings = Objects.requireNonNull(snapshot.child(athleteID).child(NUMBER_OF_TRAININGS).getValue()).toString();
             String dayOfBirth = Objects.requireNonNull(snapshot.child(athleteID).child(ATHLETE_DAY_OF_BIRTH).getValue()).toString();
 
+            if (Integer.parseInt(groupID) == -1)
+                continue;
             Athlete athlete = new Athlete(i, name, surname, Integer.parseInt(groupID), Integer.parseInt(numberOfTrainings), dayOfBirth);
             this.club.addMember(athlete);
         }
@@ -178,6 +183,7 @@ public class LoadData {
             String date =Objects.requireNonNull(snapshot.child(attendanceID).child(ATTENDANCE_DATE).getValue()).toString();
             String sport = Objects.requireNonNull(snapshot.child(attendanceID).child(SPORT).getValue()).toString();
             String nameOfTrainer = Objects.requireNonNull(snapshot.child(attendanceID).child(trainerID).getValue()).toString();
+            String note = Objects.requireNonNull(snapshot.child(attendanceID).child(ATTENDANCE_NOTE).getValue()).toString();
 
             ArrayList<Athlete> attendedAthletes = new ArrayList<>();
             int numberOfAttendedAthletes = (int) snapshot.child(attendanceID).child(ATHLETES_CHILD_DATABASE).getChildrenCount();
@@ -192,7 +198,7 @@ public class LoadData {
             Trainer trainer = (Trainer) this.findMember(nameOfTrainer);
             int groupID = Integer.parseInt(String.valueOf(date.charAt(date.length() - 1)));
             Group group = this.findGroup(groupID);
-            AttendanceData data = new AttendanceData(group, sport, trainer, attendedAthletes, date);
+            AttendanceData data = new AttendanceData(group, sport, trainer, attendedAthletes, date, note);
 
             int numberOfExtraTrainers = ((int) snapshot.child(attendanceID).getChildrenCount()) - NUMBER_OF_REQUIRED_DATA_FOR_ATTENDANCE;
             for (int j = 0; j < numberOfExtraTrainers; j++) {
@@ -219,6 +225,7 @@ public class LoadData {
         unit.setLocation(location);
         unit.setTime(time);
         unit.setSport(sport);
+        unit.setGroupID(group.getID());
 
         group.addTrainingUnit(unit);
     }

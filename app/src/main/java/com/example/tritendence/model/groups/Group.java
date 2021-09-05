@@ -64,6 +64,8 @@ public class Group implements Serializable {
     public ArrayList<String> getNamesOfAthletesOfGroup() {
         ArrayList<String> namesOfAthletes = new ArrayList<>();
         for (Athlete athlete : this.athletesOfGroup) {
+            if (athlete.getGroupID() == -1)
+                continue;
             namesOfAthletes.add(athlete.getFullName());
         }
 
@@ -84,6 +86,13 @@ public class Group implements Serializable {
                 return CATEGORY_THREE;
             default:
                 return null;
+        }
+    }
+
+    public void deleteAthleteFromGroup(Athlete athlete) {
+        for (int i = 0; i < this.athletesOfGroup.size(); i++) {
+            if (this.athletesOfGroup.get(i).getFullName().equals(athlete.getFullName()))
+                this.athletesOfGroup.remove(i);
         }
     }
 }

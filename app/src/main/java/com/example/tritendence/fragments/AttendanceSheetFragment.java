@@ -1,5 +1,6 @@
 package com.example.tritendence.fragments;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -23,11 +24,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.tritendence.R;
+import com.example.tritendence.activities.HomeActivity;
 import com.example.tritendence.model.TrainingUnit;
 import com.example.tritendence.model.TriathlonClub;
 import com.example.tritendence.model.groups.Group;
 import com.example.tritendence.model.users.Athlete;
 import com.example.tritendence.model.users.Member;
+import com.example.tritendence.model.users.Trainer;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -36,6 +39,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class AttendanceSheetFragment extends Fragment {
     private ListView attendanceSheet;
@@ -97,8 +101,18 @@ public class AttendanceSheetFragment extends Fragment {
             }
 
             findAthletesByName(athletesNames);
-            Toast.makeText(getActivity(), athletesNames.toString(), Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), getString(R.string.ATTENDANCE_SUCCESS), Toast.LENGTH_LONG).show();
+            loadAttendancePage();
         });
+    }
+
+    private void loadAttendancePage() {
+        Intent attendancePage = new Intent(getActivity(), HomeActivity.class);
+        attendancePage.putExtra(getString(R.string.TRIATHLON_CLUB_EXTRA), this.club);
+        attendancePage.putExtra(getString(R.string.SIGNED_USER_EXTRA), this.currentTrainersName);
+        attendancePage.putExtra(getString(R.string.SELECTED_FRAGMENT_EXTRA), R.id.attendanceFragment);
+        startActivity(attendancePage);
+        requireActivity().finish();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -140,12 +154,25 @@ public class AttendanceSheetFragment extends Fragment {
         numberOfFilledAttendance++;
         root.child(getString(R.string.ATTENDANCE_CHILD_DB) + "/" + numberOfFilledAttendance + "/" + getString(R.string.DATE_DB)).setValue(dateInformation);
         root.child(getString(R.string.ATTENDANCE_CHILD_DB) + "/" + numberOfFilledAttendance + "/" + getString(R.string.SPORT_DB)).setValue(this.unit.getSportTranslation());
-        root.child(getString(R.string.ATTENDANCE_CHILD_DB) + "/" + numberOfFilledAttendance + "/" + getString(R.string.ATHLETES_DB)).setValue(attendanceData);
-        if (noteText.length() != 0)
-            root.child(getString(R.string.ATTENDANCE_CHILD_DB) + "/" + numberOfFilledAttendance + "/" + getString(R.string.NOTE_DB)).setValue(noteText);
+        if (attendanceData.size() == 0)
+            root.child(getString(R.string.ATTENDANCE_CHILD_DB) + "/" + numberOfFilledAttendance + "/" + getString(R.string.ATHLETES_DB)).setValue(getString(R.string.EMPTY_STRING));
+        else
+            root.child(getString(R.string.ATTENDANCE_CHILD_DB) + "/" + numberOfFilledAttendance + "/" + getString(R.string.ATHLETES_DB)).setValue(attendanceData);
+        root.child(getString(R.string.ATTENDANCE_CHILD_DB) + "/" + numberOfFilledAttendance + "/" + getString(R.string.NOTE_DB)).setValue(noteText);
         for (int i = 0; i < trainersNames.size(); i++) {
             String trainerID = getString(R.string.TRAINER_DB) + String.valueOf(i+1);
             root.child(getString(R.string.ATTENDANCE_CHILD_DB) + "/" + numberOfFilledAttendance + "/" + trainerID).setValue(trainersNames.get(i));
+        }
+
+        this.addTrainingToTrainers(trainersNames);
+    }
+
+    private void addTrainingToTrainers(ArrayList<String> trainersNames) {
+        for (String nameOfTrainer : trainersNames) {
+            for (Member trainer : this.club.getTrainersSortedByAlphabet()) {
+                if (trainer.getFullName().equals(nameOfTrainer))
+                    ((Trainer) trainer).addTraining();
+            }
         }
     }
 

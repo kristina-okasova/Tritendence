@@ -44,11 +44,13 @@ public class TrainerInformationFragment extends Fragment {
 
         ArrayList<HashMap<String, Object>> dataForListOfTrainings = new ArrayList<>();
         for (AttendanceData attendanceData : this.club.getAttendanceData()) {
-            if (attendanceData.getTrainer(0).getFullName().equals(this.selectedTrainer)) {
-                HashMap<String, Object> mappedData = new HashMap<>();
+            for (Trainer trainer : attendanceData.getTrainers()) {
+                if (trainer.getFullName().equals(this.selectedTrainer)) {
+                    HashMap<String, Object> mappedData = new HashMap<>();
 
-                mappedData.put(getString(R.string.TRAINING_DATA_ADAPTER), attendanceData.getDate() + " " + attendanceData.getTime() + "\n" + attendanceData.getSport());
-                dataForListOfTrainings.add(mappedData);
+                    mappedData.put(getString(R.string.TRAINING_DATA_ADAPTER), attendanceData.getDate() + " " + attendanceData.getTime() + "\n" + attendanceData.getSport());
+                    dataForListOfTrainings.add(mappedData);
+                }
             }
         }
 

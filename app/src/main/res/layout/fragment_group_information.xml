@@ -123,12 +123,14 @@
         <com.example.tritendence.model.ExpandableListScrollable
             android:id="@+id/attendanceOfGroupInformation"
             style="@style/groupInformationListStyle"
+            android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
             android:layout_marginLeft="30dp"
             android:layout_marginEnd="30dp"
             android:layout_marginRight="30dp"
+            android:layout_marginBottom="50dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView" />
 
@@ -147,21 +149,23 @@
             app:layout_constraintTop_toBottomOf="@+id/categoryOfGroupInformation" />
 
         <ImageView
-            android:id="@+id/imageView6"
+            android:id="@+id/editGroupIcon"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginEnd="30dp"
             android:layout_marginRight="30dp"
             android:layout_marginBottom="30dp"
+            android:contentDescription="@string/EDIT_DESCRIPTION"
             android:onClick="editGroup"
             android:src="@drawable/edit_icon"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:tint="@color/middle_red"
-            tools:ignore="OnClick,UsingOnClickInXml"
-            android:contentDescription="@string/EDIT_DESCRIPTION" />
+            tools:ignore="OnClick,UsingOnClickInXml" />
 
         <ImageView
+            android:id="@+id/deleteGroupIcon"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginTop="20dp"
@@ -171,7 +175,8 @@
             android:contentDescription="@string/DELETE_DESCRIPTION"
             android:onClick="deleteGroup"
             android:src="@drawable/delete_icon"
-            app:layout_constraintBottom_toTopOf="@+id/imageView6"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/editGroupIcon"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/attendanceOfGroupInformation"
             app:tint="@color/middle_red"

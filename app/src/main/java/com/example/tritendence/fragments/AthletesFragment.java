@@ -15,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
@@ -29,6 +30,7 @@ public class AthletesFragment extends Fragment {
     private ListView listOfAthletes;
     private ArrayList<HashMap<String, Object>> dataForListOfAthletes;
     private TriathlonClub club;
+    private String signedUser;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +43,18 @@ public class AthletesFragment extends Fragment {
 
         this.listOfAthletes = view.findViewById(R.id.listOfAthletes);
         this.club = (TriathlonClub) requireActivity().getIntent().getExtras().getSerializable(getString(R.string.TRIATHLON_CLUB_EXTRA));
+        this.signedUser = requireActivity().getIntent().getExtras().getString(getString(R.string.SIGNED_USER_EXTRA));
+
+        this.findTypeOfUser(view);
         this.getAlphabetSortingOfAthletes();
+    }
+
+    private void findTypeOfUser(View view) {
+        if (this.club.getAdminOfClub().getFullName().equals(this.signedUser)) {
+            ImageView addAthleteIcon = view.findViewById(R.id.addAthleteIcon);
+
+            addAthleteIcon.setVisibility(View.VISIBLE);
+        }
     }
 
     private void displayAthletes() {

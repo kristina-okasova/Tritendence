@@ -18,7 +18,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.example.tritendence.model.ListScrollable
+        <com.example.tritendence.model.lists.ListScrollable
             android:id="@+id/listOfAthletes"
             style="@style/listStyle"
             app:layout_constraintEnd_toEndOf="parent"
@@ -34,6 +34,7 @@
             android:layout_marginRight="30dp"
             android:layout_marginBottom="30dp"
             android:onClick="addAthlete"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/listOfAthletes"

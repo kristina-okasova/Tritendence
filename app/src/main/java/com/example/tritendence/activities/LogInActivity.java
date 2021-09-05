@@ -71,6 +71,8 @@ public class LogInActivity extends AppCompatActivity {
             if (member instanceof Trainer && (((Trainer) member).getEmail()).equals(emailText))
                 singIn(member.getFullName());
         }
+        if (this.loadData.getClub().getAdminOfClub().getEmail().equals(emailText))
+            singIn(this.loadData.getClub().getAdminOfClub().getFullName());
     }
 
     private void singIn(String fullName) {

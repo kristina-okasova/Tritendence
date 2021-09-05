@@ -95,7 +95,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <com.example.tritendence.model.ListScrollable
+            <com.example.tritendence.model.lists.ListScrollable
                 android:id="@+id/trainersTrainings"
                 style="@style/profileListStyle"
                 app:layout_constraintEnd_toEndOf="parent"

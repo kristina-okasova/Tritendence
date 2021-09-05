@@ -1,4 +1,4 @@
-package com.example.tritendence.model;
+package com.example.tritendence.model.adapters;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;

@@ -23,10 +23,11 @@ import android.widget.Toast;
 
 import com.example.tritendence.R;
 import com.example.tritendence.model.AttendanceData;
-import com.example.tritendence.model.ListScrollable;
+import com.example.tritendence.model.lists.ListScrollable;
 import com.example.tritendence.model.TriathlonClub;
 import com.example.tritendence.model.users.Athlete;
 import com.example.tritendence.model.users.Member;
+import com.example.tritendence.model.users.Trainer;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -180,12 +181,25 @@ public class EditAttendanceSheetFragment extends Fragment {
         numberOfFilledAttendance++;
         root.child(getString(R.string.ATTENDANCE_CHILD_DB) + "/" + numberOfFilledAttendance + "/" + getString(R.string.DATE_DB)).setValue(dateInformation);
         root.child(getString(R.string.ATTENDANCE_CHILD_DB) + "/" + numberOfFilledAttendance + "/" + getString(R.string.SPORT_DB)).setValue(this.selectedAttendanceData.getSport());
-        root.child(getString(R.string.ATTENDANCE_CHILD_DB) + "/" + numberOfFilledAttendance + "/" + getString(R.string.ATHLETES_DB)).setValue(attendanceData);
-        if (noteText.length() != 0)
-            root.child(getString(R.string.ATTENDANCE_CHILD_DB) + "/" + numberOfFilledAttendance + "/" + getString(R.string.NOTE_DB)).setValue(noteText);
+        if (attendanceData.size() == 0)
+            root.child(getString(R.string.ATTENDANCE_CHILD_DB) + "/" + numberOfFilledAttendance + "/" + getString(R.string.ATHLETES_DB)).setValue(getString(R.string.EMPTY_STRING));
+        else
+            root.child(getString(R.string.ATTENDANCE_CHILD_DB) + "/" + numberOfFilledAttendance + "/" + getString(R.string.ATHLETES_DB)).setValue(attendanceData);
+        root.child(getString(R.string.ATTENDANCE_CHILD_DB) + "/" + numberOfFilledAttendance + "/" + getString(R.string.NOTE_DB)).setValue(noteText);
         for (int i = 0; i < trainersNames.size(); i++) {
             String trainerID = getString(R.string.TRAINER_DB) + String.valueOf(i+1);
             root.child(getString(R.string.ATTENDANCE_CHILD_DB) + "/" + numberOfFilledAttendance + "/" + trainerID).setValue(trainersNames.get(i));
+        }
+
+        this.addTrainingToTrainers(trainersNames);
+    }
+
+    private void addTrainingToTrainers(ArrayList<String> trainersNames) {
+        for (String nameOfTrainer : trainersNames) {
+            for (Member trainer : this.club.getTrainersSortedByAlphabet()) {
+                if (trainer.getFullName().equals(nameOfTrainer))
+                    ((Trainer) trainer).addTraining();
+            }
         }
     }
 

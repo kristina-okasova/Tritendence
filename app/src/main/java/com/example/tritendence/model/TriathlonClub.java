@@ -64,8 +64,8 @@ public class TriathlonClub implements Serializable {
         return this.numberOfGroups;
     }
 
-    public String getGroupAtIndex(int i) {
-        return this.groupsOfClub.get(i).getName();
+    public Group getGroupAtIndex(int i) {
+        return this.groupsOfClub.get(i);
     }
 
     public Member getMemberAtIndex(int i) {
