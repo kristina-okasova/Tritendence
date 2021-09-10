@@ -12,6 +12,7 @@ import android.view.View;
 
 import com.example.tritendence.R;
 import com.example.tritendence.fragments.AthleteInformationFragment;
+import com.example.tritendence.model.LoadData;
 import com.example.tritendence.model.TriathlonClub;
 import com.example.tritendence.model.users.Athlete;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -40,16 +41,19 @@ public class AthleteInformationActivity extends AppCompatActivity {
     private final BottomNavigationView.OnNavigationItemSelectedListener navigationListener =
             item -> {
                 String signedUser = getIntent().getExtras().getString(getString(string.SIGNED_USER_EXTRA));
+                LoadData loadData = (LoadData) getIntent().getExtras().getSerializable(getString(string.LOAD_DATA_EXTRA));
                 Intent homePage = new Intent(this, HomeActivity.class);
                 homePage.putExtra(getString(string.SIGNED_USER_EXTRA), signedUser);
                 homePage.putExtra(getString(string.TRIATHLON_CLUB_EXTRA), this.club);
+                homePage.putExtra(getString(R.string.LOAD_DATA_EXTRA), loadData);
                 homePage.putExtra(getString(string.SELECTED_FRAGMENT_EXTRA), item.getItemId());
                 startActivity(homePage);
                 finish();
                 return true;
             };
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void deleteAthlete(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(true);
@@ -72,5 +76,9 @@ public class AthleteInformationActivity extends AppCompatActivity {
         addAthletePage.putExtra(getString(string.EDIT_ATHLETE_EXTRA), editAthlete);
         startActivity(addAthletePage);
         finish();
+    }
+
+    public void notifyAboutChange(TriathlonClub club) {
+        this.club = club;
     }
 }

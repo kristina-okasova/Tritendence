@@ -10,6 +10,7 @@ import android.view.View;
 
 import com.example.tritendence.R;
 import com.example.tritendence.fragments.GroupInformationFragment;
+import com.example.tritendence.model.LoadData;
 import com.example.tritendence.model.TriathlonClub;
 import com.example.tritendence.model.groups.Group;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -65,11 +66,17 @@ public class GroupInformationActivity extends AppCompatActivity {
     public void editGroup(View view) {
         Group editGroup = this.groupInformationFragment.findSelectedGroup();
         String signedUser = getIntent().getExtras().getString(getString(R.string.SIGNED_USER_EXTRA));
+        LoadData loadData = (LoadData) getIntent().getExtras().getSerializable(getString(R.string.LOAD_DATA_EXTRA));
         Intent addGroupPage = new Intent(this, AddGroupActivity.class);
         addGroupPage.putExtra(getString(R.string.TRIATHLON_CLUB_EXTRA), this.club);
         addGroupPage.putExtra(getString(R.string.SIGNED_USER_EXTRA), signedUser);
+        addGroupPage.putExtra(getString(R.string.LOAD_DATA_EXTRA), loadData);
         addGroupPage.putExtra(getString(R.string.EDIT_GROUP_EXTRA), editGroup);
         startActivity(addGroupPage);
         finish();
+    }
+
+    public void notifyAboutChange(TriathlonClub club) {
+        this.club = club;
     }
 }

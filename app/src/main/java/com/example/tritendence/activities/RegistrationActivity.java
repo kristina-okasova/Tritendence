@@ -125,4 +125,8 @@ public class RegistrationActivity extends AppCompatActivity {
         Intent signInPage = new Intent(RegistrationActivity.this, LogInActivity.class);
         startActivity(signInPage);
     }
+
+    public void notifyAboutChange(TriathlonClub club) {
+        this.club = club;
+    }
 }

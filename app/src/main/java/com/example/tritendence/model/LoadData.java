@@ -1,9 +1,22 @@
 package com.example.tritendence.model;
 
+import android.app.Activity;
 import android.os.Build;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+
+import com.example.tritendence.activities.AddAthleteActivity;
+import com.example.tritendence.activities.AddGroupActivity;
+import com.example.tritendence.activities.AthleteInformationActivity;
+import com.example.tritendence.activities.AttendanceSheetActivity;
+import com.example.tritendence.activities.EditAttendanceSheetActivity;
+import com.example.tritendence.activities.FilledAttendanceSheetActivity;
+import com.example.tritendence.activities.GroupInformationActivity;
+import com.example.tritendence.activities.HomeActivity;
+import com.example.tritendence.activities.LogInActivity;
+import com.example.tritendence.activities.RegistrationActivity;
+import com.example.tritendence.activities.TrainerInformationActivity;
 import com.example.tritendence.model.groups.Group;
 import com.example.tritendence.model.users.Admin;
 import com.example.tritendence.model.users.Athlete;
@@ -15,10 +28,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.concurrent.CountDownLatch;
 
-public class LoadData {
+public class LoadData implements Serializable {
     private static final String GROUPS_CHILD_DATABASE = "Groups";
     private static final String ATHLETES_CHILD_DATABASE = "Athletes";
     private static final String TRAINERS_CHILD_DATABASE = "Trainers";
@@ -52,33 +67,71 @@ public class LoadData {
     private static final int NUMBER_OF_REQUIRED_DATA_FOR_TRAINER = 5;
     private static final int NUMBER_OF_REQUIRED_DATA_FOR_GROUP = 3;
     private static final int NUMBER_OF_REQUIRED_DATA_FOR_TRAINING_UNIT = 3;
+    private static final int NUMBER_OF_REQUIRED_DATA_FOR_ATHLETE = 5;
 
     private final TriathlonClub club;
-    private transient final DatabaseReference database;
+    private transient Activity activity;
+    private transient DatabaseReference database;
     private int numberOfGroups, numberOfAthletes, numberOfTrainers, numberOfFilledAttendances;
 
-    public LoadData() {
+    public LoadData(Activity activity) {
         this.club = new TriathlonClub();
+        this.activity = activity;
+        this.database = FirebaseDatabase.getInstance().getReference();
+
+        this.loadData();
+    }
+
+    public void setActivity(Activity activity) {
+        this.activity = activity;
         this.database = FirebaseDatabase.getInstance().getReference();
         this.loadData();
     }
 
     private void loadData() {
-        this.database.addValueEventListener(new ValueEventListener() {
+        System.out.println(this.database);
+        this.database.addListenerForSingleValueEvent(new ValueEventListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                club.clearData();
                 loadAmounts(snapshot);
                 loadAthleteInformation(snapshot.child(ATHLETES_CHILD_DATABASE));
                 loadTrainerInformation(snapshot.child(TRAINERS_CHILD_DATABASE));
-                loadAdminInformation(snapshot.child(ADMINS_CHILD_DATABASE));
                 loadGroupInformation(snapshot.child(GROUPS_CHILD_DATABASE));
                 loadAttendanceInformation(snapshot.child(ATTENDANCE_CHILD_DATABASE));
+                loadAdminInformation(snapshot.child(ADMINS_CHILD_DATABASE));
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {}
         });
+        this.notifyActivity();
+    }
+
+    private void notifyActivity() {
+        if (activity instanceof LogInActivity)
+            ((LogInActivity) activity).notifyAboutChange(club);
+        if (activity instanceof HomeActivity)
+            ((HomeActivity) activity).notifyAboutChange(club);
+        if (activity instanceof AddAthleteActivity)
+            ((AddAthleteActivity) activity).notifyAboutChange(club);
+        if (activity instanceof AddGroupActivity)
+            ((AddGroupActivity) activity).notifyAboutChange(club);
+        if (activity instanceof AthleteInformationActivity)
+            ((AthleteInformationActivity) activity).notifyAboutChange(club);
+        if (activity instanceof AttendanceSheetActivity)
+            ((AttendanceSheetActivity) activity).notifyAboutChange(club);
+        if (activity instanceof EditAttendanceSheetActivity)
+            ((EditAttendanceSheetActivity) activity).notifyAboutChange(club);
+        if (activity instanceof FilledAttendanceSheetActivity)
+            ((FilledAttendanceSheetActivity) activity).notifyAboutChange(club);
+        if (activity instanceof GroupInformationActivity)
+            ((GroupInformationActivity) activity).notifyAboutChange(club);
+        if (activity instanceof RegistrationActivity)
+            ((RegistrationActivity) activity).notifyAboutChange(club);
+        if (activity instanceof TrainerInformationActivity)
+            ((TrainerInformationActivity) activity).notifyAboutChange(club);
     }
 
     private void loadAmounts(DataSnapshot snapshot) {
@@ -130,6 +183,9 @@ public class LoadData {
     private void loadAthleteInformation(DataSnapshot snapshot) {
         for (int i = 1; i <= this.numberOfAthletes; i++) {
             String athleteID = String.valueOf(i);
+            if (snapshot.child(athleteID).getChildrenCount() != NUMBER_OF_REQUIRED_DATA_FOR_ATHLETE)
+                continue;
+
             String name = Objects.requireNonNull(snapshot.child(athleteID).child(NAME).getValue()).toString();
             String surname = Objects.requireNonNull(snapshot.child(athleteID).child(SURNAME).getValue()).toString();
             String groupID = Objects.requireNonNull(snapshot.child(athleteID).child(ATHLETE_GROUP_ID).getValue()).toString();

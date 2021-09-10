@@ -118,4 +118,9 @@ public class TrainersFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_trainers, container, false);
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void notifyAboutChange(TriathlonClub club) {
+        this.club = club;
+    }
 }

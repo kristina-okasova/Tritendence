@@ -30,8 +30,9 @@ public class LogInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        this.loadData = new LoadData();
+        this.loadData = new LoadData(this);
         this.club = this.loadData.getClub();
+
 
         Button signInBtn = findViewById(R.id.signInBtn);
         TextView registration = findViewById(R.id.registrationNote);
@@ -55,7 +56,6 @@ public class LogInActivity extends AppCompatActivity {
             if (!passwordText.isEmpty()) {
                 this.authentication.signInWithEmailAndPassword(emailText, passwordText).addOnSuccessListener(task -> this.findUser(emailText)).
                         addOnFailureListener(task -> Toast.makeText(LogInActivity.this, getString(R.string.WRONG_SIGN_IN_DATA), Toast.LENGTH_LONG).show());
-
             }
             else
                 this.password.setError(getString(R.string.PASSWORD_REQUIRED));
@@ -69,16 +69,17 @@ public class LogInActivity extends AppCompatActivity {
     private void findUser(String emailText) {
         for (Member member : this.loadData.getClub().getMembersOfClub()) {
             if (member instanceof Trainer && (((Trainer) member).getEmail()).equals(emailText))
-                singIn(member.getFullName());
+                signIn(member.getFullName());
         }
         if (this.loadData.getClub().getAdminOfClub().getEmail().equals(emailText))
-            singIn(this.loadData.getClub().getAdminOfClub().getFullName());
+            signIn(this.loadData.getClub().getAdminOfClub().getFullName());
     }
 
-    private void singIn(String fullName) {
+    private void signIn(String fullName) {
         Intent homePage = new Intent(LogInActivity.this, HomeActivity.class);
         homePage.putExtra(getString(R.string.SIGNED_USER_EXTRA), fullName);
         homePage.putExtra(getString(R.string.TRIATHLON_CLUB_EXTRA), this.club);
+        homePage.putExtra(getString(R.string.LOAD_DATA_EXTRA), this.loadData);
         startActivity(homePage);
         finish();
     }
@@ -109,6 +110,10 @@ public class LogInActivity extends AppCompatActivity {
         }
 
         return false;
+    }
+
+    public void notifyAboutChange(TriathlonClub club) {
+        this.club = club;
     }
 
 }

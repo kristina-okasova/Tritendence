@@ -42,6 +42,6 @@ allprojects {
     }
 }
 
-//task clean(type: Delete) {
-//    delete rootProject.buildDir
-//}
+dependencies {
+    implementation 'com.google.firebase:firebase-appcheck-safetynet:16.0.0-beta02'
+}

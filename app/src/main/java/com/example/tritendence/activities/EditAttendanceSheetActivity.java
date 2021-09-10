@@ -11,11 +11,13 @@ import android.widget.Toast;
 
 import com.example.tritendence.R;
 import com.example.tritendence.fragments.EditAttendanceSheetFragment;
+import com.example.tritendence.model.LoadData;
 import com.example.tritendence.model.TriathlonClub;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class EditAttendanceSheetActivity extends AppCompatActivity {
     private EditAttendanceSheetFragment editAttendanceSheetFragment;
+    private TriathlonClub club;
     private String signedUser;
 
     @Override
@@ -23,6 +25,7 @@ public class EditAttendanceSheetActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_attendance_sheet);
 
+        this.club = (TriathlonClub) getIntent().getExtras().getSerializable(getString(R.string.TRIATHLON_CLUB_EXTRA));
         this.signedUser = getIntent().getExtras().getString(getString(R.string.SIGNED_USER_EXTRA));
         BottomNavigationView navigation = findViewById(R.id.bottomNavigationView);
         navigation.setSelectedItemId(R.id.attendanceFragment);
@@ -35,10 +38,11 @@ public class EditAttendanceSheetActivity extends AppCompatActivity {
     @SuppressLint("NonConstantResourceId")
     private final BottomNavigationView.OnNavigationItemSelectedListener navigationListener =
             item -> {
-                TriathlonClub club = (TriathlonClub) getIntent().getExtras().getSerializable(getString(R.string.TRIATHLON_CLUB_EXTRA));
+                LoadData loadData = (LoadData) getIntent().getExtras().getSerializable(getString(R.string.LOAD_DATA_EXTRA));
                 Intent homePage = new Intent(this, HomeActivity.class);
                 homePage.putExtra(getString(R.string.SIGNED_USER_EXTRA), this.signedUser);
-                homePage.putExtra(getString(R.string.TRIATHLON_CLUB_EXTRA), club);
+                homePage.putExtra(getString(R.string.TRIATHLON_CLUB_EXTRA), this.club);
+                homePage.putExtra(getString(R.string.LOAD_DATA_EXTRA), loadData);
                 homePage.putExtra(getString(R.string.SELECTED_FRAGMENT_EXTRA), item.getItemId());
                 startActivity(homePage);
                 finish();
@@ -63,5 +67,9 @@ public class EditAttendanceSheetActivity extends AppCompatActivity {
         }
 
         Toast.makeText(this, getString(R.string.MAX_AMOUNT_OF_TRAINERS), Toast.LENGTH_LONG).show();
+    }
+
+    public void notifyAboutChange(TriathlonClub club) {
+        this.club = club;
     }
 }

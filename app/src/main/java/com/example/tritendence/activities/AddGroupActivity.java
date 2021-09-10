@@ -1,5 +1,6 @@
 package com.example.tritendence.activities;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.DialogFragment;
@@ -20,6 +21,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.tritendence.R;
+import com.example.tritendence.model.LoadData;
 import com.example.tritendence.model.lists.ListScrollable;
 import com.example.tritendence.model.TimePicker;
 import com.example.tritendence.model.TrainingUnit;
@@ -52,6 +54,7 @@ public class AddGroupActivity extends AppCompatActivity implements TimePickerDia
     private Button addGroupBtn;
     private int groupID;
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -146,6 +149,7 @@ public class AddGroupActivity extends AppCompatActivity implements TimePickerDia
         this.typeOfSport.setAdapter(adapterSpinner);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void initializeAthletesOfClub() {
         ArrayList<String> namesOfAthletes = new ArrayList<>();
         for (Member athlete : this.club.getAthletesSortedByAlphabet())
@@ -220,6 +224,7 @@ public class AddGroupActivity extends AppCompatActivity implements TimePickerDia
         this.adapter.notifyDataSetChanged();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void createGroup(View view) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference root = database.getReference();
@@ -297,6 +302,7 @@ public class AddGroupActivity extends AppCompatActivity implements TimePickerDia
         finish();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void findAthletesByNames(ArrayList<String> namesOfAthletesOfGroup) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference root = database.getReference();
@@ -335,12 +341,18 @@ public class AddGroupActivity extends AppCompatActivity implements TimePickerDia
             item -> {
                 TriathlonClub club = (TriathlonClub) getIntent().getExtras().getSerializable(getString(R.string.TRIATHLON_CLUB_EXTRA));
                 String signedUser = getIntent().getExtras().getString(getString(R.string.SIGNED_USER_EXTRA));
+                LoadData loadData = (LoadData) getIntent().getExtras().getSerializable(getString(R.string.LOAD_DATA_EXTRA));
                 Intent homePage = new Intent(this, HomeActivity.class);
                 homePage.putExtra(getString(R.string.SIGNED_USER_EXTRA), signedUser);
                 homePage.putExtra(getString(R.string.TRIATHLON_CLUB_EXTRA), club);
+                homePage.putExtra(getString(R.string.LOAD_DATA_EXTRA), loadData);
                 homePage.putExtra(getString(R.string.SELECTED_FRAGMENT_EXTRA), item.getItemId());
                 startActivity(homePage);
                 finish();
                 return true;
             };
+
+    public void notifyAboutChange(TriathlonClub club) {
+        this.club = club;
+    }
 }

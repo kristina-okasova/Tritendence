@@ -157,4 +157,7 @@
     <string name="NO_TRAININGS_IN_CATEGORY">Skupina nemá v danej kategórii žiadne tréningy.</string>
     <string name="WEEK">Týždeň</string>
     <string name="ATTENDANCE_SUCCESS">Úspešne zadaná dochádzka</string>
+    <string name="LOAD_DATA_EXTRA">LOAD_DATA</string>
+    <string name="REQUIRED_DAY_OF_BIRTH_OF_ATHLETE">Je potrebné zadať dátum narodenia člena.</string>
+    <string name="ATHLETE_ALREADY_EXISTS">Používateľ už v klube existuje.</string>
 </resources>

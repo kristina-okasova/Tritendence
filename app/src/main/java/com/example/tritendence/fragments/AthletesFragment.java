@@ -31,12 +31,14 @@ public class AthletesFragment extends Fragment {
     private ArrayList<HashMap<String, Object>> dataForListOfAthletes;
     private TriathlonClub club;
     private String signedUser;
+    private SimpleAdapter adapter;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -60,8 +62,8 @@ public class AthletesFragment extends Fragment {
     private void displayAthletes() {
         String[] insertingData = {getString(R.string.NAME_OF_ATHLETE_ADAPTER), getString(R.string.ICON_OF_ATHLETE_ADAPTER)};
         int[] UIData = {R.id.nameOfAthleteInList, R.id.iconToAthleteName};
-        SimpleAdapter adapter = new SimpleAdapter(getActivity(), this.dataForListOfAthletes, R.layout.athlete_in_list_of_athletes, insertingData, UIData);
-        this.listOfAthletes.setAdapter(adapter);
+        this.adapter = new SimpleAdapter(getActivity(), this.dataForListOfAthletes, R.layout.athlete_in_list_of_athletes, insertingData, UIData);
+        this.listOfAthletes.setAdapter(this.adapter);
     }
 
     @Nullable
@@ -94,6 +96,7 @@ public class AthletesFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void getAlphabetSortingOfAthletes() {
         this.dataForListOfAthletes = new ArrayList<>();
         ArrayList<Member> athletesNames = this.club.getAthletesSortedByAlphabet();
@@ -131,5 +134,12 @@ public class AthletesFragment extends Fragment {
         }
 
         this.displayAthletes();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void notifyAboutChange(TriathlonClub club) {
+        this.club = club;
+        this.getAlphabetSortingOfAthletes();
+        this.adapter.notifyDataSetChanged();
     }
 }

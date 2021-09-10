@@ -11,13 +11,15 @@ import com.example.tritendence.model.users.Member;
 import com.example.tritendence.model.users.Trainer;
 
 import java.io.Serializable;
+import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Locale;
 
 public class TriathlonClub implements Serializable {
-    private final ArrayList<Member> membersOfClub;
-    private final ArrayList<Group> groupsOfClub;
-    private final ArrayList<AttendanceData> attendanceData;
+    private ArrayList<Member> membersOfClub;
+    private ArrayList<Group> groupsOfClub;
+    private ArrayList<AttendanceData> attendanceData;
     private int numberOfUsers, numberOfGroups, numberOfAthletes, numberOfTrainers, numberOfFilledAttendances, numberOfWeek;
     private Admin adminOfClub;
 
@@ -93,6 +95,7 @@ public class TriathlonClub implements Serializable {
         return this.numberOfAthletes;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public ArrayList<Member> getAthletesSortedByAlphabet() {
         ArrayList<Member> sortedMembers = new ArrayList<>(this.membersOfClub);
         for (Member member : this.membersOfClub) {
@@ -100,7 +103,13 @@ public class TriathlonClub implements Serializable {
                 sortedMembers.remove(member);
         }
 
-        Collections.sort(sortedMembers, (member1, member2) -> member1.getSurname().compareTo(member2.getSurname()));
+        Collator collator = Collator.getInstance(new Locale("sk_SK"));
+        sortedMembers.sort((member1, member2) -> {
+            if (collator.compare(member1.getSurname(), member2.getSurname()) == 0)
+                return collator.compare(member1.getName(), member2.getName());
+            else
+                return collator.compare(member1.getSurname(), member2.getSurname());
+        });
         return sortedMembers;
     }
 
@@ -112,7 +121,13 @@ public class TriathlonClub implements Serializable {
                 sortedMembers.remove(member);
         }
 
-        Collections.sort(sortedMembers, (member1, member2) -> ((Athlete) member1).getDate().compareTo(((Athlete) member2).getDate()));
+        Collator collator = Collator.getInstance(new Locale("sk_SK"));
+        Collections.sort(sortedMembers, (member1, member2) -> {
+            if (((Athlete) member1).getDate().compareTo(((Athlete) member2).getDate()) == 0)
+                return collator.compare(member1.getSurname(), member2.getSurname());
+            else
+                return ((Athlete) member1).getDate().compareTo(((Athlete) member2).getDate());
+        });
         return sortedMembers;
     }
 
@@ -177,5 +192,11 @@ public class TriathlonClub implements Serializable {
 
     public int getNumberOfWeek() {
         return this.numberOfWeek;
+    }
+
+    public void clearData() {
+        this.groupsOfClub = new ArrayList<>();
+        this.membersOfClub = new ArrayList<>();
+        this.attendanceData = new ArrayList<>();
     }
 }

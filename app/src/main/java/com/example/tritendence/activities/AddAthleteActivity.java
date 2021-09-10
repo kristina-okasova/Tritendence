@@ -18,11 +18,14 @@ import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.tritendence.R;
+import com.example.tritendence.model.LoadData;
 import com.example.tritendence.model.TriathlonClub;
 import com.example.tritendence.model.groups.Group;
 import com.example.tritendence.model.users.Athlete;
+import com.example.tritendence.model.users.Member;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -37,6 +40,7 @@ public class AddAthleteActivity extends AppCompatActivity {
     private TextView dayOfBirthOfAthlete;
     private Athlete editAthlete;
     private Button addAthleteBtn;
+    private LoadData loadData;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -103,6 +107,7 @@ public class AddAthleteActivity extends AppCompatActivity {
         this.groupOfAthlete.setAdapter(adapterSpinner);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void createAthlete(View view) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference root = database.getReference();
@@ -119,33 +124,55 @@ public class AddAthleteActivity extends AppCompatActivity {
             return;
         }
 
+        if (this.checkPossibilityToAddAthlete(name, surname)) {
+            Toast.makeText(this, getString(R.string.ATHLETE_ALREADY_EXISTS), Toast.LENGTH_LONG).show();
+            return;
+        }
+
+
+        String dayOfBirth = this.dayOfBirthOfAthlete.getText().toString();
+        if (dayOfBirth.indexOf(':') == -1) {
+            this.dayOfBirthOfAthlete.setError(getString(R.string.REQUIRED_DAY_OF_BIRTH_OF_ATHLETE));
+            return;
+        }
+        dayOfBirth = dayOfBirth.substring(dayOfBirth.indexOf(':') + 2);
+
         int athleteID;
         if (this.editAthlete != null)
             athleteID = this.editAthlete.getID();
         else
             athleteID = this.club.getNumberOfAthletes() + 1;
         String groupID = String.valueOf(this.groupOfAthlete.getSelectedItemPosition());
-        String dayOfBirth = this.dayOfBirthOfAthlete.getText().toString();
+
         root.child(getString(R.string.ATHLETES_CHILD_DB) + "/" + athleteID + "/" + getString(R.string.NAME_DB)).setValue(this.nameOfAthlete.getText().toString().trim());
         root.child(getString(R.string.ATHLETES_CHILD_DB) + "/" + athleteID + "/" + getString(R.string.SURNAME_DB)).setValue(this.surnameOfAthlete.getText().toString().trim());
         root.child(getString(R.string.ATHLETES_CHILD_DB) + "/" + athleteID + "/" + getString(R.string.GROUP_ID_DB)).setValue(groupID);
         root.child(getString(R.string.ATHLETES_CHILD_DB) + "/" + athleteID + "/" + getString(R.string.NUMBER_OF_TRAININGS_DB)).setValue(0);
-        root.child(getString(R.string.ATHLETES_CHILD_DB) + "/" + athleteID + "/" + getString(R.string.DAY_OF_BIRTH_DB)).setValue(dayOfBirth.substring(dayOfBirth.indexOf(':') + 2));
+        root.child(getString(R.string.ATHLETES_CHILD_DB) + "/" + athleteID + "/" + getString(R.string.DAY_OF_BIRTH_DB)).setValue(dayOfBirth);
 
         String signedUser = getIntent().getExtras().getString(getString(R.string.SIGNED_USER_EXTRA));
+        //this.loadData = (LoadData) getIntent().getExtras().getSerializable(getString(R.string.LOAD_DATA_EXTRA));
         Intent athletesPage = new Intent(this, HomeActivity.class);
         athletesPage.putExtra(getString(R.string.SIGNED_USER_EXTRA), signedUser);
         athletesPage.putExtra(getString(R.string.TRIATHLON_CLUB_EXTRA), this.club);
+        //athletesPage.putExtra(getString(R.string.LOAD_DATA_EXTRA),this. loadData);
         athletesPage.putExtra(getString(R.string.SELECTED_FRAGMENT_EXTRA), R.id.athletesFragment);
         startActivity(athletesPage);
         finish();
     }
 
+    private boolean checkPossibilityToAddAthlete(String name, String surname) {
+        for (Member athlete : this.club.getMembersOfClub()) {
+            if (athlete.getName().equals(name) && athlete.getSurname().equals(surname))
+                return false;
+        }
+        return true;
+    }
+
     @SuppressLint("DefaultLocale")
     public void displayDateSelection(View view) {
         DatePickerDialog.OnDateSetListener setListener;
-
-        setListener = (view1, year, month, dayOfMonth) -> this.dayOfBirthOfAthlete.setText(String.format(getString(R.string.DAY_OF_BIRTH) + ": %02d.%02d.%d", dayOfMonth, month, year));
+        setListener = (view1, year, month, dayOfMonth) -> this.dayOfBirthOfAthlete.setText(String.format(getString(R.string.DAY_OF_BIRTH) + ": %02d.%02d.%d", dayOfMonth, month + 1, year));
 
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
@@ -165,9 +192,14 @@ public class AddAthleteActivity extends AppCompatActivity {
                 Intent homePage = new Intent(this, HomeActivity.class);
                 homePage.putExtra(getString(R.string.SIGNED_USER_EXTRA), signedUser);
                 homePage.putExtra(getString(R.string.TRIATHLON_CLUB_EXTRA), club);
+                //homePage.putExtra(getString(R.string.LOAD_DATA_EXTRA), this.loadData);
                 homePage.putExtra(getString(R.string.SELECTED_FRAGMENT_EXTRA), item.getItemId());
                 startActivity(homePage);
                 finish();
                 return true;
             };
+
+    public void notifyAboutChange(TriathlonClub club) {
+        this.club = club;
+    }
 }

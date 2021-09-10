@@ -190,4 +190,9 @@ public class AttendanceFragment extends Fragment {
         this.updateExpandableTimetable();
         return super.onOptionsItemSelected(item);
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void notifyAboutChange(TriathlonClub club) {
+        this.club = club;
+    }
 }
