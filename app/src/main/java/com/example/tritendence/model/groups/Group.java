@@ -16,7 +16,7 @@ public class Group implements Serializable {
 
     private final int ID;
     private String name;
-    private final String category;
+    private String category;
     private final ArrayList<TrainingUnit> timetable;
     private final ArrayList<Athlete> athletesOfGroup;
 
@@ -94,5 +94,9 @@ public class Group implements Serializable {
             if (this.athletesOfGroup.get(i).getFullName().equals(athlete.getFullName()))
                 this.athletesOfGroup.remove(i);
         }
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 }

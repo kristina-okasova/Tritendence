@@ -199,4 +199,8 @@ public class TriathlonClub implements Serializable {
         this.membersOfClub = new ArrayList<>();
         this.attendanceData = new ArrayList<>();
     }
+
+    public void removeGroup() {
+        this.numberOfGroups--;
+    }
 }

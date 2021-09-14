@@ -140,6 +140,5 @@ public class AthletesFragment extends Fragment {
     public void notifyAboutChange(TriathlonClub club) {
         this.club = club;
         this.getAlphabetSortingOfAthletes();
-        this.adapter.notifyDataSetChanged();
     }
 }

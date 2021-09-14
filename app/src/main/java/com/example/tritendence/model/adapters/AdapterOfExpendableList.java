@@ -18,6 +18,7 @@ import com.example.tritendence.R;
 import com.example.tritendence.activities.AttendanceSheetActivity;
 import com.example.tritendence.activities.FilledAttendanceSheetActivity;
 import com.example.tritendence.model.AttendanceData;
+import com.example.tritendence.model.LoadData;
 import com.example.tritendence.model.TrainingUnit;
 import com.example.tritendence.model.TriathlonClub;
 import com.example.tritendence.model.groups.Group;
@@ -35,13 +36,15 @@ public class AdapterOfExpendableList extends BaseExpandableListAdapter {
     private final Map<String, List<String>> timetable;
     private final List<String> daysOfTheWeek;
     private final TriathlonClub club;
+    private LoadData loadData;
     private TrainingUnit selectedUnit;
 
-    public AdapterOfExpendableList(Activity context, List<String> daysOfTheWeek, Map<String, List<String>> timetable, TriathlonClub club) {
+    public AdapterOfExpendableList(Activity context, List<String> daysOfTheWeek, Map<String, List<String>> timetable, TriathlonClub club, LoadData loadData) {
         this.context = context;
         this.daysOfTheWeek = daysOfTheWeek;
         this.timetable = timetable;
         this.club = club;
+        this.loadData = loadData;
     }
 
     @Override
@@ -167,6 +170,7 @@ public class AdapterOfExpendableList extends BaseExpandableListAdapter {
                         Intent filledAttendanceSheetPage = new Intent(context, FilledAttendanceSheetActivity.class);
                         filledAttendanceSheetPage.putExtra(this.context.getString(R.string.SIGNED_USER_EXTRA), signedUser);
                         filledAttendanceSheetPage.putExtra(this.context.getString(R.string.TRIATHLON_CLUB_EXTRA), club);
+                        filledAttendanceSheetPage.putExtra(this.context.getString(R.string.LOAD_DATA_EXTRA), this.loadData);
                         filledAttendanceSheetPage.putExtra(this.context.getString(R.string.ATTENDANCE_DATA_EXTRA), attendanceData);
                         context.startActivity(filledAttendanceSheetPage);
                         context.finish();
@@ -176,6 +180,7 @@ public class AdapterOfExpendableList extends BaseExpandableListAdapter {
                         attendanceSheetPage.putExtra(this.context.getString(R.string.GROUP_EXTRA), group);
                         attendanceSheetPage.putExtra(this.context.getString(R.string.SIGNED_USER_EXTRA), signedUser);
                         attendanceSheetPage.putExtra(this.context.getString(R.string.TRIATHLON_CLUB_EXTRA), club);
+                        attendanceSheetPage.putExtra(this.context.getString(R.string.LOAD_DATA_EXTRA), this.loadData);
                         attendanceSheetPage.putExtra(this.context.getString(R.string.TRAINING_UNIT_EXTRA), selectedUnit);
                         attendanceSheetPage.putExtra(this.context.getString(R.string.DATE_EXTRA), date);
                         context.startActivity(attendanceSheetPage);

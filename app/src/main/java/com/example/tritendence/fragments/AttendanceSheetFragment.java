@@ -42,6 +42,8 @@ import java.util.Map;
 import java.util.Objects;
 
 public class AttendanceSheetFragment extends Fragment {
+    private static final String FIRST_CHILD = "-1";
+
     private ListView attendanceSheet;
     private TriathlonClub club;
     private Group group;
@@ -163,6 +165,9 @@ public class AttendanceSheetFragment extends Fragment {
             String trainerID = getString(R.string.TRAINER_DB) + String.valueOf(i+1);
             root.child(getString(R.string.ATTENDANCE_CHILD_DB) + "/" + numberOfFilledAttendance + "/" + trainerID).setValue(trainersNames.get(i));
         }
+
+        if (this.club.getNumberOfFilledAttendances() == 0)
+            root.child(getString(R.string.ATTENDANCE_CHILD_DB) + "/" + FIRST_CHILD).removeValue();
 
         this.addTrainingToTrainers(trainersNames);
     }

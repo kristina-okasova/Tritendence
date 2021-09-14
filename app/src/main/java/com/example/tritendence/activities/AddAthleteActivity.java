@@ -33,14 +33,19 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+//Activity responsible for adding new athlete to club.
 public class AddAthleteActivity extends AppCompatActivity {
+    //Intent's extras
     private TriathlonClub club;
+    private LoadData loadData;
+    private String signedUser;
+    private Athlete editAthlete;
+
+    //Layout's items
     private EditText nameOfAthlete, surnameOfAthlete;
     private Spinner groupOfAthlete;
     private TextView dayOfBirthOfAthlete;
-    private Athlete editAthlete;
     private Button addAthleteBtn;
-    private LoadData loadData;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -49,11 +54,34 @@ public class AddAthleteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_athlete);
 
         BottomNavigationView navigation = findViewById(R.id.bottomNavigationView);
+        this.moveLayoutWithKeyboard(navigation);
+
+        //Setting currently selected navigation item and navigation listener.
+        navigation.setSelectedItemId(R.id.athletesFragment);
+        navigation.setOnNavigationItemSelectedListener(navigationListener);
+
+        //Getting extras of the intent and initializing items of the layout by their IDs.
+        this.club =  (TriathlonClub) getIntent().getExtras().getSerializable(getString(R.string.TRIATHLON_CLUB_EXTRA));
+        this.editAthlete = (Athlete) getIntent().getExtras().getSerializable(getString(R.string.EDIT_ATHLETE_EXTRA));
+        this.signedUser = getIntent().getExtras().getString(getString(R.string.SIGNED_USER_EXTRA));
+        this.loadData = (LoadData) getIntent().getExtras().getSerializable(getString(R.string.LOAD_DATA_EXTRA));
+        this.initializeItemsOfLayout();
+        this.initializeGroupsOfClub();
+
+        //Fill the items of layout in case of editing an existing athlete.
+        if (this.editAthlete != null)
+            this.fillAthleteInformation();
+    }
+
+    private void moveLayoutWithKeyboard(BottomNavigationView navigation) {
         ConstraintLayout constraintLayout = findViewById(R.id.addAthleteConstraintView);
         final View activityRootView = findViewById(R.id.addAthleteActivity);
+
+        //Changing margin of the whole layout when keyboard is shown. The change is caused by hidden navigation.
         activityRootView.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
             int heightDiff = activityRootView.getRootView().getHeight() - activityRootView.getHeight() - 2*navigation.getHeight();
 
+            //When the keyboard is shown, the margin is set to zero.
             if (heightDiff > navigation.getHeight()) {
                 navigation.setVisibility(View.GONE);
                 ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) constraintLayout.getLayoutParams();
@@ -62,6 +90,7 @@ public class AddAthleteActivity extends AppCompatActivity {
                 constraintLayout.requestLayout();
             }
 
+            //When the keyboard is hidden, the margin is restored.
             if (heightDiff < navigation.getHeight()) {
                 navigation.setVisibility(View.VISIBLE);
                 ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) constraintLayout.getLayoutParams();
@@ -70,20 +99,27 @@ public class AddAthleteActivity extends AppCompatActivity {
                 constraintLayout.requestLayout();
             }
         });
-        navigation.setSelectedItemId(R.id.athletesFragment);
-        navigation.setOnNavigationItemSelectedListener(navigationListener);
+    }
 
-        this.club =  (TriathlonClub) getIntent().getExtras().getSerializable(getString(R.string.TRIATHLON_CLUB_EXTRA));
-        this.editAthlete = (Athlete) getIntent().getExtras().getSerializable(getString(R.string.EDIT_ATHLETE_EXTRA));
+    private void initializeItemsOfLayout() {
         this.nameOfAthlete = findViewById(R.id.nameOfAthleteCreate);
         this.surnameOfAthlete = findViewById(R.id.surnameOfAthleteCreate);
         this.groupOfAthlete = findViewById(R.id.groupOfAthlete);
         this.dayOfBirthOfAthlete = findViewById(R.id.dayOfBirthOfAthlete);
         this.addAthleteBtn = findViewById(R.id.addAthleteBtn);
+    }
 
-        this.initializeGroupsOfClub();
-        if (this.editAthlete != null)
-            this.fillAthleteInformation();
+    private void initializeGroupsOfClub() {
+        //Adding names of groups to the group selection's spinner.
+        ArrayList<String> namesOfGroups = new ArrayList<>();
+        namesOfGroups.add(getString(R.string.GROUP_NOT_ASSIGNED));
+        for (Group group : this.club.getGroupsOfClub())
+            namesOfGroups.add(group.getID() + ": " + group.getName());
+
+        //Setting adapter for group selection's spinner.
+        ArrayAdapter<String> adapterSpinner = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, namesOfGroups);
+        adapterSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        this.groupOfAthlete.setAdapter(adapterSpinner);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -95,41 +131,25 @@ public class AddAthleteActivity extends AppCompatActivity {
         this.addAthleteBtn.setText(getString(R.string.CHANGE_ATHLETE_INFORMATION));
     }
 
-    private void initializeGroupsOfClub() {
-        ArrayList<Group> groupsOfClub = this.club.getGroupsOfClub();
-        ArrayList<String> namesOfGroups = new ArrayList<>();
-        namesOfGroups.add(getString(R.string.GROUP_NOT_ASSIGNED));
-        for (Group group : groupsOfClub)
-            namesOfGroups.add(group.getID() + ": " + group.getName());
-
-        ArrayAdapter<String> adapterSpinner = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, namesOfGroups);
-        adapterSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        this.groupOfAthlete.setAdapter(adapterSpinner);
-    }
-
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void createAthlete(View view) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference root = database.getReference();
+        String name = this.nameOfAthlete.getText().toString().trim();
+        String surname = this.surnameOfAthlete.getText().toString().trim();
 
-        String name = this.nameOfAthlete.getText().toString();
-        if (name.equals(getString(R.string.EMPTY_STRING))) {
-            this.nameOfAthlete.setError(getString(R.string.REQUIRED_NAME_OF_ATHLETE));
+        //Checking if the athlete's name and surname are filled in.
+        if (this.checkExistenceOfData(this.nameOfAthlete, name, getString(R.string.REQUIRED_NAME_OF_ATHLETE)) ||
+                this.checkExistenceOfData(this.surnameOfAthlete, surname, getString(R.string.REQUIRED_SURNAME_OF_ATHLETE)))
             return;
-        }
 
-        String surname = this.surnameOfAthlete.getText().toString();
-        if (surname.equals(getString(R.string.EMPTY_STRING))) {
-            this.surnameOfAthlete.setError(getString(R.string.REQUIRED_SURNAME_OF_ATHLETE));
-            return;
-        }
-
-        if (this.checkPossibilityToAddAthlete(name, surname)) {
+        //Checking if the athlete to be created is already a member of the club.
+        if (!this.checkPossibilityToAddAthlete(name, surname)) {
             Toast.makeText(this, getString(R.string.ATHLETE_ALREADY_EXISTS), Toast.LENGTH_LONG).show();
             return;
         }
 
-
+        //Checking if the athlete's day of birth is filled in.
         String dayOfBirth = this.dayOfBirthOfAthlete.getText().toString();
         if (dayOfBirth.indexOf(':') == -1) {
             this.dayOfBirthOfAthlete.setError(getString(R.string.REQUIRED_DAY_OF_BIRTH_OF_ATHLETE));
@@ -137,6 +157,7 @@ public class AddAthleteActivity extends AppCompatActivity {
         }
         dayOfBirth = dayOfBirth.substring(dayOfBirth.indexOf(':') + 2);
 
+        //Setting athlete's ID and selected group.
         int athleteID;
         if (this.editAthlete != null)
             athleteID = this.editAthlete.getID();
@@ -144,24 +165,26 @@ public class AddAthleteActivity extends AppCompatActivity {
             athleteID = this.club.getNumberOfAthletes() + 1;
         String groupID = String.valueOf(this.groupOfAthlete.getSelectedItemPosition());
 
+        //Writing athlete's data to the database.
         root.child(getString(R.string.ATHLETES_CHILD_DB) + "/" + athleteID + "/" + getString(R.string.NAME_DB)).setValue(this.nameOfAthlete.getText().toString().trim());
         root.child(getString(R.string.ATHLETES_CHILD_DB) + "/" + athleteID + "/" + getString(R.string.SURNAME_DB)).setValue(this.surnameOfAthlete.getText().toString().trim());
         root.child(getString(R.string.ATHLETES_CHILD_DB) + "/" + athleteID + "/" + getString(R.string.GROUP_ID_DB)).setValue(groupID);
         root.child(getString(R.string.ATHLETES_CHILD_DB) + "/" + athleteID + "/" + getString(R.string.NUMBER_OF_TRAININGS_DB)).setValue(0);
         root.child(getString(R.string.ATHLETES_CHILD_DB) + "/" + athleteID + "/" + getString(R.string.DAY_OF_BIRTH_DB)).setValue(dayOfBirth);
+        this.loadAthletesPage();
+    }
 
-        String signedUser = getIntent().getExtras().getString(getString(R.string.SIGNED_USER_EXTRA));
-        //this.loadData = (LoadData) getIntent().getExtras().getSerializable(getString(R.string.LOAD_DATA_EXTRA));
-        Intent athletesPage = new Intent(this, HomeActivity.class);
-        athletesPage.putExtra(getString(R.string.SIGNED_USER_EXTRA), signedUser);
-        athletesPage.putExtra(getString(R.string.TRIATHLON_CLUB_EXTRA), this.club);
-        //athletesPage.putExtra(getString(R.string.LOAD_DATA_EXTRA),this. loadData);
-        athletesPage.putExtra(getString(R.string.SELECTED_FRAGMENT_EXTRA), R.id.athletesFragment);
-        startActivity(athletesPage);
-        finish();
+    private boolean checkExistenceOfData(EditText editText, String data, String value) {
+        if (data.equals(getString(R.string.EMPTY_STRING))) {
+            editText.setError(value);
+            return true;
+        }
+        return false;
     }
 
     private boolean checkPossibilityToAddAthlete(String name, String surname) {
+        if (editAthlete != null)
+            return true;
         for (Member athlete : this.club.getMembersOfClub()) {
             if (athlete.getName().equals(name) && athlete.getSurname().equals(surname))
                 return false;
@@ -169,16 +192,30 @@ public class AddAthleteActivity extends AppCompatActivity {
         return true;
     }
 
+    private void loadAthletesPage() {
+        //Creating new intent of Home Activity after creating new athlete.
+        Intent athletesPage = new Intent(this, HomeActivity.class);
+        athletesPage.putExtra(getString(R.string.SIGNED_USER_EXTRA), signedUser);
+        athletesPage.putExtra(getString(R.string.TRIATHLON_CLUB_EXTRA), this.club);
+        athletesPage.putExtra(getString(R.string.LOAD_DATA_EXTRA),this. loadData);
+        athletesPage.putExtra(getString(R.string.SELECTED_FRAGMENT_EXTRA), R.id.athletesFragment);
+        startActivity(athletesPage);
+        finish();
+    }
+
     @SuppressLint("DefaultLocale")
     public void displayDateSelection(View view) {
+        //Setting listener for date selection.
         DatePickerDialog.OnDateSetListener setListener;
         setListener = (view1, year, month, dayOfMonth) -> this.dayOfBirthOfAthlete.setText(String.format(getString(R.string.DAY_OF_BIRTH) + ": %02d.%02d.%d", dayOfMonth, month + 1, year));
 
+        //Getting current date.
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
 
+        //Creating date picker dialog.
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, android.R.style.Theme_Holo_Light_Dialog_MinWidth, setListener, year, month, day);
         datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         datePickerDialog.show();
@@ -187,19 +224,14 @@ public class AddAthleteActivity extends AppCompatActivity {
     @SuppressLint("NonConstantResourceId")
     private final BottomNavigationView.OnNavigationItemSelectedListener navigationListener =
             item -> {
-                TriathlonClub club = (TriathlonClub) getIntent().getExtras().getSerializable(getString(R.string.TRIATHLON_CLUB_EXTRA));
-                String signedUser = getIntent().getExtras().getString(getString(R.string.SIGNED_USER_EXTRA));
+                //Creating new intent of Home Activity as part of navigation listener.
                 Intent homePage = new Intent(this, HomeActivity.class);
-                homePage.putExtra(getString(R.string.SIGNED_USER_EXTRA), signedUser);
-                homePage.putExtra(getString(R.string.TRIATHLON_CLUB_EXTRA), club);
-                //homePage.putExtra(getString(R.string.LOAD_DATA_EXTRA), this.loadData);
+                homePage.putExtra(getString(R.string.SIGNED_USER_EXTRA), this.signedUser);
+                homePage.putExtra(getString(R.string.TRIATHLON_CLUB_EXTRA), this.club);
+                homePage.putExtra(getString(R.string.LOAD_DATA_EXTRA), this.loadData);
                 homePage.putExtra(getString(R.string.SELECTED_FRAGMENT_EXTRA), item.getItemId());
                 startActivity(homePage);
                 finish();
                 return true;
             };
-
-    public void notifyAboutChange(TriathlonClub club) {
-        this.club = club;
-    }
 }

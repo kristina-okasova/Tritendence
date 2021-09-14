@@ -23,6 +23,7 @@ import android.widget.TextView;
 import com.example.tritendence.R;
 import com.example.tritendence.activities.GroupInformationActivity;
 import com.example.tritendence.activities.HomeActivity;
+import com.example.tritendence.model.LoadData;
 import com.example.tritendence.model.adapters.AdapterOfExpendableAttendance;
 import com.example.tritendence.model.adapters.AdapterOfExpendableTrainingUnits;
 import com.example.tritendence.model.AttendanceData;
@@ -51,6 +52,8 @@ public class GroupInformationFragment extends Fragment implements Serializable {
     private final Map<String, List<String>> schedule;
     private Map<String, List<String>> timetable;
     private String selectedGroup, signedUser;
+    private AdapterOfExpendableAttendance adapterOfAttendance;
+    private AdapterOfExpendableTrainingUnits adapterOfTimetable;
 
     public GroupInformationFragment() {this.schedule = new HashMap<>(); }
 
@@ -85,11 +88,13 @@ public class GroupInformationFragment extends Fragment implements Serializable {
         this.initializeTrainingUnits();
 
         ExpandableListView expandableAttendance = view.findViewById(R.id.attendanceOfGroupInformation);
-        expandableAttendance.setAdapter(new AdapterOfExpendableAttendance(this.activity, this.dateOfAttendances, this.schedule));
+        this.adapterOfAttendance = new AdapterOfExpendableAttendance(this.activity, this.dateOfAttendances, this.schedule);
+        expandableAttendance.setAdapter(this.adapterOfAttendance);
         expandableAttendance.setGroupIndicator(null);
 
         ExpandableListView expandableTimetable = view.findViewById(R.id.timetableOfGroupInformation);
-        expandableTimetable.setAdapter(new AdapterOfExpendableTrainingUnits(this.activity, this.sportTypes, this.timetable));
+        this.adapterOfTimetable = new AdapterOfExpendableTrainingUnits(this.activity, this.sportTypes, this.timetable);
+        expandableTimetable.setAdapter(this.adapterOfTimetable);
         expandableTimetable.setGroupIndicator(null);
 
         this.fillGroupInformation();
@@ -194,15 +199,18 @@ public class GroupInformationFragment extends Fragment implements Serializable {
         DatabaseReference root = database.getReference();
 
         Group groupToDelete = this.findSelectedGroup();
+        groupToDelete.setCategory("-1");
         root.child(getString(R.string.GROUP_CHILD_DB)+ "/" + Objects.requireNonNull(groupToDelete).getID()).child(getString(R.string.CATEGORY_DB)).setValue(-1);
         for (Athlete athlete : groupToDelete.getAthletesOfGroup())
             athlete.setGroupID(0);
 
-        Intent athleteInformationPage = new Intent(this.getContext(), HomeActivity.class);
-        athleteInformationPage.putExtra(getString(R.string.TRIATHLON_CLUB_EXTRA), this.club);
-        athleteInformationPage.putExtra(getString(R.string.SIGNED_USER_EXTRA), signedUser);
-        athleteInformationPage.putExtra(getString(R.string.SELECTED_FRAGMENT_EXTRA), R.id.groupsFragment);
-        startActivity(athleteInformationPage);
+        LoadData loadData = (LoadData) requireActivity().getIntent().getExtras().getSerializable(getString(R.string.LOAD_DATA_EXTRA));
+        Intent homePage = new Intent(this.getContext(), HomeActivity.class);
+        homePage.putExtra(getString(R.string.TRIATHLON_CLUB_EXTRA), this.club);
+        homePage.putExtra(getString(R.string.LOAD_DATA_EXTRA), loadData);
+        homePage.putExtra(getString(R.string.SIGNED_USER_EXTRA), signedUser);
+        homePage.putExtra(getString(R.string.SELECTED_FRAGMENT_EXTRA), R.id.groupsFragment);
+        startActivity(homePage);
     }
 
     public Group findSelectedGroup() {
@@ -211,5 +219,15 @@ public class GroupInformationFragment extends Fragment implements Serializable {
                 return group;
         }
         return null;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void notifyAboutChange(TriathlonClub club) {
+        this.club = club;
+        this.initializeAttendanceDates();
+        this.adapterOfAttendance.notifyDataSetChanged();
+
+        this.initializeTrainingUnits();
+        this.adapterOfTimetable.notifyDataSetChanged();
     }
 }

@@ -13,27 +13,34 @@ import com.example.tritendence.model.TriathlonClub;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class TrainerInformationActivity extends AppCompatActivity {
+    //Intent's extras
     private TriathlonClub club;
+    private LoadData loadData;
+    private String signedUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trainer_information);
 
+        //Getting extras of the intent.
         this.club = (TriathlonClub) getIntent().getExtras().getSerializable(getString(R.string.TRIATHLON_CLUB_EXTRA));
+        this.signedUser = getIntent().getExtras().getString(getString(R.string.SIGNED_USER_EXTRA));
+        this.loadData = (LoadData) getIntent().getExtras().getSerializable(getString(R.string.LOAD_DATA_EXTRA));
+
+        //Setting currently selected navigation item and navigation listener.
         BottomNavigationView navigation = findViewById(R.id.bottomNavigationView);
         navigation.setSelectedItemId(R.id.trainersFragment);
         navigation.setOnNavigationItemSelectedListener(navigationListener);
-        TrainerInformationFragment trainerInformationFragment = new TrainerInformationFragment();
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.trainerFragmentContainerView, trainerInformationFragment).commit();
+        //Attaching fragment to the activity.
+        getSupportFragmentManager().beginTransaction().replace(R.id.trainerFragmentContainerView, new TrainerInformationFragment()).commit();
     }
 
     @SuppressLint("NonConstantResourceId")
     private final BottomNavigationView.OnNavigationItemSelectedListener navigationListener =
             item -> {
-                String signedUser = getIntent().getExtras().getString(getString(R.string.SIGNED_USER_EXTRA));
-                LoadData loadData = (LoadData) getIntent().getExtras().getSerializable(getString(R.string.LOAD_DATA_EXTRA));
+                //Creating new intent of Home Activity as part of navigation listener.
                 Intent homePage = new Intent(this, HomeActivity.class);
                 homePage.putExtra(getString(R.string.SIGNED_USER_EXTRA), signedUser);
                 homePage.putExtra(getString(R.string.TRIATHLON_CLUB_EXTRA), this.club);
@@ -43,8 +50,4 @@ public class TrainerInformationActivity extends AppCompatActivity {
                 finish();
                 return true;
             };
-
-    public void notifyAboutChange(TriathlonClub club) {
-        this.club = club;
-    }
 }

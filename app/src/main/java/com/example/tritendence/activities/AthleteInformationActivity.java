@@ -20,7 +20,11 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import static com.example.tritendence.R.*;
 
 public class AthleteInformationActivity extends AppCompatActivity {
+    //Intent's extras
     private TriathlonClub club;
+    private String signedUser;
+    private LoadData loadData;
+
     private AthleteInformationFragment athleteInformationFragment;
 
     @Override
@@ -28,38 +32,44 @@ public class AthleteInformationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_athlete_information);
 
+        //Getting extras of the intent.
         this.club = (TriathlonClub) getIntent().getExtras().getSerializable(getString(string.TRIATHLON_CLUB_EXTRA));
+        this.signedUser = getIntent().getExtras().getString(getString(string.SIGNED_USER_EXTRA));
+        this.loadData = (LoadData) getIntent().getExtras().getSerializable(getString(string.LOAD_DATA_EXTRA));
+
+        //Setting currently selected navigation item and navigation listener.
         BottomNavigationView navigation = findViewById(R.id.bottomNavigationView);
         navigation.setSelectedItemId(id.athletesFragment);
         navigation.setOnNavigationItemSelectedListener(navigationListener);
-        this.athleteInformationFragment = new AthleteInformationFragment();
 
+        //Attaching fragment to the activity.
+        this.athleteInformationFragment = new AthleteInformationFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.athleteFragmentContainerView, this.athleteInformationFragment).commit();
     }
 
     @SuppressLint("NonConstantResourceId")
     private final BottomNavigationView.OnNavigationItemSelectedListener navigationListener =
             item -> {
-                String signedUser = getIntent().getExtras().getString(getString(string.SIGNED_USER_EXTRA));
-                LoadData loadData = (LoadData) getIntent().getExtras().getSerializable(getString(string.LOAD_DATA_EXTRA));
+                //Creating new intent of Home Activity as part of navigation listener.
                 Intent homePage = new Intent(this, HomeActivity.class);
-                homePage.putExtra(getString(string.SIGNED_USER_EXTRA), signedUser);
+                homePage.putExtra(getString(string.SIGNED_USER_EXTRA), this.signedUser);
                 homePage.putExtra(getString(string.TRIATHLON_CLUB_EXTRA), this.club);
-                homePage.putExtra(getString(R.string.LOAD_DATA_EXTRA), loadData);
+                homePage.putExtra(getString(R.string.LOAD_DATA_EXTRA), this.loadData);
                 homePage.putExtra(getString(string.SELECTED_FRAGMENT_EXTRA), item.getItemId());
                 startActivity(homePage);
                 finish();
                 return true;
             };
 
-
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void deleteAthlete(View view) {
+        //Showing alert box to confirm deletion of the athlete.
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(true);
         builder.setTitle(getString(string.DELETE_ATHLETE));
         builder.setMessage(getString(string.DELETE_ATHLETE_QUESTION));
 
+        //Deleting athlete when confirmed. Closing alert box when denied.
         builder.setPositiveButton(getString(string.YES),
                 (dialog, which) -> this.athleteInformationFragment.deleteAthlete());
         builder.setNegativeButton(getString(string.NO), (dialog, which) -> dialog.dismiss());
@@ -68,17 +78,13 @@ public class AthleteInformationActivity extends AppCompatActivity {
     }
 
     public void editAthlete(View view) {
+        //Creating new intent of Add Athlete Activity when clicked on the edit icon.
         Athlete editAthlete = this.athleteInformationFragment.findSelectedAthlete();
-        String signedUser = getIntent().getExtras().getString(getString(string.SIGNED_USER_EXTRA));
         Intent addAthletePage = new Intent(this, AddAthleteActivity.class);
         addAthletePage.putExtra(getString(string.TRIATHLON_CLUB_EXTRA), this.club);
-        addAthletePage.putExtra(getString(string.SIGNED_USER_EXTRA), signedUser);
+        addAthletePage.putExtra(getString(string.SIGNED_USER_EXTRA), this.signedUser);
         addAthletePage.putExtra(getString(string.EDIT_ATHLETE_EXTRA), editAthlete);
         startActivity(addAthletePage);
         finish();
-    }
-
-    public void notifyAboutChange(TriathlonClub club) {
-        this.club = club;
     }
 }

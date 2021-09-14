@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.tritendence.R;
 import com.example.tritendence.activities.HomeActivity;
+import com.example.tritendence.model.LoadData;
 import com.example.tritendence.model.adapters.AdapterOfExpendableList;
 import com.example.tritendence.model.TrainingUnit;
 import com.example.tritendence.model.TriathlonClub;
@@ -39,6 +40,8 @@ public class AttendanceFragment extends Fragment {
     private final Map<String, List<String>> timetable;
     private ExpandableListView expandableTimetable;
     private TriathlonClub club;
+    private LoadData loadData;
+    private Member signedTrainer;
 
     public AttendanceFragment() {
         this.timetable = new HashMap<>();
@@ -67,7 +70,8 @@ public class AttendanceFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         this.club = (TriathlonClub) requireActivity().getIntent().getExtras().getSerializable(getString(R.string.TRIATHLON_CLUB_EXTRA));
-        Member signedTrainer = this.findCurrentUser();
+        this.loadData = (LoadData) requireActivity().getIntent().getExtras().getSerializable(getString(R.string.LOAD_DATA_EXTRA));
+        this.signedTrainer = this.findCurrentUser();
         this.initializeTimetable();
         if (signedTrainer instanceof Trainer)
             this.addGroups(Objects.requireNonNull((Trainer) signedTrainer).getSportTranslation());
@@ -101,12 +105,14 @@ public class AttendanceFragment extends Fragment {
     }
 
     public void updateExpandableTimetable() {
-        this.expandableTimetable.setAdapter(new AdapterOfExpendableList(this.activity, this.daysOfTheWeek, this.timetable, club));
+        this.expandableTimetable.setAdapter(new AdapterOfExpendableList(this.activity, this.daysOfTheWeek, this.timetable, this.club, this.loadData));
         this.expandableTimetable.setGroupIndicator(null);
     }
 
     public void addGroups(String sport) {
+        System.out.println("adding groups " + this.club.getNumberOfGroups());
         for (Group group : this.club.getGroupsOfClub()) {
+            System.out.println(group.getCategory());
             if (group.getCategory().equals("-1"))
                 continue;
             for (TrainingUnit unit : group.getTimetable()) {
@@ -126,6 +132,12 @@ public class AttendanceFragment extends Fragment {
                 break;
             case "Cycling":
                 sport = getString(R.string.CYCLING);
+                break;
+            case "Strength":
+                sport = getString(R.string.STRENGTH);
+                break;
+            case "Other":
+                sport = getString(R.string.OTHER);
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + sport);
@@ -193,6 +205,13 @@ public class AttendanceFragment extends Fragment {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void notifyAboutChange(TriathlonClub club) {
+        System.out.println("notify attendance");
         this.club = club;
+        this.initializeTimetable();
+        if (signedTrainer instanceof Trainer)
+            this.addGroups(Objects.requireNonNull((Trainer) signedTrainer).getSportTranslation());
+        else
+            this.addGroups(getString(R.string.EMPTY_STRING));
+        this.updateExpandableTimetable();
     }
 }

@@ -160,4 +160,6 @@
     <string name="LOAD_DATA_EXTRA">LOAD_DATA</string>
     <string name="REQUIRED_DAY_OF_BIRTH_OF_ATHLETE">Je potrebné zadať dátum narodenia člena.</string>
     <string name="ATHLETE_ALREADY_EXISTS">Používateľ už v klube existuje.</string>
+    <string name="TRAINING_UNIT_REQUIRED">Skupina musí mať aspoň jeden tréning.</string>
+    <string name="FIRST_CHILD_DB">FIRST_CHILD</string>
 </resources>

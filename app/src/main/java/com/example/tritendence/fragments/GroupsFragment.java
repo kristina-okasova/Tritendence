@@ -25,6 +25,8 @@ public class GroupsFragment extends Fragment {
     private TriathlonClub club;
     private ListView listOfGroups;
     private String signedUser;
+    private SimpleAdapter adapter;
+    private ArrayList<HashMap<String, Object>> dataForListOfGroups;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +41,7 @@ public class GroupsFragment extends Fragment {
 
         this.listOfGroups = view.findViewById(R.id.listOfGroups);
         this.findTypeOfUser(view);
-        this.displayGroups();
+        this.getListOfGroups();
     }
 
     private void findTypeOfUser(View view) {
@@ -51,7 +53,14 @@ public class GroupsFragment extends Fragment {
     }
 
     private void displayGroups() {
-        ArrayList<HashMap<String, Object>> dataForListOfGroups = new ArrayList<>();
+        String[] insertingData = {getString(R.string.NAME_OF_GROUP_ADAPTER), getString(R.string.ICON_OF_GROUP_ADAPTER)};
+        int[] UIData = {R.id.nameOfGroupInList, R.id.iconToGroupName};
+        this.adapter = new SimpleAdapter(getActivity(), this.dataForListOfGroups, R.layout.group_in_list_of_groups, insertingData, UIData);
+        this.listOfGroups.setAdapter(adapter);
+    }
+
+    private void getListOfGroups() {
+        this.dataForListOfGroups = new ArrayList<>();
         int[] groupsImageIDs = new int[club.getNumberOfGroups()];
         for (int i = 0; i < club.getNumberOfGroups(); i++)
             groupsImageIDs[i] = R.drawable.groups_icon;
@@ -65,13 +74,9 @@ public class GroupsFragment extends Fragment {
             mappedData.put(getString(R.string.NAME_OF_GROUP_ADAPTER), club.getGroupAtIndex(i).getName());
             mappedData.put(getString(R.string.ICON_OF_GROUP_ADAPTER), groupsImageIDs[i]);
 
-            dataForListOfGroups.add(mappedData);
+            this.dataForListOfGroups.add(mappedData);
         }
-
-        String[] insertingData = {getString(R.string.NAME_OF_GROUP_ADAPTER), getString(R.string.ICON_OF_GROUP_ADAPTER)};
-        int[] UIData = {R.id.nameOfGroupInList, R.id.iconToGroupName};
-        SimpleAdapter adapter = new SimpleAdapter(getActivity(), dataForListOfGroups, R.layout.group_in_list_of_groups, insertingData, UIData);
-        this.listOfGroups.setAdapter(adapter);
+        this.displayGroups();
     }
 
     @Nullable
@@ -83,5 +88,6 @@ public class GroupsFragment extends Fragment {
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void notifyAboutChange(TriathlonClub club) {
         this.club = club;
+        this.getListOfGroups();
     }
 }
