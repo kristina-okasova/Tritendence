@@ -23,10 +23,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class FilledAttendanceSheetFragment extends Fragment {
+    //Intent's extras
+    private AttendanceData selectedAttendanceData;
+
     private TextView trainingData, nameOfGroup, trainerOfGroup;
     private AutoCompleteTextView note;
     private ListScrollable attendanceSheet;
-    private AttendanceData selectedAttendanceData;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,24 +40,30 @@ public class FilledAttendanceSheetFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        //Getting extras of the intent.
         this.selectedAttendanceData = (AttendanceData) requireActivity().getIntent().getExtras().getSerializable(getString(R.string.ATTENDANCE_DATA_EXTRA));
+        this.initializeLayoutItems(view);
 
+        this.fillAttendanceInformation();
+    }
+
+    private void initializeLayoutItems(View view) {
         this.trainerOfGroup = view.findViewById(R.id.filledAttendanceTrainer);
         this.nameOfGroup = view.findViewById(R.id.filledAttendanceGroupName);
         this.trainingData = view.findViewById(R.id.filledAttendanceTrainingData);
         this.note = view.findViewById(R.id.filledAttendanceNote);
         this.attendanceSheet = view.findViewById(R.id.filledAttendanceSheet);
-
-        this.fillAttendanceInformation();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void fillAttendanceInformation() {
+        //Filling data of the filled attendance sheet.
         this.trainingData.setText(String.format("%s\n%s - %s", this.selectedAttendanceData.getSport(), this.selectedAttendanceData.getDayTranslation(), this.selectedAttendanceData.getTime()));
         this.nameOfGroup.setText(this.selectedAttendanceData.getGroup().getName());
         this.trainerOfGroup.setText(this.selectedAttendanceData.getAllTrainers());
         this.note.setText(this.selectedAttendanceData.getNote());
 
+        //Creating hashmap consisting of the attended athlete's name.
         ArrayList<HashMap<String, Object>> dataForListOfAthletes = new ArrayList<>();
         for (int i = 0; i < this.selectedAttendanceData.getAttendedAthletes().size(); i++) {
             HashMap<String, Object> mappedData = new HashMap<>();
@@ -64,8 +72,11 @@ public class FilledAttendanceSheetFragment extends Fragment {
             dataForListOfAthletes.add(mappedData);
         }
 
+        //Linking keys of hashmap to items of the layout used by adapter.
         String[] insertingData = {getString(R.string.NAME_OF_ATHLETE_ADAPTER)};
         int[] UIData = {R.id.athletesAttendance};
+
+        //Creating adapter and setting it to the list of attended athletes.
         SimpleAdapter adapter = new SimpleAdapter(getActivity(), dataForListOfAthletes, R.layout.attendance_of_athlete, insertingData, UIData);
         this.attendanceSheet.setAdapter(adapter);
     }

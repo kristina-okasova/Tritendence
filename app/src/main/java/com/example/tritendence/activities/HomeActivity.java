@@ -23,6 +23,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.SimpleTimeZone;
 
+@RequiresApi(api = Build.VERSION_CODES.O)
 public class HomeActivity extends AppCompatActivity {
     //Intent's extras
     private Fragment selectedFragment;
@@ -101,6 +102,7 @@ public class HomeActivity extends AppCompatActivity {
     @SuppressLint("NonConstantResourceId")
     private final BottomNavigationView.OnNavigationItemSelectedListener navigationListener =
             item -> {
+                this.loadData.setActivity(this);
                 //Finding fragment based on the selected item of the menu.
                 switch (item.getItemId()) {
                     case R.id.attendanceFragment:
@@ -187,7 +189,7 @@ public class HomeActivity extends AppCompatActivity {
         finish();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @SuppressLint("NonConstantResourceId")
     public void notifyAboutChange(TriathlonClub club) {
         this.club = club;

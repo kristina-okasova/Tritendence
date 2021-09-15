@@ -28,7 +28,6 @@ import java.util.HashMap;
 public class TrainersFragment extends Fragment {
     private ListScrollable listOfTrainers;
     private TriathlonClub club;
-    private ArrayList<HashMap<String, Object>> dataForListOfTrainers;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,59 +37,43 @@ public class TrainersFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        this.listOfTrainers = view.findViewById(R.id.listOfTrainers);
+        //Getting extras of the intent.
         this.club = (TriathlonClub) requireActivity().getIntent().getExtras().getSerializable(getString(R.string.TRIATHLON_CLUB_EXTRA));
-        this.getAlphabetSortingOfTrainers();
+
+        this.listOfTrainers = view.findViewById(R.id.listOfTrainers);
+        //Displaying list of trainers.
+        this.displayTrainers(this.club.getTrainersSortedByAlphabet());
     }
 
-    private void getAlphabetSortingOfTrainers() {
-        this.dataForListOfTrainers = new ArrayList<>();
-        ArrayList<Member> trainersNames = this.club.getTrainersSortedByAlphabet();
+    private void displayTrainers(ArrayList<Member> trainersNames) {
+        ArrayList<HashMap<String, Object>> dataForListOfTrainers = new ArrayList<>();
+        //Initializing icon to every trainer's name.
         int[] trainersImageIDs = new int[this.club.getNumberOfTrainers()];
         for (int i = 0; i < this.club.getNumberOfTrainers(); i++)
             trainersImageIDs[i] = R.drawable.trainers_icon;
 
+        //Creating hashmap consisting of the trainer's name and icon for adapter.
         for (int i = 0; i < this.club.getNumberOfTrainers(); i++) {
             HashMap<String, Object> mappedData = new HashMap<>();
 
             mappedData.put(getString(R.string.NAME_OF_TRAINER_ADAPTER), trainersNames.get(i).getFullName());
             mappedData.put(getString(R.string.ICON_OF_TRAINER_ADAPTER), trainersImageIDs[i]);
 
-            this.dataForListOfTrainers.add(mappedData);
+            dataForListOfTrainers.add(mappedData);
         }
 
-        this.displayTrainers();
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private void getAgeSortingOfTrainers() {
-        this.dataForListOfTrainers = new ArrayList<>();
-        ArrayList<Member> trainersNames = this.club.getTrainersSortedByAge();
-        int[] trainersImageIDs = new int[this.club.getNumberOfTrainers()];
-        for (int i = 0; i < this.club.getNumberOfTrainers(); i++)
-            trainersImageIDs[i] = R.drawable.trainers_icon;
-
-        for (int i = 0; i < this.club.getNumberOfTrainers(); i++) {
-            HashMap<String, Object> mappedData = new HashMap<>();
-
-            mappedData.put(getString(R.string.NAME_OF_TRAINER_ADAPTER), trainersNames.get(i).getFullName());
-            mappedData.put(getString(R.string.ICON_OF_TRAINER_ADAPTER), trainersImageIDs[i]);
-
-            this.dataForListOfTrainers.add(mappedData);
-        }
-
-        this.displayTrainers();
-    }
-
-    private void displayTrainers() {
+        //Linking keys of hashmap to items of the layout used by adapter.
         String[] insertingData = {getString(R.string.NAME_OF_TRAINER_ADAPTER), getString(R.string.ICON_OF_TRAINER_ADAPTER)};
         int[] UIData = {R.id.nameOfTrainerInList, R.id.iconToTrainerName};
-        SimpleAdapter adapter = new SimpleAdapter(getActivity(), this.dataForListOfTrainers, R.layout.trainer_in_list_of_trainers, insertingData, UIData);
+
+        //Creating adapter and setting it to the list of trainers.
+        SimpleAdapter adapter = new SimpleAdapter(getActivity(), dataForListOfTrainers, R.layout.trainer_in_list_of_trainers, insertingData, UIData);
         this.listOfTrainers.setAdapter(adapter);
     }
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        //Attaching options menu to the fragment.
         inflater = requireActivity().getMenuInflater();
         inflater.inflate(R.menu.athletes_sort_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
@@ -100,17 +83,24 @@ public class TrainersFragment extends Fragment {
     @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        //Determining the sorting method by the selected item from options menu.
         switch (item.getItemId()) {
             case R.id.alphabetSorting:
-                this.getAlphabetSortingOfTrainers();
+                this.displayTrainers(this.club.getTrainersSortedByAlphabet());
                 break;
             case R.id.ageSorting:
-                this.getAgeSortingOfTrainers();
+                this.displayTrainers(this.club.getTrainersSortedByAge());
                 break;
             default:
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void notifyAboutChange(TriathlonClub club) {
+        this.club = club;
+        this.displayTrainers(this.club.getTrainersSortedByAlphabet());
     }
 
     @Nullable
@@ -119,8 +109,5 @@ public class TrainersFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_trainers, container, false);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    public void notifyAboutChange(TriathlonClub club) {
-        this.club = club;
-    }
+
 }

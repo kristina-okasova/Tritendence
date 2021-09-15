@@ -23,9 +23,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class TrainerInformationFragment extends Fragment {
+    //Intent's extras
     private TriathlonClub club;
-    private TextView nameOfTrainer, email, numberOfTrainings;
     private String selectedTrainer;
+
+    //Layout's items
+    private TextView nameOfTrainer, email, numberOfTrainings;
+    private ListView trainersAttendance;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,13 +40,26 @@ public class TrainerInformationFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        //Getting extras of the intent.
         this.club = (TriathlonClub) requireActivity().getIntent().getExtras().getSerializable(getString(R.string.TRIATHLON_CLUB_EXTRA));
         this.selectedTrainer = requireActivity().getIntent().getExtras().getString(getString(R.string.TRAINER_NAME_EXTRA));
+        this.initializeLayoutItems(view);
+
+        //Filling all the required information about the trainer.
+        this.initializeTrainersAttendance(view);
+        this.fillInTrainersInformation();
+    }
+
+    private void initializeLayoutItems(View view) {
         this.nameOfTrainer = view.findViewById(R.id.nameOfTrainer);
         this.email = view.findViewById(R.id.trainersEmail);
         this.numberOfTrainings = view.findViewById(R.id.numberOfTrainersTrainings);
+        this.trainersAttendance = view.findViewById(R.id.attendanceOfTrainerInformation);
+    }
 
+    private void initializeTrainersAttendance(View view) {
         ArrayList<HashMap<String, Object>> dataForListOfTrainings = new ArrayList<>();
+        //Creating hashmap consisting of the trainer's attendance data.
         for (AttendanceData attendanceData : this.club.getAttendanceData()) {
             for (Trainer trainer : attendanceData.getTrainers()) {
                 if (trainer.getFullName().equals(this.selectedTrainer)) {
@@ -54,17 +71,17 @@ public class TrainerInformationFragment extends Fragment {
             }
         }
 
+        //Linking keys of hashmap to items of the layout used by adapter.
         String[] insertingData = {getString(R.string.TRAINING_DATA_ADAPTER)};
         int[] UIData = {R.id.athletesAttendance};
 
-        ListView trainersAttendance = view.findViewById(R.id.attendanceOfTrainerInformation);
+        //Creating adapter and setting it to the list of attendance data.
         SimpleAdapter adapter = new SimpleAdapter(getActivity(), dataForListOfTrainings, R.layout.attendance_of_athlete, insertingData, UIData);
-        trainersAttendance.setAdapter(adapter);
-
-        this.fillInTrainersInformation();
+        this.trainersAttendance.setAdapter(adapter);
     }
 
     private void fillInTrainersInformation() {
+        //Finding signed trainer in the club by its name and filling its data.
         for (Member member : this.club.getMembersOfClub()) {
             if (member instanceof Trainer && member.getFullName().equals(this.selectedTrainer)) {
                 this.nameOfTrainer.setText(member.getFullName());

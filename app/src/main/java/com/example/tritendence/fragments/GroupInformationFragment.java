@@ -43,17 +43,21 @@ import java.util.Map;
 import java.util.Objects;
 
 public class GroupInformationFragment extends Fragment implements Serializable {
+    //Intent's extras
+    private TriathlonClub club;
+    private LoadData loadData;
+    private String selectedGroup, signedUser;
+
     private GroupInformationActivity activity;
     private LinearLayout expandableListOfMembers;
     private TextView membersOfGroupText, categoryOfGroup, nameOfGroup, numberOfAthletes;
     private CardView membersOfGroup;
-    private TriathlonClub club;
     private List<String> dateOfAttendances, sportTypes;
     private final Map<String, List<String>> schedule;
     private Map<String, List<String>> timetable;
-    private String selectedGroup, signedUser;
     private AdapterOfExpendableAttendance adapterOfAttendance;
     private AdapterOfExpendableTrainingUnits adapterOfTimetable;
+    private ExpandableListView expandableAttendance, expandableTimetable;
 
     public GroupInformationFragment() {this.schedule = new HashMap<>(); }
 
@@ -72,35 +76,36 @@ public class GroupInformationFragment extends Fragment implements Serializable {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        //Getting extras of the intent.
         this.club = (TriathlonClub) requireActivity().getIntent().getExtras().getSerializable(getString(R.string.TRIATHLON_CLUB_EXTRA));
+        this.loadData = (LoadData) requireActivity().getIntent().getExtras().getSerializable(getString(R.string.LOAD_DATA_EXTRA));
         this.signedUser = requireActivity().getIntent().getExtras().getString(getString(R.string.SIGNED_USER_EXTRA));
         this.selectedGroup =  requireActivity().getIntent().getExtras().getString(getString(R.string.GROUP_NAME_EXTRA));
+        this.initializeLayoutItems(view);
 
+        //Initializing lists of data required for the layout to display all group information.
+        this.findTypeOfUser(view);
+        this.initializeAttendanceDates();
+        this.initializeTrainingUnits();
+        this.initializeExpandableAdapters();
+
+        this.fillGroupInformation();
+    }
+
+    private void initializeLayoutItems(View view) {
         this.expandableListOfMembers = view.findViewById(R.id.expandableListOfMembers);
         this.membersOfGroupText = view.findViewById(R.id.membersOfGroupText);
         this.membersOfGroup = view.findViewById(R.id.membersOfGroupInformation);
         this.categoryOfGroup = view.findViewById(R.id.categoryOfGroupInformation);
         this.nameOfGroup = view.findViewById(R.id.nameOfGroupInformation);
         this.numberOfAthletes = view.findViewById(R.id.numberOfAthletesInGroup);
-
-        this.findTypeOfUser(view);
-        this.initializeAttendanceDates();
-        this.initializeTrainingUnits();
-
-        ExpandableListView expandableAttendance = view.findViewById(R.id.attendanceOfGroupInformation);
-        this.adapterOfAttendance = new AdapterOfExpendableAttendance(this.activity, this.dateOfAttendances, this.schedule);
-        expandableAttendance.setAdapter(this.adapterOfAttendance);
-        expandableAttendance.setGroupIndicator(null);
-
-        ExpandableListView expandableTimetable = view.findViewById(R.id.timetableOfGroupInformation);
-        this.adapterOfTimetable = new AdapterOfExpendableTrainingUnits(this.activity, this.sportTypes, this.timetable);
-        expandableTimetable.setAdapter(this.adapterOfTimetable);
-        expandableTimetable.setGroupIndicator(null);
-
-        this.fillGroupInformation();
+        this.expandableAttendance = view.findViewById(R.id.attendanceOfGroupInformation);
+        this.expandableTimetable = view.findViewById(R.id.timetableOfGroupInformation);
     }
 
     private void findTypeOfUser(View view) {
+        //If signed user is admin then show imageview to edit and delete selected group.
         if (this.club.getAdminOfClub().getFullName().equals(this.signedUser)) {
             ImageView deleteGroupIcon = view.findViewById(R.id.deleteGroupIcon);
             ImageView editGroupIcon = view.findViewById(R.id.editGroupIcon);
@@ -110,51 +115,9 @@ public class GroupInformationFragment extends Fragment implements Serializable {
         }
     }
 
-    public void showMembersOfGroupInFragment() {
-        AutoTransition autoTransition;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
-            autoTransition = new AutoTransition();
-            autoTransition.setDuration(0);
-            TransitionManager.beginDelayedTransition(this.membersOfGroup, autoTransition);
-        }
-
-        if (this.expandableListOfMembers.getVisibility() == View.GONE)
-            this.expandableListOfMembers.setVisibility(View.VISIBLE);
-        else
-            this.expandableListOfMembers.setVisibility(View.GONE);
-    }
-
-    public void fillGroupInformation() {
-        for (Group group : this.club.getGroupsOfClub()) {
-            if (group.getName().equals(selectedGroup)) {
-                this.nameOfGroup.setText(group.getName());
-                this.categoryOfGroup.setText(group.getCategoryTranslation());
-                this.numberOfAthletes.setText(String.valueOf(group.getNumberOfAthletes()));
-                ArrayList<Athlete> athletesOfGroup = group.getAthletesOfGroup();
-
-                Athlete lastAthlete = null;
-                if (athletesOfGroup.size() != 0)
-                    lastAthlete = athletesOfGroup.get(athletesOfGroup.size() - 1);
-                StringBuilder listOfAthletes = new StringBuilder();
-                for (Athlete athlete : athletesOfGroup) {
-                    if (lastAthlete != null && athlete.getFullName().equals(lastAthlete.getFullName()))
-                        listOfAthletes.append(athlete.getFullName());
-                    else
-                        listOfAthletes.append(athlete.getFullName()).append("\n");
-                }
-
-                this.membersOfGroupText.setText(listOfAthletes.toString());
-            }
-        }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_group_information, container, false);
-    }
-
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void initializeAttendanceDates () {
+        //Creating list of attendance data consisting of date, time and type of sport.
         this.dateOfAttendances = new ArrayList<>();
         for (AttendanceData attendanceData : this.club.getAttendanceData()) {
             if (attendanceData.getGroup().getName().equals(selectedGroup)) {
@@ -162,6 +125,7 @@ public class GroupInformationFragment extends Fragment implements Serializable {
                 String trainingData = String.format(attendanceData.getDate(), format) + " " + attendanceData.getTime() + " " + attendanceData.getSport();
                 this.dateOfAttendances.add(trainingData);
 
+                //Adding list of attended athletes as expandable child.
                 this.schedule.put(trainingData, new ArrayList<>());
                 for (Athlete athlete : attendanceData.getAttendedAthletes())
                     this.schedule.computeIfAbsent(trainingData, k -> new ArrayList<>()).add(athlete.getFullName());
@@ -171,21 +135,25 @@ public class GroupInformationFragment extends Fragment implements Serializable {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void initializeTrainingUnits () {
+        //Initializing expandable list of training units sorted by the type of sport.
         this.initializeSports();
         Group group = this.findSelectedGroup();
         for (TrainingUnit unit : group.getTimetable()) {
+            //Training unit's information consist of day, time, sport and location of the unit.
             String unitData = unit.getDay() + " " + unit.getTime() + "\n" + unit.getSportTranslation() + ", " + unit.getLocation();
             this.timetable.computeIfAbsent(unit.getSportTranslation(), k -> new ArrayList<>()).add(unitData);
         }
     }
 
     private void initializeSports() {
+        //Initializing groups of timetable for individual types of sports.
         this.timetable.put(getString(R.string.SWIMMING), new ArrayList<>());
         this.timetable.put(getString(R.string.ATHLETICS), new ArrayList<>());
         this.timetable.put(getString(R.string.CYCLING), new ArrayList<>());
         this.timetable.put(getString(R.string.STRENGTH), new ArrayList<>());
         this.timetable.put(getString(R.string.OTHER), new ArrayList<>());
 
+        //Creating list of all types of sports.
         this.sportTypes = new ArrayList<>();
         this.sportTypes.add(getString(R.string.SWIMMING));
         this.sportTypes.add(getString(R.string.ATHLETICS));
@@ -194,23 +162,16 @@ public class GroupInformationFragment extends Fragment implements Serializable {
         this.sportTypes.add(getString(R.string.OTHER));
     }
 
-    public void deleteGroup() {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference root = database.getReference();
+    private void initializeExpandableAdapters() {
+        //Creating adapter and setting it to the list of athletes.
+        this.adapterOfAttendance = new AdapterOfExpendableAttendance(this.activity, this.dateOfAttendances, this.schedule);
+        this.expandableAttendance.setAdapter(this.adapterOfAttendance);
+        this.expandableAttendance.setGroupIndicator(null);
 
-        Group groupToDelete = this.findSelectedGroup();
-        groupToDelete.setCategory("-1");
-        root.child(getString(R.string.GROUP_CHILD_DB)+ "/" + Objects.requireNonNull(groupToDelete).getID()).child(getString(R.string.CATEGORY_DB)).setValue(-1);
-        for (Athlete athlete : groupToDelete.getAthletesOfGroup())
-            athlete.setGroupID(0);
-
-        LoadData loadData = (LoadData) requireActivity().getIntent().getExtras().getSerializable(getString(R.string.LOAD_DATA_EXTRA));
-        Intent homePage = new Intent(this.getContext(), HomeActivity.class);
-        homePage.putExtra(getString(R.string.TRIATHLON_CLUB_EXTRA), this.club);
-        homePage.putExtra(getString(R.string.LOAD_DATA_EXTRA), loadData);
-        homePage.putExtra(getString(R.string.SIGNED_USER_EXTRA), signedUser);
-        homePage.putExtra(getString(R.string.SELECTED_FRAGMENT_EXTRA), R.id.groupsFragment);
-        startActivity(homePage);
+        //Creating adapter and setting it to the list of athletes.
+        this.adapterOfTimetable = new AdapterOfExpendableTrainingUnits(this.activity, this.sportTypes, this.timetable);
+        this.expandableTimetable.setAdapter(this.adapterOfTimetable);
+        this.expandableTimetable.setGroupIndicator(null);
     }
 
     public Group findSelectedGroup() {
@@ -221,13 +182,86 @@ public class GroupInformationFragment extends Fragment implements Serializable {
         return null;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public void notifyAboutChange(TriathlonClub club) {
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public void showMembersOfGroupInFragment() {
+        //Setting transition of opening of the members of the group.
+        AutoTransition autoTransition;
+        autoTransition = new AutoTransition();
+        autoTransition.setDuration(0);
+        TransitionManager.beginDelayedTransition(this.membersOfGroup, autoTransition);
+
+        //Showing or hiding list of athletes of the group, depending on current state.
+        if (this.expandableListOfMembers.getVisibility() == View.GONE)
+            this.expandableListOfMembers.setVisibility(View.VISIBLE);
+        else
+            this.expandableListOfMembers.setVisibility(View.GONE);
+    }
+
+    public void fillGroupInformation() {
+        for (Group group : this.club.getGroupsOfClub()) {
+            if (group.getName().equals(selectedGroup)) {
+                //Filling selected group's information defined by its name.
+                this.nameOfGroup.setText(group.getName());
+                this.categoryOfGroup.setText(group.getCategoryTranslation());
+                this.numberOfAthletes.setText(String.valueOf(group.getNumberOfAthletes()));
+                ArrayList<Athlete> athletesOfGroup = group.getAthletesOfGroup();
+
+                //Finding last athlete of the group.
+                Athlete lastAthlete = null;
+                if (athletesOfGroup.size() != 0)
+                    lastAthlete = athletesOfGroup.get(athletesOfGroup.size() - 1);
+                //Creating list of athletes of the group.
+                StringBuilder listOfAthletes = new StringBuilder();
+                for (Athlete athlete : athletesOfGroup) {
+                    //If the athlete is the last one than insert athlete's name without new line character.
+                    if (lastAthlete != null && athlete.getFullName().equals(lastAthlete.getFullName()))
+                        listOfAthletes.append(athlete.getFullName());
+                    //Otherwise insert athlete's name and new line character.
+                    else
+                        listOfAthletes.append(athlete.getFullName()).append("\n");
+                }
+
+                this.membersOfGroupText.setText(listOfAthletes.toString());
+            }
+        }
+    }
+
+    public void deleteGroup() {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference root = database.getReference();
+
+        //Deleting group by setting its category to -1 and setting group Id to all athletes of the group to 0.
+        Group groupToDelete = this.findSelectedGroup();
+        groupToDelete.setCategory("-1");
+        root.child(getString(R.string.GROUP_CHILD_DB)+ "/" + Objects.requireNonNull(groupToDelete).getID()).child(getString(R.string.CATEGORY_DB)).setValue(-1);
+        for (Athlete athlete : groupToDelete.getAthletesOfGroup())
+            athlete.setGroupID(0);
+
+        this.loadHomePage();
+    }
+
+    private void loadHomePage() {
+        //Creating intent of Home Activity to return to home page after deleting a group.
+        Intent homePage = new Intent(this.getContext(), HomeActivity.class);
+        homePage.putExtra(getString(R.string.TRIATHLON_CLUB_EXTRA), this.club);
+        homePage.putExtra(getString(R.string.LOAD_DATA_EXTRA), this.loadData);
+        homePage.putExtra(getString(R.string.SIGNED_USER_EXTRA), this.signedUser);
+        homePage.putExtra(getString(R.string.SELECTED_FRAGMENT_EXTRA), R.id.groupsFragment);
+        startActivity(homePage);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_group_information, container, false);
+    }
+
+    //@RequiresApi(api = Build.VERSION_CODES.O)
+    /*public void notifyAboutChange(TriathlonClub club) {
         this.club = club;
         this.initializeAttendanceDates();
         this.adapterOfAttendance.notifyDataSetChanged();
 
         this.initializeTrainingUnits();
         this.adapterOfTimetable.notifyDataSetChanged();
-    }
+    }*/
 }

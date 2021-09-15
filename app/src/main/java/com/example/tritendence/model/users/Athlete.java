@@ -9,7 +9,7 @@ import java.time.LocalDate;
 
 public class Athlete extends Member {
     private int groupID;
-    private final int numberOfTrainings;
+    private int numberOfTrainings;
     private LocalDate dayOfBirth;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -57,5 +57,9 @@ public class Athlete extends Member {
 
     public LocalDate getDate() {
         return this.dayOfBirth;
+    }
+
+    public void addAttendedTraining() {
+        this.numberOfTrainings++;
     }
 }

@@ -79,10 +79,11 @@ public class AthleteInformationActivity extends AppCompatActivity {
 
     public void editAthlete(View view) {
         //Creating new intent of Add Athlete Activity when clicked on the edit icon.
-        Athlete editAthlete = this.athleteInformationFragment.findSelectedAthlete();
+        Athlete editAthlete = this.athleteInformationFragment.findAthleteByName();
         Intent addAthletePage = new Intent(this, AddAthleteActivity.class);
         addAthletePage.putExtra(getString(string.TRIATHLON_CLUB_EXTRA), this.club);
         addAthletePage.putExtra(getString(string.SIGNED_USER_EXTRA), this.signedUser);
+        addAthletePage.putExtra(getString(string.LOAD_DATA_EXTRA), this.loadData);
         addAthletePage.putExtra(getString(string.EDIT_ATHLETE_EXTRA), editAthlete);
         startActivity(addAthletePage);
         finish();

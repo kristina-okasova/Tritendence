@@ -269,7 +269,7 @@ public class AddGroupActivity extends AppCompatActivity implements TimePickerDia
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference root = database.getReference();
 
-        //Checking if the graoup's name is filled in.
+        //Checking if the group's name is filled in.
         String name = this.nameOfGroup.getText().toString().trim();
         if (name.equals(getString(R.string.EMPTY_STRING))) {
             this.nameOfGroup.setError(getString(R.string.REQUIRED_NAME_OF_GROUP));

@@ -35,12 +35,15 @@ import java.util.Map;
 import java.util.Objects;
 
 public class AttendanceFragment extends Fragment {
+    //Intent's extras
+    private TriathlonClub club;
+    private LoadData loadData;
+    private String signedUser;
+
     private HomeActivity activity;
     private List<String> daysOfTheWeek;
     private final Map<String, List<String>> timetable;
     private ExpandableListView expandableTimetable;
-    private TriathlonClub club;
-    private LoadData loadData;
     private Member signedTrainer;
 
     public AttendanceFragment() {
@@ -57,36 +60,34 @@ public class AttendanceFragment extends Fragment {
         setHasOptionsMenu(true);
     }
 
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_attendance, container, false);
-    }
-
     @SuppressLint("DefaultLocale")
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        //Getting extras of the intent.
         this.club = (TriathlonClub) requireActivity().getIntent().getExtras().getSerializable(getString(R.string.TRIATHLON_CLUB_EXTRA));
         this.loadData = (LoadData) requireActivity().getIntent().getExtras().getSerializable(getString(R.string.LOAD_DATA_EXTRA));
+        this.signedUser = requireActivity().getIntent().getExtras().getString(getString(R.string.SIGNED_USER_EXTRA));
+
+        //Finding signed trainer by name, initializing timetable and adding specific groups.
         this.signedTrainer = this.findCurrentUser();
         this.initializeTimetable();
+        this.initializeCurrentWeek(view);
         if (signedTrainer instanceof Trainer)
             this.addGroups(Objects.requireNonNull((Trainer) signedTrainer).getSportTranslation());
         else
             this.addGroups(getString(R.string.EMPTY_STRING));
 
-        TextView currentWeek = view.findViewById(R.id.currentWeek);
-        currentWeek.setText(String.format("%s %d", getString(R.string.WEEK), this.club.getNumberOfWeek()));
-
+        //Adding data to expandable timetable and setting on group expand listener.
         this.expandableTimetable = view.findViewById(R.id.timetable);
         this.updateExpandableTimetable();
 
         this.expandableTimetable.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
             int previousGroup = -1;
             @Override
+            //When a group expands, collapse the group that has been expanded before.
             public void onGroupExpand(int groupPosition) {
                 if (previousGroup != -1 && groupPosition != previousGroup)
                     expandableTimetable.collapseGroup(previousGroup);
@@ -96,25 +97,53 @@ public class AttendanceFragment extends Fragment {
     }
 
     private Member findCurrentUser() {
-        String signedUserName = requireActivity().getIntent().getExtras().getString(getString(R.string.SIGNED_USER_EXTRA));
         for (Member member : this.club.getMembersOfClub()) {
-            if ((member instanceof Trainer || member instanceof Admin) && member.getFullName().equals(signedUserName))
+            if ((member instanceof Trainer || member instanceof Admin) && member.getFullName().equals(this.signedUser))
                 return member;
         }
         return null;
     }
 
+    private void initializeTimetable() {
+        //Adding days of the week to timetable.
+        this.daysOfTheWeek = new ArrayList<>();
+        this.daysOfTheWeek.add(getString(R.string.MONDAY));
+        this.daysOfTheWeek.add(getString(R.string.TUESDAY));
+        this.daysOfTheWeek.add(getString(R.string.WEDNESDAY));
+        this.daysOfTheWeek.add(getString(R.string.THURSDAY));
+        this.daysOfTheWeek.add(getString(R.string.FRIDAY));
+        this.daysOfTheWeek.add(getString(R.string.SATURDAY));
+        this.daysOfTheWeek.add(getString(R.string.SUNDAY));
+
+        this.clearTimetable();
+    }
+
+    private void clearTimetable() {
+        //Clearing whole timetable by setting list of groups for every day of the week to empty list.
+        this.timetable.put(getString(R.string.MONDAY), new ArrayList<>());
+        this.timetable.put(getString(R.string.TUESDAY), new ArrayList<>());
+        this.timetable.put(getString(R.string.WEDNESDAY), new ArrayList<>());
+        this.timetable.put(getString(R.string.THURSDAY), new ArrayList<>());
+        this.timetable.put(getString(R.string.FRIDAY), new ArrayList<>());
+        this.timetable.put(getString(R.string.SATURDAY), new ArrayList<>());
+        this.timetable.put(getString(R.string.SUNDAY), new ArrayList<>());
+    }
+
+    @SuppressLint("DefaultLocale")
+    private void initializeCurrentWeek(View view) {
+        TextView currentWeek = view.findViewById(R.id.currentWeek);
+        currentWeek.setText(String.format("%s %d", getString(R.string.WEEK), this.club.getNumberOfWeek()));
+    }
+
     public void updateExpandableTimetable() {
+        //Creating adapter and setting it to the expandable list of attendance.
         this.expandableTimetable.setAdapter(new AdapterOfExpendableList(this.activity, this.daysOfTheWeek, this.timetable, this.club, this.loadData));
         this.expandableTimetable.setGroupIndicator(null);
     }
 
     public void addGroups(String sport) {
-        System.out.println("adding groups " + this.club.getNumberOfGroups());
+        //Adding groups to expandable timetable determined by current sport selection.
         for (Group group : this.club.getGroupsOfClub()) {
-            System.out.println(group.getCategory());
-            if (group.getCategory().equals("-1"))
-                continue;
             for (TrainingUnit unit : group.getTimetable()) {
                 if (unit.getSport().equals(sport) || sport.equals(getString(R.string.EMPTY_STRING)))
                     addGroupToParticularDay(group.getName(), unit.getDay(), unit.getTime(), unit.getSport());
@@ -123,6 +152,7 @@ public class AttendanceFragment extends Fragment {
     }
 
     private void addGroupToParticularDay(String name, String day, String time, String sport) {
+        //Translating value of sport.
         switch (sport) {
             case "Athletics":
                 sport = getString(R.string.ATHLETICS);
@@ -143,35 +173,14 @@ public class AttendanceFragment extends Fragment {
                 throw new IllegalStateException("Unexpected value: " + sport);
         }
 
+        //Adding information about training unit to specific day in the timetable.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
             this.timetable.computeIfAbsent(day, k -> new ArrayList<>()).add(time + " " + sport + " " + name);
     }
 
-    public void initializeTimetable() {
-        this.daysOfTheWeek = new ArrayList<>();
-        this.daysOfTheWeek.add(getString(R.string.MONDAY));
-        this.daysOfTheWeek.add(getString(R.string.TUESDAY));
-        this.daysOfTheWeek.add(getString(R.string.WEDNESDAY));
-        this.daysOfTheWeek.add(getString(R.string.THURSDAY));
-        this.daysOfTheWeek.add(getString(R.string.FRIDAY));
-        this.daysOfTheWeek.add(getString(R.string.SATURDAY));
-        this.daysOfTheWeek.add(getString(R.string.SUNDAY));
-
-        this.clearTimetable();
-    }
-
-    public void clearTimetable() {
-        this.timetable.put(getString(R.string.MONDAY), new ArrayList<>());
-        this.timetable.put(getString(R.string.TUESDAY), new ArrayList<>());
-        this.timetable.put(getString(R.string.WEDNESDAY), new ArrayList<>());
-        this.timetable.put(getString(R.string.THURSDAY), new ArrayList<>());
-        this.timetable.put(getString(R.string.FRIDAY), new ArrayList<>());
-        this.timetable.put(getString(R.string.SATURDAY), new ArrayList<>());
-        this.timetable.put(getString(R.string.SUNDAY), new ArrayList<>());
-    }
-
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        //Attaching options menu to the fragment.
         inflater = requireActivity().getMenuInflater();
         inflater.inflate(R.menu.attendance_selection_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
@@ -182,6 +191,7 @@ public class AttendanceFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         this.clearTimetable();
 
+        //Determining the sport selection and displaying groups taking into account this decision.
         switch (item.getItemId()) {
             case R.id.swimmingSelection:
                 this.addGroups(getString(R.string.SWIMMING_DB));
@@ -199,14 +209,21 @@ public class AttendanceFragment extends Fragment {
                 break;
         }
 
+        //Updating timetable of the training units.
         this.updateExpandableTimetable();
         return super.onOptionsItemSelected(item);
     }
 
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_attendance, container, false);
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void notifyAboutChange(TriathlonClub club) {
-        System.out.println("notify attendance");
         this.club = club;
+        //Updating values displayed in the timetable.
         this.initializeTimetable();
         if (signedTrainer instanceof Trainer)
             this.addGroups(Objects.requireNonNull((Trainer) signedTrainer).getSportTranslation());
