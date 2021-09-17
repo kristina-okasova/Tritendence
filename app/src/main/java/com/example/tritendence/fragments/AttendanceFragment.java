@@ -29,6 +29,7 @@ import com.example.tritendence.model.users.Member;
 import com.example.tritendence.model.users.Trainer;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -150,6 +151,8 @@ public class AttendanceFragment extends Fragment {
                     addGroupToParticularDay(group.getName(), unit.getDay(), unit.getTime(), unit.getSport());
             }
         }
+
+        this.sortGroupsByTime();
     }
 
     private void addGroupToParticularDay(String name, String day, String time, String sport) {
@@ -177,6 +180,18 @@ public class AttendanceFragment extends Fragment {
         //Adding information about training unit to specific day in the timetable.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
             this.timetable.computeIfAbsent(day, k -> new ArrayList<>()).add(time + " " + sport + " " + name);
+    }
+
+    private void sortGroupsByTime() {
+        //Sorting  groups of specific day by the time of training.
+        for (Map.Entry<String, List<String>> trainingsOfTheDay : this.timetable.entrySet()) {
+            Collections.sort(trainingsOfTheDay.getValue(), (training1, training2) -> {
+                String time1 = training1.substring(0, training1.indexOf(" "));
+                String time2 = training2.substring(0, training2.indexOf(" "));
+
+                return time1.compareTo(time2);
+            });
+        }
     }
 
     @Override
