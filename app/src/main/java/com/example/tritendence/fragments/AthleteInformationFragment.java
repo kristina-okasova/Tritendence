@@ -37,7 +37,7 @@ public class AthleteInformationFragment extends Fragment {
     //Intent's extras
     private TriathlonClub club;
     private LoadData loadData;
-    private String selectedAthlete, signedUser;
+    private String selectedAthlete, signedUser, sportSelection;
 
     //Layout's items
     private TextView nameOfAthlete, numberOfTrainings, dayOfBirth, group;
@@ -57,6 +57,7 @@ public class AthleteInformationFragment extends Fragment {
         //Getting extras of the intent
         this.club = (TriathlonClub) requireActivity().getIntent().getExtras().getSerializable(getString(R.string.TRIATHLON_CLUB_EXTRA));
         this.signedUser = requireActivity().getIntent().getExtras().getString(getString(R.string.SIGNED_USER_EXTRA));
+        this.sportSelection = requireActivity().getIntent().getExtras().getString(getString(R.string.SPORT_SELECTION_EXTRA));
         this.loadData = (LoadData) requireActivity().getIntent().getExtras().getSerializable(getString(R.string.LOAD_DATA_EXTRA));
         this.selectedAthlete =  requireActivity().getIntent().getExtras().getString(getString(R.string.ATHLETE_NAME_EXTRA));
         this.initializeLayoutItems(view);
@@ -161,6 +162,7 @@ public class AthleteInformationFragment extends Fragment {
         Intent athleteInformationPage = new Intent(this.getContext(), HomeActivity.class);
         athleteInformationPage.putExtra(getString(R.string.TRIATHLON_CLUB_EXTRA), this.club);
         athleteInformationPage.putExtra(getString(R.string.SIGNED_USER_EXTRA), this.signedUser);
+        athleteInformationPage.putExtra(getString(R.string.SPORT_SELECTION_EXTRA), this.sportSelection);
         athleteInformationPage.putExtra(getString(R.string.LOAD_DATA_EXTRA), this.loadData);
         athleteInformationPage.putExtra(getString(R.string.SELECTED_FRAGMENT_EXTRA), R.id.athletesFragment);
         startActivity(athleteInformationPage);

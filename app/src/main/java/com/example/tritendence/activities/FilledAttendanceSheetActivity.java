@@ -18,7 +18,7 @@ public class FilledAttendanceSheetActivity extends AppCompatActivity {
     //Intent's extras
     private TriathlonClub club;
     private LoadData loadData;
-    private String signedUser;
+    private String signedUser, sportSelection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +28,7 @@ public class FilledAttendanceSheetActivity extends AppCompatActivity {
         //Getting extras of the intent.
         this.club = (TriathlonClub) getIntent().getExtras().getSerializable(getString(R.string.TRIATHLON_CLUB_EXTRA));
         this.signedUser = getIntent().getExtras().getString(getString(R.string.SIGNED_USER_EXTRA));
+        this.sportSelection = getIntent().getExtras().getString(getString(R.string.SPORT_SELECTION_EXTRA));
         this.loadData = (LoadData) getIntent().getExtras().getSerializable(getString(R.string.LOAD_DATA_EXTRA));
 
         BottomNavigationView navigation = findViewById(R.id.bottomNavigationView);
@@ -56,6 +57,7 @@ public class FilledAttendanceSheetActivity extends AppCompatActivity {
                 homePage.putExtra(getString(R.string.SIGNED_USER_EXTRA), this.signedUser);
                 homePage.putExtra(getString(R.string.TRIATHLON_CLUB_EXTRA), this.club);
                 homePage.putExtra(getString(R.string.LOAD_DATA_EXTRA), this.loadData);
+                homePage.putExtra(getString(R.string.SPORT_SELECTION_EXTRA), this.sportSelection);
                 homePage.putExtra(getString(R.string.SELECTED_FRAGMENT_EXTRA), item.getItemId());
                 startActivity(homePage);
                 finish();

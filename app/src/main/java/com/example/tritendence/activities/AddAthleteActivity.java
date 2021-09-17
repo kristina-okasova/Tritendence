@@ -38,7 +38,7 @@ public class AddAthleteActivity extends AppCompatActivity {
     //Intent's extras
     private TriathlonClub club;
     private LoadData loadData;
-    private String signedUser;
+    private String signedUser, sportSelection;
     private Athlete editAthlete;
 
     //Layout's items
@@ -64,6 +64,7 @@ public class AddAthleteActivity extends AppCompatActivity {
         this.club =  (TriathlonClub) getIntent().getExtras().getSerializable(getString(R.string.TRIATHLON_CLUB_EXTRA));
         this.editAthlete = (Athlete) getIntent().getExtras().getSerializable(getString(R.string.EDIT_ATHLETE_EXTRA));
         this.signedUser = getIntent().getExtras().getString(getString(R.string.SIGNED_USER_EXTRA));
+        this.sportSelection = getIntent().getExtras().getString(getString(R.string.SPORT_SELECTION_EXTRA));
         this.loadData = (LoadData) getIntent().getExtras().getSerializable(getString(R.string.LOAD_DATA_EXTRA));
         this.initializeItemsOfLayout();
         this.initializeGroupsOfClub();
@@ -198,6 +199,7 @@ public class AddAthleteActivity extends AppCompatActivity {
         athletesPage.putExtra(getString(R.string.SIGNED_USER_EXTRA), signedUser);
         athletesPage.putExtra(getString(R.string.TRIATHLON_CLUB_EXTRA), this.club);
         athletesPage.putExtra(getString(R.string.LOAD_DATA_EXTRA),this. loadData);
+        athletesPage.putExtra(getString(R.string.SPORT_SELECTION_EXTRA), this.sportSelection);
         athletesPage.putExtra(getString(R.string.SELECTED_FRAGMENT_EXTRA), R.id.athletesFragment);
         startActivity(athletesPage);
         finish();
@@ -229,6 +231,7 @@ public class AddAthleteActivity extends AppCompatActivity {
                 homePage.putExtra(getString(R.string.SIGNED_USER_EXTRA), this.signedUser);
                 homePage.putExtra(getString(R.string.TRIATHLON_CLUB_EXTRA), this.club);
                 homePage.putExtra(getString(R.string.LOAD_DATA_EXTRA), this.loadData);
+                homePage.putExtra(getString(R.string.SPORT_SELECTION_EXTRA), this.sportSelection);
                 homePage.putExtra(getString(R.string.SELECTED_FRAGMENT_EXTRA), item.getItemId());
                 startActivity(homePage);
                 finish();

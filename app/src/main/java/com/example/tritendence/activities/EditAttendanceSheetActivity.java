@@ -68,8 +68,4 @@ public class EditAttendanceSheetActivity extends AppCompatActivity {
 
         Toast.makeText(this, getString(R.string.MAX_AMOUNT_OF_TRAINERS), Toast.LENGTH_LONG).show();
     }
-
-    public void notifyAboutChange(TriathlonClub club) {
-        this.club = club;
-    }
 }

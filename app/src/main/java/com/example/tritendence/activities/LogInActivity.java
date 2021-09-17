@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.example.tritendence.R;
 import com.example.tritendence.model.LoadData;
 import com.example.tritendence.model.TriathlonClub;
+import com.example.tritendence.model.users.Admin;
 import com.example.tritendence.model.users.Member;
 import com.example.tritendence.model.users.Trainer;
 import com.google.firebase.auth.FirebaseAuth;
@@ -83,19 +84,23 @@ public class LogInActivity extends AppCompatActivity {
         //Checking if the signed user is a trainer.
         for (Member member : this.loadData.getClub().getMembersOfClub()) {
             if (member instanceof Trainer && (((Trainer) member).getEmail()).equals(emailText))
-                signIn(member.getFullName());
+                signIn(member);
         }
         //Checking if the signed user is Admin.
         if (this.loadData.getClub().getAdminOfClub().getEmail().equals(emailText))
-            signIn(this.loadData.getClub().getAdminOfClub().getFullName());
+            signIn(this.loadData.getClub().getAdminOfClub());
     }
 
-    private void signIn(String fullName) {
+    private void signIn(Member member) {
         //Creating new intent of Home Activity when the user is signed in.
         Intent homePage = new Intent(LogInActivity.this, HomeActivity.class);
-        homePage.putExtra(getString(R.string.SIGNED_USER_EXTRA), fullName);
+        homePage.putExtra(getString(R.string.SIGNED_USER_EXTRA), member.getFullName());
         homePage.putExtra(getString(R.string.TRIATHLON_CLUB_EXTRA), this.club);
         homePage.putExtra(getString(R.string.LOAD_DATA_EXTRA), this.loadData);
+        if (member instanceof Trainer)
+            homePage.putExtra(getString(R.string.SPORT_SELECTION_EXTRA), ((Trainer) member).getSport());
+        else
+            homePage.putExtra(getString(R.string.SPORT_SELECTION_EXTRA), ((Admin) member).getSport());
         startActivity(homePage);
         finish();
     }

@@ -162,4 +162,5 @@
     <string name="ATHLETE_ALREADY_EXISTS">Používateľ už v klube existuje.</string>
     <string name="TRAINING_UNIT_REQUIRED">Skupina musí mať aspoň jeden tréning.</string>
     <string name="FIRST_CHILD_DB">FIRST_CHILD</string>
+    <string name="SPORT_SELECTION_EXTRA">SPORT_SELECTION</string>
 </resources>

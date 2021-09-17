@@ -22,7 +22,7 @@ import static com.example.tritendence.R.*;
 public class AthleteInformationActivity extends AppCompatActivity {
     //Intent's extras
     private TriathlonClub club;
-    private String signedUser;
+    private String signedUser, sportSelection;
     private LoadData loadData;
 
     private AthleteInformationFragment athleteInformationFragment;
@@ -35,6 +35,7 @@ public class AthleteInformationActivity extends AppCompatActivity {
         //Getting extras of the intent.
         this.club = (TriathlonClub) getIntent().getExtras().getSerializable(getString(string.TRIATHLON_CLUB_EXTRA));
         this.signedUser = getIntent().getExtras().getString(getString(string.SIGNED_USER_EXTRA));
+        this.sportSelection = getIntent().getExtras().getString(getString(string.SPORT_SELECTION_EXTRA));
         this.loadData = (LoadData) getIntent().getExtras().getSerializable(getString(string.LOAD_DATA_EXTRA));
 
         //Setting currently selected navigation item and navigation listener.
@@ -55,6 +56,7 @@ public class AthleteInformationActivity extends AppCompatActivity {
                 homePage.putExtra(getString(string.SIGNED_USER_EXTRA), this.signedUser);
                 homePage.putExtra(getString(string.TRIATHLON_CLUB_EXTRA), this.club);
                 homePage.putExtra(getString(R.string.LOAD_DATA_EXTRA), this.loadData);
+                homePage.putExtra(getString(string.SPORT_SELECTION_EXTRA), this.sportSelection);
                 homePage.putExtra(getString(string.SELECTED_FRAGMENT_EXTRA), item.getItemId());
                 startActivity(homePage);
                 finish();
@@ -84,6 +86,7 @@ public class AthleteInformationActivity extends AppCompatActivity {
         addAthletePage.putExtra(getString(string.TRIATHLON_CLUB_EXTRA), this.club);
         addAthletePage.putExtra(getString(string.SIGNED_USER_EXTRA), this.signedUser);
         addAthletePage.putExtra(getString(string.LOAD_DATA_EXTRA), this.loadData);
+        addAthletePage.putExtra(getString(string.SPORT_SELECTION_EXTRA), this.sportSelection);
         addAthletePage.putExtra(getString(string.EDIT_ATHLETE_EXTRA), editAthlete);
         startActivity(addAthletePage);
         finish();

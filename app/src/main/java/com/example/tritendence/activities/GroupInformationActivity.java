@@ -21,7 +21,7 @@ public class GroupInformationActivity extends AppCompatActivity {
     //Intent's extras
     private TriathlonClub club;
     private LoadData loadData;
-    private String signedUser;
+    private String signedUser, sportSelection;
 
     private GroupInformationFragment groupInformationFragment;
 
@@ -35,6 +35,7 @@ public class GroupInformationActivity extends AppCompatActivity {
         this.club = (TriathlonClub) getIntent().getExtras().getSerializable(getString(R.string.TRIATHLON_CLUB_EXTRA));
         this.loadData = (LoadData) getIntent().getExtras().getSerializable(getString(R.string.LOAD_DATA_EXTRA));
         this.signedUser = getIntent().getExtras().getString(getString(R.string.SIGNED_USER_EXTRA));
+        this.sportSelection = getIntent().getExtras().getString(getString(R.string.SPORT_SELECTION_EXTRA));
 
         //Setting currently selected navigation item and navigation listener.
         BottomNavigationView navigation = findViewById(R.id.bottomNavigationView);
@@ -54,12 +55,14 @@ public class GroupInformationActivity extends AppCompatActivity {
                 homePage.putExtra(getString(R.string.SIGNED_USER_EXTRA), signedUser);
                 homePage.putExtra(getString(R.string.TRIATHLON_CLUB_EXTRA), club);
                 homePage.putExtra(getString(R.string.LOAD_DATA_EXTRA), this.loadData);
+                homePage.putExtra(getString(R.string.SPORT_SELECTION_EXTRA), this.sportSelection);
                 homePage.putExtra(getString(R.string.SELECTED_FRAGMENT_EXTRA), item.getItemId());
                 startActivity(homePage);
                 finish();
                 return true;
             };
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void showMembersOfGroup(View view) {
         this.groupInformationFragment.showMembersOfGroupInFragment();
     }
@@ -87,6 +90,7 @@ public class GroupInformationActivity extends AppCompatActivity {
         addGroupPage.putExtra(getString(R.string.TRIATHLON_CLUB_EXTRA), this.club);
         addGroupPage.putExtra(getString(R.string.SIGNED_USER_EXTRA), signedUser);
         addGroupPage.putExtra(getString(R.string.LOAD_DATA_EXTRA), loadData);
+        addGroupPage.putExtra(getString(R.string.SPORT_SELECTION_EXTRA), this.sportSelection);
         addGroupPage.putExtra(getString(R.string.EDIT_GROUP_EXTRA), editGroup);
         startActivity(addGroupPage);
         finish();

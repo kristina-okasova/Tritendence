@@ -38,7 +38,7 @@ public class AttendanceFragment extends Fragment {
     //Intent's extras
     private TriathlonClub club;
     private LoadData loadData;
-    private String signedUser;
+    private String signedUser, sportSelection;
 
     private HomeActivity activity;
     private List<String> daysOfTheWeek;
@@ -70,15 +70,16 @@ public class AttendanceFragment extends Fragment {
         this.club = (TriathlonClub) requireActivity().getIntent().getExtras().getSerializable(getString(R.string.TRIATHLON_CLUB_EXTRA));
         this.loadData = (LoadData) requireActivity().getIntent().getExtras().getSerializable(getString(R.string.LOAD_DATA_EXTRA));
         this.signedUser = requireActivity().getIntent().getExtras().getString(getString(R.string.SIGNED_USER_EXTRA));
+        if (this.sportSelection == null)
+            this.sportSelection = requireActivity().getIntent().getExtras().getString(getString(R.string.SPORT_SELECTION_EXTRA));
 
-        //Finding signed trainer by name, initializing timetable and adding specific groups.
+        //Finding signed trainer by name and initializing timetable.
         this.signedTrainer = this.findCurrentUser();
         this.initializeTimetable();
         this.initializeCurrentWeek(view);
-        if (signedTrainer instanceof Trainer)
-            this.addGroups(Objects.requireNonNull((Trainer) signedTrainer).getSportTranslation());
-        else
-            this.addGroups(getString(R.string.EMPTY_STRING));
+
+        //Adding specific groups to timetable based on the current type of sport selection.
+        this.addGroups(this.sportSelection);
 
         //Adding data to expandable timetable and setting on group expand listener.
         this.expandableTimetable = view.findViewById(R.id.timetable);
@@ -186,6 +187,7 @@ public class AttendanceFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -194,20 +196,22 @@ public class AttendanceFragment extends Fragment {
         //Determining the sport selection and displaying groups taking into account this decision.
         switch (item.getItemId()) {
             case R.id.swimmingSelection:
-                this.addGroups(getString(R.string.SWIMMING_DB));
+                this.sportSelection = getString(R.string.SWIMMING_DB);
                 break;
             case R.id.athleticsSelection:
-                this.addGroups(getString(R.string.ATHLETICS_DB));
+                this.sportSelection = getString(R.string.ATHLETICS_DB);
                 break;
             case R.id.cyclingSelection:
-                this.addGroups(getString(R.string.CYCLING_DB));
+                this.sportSelection = getString(R.string.CYCLING_DB);
                 break;
             case R.id.allTrainings:
-                this.addGroups(getString(R.string.EMPTY_STRING));
+                this.sportSelection = getString(R.string.EMPTY_STRING);
                 break;
             default:
                 break;
         }
+        this.addGroups(this.sportSelection);
+        this.activity.updateSportSelection(this.sportSelection);
 
         //Updating timetable of the training units.
         this.updateExpandableTimetable();
@@ -223,12 +227,10 @@ public class AttendanceFragment extends Fragment {
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void notifyAboutChange(TriathlonClub club) {
         this.club = club;
+
         //Updating values displayed in the timetable.
         this.initializeTimetable();
-        if (signedTrainer instanceof Trainer)
-            this.addGroups(Objects.requireNonNull((Trainer) signedTrainer).getSportTranslation());
-        else
-            this.addGroups(getString(R.string.EMPTY_STRING));
+        this.addGroups(this.sportSelection);
         this.updateExpandableTimetable();
     }
 }

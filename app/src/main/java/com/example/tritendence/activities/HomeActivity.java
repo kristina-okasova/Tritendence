@@ -19,6 +19,7 @@ import com.example.tritendence.fragments.ProfileFragment;
 import com.example.tritendence.fragments.TrainersFragment;
 import com.example.tritendence.model.LoadData;
 import com.example.tritendence.model.TriathlonClub;
+import com.example.tritendence.model.users.Member;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.SimpleTimeZone;
@@ -29,7 +30,7 @@ public class HomeActivity extends AppCompatActivity {
     private Fragment selectedFragment;
     private TriathlonClub club;
     private LoadData loadData;
-    private String signedUser;
+    private String signedUser, sportSelection;
 
     //Fragments
     private AttendanceFragment attendanceFragment;
@@ -50,6 +51,7 @@ public class HomeActivity extends AppCompatActivity {
         //Getting extras of the intent and setting load data's activity.
         this.club = (TriathlonClub) getIntent().getExtras().getSerializable(getString(R.string.TRIATHLON_CLUB_EXTRA));
         this.signedUser = getIntent().getExtras().getString(getString(R.string.SIGNED_USER_EXTRA));
+        this.sportSelection = getIntent().getExtras().getString(getString(R.string.SPORT_SELECTION_EXTRA));
         this.loadData = (LoadData) getIntent().getExtras().getSerializable(getString(R.string.LOAD_DATA_EXTRA));
         this.loadData.setActivity(this);
 
@@ -129,7 +131,6 @@ public class HomeActivity extends AppCompatActivity {
                 return true;
             };
 
-
     public void showGroupInformation(View view) {
         TextView nameOfGroup = view.findViewById(R.id.nameOfGroupInList);
 
@@ -139,6 +140,7 @@ public class HomeActivity extends AppCompatActivity {
         groupInformationPage.putExtra(getString(R.string.TRIATHLON_CLUB_EXTRA), this.club);
         groupInformationPage.putExtra(getString(R.string.LOAD_DATA_EXTRA), this.loadData);
         groupInformationPage.putExtra(getString(R.string.SIGNED_USER_EXTRA), this.signedUser);
+        groupInformationPage.putExtra(getString(R.string.SPORT_SELECTION_EXTRA), this.sportSelection);
         startActivity(groupInformationPage);
         finish();
     }
@@ -152,6 +154,7 @@ public class HomeActivity extends AppCompatActivity {
         athleteInformationPage.putExtra(getString(R.string.TRIATHLON_CLUB_EXTRA), this.club);
         athleteInformationPage.putExtra(getString(R.string.LOAD_DATA_EXTRA), this.loadData);
         athleteInformationPage.putExtra(getString(R.string.SIGNED_USER_EXTRA), this.signedUser);
+        athleteInformationPage.putExtra(getString(R.string.SPORT_SELECTION_EXTRA), this.sportSelection);
         startActivity(athleteInformationPage);
         finish();
     }
@@ -165,6 +168,7 @@ public class HomeActivity extends AppCompatActivity {
         trainerInformationPage.putExtra(getString(R.string.TRIATHLON_CLUB_EXTRA), this.club);
         trainerInformationPage.putExtra(getString(R.string.LOAD_DATA_EXTRA), this.loadData);
         trainerInformationPage.putExtra(getString(R.string.SIGNED_USER_EXTRA), this.signedUser);
+        trainerInformationPage.putExtra(getString(R.string.SPORT_SELECTION_EXTRA), this.sportSelection);
         startActivity(trainerInformationPage);
         finish();
     }
@@ -175,6 +179,7 @@ public class HomeActivity extends AppCompatActivity {
         addGroupPage.putExtra(getString(R.string.TRIATHLON_CLUB_EXTRA), this.club);
         addGroupPage.putExtra(getString(R.string.LOAD_DATA_EXTRA), this.loadData);
         addGroupPage.putExtra(getString(R.string.SIGNED_USER_EXTRA), this.signedUser);
+        addGroupPage.putExtra(getString(R.string.SPORT_SELECTION_EXTRA), this.sportSelection);
         startActivity(addGroupPage);
         finish();
     }
@@ -185,8 +190,13 @@ public class HomeActivity extends AppCompatActivity {
         addAthletePage.putExtra(getString(R.string.TRIATHLON_CLUB_EXTRA), this.club);
         addAthletePage.putExtra(getString(R.string.SIGNED_USER_EXTRA), this.signedUser);
         addAthletePage.putExtra(getString(R.string.LOAD_DATA_EXTRA), this.loadData);
+        addAthletePage.putExtra(getString(R.string.SPORT_SELECTION_EXTRA), this.sportSelection);
         startActivity(addAthletePage);
         finish();
+    }
+
+    public void updateSportSelection(String sportSelection) {
+        this.sportSelection = sportSelection;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -210,4 +220,5 @@ public class HomeActivity extends AppCompatActivity {
         if (this.trainersFragment.isAdded())
             this.trainersFragment.notifyAboutChange(this.club);
     }
+
 }

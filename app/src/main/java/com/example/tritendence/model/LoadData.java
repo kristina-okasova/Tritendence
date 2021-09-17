@@ -65,11 +65,13 @@ public class LoadData implements Serializable {
     private static final String ATTENDANCE_DATE = "Date";
     private static final String ATTENDANCE_TRAINER = "Trainer";
     private static final String ATTENDANCE_NOTE = "Note";
+
     private static final int NUMBER_OF_REQUIRED_DATA_FOR_ATTENDANCE = 5;
     private static final int NUMBER_OF_REQUIRED_DATA_FOR_TRAINER = 5;
     private static final int NUMBER_OF_REQUIRED_DATA_FOR_GROUP = 3;
     private static final int NUMBER_OF_REQUIRED_DATA_FOR_TRAINING_UNIT = 3;
     private static final int NUMBER_OF_REQUIRED_DATA_FOR_ATHLETE = 5;
+    private static final String EMPTY_STRING = "";
 
     private final TriathlonClub club;
     private transient Activity activity;
@@ -105,7 +107,6 @@ public class LoadData implements Serializable {
                 loadGroupInformation(snapshot.child(GROUPS_CHILD_DATABASE));
                 loadAttendanceInformation(snapshot.child(ATTENDANCE_CHILD_DATABASE));
                 loadAdminInformation(snapshot.child(ADMINS_CHILD_DATABASE));
-                System.out.println(club.getNumberOfGroups());
 
                 notifyActivity();
             }
@@ -201,6 +202,7 @@ public class LoadData implements Serializable {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void loadTrainerInformation(DataSnapshot snapshot) {
         for (int i = 1; i <= this.numberOfTrainers; i++) {
             String trainerID = String.valueOf(i);
@@ -218,6 +220,7 @@ public class LoadData implements Serializable {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void loadAdminInformation(DataSnapshot snapshot) {
         String name = Objects.requireNonNull(snapshot.child(NAME).getValue()).toString();
         String surname = Objects.requireNonNull(snapshot.child(SURNAME).getValue()).toString();

@@ -46,7 +46,7 @@ public class GroupInformationFragment extends Fragment implements Serializable {
     //Intent's extras
     private TriathlonClub club;
     private LoadData loadData;
-    private String selectedGroup, signedUser;
+    private String selectedGroup, signedUser, sportSelection;
 
     private GroupInformationActivity activity;
     private LinearLayout expandableListOfMembers;
@@ -55,8 +55,6 @@ public class GroupInformationFragment extends Fragment implements Serializable {
     private List<String> dateOfAttendances, sportTypes;
     private final Map<String, List<String>> schedule;
     private Map<String, List<String>> timetable;
-    private AdapterOfExpendableAttendance adapterOfAttendance;
-    private AdapterOfExpendableTrainingUnits adapterOfTimetable;
     private ExpandableListView expandableAttendance, expandableTimetable;
 
     public GroupInformationFragment() {this.schedule = new HashMap<>(); }
@@ -81,6 +79,7 @@ public class GroupInformationFragment extends Fragment implements Serializable {
         this.club = (TriathlonClub) requireActivity().getIntent().getExtras().getSerializable(getString(R.string.TRIATHLON_CLUB_EXTRA));
         this.loadData = (LoadData) requireActivity().getIntent().getExtras().getSerializable(getString(R.string.LOAD_DATA_EXTRA));
         this.signedUser = requireActivity().getIntent().getExtras().getString(getString(R.string.SIGNED_USER_EXTRA));
+        this.sportSelection = requireActivity().getIntent().getExtras().getString(getString(R.string.SPORT_SELECTION_EXTRA));
         this.selectedGroup =  requireActivity().getIntent().getExtras().getString(getString(R.string.GROUP_NAME_EXTRA));
         this.initializeLayoutItems(view);
 
@@ -164,13 +163,13 @@ public class GroupInformationFragment extends Fragment implements Serializable {
 
     private void initializeExpandableAdapters() {
         //Creating adapter and setting it to the list of athletes.
-        this.adapterOfAttendance = new AdapterOfExpendableAttendance(this.activity, this.dateOfAttendances, this.schedule);
-        this.expandableAttendance.setAdapter(this.adapterOfAttendance);
+        AdapterOfExpendableAttendance adapterOfAttendance = new AdapterOfExpendableAttendance(this.activity, this.dateOfAttendances, this.schedule);
+        this.expandableAttendance.setAdapter(adapterOfAttendance);
         this.expandableAttendance.setGroupIndicator(null);
 
         //Creating adapter and setting it to the list of athletes.
-        this.adapterOfTimetable = new AdapterOfExpendableTrainingUnits(this.activity, this.sportTypes, this.timetable);
-        this.expandableTimetable.setAdapter(this.adapterOfTimetable);
+        AdapterOfExpendableTrainingUnits adapterOfTimetable = new AdapterOfExpendableTrainingUnits(this.activity, this.sportTypes, this.timetable);
+        this.expandableTimetable.setAdapter(adapterOfTimetable);
         this.expandableTimetable.setGroupIndicator(null);
     }
 
@@ -246,6 +245,7 @@ public class GroupInformationFragment extends Fragment implements Serializable {
         homePage.putExtra(getString(R.string.TRIATHLON_CLUB_EXTRA), this.club);
         homePage.putExtra(getString(R.string.LOAD_DATA_EXTRA), this.loadData);
         homePage.putExtra(getString(R.string.SIGNED_USER_EXTRA), this.signedUser);
+        homePage.putExtra(getString(R.string.SPORT_SELECTION_EXTRA), this.sportSelection);
         homePage.putExtra(getString(R.string.SELECTED_FRAGMENT_EXTRA), R.id.groupsFragment);
         startActivity(homePage);
     }
@@ -254,14 +254,4 @@ public class GroupInformationFragment extends Fragment implements Serializable {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_group_information, container, false);
     }
-
-    //@RequiresApi(api = Build.VERSION_CODES.O)
-    /*public void notifyAboutChange(TriathlonClub club) {
-        this.club = club;
-        this.initializeAttendanceDates();
-        this.adapterOfAttendance.notifyDataSetChanged();
-
-        this.initializeTrainingUnits();
-        this.adapterOfTimetable.notifyDataSetChanged();
-    }*/
 }

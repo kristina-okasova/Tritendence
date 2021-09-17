@@ -11,7 +11,8 @@ public class Trainer extends Member {
     private static final String TRAINERS_CHILD_DB = "Trainers";
     private static final String NUMBER_OF_TRAININGS = "NumberOfTrainings";
 
-    private final String email, sport;
+    private final String email;
+    private String sport;
     private int numberOfTrainings;
 
     public Trainer(int ID, String name, String surname, String email, String sport, int numberOfTrainings) {
@@ -69,5 +70,9 @@ public class Trainer extends Member {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference root = database.getReference();
         root.child(TRAINERS_CHILD_DB + "/" + this.ID + "/" + NUMBER_OF_TRAININGS).setValue(this.numberOfTrainings);
+    }
+
+    public String getSport() {
+        return this.sport;
     }
 }

@@ -43,7 +43,7 @@ public class AddGroupActivity extends AppCompatActivity implements TimePickerDia
     private TriathlonClub club;
     private LoadData loadData;
     private Group editGroup;
-    private String signedUser;
+    private String signedUser, sportSelection;
 
     //Layout's items
     private ConstraintLayout trainingUnitLayout;
@@ -75,6 +75,7 @@ public class AddGroupActivity extends AppCompatActivity implements TimePickerDia
         this.club = (TriathlonClub) getIntent().getExtras().getSerializable(getString(R.string.TRIATHLON_CLUB_EXTRA));
         this.editGroup = (Group) getIntent().getExtras().getSerializable(getString(R.string.EDIT_GROUP_EXTRA));
         this.signedUser = getIntent().getExtras().getString(getString(R.string.SIGNED_USER_EXTRA));
+        this.sportSelection = getIntent().getExtras().getString(getString(R.string.SPORT_SELECTION_EXTRA));
         this.loadData = (LoadData) getIntent().getExtras().getSerializable(getString(R.string.LOAD_DATA_EXTRA));
         this.initializeItemsOfLayout();
 
@@ -383,9 +384,10 @@ public class AddGroupActivity extends AppCompatActivity implements TimePickerDia
     private void loadGroupsPage() {
         //Creating new intent of Home Activity after creating new group.
         Intent groupsPage = new Intent(this, HomeActivity.class);
-        groupsPage.putExtra(getString(R.string.SIGNED_USER_EXTRA), signedUser);
+        groupsPage.putExtra(getString(R.string.SIGNED_USER_EXTRA), this.signedUser);
         groupsPage.putExtra(getString(R.string.TRIATHLON_CLUB_EXTRA), this.club);
-        groupsPage.putExtra(getString(R.string.LOAD_DATA_EXTRA), loadData);
+        groupsPage.putExtra(getString(R.string.LOAD_DATA_EXTRA), this.loadData);
+        groupsPage.putExtra(getString(R.string.SPORT_SELECTION_EXTRA), this.sportSelection);
         groupsPage.putExtra(getString(R.string.SELECTED_FRAGMENT_EXTRA), R.id.groupsFragment);
         startActivity(groupsPage);
         finish();
@@ -423,6 +425,7 @@ public class AddGroupActivity extends AppCompatActivity implements TimePickerDia
                 homePage.putExtra(getString(R.string.SIGNED_USER_EXTRA), signedUser);
                 homePage.putExtra(getString(R.string.TRIATHLON_CLUB_EXTRA), club);
                 homePage.putExtra(getString(R.string.LOAD_DATA_EXTRA), this.loadData);
+                homePage.putExtra(getString(R.string.SPORT_SELECTION_EXTRA), this.sportSelection);
                 homePage.putExtra(getString(R.string.SELECTED_FRAGMENT_EXTRA), item.getItemId());
                 startActivity(homePage);
                 finish();

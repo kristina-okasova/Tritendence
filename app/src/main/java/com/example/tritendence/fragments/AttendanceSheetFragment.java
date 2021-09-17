@@ -43,6 +43,7 @@ import java.util.Map;
 public class AttendanceSheetFragment extends Fragment {
     //Intent's extras
     private TriathlonClub club;
+    private String sportSelection;
     private Group group;
     private TrainingUnit unit;
     private String currentTrainersName;
@@ -68,6 +69,7 @@ public class AttendanceSheetFragment extends Fragment {
 
         //Getting extras of the intent.
         this.club = (TriathlonClub) requireActivity().getIntent().getExtras().getSerializable(getString(R.string.TRIATHLON_CLUB_EXTRA));
+        this.sportSelection = requireActivity().getIntent().getExtras().getString(getString(R.string.SPORT_SELECTION_EXTRA));
         this.group = (Group) requireActivity().getIntent().getExtras().getSerializable(getString(R.string.GROUP_EXTRA));
         this.unit = (TrainingUnit) requireActivity().getIntent().getExtras().getSerializable(getString(R.string.TRAINING_UNIT_EXTRA));
         this.currentTrainersName = requireActivity().getIntent().getExtras().getString(getString(R.string.SIGNED_USER_EXTRA));
@@ -148,6 +150,7 @@ public class AttendanceSheetFragment extends Fragment {
         Intent attendancePage = new Intent(getActivity(), HomeActivity.class);
         attendancePage.putExtra(getString(R.string.TRIATHLON_CLUB_EXTRA), this.club);
         attendancePage.putExtra(getString(R.string.SIGNED_USER_EXTRA), this.currentTrainersName);
+        attendancePage.putExtra(getString(R.string.SPORT_SELECTION_EXTRA), this.sportSelection);
         attendancePage.putExtra(getString(R.string.SELECTED_FRAGMENT_EXTRA), R.id.attendanceFragment);
         startActivity(attendancePage);
         requireActivity().finish();

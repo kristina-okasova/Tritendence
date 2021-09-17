@@ -2,11 +2,14 @@ package com.example.tritendence.model.users;
 
 public class Admin extends Member {
     private final String email;
+    private String sport;
     private final int numberOfTrainings;
+
     public Admin(int ID, String name, String surname, String email, int numberOfTrainings) {
         super(ID, name, surname);
         this.email = email;
         this.numberOfTrainings = numberOfTrainings;
+        this.sport = "";
     }
 
     public String getEmail() {
@@ -15,5 +18,9 @@ public class Admin extends Member {
 
     public int getNumberOfTrainings() {
         return this.numberOfTrainings;
+    }
+
+    public String getSport() {
+        return this.sport;
     }
 }

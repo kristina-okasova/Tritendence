@@ -5,6 +5,7 @@
     android:id="@+id/attendanceSheetActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:screenOrientation="portrait"
     tools:context=".activities.AttendanceSheetActivity"
     tools:menu="@menu/attendance_selection_menu">
 
