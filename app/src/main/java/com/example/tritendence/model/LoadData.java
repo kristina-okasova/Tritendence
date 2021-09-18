@@ -105,8 +105,8 @@ public class LoadData implements Serializable {
                 loadAthleteInformation(snapshot.child(ATHLETES_CHILD_DATABASE));
                 loadTrainerInformation(snapshot.child(TRAINERS_CHILD_DATABASE));
                 loadGroupInformation(snapshot.child(GROUPS_CHILD_DATABASE));
-                loadAttendanceInformation(snapshot.child(ATTENDANCE_CHILD_DATABASE));
                 loadAdminInformation(snapshot.child(ADMINS_CHILD_DATABASE));
+                loadAttendanceInformation(snapshot.child(ATTENDANCE_CHILD_DATABASE));
 
                 notifyActivity();
             }
@@ -256,7 +256,7 @@ public class LoadData implements Serializable {
                 attendedAthletes.add(athlete);
             }
 
-            Trainer trainer = (Trainer) this.findMember(nameOfTrainer);
+            Member trainer = this.findMember(nameOfTrainer);
             int groupID = Integer.parseInt(String.valueOf(date.charAt(date.length() - 1)));
             Group group = this.findGroup(groupID);
             AttendanceData data = new AttendanceData(group, sport, trainer, attendedAthletes, date, note);
@@ -265,7 +265,7 @@ public class LoadData implements Serializable {
             for (int j = 0; j < numberOfExtraTrainers; j++) {
                 trainerID = ATTENDANCE_TRAINER + String.valueOf(j + 2);
                 nameOfTrainer = Objects.requireNonNull(snapshot.child(attendanceID).child(trainerID).getValue()).toString();
-                trainer = (Trainer) this.findMember(nameOfTrainer);
+                trainer = this.findMember(nameOfTrainer);
                 data.addTrainer(trainer);
             }
 

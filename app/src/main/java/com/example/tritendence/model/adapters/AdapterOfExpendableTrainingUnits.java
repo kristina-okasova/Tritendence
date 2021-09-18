@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+//Adapter for expandable list of training units of selected group.
 public class AdapterOfExpendableTrainingUnits extends BaseExpandableListAdapter {
     private final Activity context;
     private final Map<String, List<String>> timetable;
@@ -27,6 +28,7 @@ public class AdapterOfExpendableTrainingUnits extends BaseExpandableListAdapter 
         this.timetable = timetable;
     }
 
+    //Getters for counts.
     @Override
     public int getGroupCount() {
         return this.timetable.size();
@@ -35,12 +37,14 @@ public class AdapterOfExpendableTrainingUnits extends BaseExpandableListAdapter 
     @Override
     public int getChildrenCount(int groupPosition) {
         int numberOfChildren = Objects.requireNonNull(this.timetable.get(this.sportTypes.get(groupPosition))).size();
+        //Displaying Toast when there are no children in the group to be displayed.
         if (numberOfChildren == 0)
             Toast.makeText(this.context, this.context.getString(R.string.NO_TRAININGS_IN_CATEGORY), Toast.LENGTH_LONG).show();
 
         return numberOfChildren;
     }
 
+    //Getters for specific object of expandable list.
     @Override
     public Object getGroup(int groupPosition) {
         return this.sportTypes.get(groupPosition);
@@ -51,6 +55,7 @@ public class AdapterOfExpendableTrainingUnits extends BaseExpandableListAdapter 
         return Objects.requireNonNull(this.timetable.get(this.sportTypes.get(groupPosition))).get(childPosition);
     }
 
+    //Getters for IDs of objects of expandable list.
     @Override
     public long getGroupId(int groupPosition) {
         return groupPosition;
@@ -69,12 +74,16 @@ public class AdapterOfExpendableTrainingUnits extends BaseExpandableListAdapter 
     @SuppressLint("InflateParams")
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+        //Getting type of sport.
         String sportData = this.sportTypes.get(groupPosition);
+
+        //Creating new view of pre-defined layout.
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.group_data_in_expandable_list_view, null);
         }
 
+        //Setting text to the created view.
         TextView sportType = convertView.findViewById(R.id.data);
         sportType.setText(sportData);
 
@@ -84,15 +93,19 @@ public class AdapterOfExpendableTrainingUnits extends BaseExpandableListAdapter 
     @SuppressLint("InflateParams")
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        String athlete = Objects.requireNonNull(this.timetable.get(this.sportTypes.get(groupPosition))).get(childPosition);
+        //Getting data about specific training unit.
+        String trainingUnitData = Objects.requireNonNull(this.timetable.get(this.sportTypes.get(groupPosition))).get(childPosition);
 
+        //Creating new view of pre-defined layout.
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.child_data_in_expandable_list_view, null);
         }
 
-        TextView athleteName = convertView.findViewById(R.id.data);
-        athleteName.setText(athlete);
+        //Setting text to the created view.
+        TextView trainingUnitText = convertView.findViewById(R.id.data);
+        trainingUnitText.setText(trainingUnitData);
+
         return convertView;
     }
 

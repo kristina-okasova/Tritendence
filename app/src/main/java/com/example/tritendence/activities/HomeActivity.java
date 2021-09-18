@@ -199,6 +199,10 @@ public class HomeActivity extends AppCompatActivity {
         this.sportSelection = sportSelection;
     }
 
+    public String getSportSelection() {
+        return this.sportSelection;
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @SuppressLint("NonConstantResourceId")
     public void notifyAboutChange(TriathlonClub club) {

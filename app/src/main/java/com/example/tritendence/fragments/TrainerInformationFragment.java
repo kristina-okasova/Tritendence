@@ -61,7 +61,7 @@ public class TrainerInformationFragment extends Fragment {
         ArrayList<HashMap<String, Object>> dataForListOfTrainings = new ArrayList<>();
         //Creating hashmap consisting of the trainer's attendance data.
         for (AttendanceData attendanceData : this.club.getAttendanceData()) {
-            for (Trainer trainer : attendanceData.getTrainers()) {
+            for (Member trainer : attendanceData.getTrainers()) {
                 if (trainer.getFullName().equals(this.selectedTrainer)) {
                     HashMap<String, Object> mappedData = new HashMap<>();
 

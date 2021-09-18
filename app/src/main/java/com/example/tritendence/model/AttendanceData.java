@@ -3,10 +3,10 @@ package com.example.tritendence.model;
 import android.os.Build;
 
 import androidx.annotation.RequiresApi;
-import androidx.fragment.app.FragmentContainerView;
 
 import com.example.tritendence.model.groups.Group;
 import com.example.tritendence.model.users.Athlete;
+import com.example.tritendence.model.users.Member;
 import com.example.tritendence.model.users.Trainer;
 
 import java.io.Serializable;
@@ -35,13 +35,13 @@ public class AttendanceData implements Serializable {
     private final String sport;
     private String note;
     private final Group group;
-    private final ArrayList<Trainer> trainers;
+    private final ArrayList<Member> trainers;
     private final ArrayList<Athlete> attendedAthletes;
     private LocalDate date;
     private LocalTime time;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public AttendanceData(Group group, String sport, Trainer trainer, ArrayList<Athlete> attendedAthletes, String data, String note) {
+    public AttendanceData(Group group, String sport, Member trainer, ArrayList<Athlete> attendedAthletes, String data, String note) {
         this.group = group;
         this.sport = sport;
         this.attendedAthletes = attendedAthletes;
@@ -87,7 +87,7 @@ public class AttendanceData implements Serializable {
         return this.attendedAthletes;
     }
 
-    public Trainer getTrainer(int index) {
+    public Member getTrainer(int index) {
         return this.trainers.get(index);
     }
 
@@ -136,7 +136,7 @@ public class AttendanceData implements Serializable {
         }
     }
 
-    public void addTrainer(Trainer trainer) {
+    public void addTrainer(Member trainer) {
         this.trainers.add(trainer);
     }
 
@@ -154,7 +154,7 @@ public class AttendanceData implements Serializable {
         return this.trainers.size();
     }
 
-    public ArrayList<Trainer> getTrainers() {
+    public ArrayList<Member> getTrainers() {
         return this.trainers;
     }
 }

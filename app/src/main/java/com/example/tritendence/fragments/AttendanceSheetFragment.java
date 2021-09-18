@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.example.tritendence.R;
 import com.example.tritendence.activities.HomeActivity;
+import com.example.tritendence.model.LoadData;
 import com.example.tritendence.model.TrainingUnit;
 import com.example.tritendence.model.TriathlonClub;
 import com.example.tritendence.model.groups.Group;
@@ -37,12 +38,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 public class AttendanceSheetFragment extends Fragment {
     //Intent's extras
     private TriathlonClub club;
+    private LoadData loadData;
     private String sportSelection;
     private Group group;
     private TrainingUnit unit;
@@ -69,6 +72,7 @@ public class AttendanceSheetFragment extends Fragment {
 
         //Getting extras of the intent.
         this.club = (TriathlonClub) requireActivity().getIntent().getExtras().getSerializable(getString(R.string.TRIATHLON_CLUB_EXTRA));
+        this.loadData = (LoadData) requireActivity().getIntent().getExtras().getSerializable(getString(R.string.LOAD_DATA_EXTRA));
         this.sportSelection = requireActivity().getIntent().getExtras().getString(getString(R.string.SPORT_SELECTION_EXTRA));
         this.group = (Group) requireActivity().getIntent().getExtras().getSerializable(getString(R.string.GROUP_EXTRA));
         this.unit = (TrainingUnit) requireActivity().getIntent().getExtras().getSerializable(getString(R.string.TRAINING_UNIT_EXTRA));
@@ -149,6 +153,7 @@ public class AttendanceSheetFragment extends Fragment {
         //Creating intent of Home Activity to return to home page after confirming group's attendance.
         Intent attendancePage = new Intent(getActivity(), HomeActivity.class);
         attendancePage.putExtra(getString(R.string.TRIATHLON_CLUB_EXTRA), this.club);
+        attendancePage.putExtra(getString(R.string.LOAD_DATA_EXTRA), this.loadData);
         attendancePage.putExtra(getString(R.string.SIGNED_USER_EXTRA), this.currentTrainersName);
         attendancePage.putExtra(getString(R.string.SPORT_SELECTION_EXTRA), this.sportSelection);
         attendancePage.putExtra(getString(R.string.SELECTED_FRAGMENT_EXTRA), R.id.attendanceFragment);
@@ -196,6 +201,7 @@ public class AttendanceSheetFragment extends Fragment {
             attendanceData.put(String.valueOf(number), athlete.getFullName());
             number++;
         }
+        attendanceData = this.analyzeNote(noteText, attendanceData, number);
         //Creating date format consisting of date of the attendance, time of the training unit and group ID.
         String dateInformation = String.valueOf(this.date.getYear()) + String.valueOf(dateFormat.format(this.date.getMonthValue())) + String.valueOf(dateFormat.format(this.date.getDayOfMonth())) + "_" + this.unit.getTime() + "_" + this.group.getID();
 
@@ -218,6 +224,22 @@ public class AttendanceSheetFragment extends Fragment {
             root.child(getString(R.string.ATTENDANCE_CHILD_DB) + "/" + getString(R.string.FIRST_CHILD_DB)).removeValue();
 
         this.addTrainingToTrainers(trainersNames);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private Map<String, String> analyzeNote(String note, Map<String, String> attendanceData, int number) {
+        ArrayList<String> wordsOfNote = new ArrayList<>(Arrays.asList(note.split(getString(R.string.SPACE))));
+        for (int i = 1; i < wordsOfNote.size(); i++) {
+            String word = wordsOfNote.get(i);
+            for (Member athlete : this.club.getAthletesSortedByAlphabet()) {
+                if (athlete.getSurname().equals(word) && athlete.getName().equals(wordsOfNote.get(i-1))) {
+                    attendanceData.put(String.valueOf(number), athlete.getFullName());
+                    number++;
+                }
+            }
+        }
+
+        return attendanceData;
     }
 
     private void addTrainingToTrainers(ArrayList<String> trainersNames) {

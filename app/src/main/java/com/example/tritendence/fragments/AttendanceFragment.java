@@ -39,13 +39,12 @@ public class AttendanceFragment extends Fragment {
     //Intent's extras
     private TriathlonClub club;
     private LoadData loadData;
-    private String signedUser, sportSelection;
+    private String signedUser, sportSelection = null;
 
     private HomeActivity activity;
     private List<String> daysOfTheWeek;
     private final Map<String, List<String>> timetable;
     private ExpandableListView expandableTimetable;
-    private Member signedTrainer;
 
     public AttendanceFragment() {
         this.timetable = new HashMap<>();
@@ -71,11 +70,12 @@ public class AttendanceFragment extends Fragment {
         this.club = (TriathlonClub) requireActivity().getIntent().getExtras().getSerializable(getString(R.string.TRIATHLON_CLUB_EXTRA));
         this.loadData = (LoadData) requireActivity().getIntent().getExtras().getSerializable(getString(R.string.LOAD_DATA_EXTRA));
         this.signedUser = requireActivity().getIntent().getExtras().getString(getString(R.string.SIGNED_USER_EXTRA));
+        System.out.println(this.sportSelection + " selection");
         if (this.sportSelection == null)
             this.sportSelection = requireActivity().getIntent().getExtras().getString(getString(R.string.SPORT_SELECTION_EXTRA));
 
         //Finding signed trainer by name and initializing timetable.
-        this.signedTrainer = this.findCurrentUser();
+        Member signedTrainer = this.findCurrentUser();
         this.initializeTimetable();
         this.initializeCurrentWeek(view);
 
@@ -144,6 +144,7 @@ public class AttendanceFragment extends Fragment {
     }
 
     public void addGroups(String sport) {
+        System.out.println(sport);
         //Adding groups to expandable timetable determined by current sport selection.
         for (Group group : this.club.getGroupsOfClub()) {
             for (TrainingUnit unit : group.getTimetable()) {
