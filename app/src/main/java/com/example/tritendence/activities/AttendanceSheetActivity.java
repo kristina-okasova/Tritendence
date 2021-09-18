@@ -1,14 +1,17 @@
 package com.example.tritendence.activities;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentContainerView;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.example.tritendence.R;
 import com.example.tritendence.fragments.AttendanceSheetFragment;
@@ -98,6 +101,8 @@ public class AttendanceSheetActivity extends AppCompatActivity {
                 return true;
             };
 
+    @SuppressLint("UseCompatLoadingForDrawables")
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void addTrainerSelection(View view) {
         //Add new trainer's spinner for selection of the second trainer.
         ConstraintLayout secondTrainer = findViewById(R.id.secondTrainerSelection);
@@ -108,12 +113,25 @@ public class AttendanceSheetActivity extends AppCompatActivity {
             return;
         }
 
-        //Add new trainer's spinner for selection of the second trainer.
+        //Add new trainer's spinner for selection of the third trainer.
         ConstraintLayout thirdTrainer = findViewById(R.id.thirdTrainerSelection);
         if (thirdTrainer.getVisibility() == View.GONE) {
             thirdTrainer.setVisibility(View.VISIBLE);
             this.attendanceSheetFragment.addTrainersNames(findViewById(R.id.thirdTrainersName));
+
+            ImageView addTrainerIcon = view.findViewById(R.id.addTrainerIcon);
+            addTrainerIcon.setImageDrawable(getDrawable(R.drawable.remove_icon));
             findViewById(R.id.attendanceSheetLayout).invalidate();
+            return;
+        }
+
+        //Remove spinners for selection of second and third trainers.
+        if (secondTrainer.getVisibility() == View.VISIBLE && thirdTrainer.getVisibility() == View.VISIBLE) {
+            secondTrainer.setVisibility(View.GONE);
+            thirdTrainer.setVisibility(View.GONE);
+
+            ImageView addTrainerIcon = view.findViewById(R.id.addTrainerIcon);
+            addTrainerIcon.setImageDrawable(getDrawable(R.drawable.add_icon));
         }
     }
 }
