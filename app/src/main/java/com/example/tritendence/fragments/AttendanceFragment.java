@@ -9,6 +9,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
@@ -45,6 +46,7 @@ public class AttendanceFragment extends Fragment {
     private List<String> daysOfTheWeek;
     private final Map<String, List<String>> timetable;
     private ExpandableListView expandableTimetable;
+    private AdapterOfExpendableList adapterOfTimetable;
 
     public AttendanceFragment() {
         this.timetable = new HashMap<>();
@@ -84,7 +86,7 @@ public class AttendanceFragment extends Fragment {
 
         //Adding data to expandable timetable and setting on group expand listener.
         this.expandableTimetable = view.findViewById(R.id.timetable);
-        this.updateExpandableTimetable();
+        this.initializeExpandableTimetable();
 
         this.expandableTimetable.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
             int previousGroup = -1;
@@ -137,14 +139,15 @@ public class AttendanceFragment extends Fragment {
         currentWeek.setText(String.format("%s %d", getString(R.string.WEEK), this.club.getNumberOfWeek()));
     }
 
-    public void updateExpandableTimetable() {
+    public void initializeExpandableTimetable() {
         //Creating adapter and setting it to the expandable list of attendance.
-        this.expandableTimetable.setAdapter(new AdapterOfExpendableList(this.activity, this.daysOfTheWeek, this.timetable, this.club, this.loadData));
+        System.out.println(this.expandableTimetable.getAdapter() + " " + this.adapterOfTimetable);
+        this.adapterOfTimetable = new AdapterOfExpendableList(this.activity, this.daysOfTheWeek, this.timetable, this.club, this.loadData);
+        this.expandableTimetable.setAdapter(this.adapterOfTimetable);
         this.expandableTimetable.setGroupIndicator(null);
     }
 
     public void addGroups(String sport) {
-        System.out.println(sport);
         //Adding groups to expandable timetable determined by current sport selection.
         for (Group group : this.club.getGroupsOfClub()) {
             for (TrainingUnit unit : group.getTimetable()) {
@@ -230,7 +233,7 @@ public class AttendanceFragment extends Fragment {
         this.activity.updateSportSelection(this.sportSelection);
 
         //Updating timetable of the training units.
-        this.updateExpandableTimetable();
+        this.initializeExpandableTimetable();
         return super.onOptionsItemSelected(item);
     }
 
@@ -247,6 +250,5 @@ public class AttendanceFragment extends Fragment {
         //Updating values displayed in the timetable.
         this.initializeTimetable();
         this.addGroups(this.sportSelection);
-        this.updateExpandableTimetable();
     }
 }

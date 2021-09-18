@@ -81,6 +81,7 @@
             android:layout_height="wrap_content"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/firstTrainerSelection">
 
@@ -88,14 +89,26 @@
                 android:id="@+id/secondTrainersName"
                 style="@style/spinnerStyle"
                 android:layout_width="250dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginLeft="20dp"
                 android:layout_marginTop="5dp"
-                android:layout_marginLeft="10dp"
                 android:dropDownWidth="250dp"
                 android:theme="@style/attendanceChooseTrainerStyle"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/imageView4"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="RtlHardcoded" />
+
+            <ImageView
+                android:id="@+id/imageView4"
+                style="@style/enumerationIconStyle"
+                android:layout_width="50dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginRight="20dp"
+                android:contentDescription="@string/ADD_DESCRIPTION"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -112,14 +125,26 @@
                 android:id="@+id/thirdTrainersName"
                 style="@style/spinnerStyle"
                 android:layout_width="250dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginLeft="20dp"
                 android:layout_marginTop="5dp"
-                android:layout_marginLeft="10dp"
                 android:dropDownWidth="250dp"
                 android:theme="@style/attendanceChooseTrainerStyle"
+                app:layout_constraintEnd_toStartOf="@+id/imageView5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="RtlHardcoded" />
+
+            <ImageView
+                android:id="@+id/imageView5"
+                style="@style/enumerationIconStyle"
+                android:layout_width="50dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginRight="20dp"
+                android:contentDescription="@string/ADD_DESCRIPTION"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.example.tritendence.R;
 import com.example.tritendence.fragments.AthletesFragment;
 import com.example.tritendence.fragments.AttendanceFragment;
+import com.example.tritendence.fragments.AttendanceSheetFragment;
 import com.example.tritendence.fragments.GroupsFragment;
 import com.example.tritendence.fragments.ProfileFragment;
 import com.example.tritendence.fragments.TrainersFragment;
@@ -69,29 +70,29 @@ public class HomeActivity extends AppCompatActivity {
         int selectedItemID = getIntent().getExtras().getInt(getString(R.string.SELECTED_FRAGMENT_EXTRA));
         switch (selectedItemID) {
             case R.id.attendanceFragment:
-                selectedFragment = this.attendanceFragment;
+                this.selectedFragment = this.attendanceFragment;
                 break;
             case R.id.groupsFragment:
-                selectedFragment = this.groupsFragment;
+                this.selectedFragment = this.groupsFragment;
                 break;
             case R.id.profileFragment:
-                selectedFragment = this.profileFragment;
+                this.selectedFragment = this.profileFragment;
                 break;
             case R.id.athletesFragment:
-                selectedFragment = this.athletesFragment;
+                this.selectedFragment = this.athletesFragment;
                 break;
             case R.id.trainersFragment:
-                selectedFragment = this.trainersFragment;
+                this.selectedFragment = this.trainersFragment;
                 break;
             default:
-                selectedFragment = this.attendanceFragment;
+                this.selectedFragment = this.attendanceFragment;
         }
         //Setting currently selected navigation item and navigation listener.
         this.navigation.setSelectedItemId(selectedItemID);
         this.navigation.setOnNavigationItemSelectedListener(navigationListener);
 
         //Attaching fragment to the activity.
-        getSupportFragmentManager().beginTransaction().replace(R.id.homeFragment, selectedFragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.homeFragment, this.selectedFragment).commit();
     }
 
     private void findTypeOfSignedUser() {
