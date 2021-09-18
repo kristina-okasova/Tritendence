@@ -212,6 +212,7 @@ public class AdapterOfExpendableList extends BaseExpandableListAdapter {
         filledAttendanceSheetPage.putExtra(this.context.getString(R.string.LOAD_DATA_EXTRA), this.loadData);
         filledAttendanceSheetPage.putExtra(this.context.getString(R.string.SPORT_SELECTION_EXTRA), ((HomeActivity) this.context).getSportSelection());
         filledAttendanceSheetPage.putExtra(this.context.getString(R.string.ATTENDANCE_DATA_EXTRA), attendanceData);
+        filledAttendanceSheetPage.putExtra(this.context.getString(R.string.TRAINING_UNIT_EXTRA), selectedUnit);
         context.startActivity(filledAttendanceSheetPage);
         context.finish();
     }

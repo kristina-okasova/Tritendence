@@ -1,9 +1,11 @@
 package com.example.tritendence.activities;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
@@ -11,6 +13,7 @@ import com.example.tritendence.R;
 import com.example.tritendence.fragments.FilledAttendanceSheetFragment;
 import com.example.tritendence.model.AttendanceData;
 import com.example.tritendence.model.LoadData;
+import com.example.tritendence.model.TrainingUnit;
 import com.example.tritendence.model.TriathlonClub;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -64,8 +67,10 @@ public class FilledAttendanceSheetActivity extends AppCompatActivity {
                 return true;
             };
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void editAttendanceSheet(View view) {
         AttendanceData attendanceData = (AttendanceData) getIntent().getExtras().getSerializable(getString(R.string.ATTENDANCE_DATA_EXTRA));
+        TrainingUnit unit = (TrainingUnit) getIntent().getExtras().getSerializable(getString(R.string.TRAINING_UNIT_EXTRA));
 
         //Creating new intent of Attendance Sheet Activity to edit attendance data.
         Intent attendancePage = new Intent(this, AttendanceSheetActivity.class);
@@ -73,6 +78,10 @@ public class FilledAttendanceSheetActivity extends AppCompatActivity {
         attendancePage.putExtra(getString(R.string.TRIATHLON_CLUB_EXTRA), this.club);
         attendancePage.putExtra(getString(R.string.LOAD_DATA_EXTRA), this.loadData);
         attendancePage.putExtra(getString(R.string.ATTENDANCE_DATA_EXTRA), attendanceData);
+        attendancePage.putExtra(getString(R.string.SPORT_SELECTION_EXTRA), this.sportSelection);
+        attendancePage.putExtra(getString(R.string.GROUP_EXTRA), attendanceData.getGroup());
+        attendancePage.putExtra(getString(R.string.TRAINING_UNIT_EXTRA), unit);
+        attendancePage.putExtra(getString(R.string.DATE_EXTRA), attendanceData.getLocalDate());
         startActivity(attendancePage);
         finish();
     }

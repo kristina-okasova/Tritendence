@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.example.tritendence.R;
 import com.example.tritendence.activities.HomeActivity;
+import com.example.tritendence.model.AttendanceData;
 import com.example.tritendence.model.LoadData;
 import com.example.tritendence.model.TrainingUnit;
 import com.example.tritendence.model.TriathlonClub;
@@ -51,6 +52,7 @@ public class AttendanceSheetFragment extends Fragment {
     private TrainingUnit unit;
     private String currentTrainersName;
     private LocalDate date;
+    private AttendanceData attendanceData;
 
     //Layout's items
     private ConstraintLayout secondTrainerLayout, thirdTrainerLayout;
@@ -59,6 +61,9 @@ public class AttendanceSheetFragment extends Fragment {
     private AutoCompleteTextView note;
     private TextView trainingData, nameOfGroup;
     private Button confirmation;
+
+    private ArrayList<String> membersOfGroup;
+    private ArrayAdapter<String> adapterListView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -78,13 +83,18 @@ public class AttendanceSheetFragment extends Fragment {
         this.unit = (TrainingUnit) requireActivity().getIntent().getExtras().getSerializable(getString(R.string.TRAINING_UNIT_EXTRA));
         this.currentTrainersName = requireActivity().getIntent().getExtras().getString(getString(R.string.SIGNED_USER_EXTRA));
         this.date = (LocalDate) requireActivity().getIntent().getExtras().getSerializable(getString(R.string.DATE_EXTRA));
+        this.attendanceData = (AttendanceData) requireActivity().getIntent().getExtras().getSerializable(getString(R.string.ATTENDANCE_DATA_EXTRA));
         this.initializeLayoutItems(view);
 
         //Filling attendance sheet information.
         trainingData.setText(String.format("%s\n%s - %s", this.unit.getSportTranslation(), this.unit.getDay(), this.unit.getTime()));
         nameOfGroup.setText(this.group.getName());
         this.addTrainersNames(this.firstTrainersName);
-        this.fillAttendedAthletes(view);
+        this.fillAttendedAthletes();
+
+        System.out.println(this.attendanceData);
+        if (this.attendanceData != null)
+            this.fillAttendanceSheetInformation();
     }
 
     private void initializeLayoutItems(View view) {
@@ -124,11 +134,11 @@ public class AttendanceSheetFragment extends Fragment {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private void fillAttendedAthletes(View view) {
+    private void fillAttendedAthletes() {
         //Getting list of attended athletes, creating adapter and setting it to the list of attended athletes.
-        ArrayList<String> membersOfGroup = this.group.getNamesOfAthletesOfGroup();
-        ArrayAdapter<String> adapterListView = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_multiple_choice, membersOfGroup);
-        this.attendanceSheet.setAdapter(adapterListView);
+        this.membersOfGroup = this.group.getNamesOfAthletesOfGroup();
+        this.adapterListView = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_multiple_choice, this.membersOfGroup);
+        this.attendanceSheet.setAdapter(this.adapterListView);
 
         //Setting on click listener to attendance confirmation button.
         this.confirmation.setOnClickListener(v -> {
@@ -147,6 +157,55 @@ public class AttendanceSheetFragment extends Fragment {
             Toast.makeText(getActivity(), getString(R.string.ATTENDANCE_SUCCESS), Toast.LENGTH_LONG).show();
             loadAttendancePage();
         });
+    }
+
+    private void fillAttendanceSheetInformation() {
+        //Setting selection of the first spinner to the first trainer of the filled attendance sheet.
+        if (this.attendanceData.getNumberOfTrainers() >= 1) {
+            for (int i = 0; i < this.firstTrainersName.getChildCount(); i++) {
+                if (attendanceData.getTrainer(0).getFullName().equals(this.firstTrainersName.getItemAtPosition(i).toString()))
+                    this.firstTrainersName.setSelection(i);
+            }
+        }
+
+        //Setting selection of the second spinner to the second trainer of the filled attendance sheet.
+        if (this.attendanceData.getNumberOfTrainers() >= 2) {
+            for (int i = 0; i < this.secondTrainersName.getChildCount(); i++) {
+                if (attendanceData.getTrainer(1).getFullName().equals(this.secondTrainersName.getItemAtPosition(i).toString()))
+                    this.secondTrainersName.setSelection(i);
+            }
+        }
+
+        //Setting selection of the third spinner to the third trainer of the filled attendance sheet.
+        if (this.attendanceData.getNumberOfTrainers() >= 3) {
+            for (int i = 0; i < this.thirdTrainersName.getChildCount(); i++) {
+                if (attendanceData.getTrainer(2).getFullName().equals(this.thirdTrainersName.getItemAtPosition(i).toString()))
+                    this.thirdTrainersName.setSelection(i);
+            }
+        }
+
+        //Setting attended athletes of the filled attendance sheet in the list of athletes to true.
+        boolean athleteInList;
+        for (Athlete attendedAthlete : this.attendanceData.getAttendedAthletes()) {
+            athleteInList = false;
+            //Looking for attended athlete in the list of athletes of the group.
+            for (int i = 0; i < this.attendanceSheet.getChildCount(); i++) {
+                if (attendedAthlete.getFullName().equals(this.attendanceSheet.getItemAtPosition(i).toString())) {
+                    this.attendanceSheet.setItemChecked(i, true);
+                    athleteInList = true;
+                }
+            }
+
+            //If the attended athlete is not find in the list of athletes of the group it is added to the list and checked true.
+            if (!athleteInList) {
+                this.membersOfGroup.add(attendedAthlete.getFullName());
+                this.adapterListView.notifyDataSetChanged();
+                this.attendanceSheet.setItemChecked(this.attendanceSheet.getChildCount() - 1, true);
+            }
+        }
+
+        //Setting note of the filled attendance sheet.
+        this.note.setText(this.attendanceData.getNote());
     }
 
     private void loadAttendancePage() {

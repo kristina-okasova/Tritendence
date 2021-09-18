@@ -7,7 +7,6 @@ import androidx.annotation.RequiresApi;
 import com.example.tritendence.model.groups.Group;
 import com.example.tritendence.model.users.Athlete;
 import com.example.tritendence.model.users.Member;
-import com.example.tritendence.model.users.Trainer;
 
 import java.io.Serializable;
 import java.time.LocalDate;

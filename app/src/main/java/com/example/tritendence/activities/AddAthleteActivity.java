@@ -33,7 +33,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-//Activity responsible for adding new athlete to club.
 public class AddAthleteActivity extends AppCompatActivity {
     //Intent's extras
     private TriathlonClub club;

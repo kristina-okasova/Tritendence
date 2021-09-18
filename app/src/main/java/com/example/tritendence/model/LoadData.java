@@ -6,17 +6,8 @@ import android.os.Build;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
-import com.example.tritendence.activities.AddAthleteActivity;
-import com.example.tritendence.activities.AddGroupActivity;
-import com.example.tritendence.activities.AthleteInformationActivity;
-import com.example.tritendence.activities.AttendanceSheetActivity;
-import com.example.tritendence.activities.EditAttendanceSheetActivity;
-import com.example.tritendence.activities.FilledAttendanceSheetActivity;
-import com.example.tritendence.activities.GroupInformationActivity;
 import com.example.tritendence.activities.HomeActivity;
 import com.example.tritendence.activities.LogInActivity;
-import com.example.tritendence.activities.RegistrationActivity;
-import com.example.tritendence.activities.TrainerInformationActivity;
 import com.example.tritendence.model.groups.Group;
 import com.example.tritendence.model.users.Admin;
 import com.example.tritendence.model.users.Athlete;
@@ -31,7 +22,6 @@ import com.google.firebase.database.ValueEventListener;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
-import java.util.concurrent.CountDownLatch;
 
 public class LoadData implements Serializable {
     private static final String GROUPS_CHILD_DATABASE = "Groups";
