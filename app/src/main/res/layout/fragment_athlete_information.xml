@@ -97,7 +97,7 @@
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:tint="@color/middle_red"
+            app:tint="?attr/colorSecondary"
             tools:ignore="OnClick,UsingOnClickInXml" />
 
         <ImageView
@@ -113,7 +113,7 @@
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/editAthleteIcon"
-            app:tint="@color/middle_red"
+            app:tint="?attr/colorSecondary"
             tools:ignore="OnClick,UsingOnClickInXml" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

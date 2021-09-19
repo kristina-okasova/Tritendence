@@ -17,7 +17,7 @@
         <item name="android:ems">10</item>
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">?attr/colorOnPrimary</item>
-        <item name="android:textColorHint">#66E6E6E6</item>
+        <item name="android:textColorHint">?attr/colorOnSurface</item>
         <item name="android:backgroundTint" tools:targetApi="lollipop">?attr/colorOnPrimary</item>
     </style>
 
@@ -38,6 +38,7 @@
     <style name="switchStyle" parent="Theme.DarkRed">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">?attr/colorOnPrimary</item>
     </style>
 
     <style name="fragmentStyle" parent="Theme.DarkRed">
@@ -60,6 +61,7 @@
         <item name="android:gravity">center</item>
         <item name="android:padding">5dp</item>
         <item name="android:textSize">16sp</item>
+        <item name="android:textColor">?attr/colorOnPrimary</item>
     </style>
 
     <style name="enumerationIconStyle" parent="Theme.DarkRed">
@@ -139,6 +141,7 @@
         <item name="android:textSize">16sp</item>
         <item name="android:padding">5dp</item>
         <item name="android:gravity">center</item>
+        <item name="android:textColor">?attr/colorOnPrimary</item>
     </style>
 
     <style name="headingStyle" parent="Widget.MaterialComponents.TextView">
@@ -155,7 +158,7 @@
         <item name="android:layout_marginTop">20dp</item>
         <item name="android:layout_marginLeft">40dp</item>
         <item name="android:textSize">16sp</item>
-        <item name="android:textColor">#E6E6E6E6</item>
+        <item name="android:textColor">?attr/colorOnPrimary</item>
     </style>
 
     <style name="informationInputStyle" parent="Widget.MaterialComponents.TextView">
@@ -177,5 +180,11 @@
 
     <style name="optionMenuStyle" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:panelFullBackground">#000000</item>
+    </style>
+
+    <style name="pickerStyle" parent="@android:style/Theme.Holo.Light.Dialog.NoActionBar" tools:targetApi="honeycomb">
+        <item name="android:textColor">?attr/colorOnPrimary</item>
+        <item name="android:background">?attr/colorOnBackground</item>
+        <item name="android:textColorPrimary">?attr/colorOnPrimary</item>
     </style>
 </resources>

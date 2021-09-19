@@ -6,8 +6,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:screenOrientation="portrait"
-    android:background="#17252a"
-    tools:context=".activities.LogInActivity">
+    android:background="?attr/colorOnBackground"
+    android:navigationBarColor="?attr/colorPrimary"
+    tools:context=".activities.LogInActivity"
+    tools:targetApi="lollipop">
 
     <ImageView
         android:id="@+id/imageView2"
@@ -22,7 +24,6 @@
         android:id="@+id/emailSignIn"
         style="@style/textViewBasicStyle"
         android:autofillHints="@string/EMAIL"
-        android:backgroundTint="#DEF2F1"
         android:hint="@string/EMAIL"
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
@@ -35,7 +36,6 @@
         style="@style/textViewBasicStyle"
         android:layout_marginTop="32dp"
         android:autofillHints="@string/PASSWORD"
-        android:backgroundTint="#DEF2F1"
         android:hint="@string/PASSWORD"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"

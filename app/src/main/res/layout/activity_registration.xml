@@ -5,8 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:screenOrientation="portrait"
-    android:background="#17252a"
-    tools:context=".activities.RegistrationActivity">
+    android:background="?attr/colorOnBackground"
+    android:navigationBarColor="?attr/colorPrimary"
+    tools:context=".activities.RegistrationActivity"
+    tools:targetApi="lollipop">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/sportSwitch"

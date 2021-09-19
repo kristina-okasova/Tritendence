@@ -6,7 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:screenOrientation="portrait"
-    tools:context=".activities.AddGroupActivity">
+    android:navigationBarColor="?attr/colorPrimary"
+    tools:context=".activities.AddGroupActivity"
+    tools:targetApi="lollipop">
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
@@ -148,7 +150,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/placeOfTraining"
                     app:srcCompat="@drawable/time_icon"
-                    app:tint="@color/middle_red"
+                    app:tint="?attr/colorSecondary"
                     tools:ignore="UsingOnClickInXml,VectorDrawableCompat" />
 
                 <TextView
@@ -186,7 +188,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/addTrainingUnit"
                 app:srcCompat="@drawable/add_circle_icon"
-                app:tint="@color/middle_red"
+                app:tint="?attr/colorSecondary"
                 tools:ignore="UsingOnClickInXml,VectorDrawableCompat" />
 
             <TextView

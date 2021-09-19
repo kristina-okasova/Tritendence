@@ -1,5 +1,6 @@
 package com.example.tritendence.model;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
@@ -30,6 +31,6 @@ public class TimePicker extends DialogFragment {
             this.minute = calendar.get(Calendar.MINUTE);
         }
 
-        return new TimePickerDialog(getActivity(), (TimePickerDialog.OnTimeSetListener) getActivity(), this.hour, this.minute, DateFormat.is24HourFormat(getActivity()));
+        return new TimePickerDialog(getActivity(), AlertDialog.THEME_DEVICE_DEFAULT_DARK, (TimePickerDialog.OnTimeSetListener) getActivity(), this.hour, this.minute, DateFormat.is24HourFormat(getActivity()));
     }
 }

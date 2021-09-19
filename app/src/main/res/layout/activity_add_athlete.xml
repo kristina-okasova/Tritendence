@@ -6,7 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:screenOrientation="portrait"
-    tools:context=".activities.AddAthleteActivity">
+    android:navigationBarColor="?attr/colorPrimary"
+    tools:context=".activities.AddAthleteActivity"
+    tools:targetApi="lollipop">
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
@@ -120,7 +122,7 @@
                 app:layout_constraintStart_toEndOf="@+id/dayOfBirthOfAthlete"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/calendar_icon"
-                app:tint="@color/middle_red"
+                app:tint="?attr/colorSecondary"
                 tools:ignore="UsingOnClickInXml,VectorDrawableCompat" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 

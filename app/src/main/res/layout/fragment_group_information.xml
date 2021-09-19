@@ -54,7 +54,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/dark_red"
+                    android:background="?attr/colorPrimary"
                     android:orientation="vertical"
                     android:padding="10dp">
 
@@ -74,7 +74,7 @@
                     android:id="@+id/expandableListOfMembers"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/middle_red"
+                    android:background="?attr/colorSecondary"
                     android:orientation="vertical"
                     android:padding="10dp"
                     android:visibility="gone">
@@ -160,7 +160,7 @@
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:tint="@color/middle_red"
+            app:tint="?attr/colorSecondary"
             tools:ignore="OnClick,UsingOnClickInXml" />
 
         <ImageView
@@ -176,7 +176,7 @@
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/editGroupIcon"
-            app:tint="@color/middle_red"
+            app:tint="?attr/colorSecondary"
             tools:ignore="OnClick,UsingOnClickInXml" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

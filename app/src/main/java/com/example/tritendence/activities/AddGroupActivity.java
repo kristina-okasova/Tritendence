@@ -403,7 +403,7 @@ public class AddGroupActivity extends AppCompatActivity implements TimePickerDia
             int minute = Integer.parseInt(time.substring(time.indexOf(':') + 1));
             timePicker = new TimePicker(hour, minute);
         }
-        //Oterwise is created time picker with current time.
+        //Otherwise is created time picker with current time.
         else
             timePicker = new TimePicker();
 

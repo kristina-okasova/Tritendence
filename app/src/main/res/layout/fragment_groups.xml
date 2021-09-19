@@ -39,7 +39,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:srcCompat="@drawable/add_circle_icon"
-            app:tint="@color/middle_red"
-            tools:ignore="VectorDrawableCompat" />
+            app:tint="?attr/colorSecondary"
+            tools:ignore="UsingOnClickInXml,VectorDrawableCompat" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
