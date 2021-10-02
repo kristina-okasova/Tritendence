@@ -33,7 +33,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#17252a">
+            android:background="?attr/colorOnBackground">
 
             <Button
                 android:id="@+id/addGroupBtn"
@@ -109,7 +109,7 @@
                 android:id="@+id/addTrainingUnit"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:background="#423E3E"
+                android:background="?attr/colorOnPrimarySurface"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

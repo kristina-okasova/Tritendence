@@ -21,10 +21,26 @@ public class FilledAttendanceSheetActivity extends AppCompatActivity {
     //Intent's extras
     private TriathlonClub club;
     private LoadData loadData;
-    private String signedUser, sportSelection;
+    private String signedUser, sportSelection, theme;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //Setting user's theme.
+        this.theme = getIntent().getExtras().getString(getString(R.string.THEME_EXTRA));
+        switch(this.theme) {
+            case "DarkRed":
+                setTheme(R.style.Theme_DarkRed);
+                break;
+            case "DarkBlue":
+                setTheme(R.style.Theme_DarkBlue);
+                break;
+            case "LightRed":
+                setTheme(R.style.Theme_LightRed);
+                break;
+            case "LightBlue":
+                setTheme(R.style.Theme_LightBlue);
+                break;
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filled_attendance_sheet);
 
@@ -61,6 +77,7 @@ public class FilledAttendanceSheetActivity extends AppCompatActivity {
                 homePage.putExtra(getString(R.string.TRIATHLON_CLUB_EXTRA), this.club);
                 homePage.putExtra(getString(R.string.LOAD_DATA_EXTRA), this.loadData);
                 homePage.putExtra(getString(R.string.SPORT_SELECTION_EXTRA), this.sportSelection);
+                homePage.putExtra(getString(R.string.THEME_EXTRA), this.theme);
                 homePage.putExtra(getString(R.string.SELECTED_FRAGMENT_EXTRA), item.getItemId());
                 startActivity(homePage);
                 finish();
@@ -79,6 +96,7 @@ public class FilledAttendanceSheetActivity extends AppCompatActivity {
         attendancePage.putExtra(getString(R.string.LOAD_DATA_EXTRA), this.loadData);
         attendancePage.putExtra(getString(R.string.ATTENDANCE_DATA_EXTRA), attendanceData);
         attendancePage.putExtra(getString(R.string.SPORT_SELECTION_EXTRA), this.sportSelection);
+        attendancePage.putExtra(getString(R.string.THEME_EXTRA), this.theme);
         attendancePage.putExtra(getString(R.string.GROUP_EXTRA), attendanceData.getGroup());
         attendancePage.putExtra(getString(R.string.TRAINING_UNIT_EXTRA), unit);
         attendancePage.putExtra(getString(R.string.DATE_EXTRA), attendanceData.getLocalDate());

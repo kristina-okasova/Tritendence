@@ -9,6 +9,7 @@
 
         <item name="colorOnBackground">@color/dark_background</item>
         <item name="colorOnSurface">@color/hint_light</item>
+        <item name="colorOnPrimarySurface">@color/add_unit_dark</item>
 
         <item name="backgroundColor">@color/dark_background</item>
         <item name="android:textColor">@color/light_text</item>
@@ -29,6 +30,7 @@
 
         <item name="colorOnBackground">@color/dark_background</item>
         <item name="colorOnSurface">@color/hint_light</item>
+        <item name="colorOnPrimarySurface">@color/add_unit_dark</item>
 
         <item name="backgroundColor">@color/dark_background</item>
         <item name="android:textColor">@color/light_text</item>
@@ -49,6 +51,7 @@
 
         <item name="colorOnBackground">@color/light_background</item>
         <item name="colorOnSurface">@color/hint_dark</item>
+        <item name="colorOnPrimarySurface">@color/add_unit_light</item>
 
         <item name="backgroundColor">@color/light_background</item>
         <item name="android:textColor">@color/dark_text</item>
@@ -69,6 +72,7 @@
 
         <item name="colorOnBackground">@color/light_background</item>
         <item name="colorOnSurface">@color/hint_dark</item>
+        <item name="colorOnPrimarySurface">@color/add_unit_light</item>
 
         <item name="backgroundColor">@color/light_background</item>
         <item name="android:textColor">@color/dark_text</item>

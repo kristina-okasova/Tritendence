@@ -13,6 +13,7 @@ import com.example.tritendence.model.users.Admin;
 import com.example.tritendence.model.users.Athlete;
 import com.example.tritendence.model.users.Member;
 import com.example.tritendence.model.users.Trainer;
+import com.google.android.material.internal.ThemeEnforcement;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,6 +36,7 @@ public class LoadData implements Serializable {
     private static final String SURNAME = "Surname";
     private static final String EMAIL = "E-Mail";
     private static final String SPORT = "Sport";
+    private static final String THEME = "Theme";
 
     private static final String GROUPS_CATEGORY = "Category";
     private static final String GROUPS_TIMETABLE = "Timetable";
@@ -57,11 +59,10 @@ public class LoadData implements Serializable {
     private static final String ATTENDANCE_NOTE = "Note";
 
     private static final int NUMBER_OF_REQUIRED_DATA_FOR_ATTENDANCE = 5;
-    private static final int NUMBER_OF_REQUIRED_DATA_FOR_TRAINER = 5;
+    private static final int NUMBER_OF_REQUIRED_DATA_FOR_TRAINER = 6;
     private static final int NUMBER_OF_REQUIRED_DATA_FOR_GROUP = 3;
     private static final int NUMBER_OF_REQUIRED_DATA_FOR_TRAINING_UNIT = 3;
     private static final int NUMBER_OF_REQUIRED_DATA_FOR_ATHLETE = 5;
-    private static final String EMPTY_STRING = "";
 
     private final TriathlonClub club;
     private transient Activity activity;
@@ -80,8 +81,8 @@ public class LoadData implements Serializable {
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void setActivity(Activity activity) {
         this.activity = activity;
-        this.database = FirebaseDatabase.getInstance().getReference();
-        this.loadData();
+        //this.database = FirebaseDatabase.getInstance().getReference();
+        //this.loadData();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -94,8 +95,8 @@ public class LoadData implements Serializable {
                 loadAmounts(snapshot);
                 loadAthleteInformation(snapshot.child(ATHLETES_CHILD_DATABASE));
                 loadTrainerInformation(snapshot.child(TRAINERS_CHILD_DATABASE));
-                loadGroupInformation(snapshot.child(GROUPS_CHILD_DATABASE));
                 loadAdminInformation(snapshot.child(ADMINS_CHILD_DATABASE));
+                loadGroupInformation(snapshot.child(GROUPS_CHILD_DATABASE));
                 loadAttendanceInformation(snapshot.child(ATTENDANCE_CHILD_DATABASE));
 
                 notifyActivity();
@@ -203,9 +204,10 @@ public class LoadData implements Serializable {
             String surname = Objects.requireNonNull(snapshot.child(trainerID).child(SURNAME).getValue()).toString();
             String eMail = Objects.requireNonNull(snapshot.child(trainerID).child(EMAIL).getValue()).toString();
             String sport = Objects.requireNonNull(snapshot.child(trainerID).child(SPORT).getValue()).toString();
+            String theme = Objects.requireNonNull(snapshot.child(trainerID).child(THEME).getValue()).toString();
             int numberOfTrainings = Integer.parseInt(Objects.requireNonNull(snapshot.child(trainerID).child(NUMBER_OF_TRAININGS).getValue()).toString());
 
-            Trainer trainer = new Trainer(i, name, surname, eMail, sport, numberOfTrainings);
+            Trainer trainer = new Trainer(i, name, surname, eMail, sport, numberOfTrainings, theme);
             this.club.addMember(trainer);
         }
     }
@@ -215,9 +217,10 @@ public class LoadData implements Serializable {
         String name = Objects.requireNonNull(snapshot.child(NAME).getValue()).toString();
         String surname = Objects.requireNonNull(snapshot.child(SURNAME).getValue()).toString();
         String email = Objects.requireNonNull(snapshot.child(EMAIL).getValue()).toString();
+        String theme = Objects.requireNonNull(snapshot.child(THEME).getValue()).toString();
         int numberOfTrainings = Integer.parseInt(Objects.requireNonNull(snapshot.child(NUMBER_OF_TRAININGS).getValue()).toString());
 
-        Admin admin = new Admin(0, name, surname, email, numberOfTrainings);
+        Admin admin = new Admin(0, name, surname, email, numberOfTrainings, theme);
         this.club.setAdminOfClub(admin);
         this.club.addMember(admin);
     }

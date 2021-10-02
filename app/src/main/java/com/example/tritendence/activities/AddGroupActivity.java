@@ -43,7 +43,7 @@ public class AddGroupActivity extends AppCompatActivity implements TimePickerDia
     private TriathlonClub club;
     private LoadData loadData;
     private Group editGroup;
-    private String signedUser, sportSelection;
+    private String signedUser, sportSelection, theme;
 
     //Layout's items
     private ConstraintLayout trainingUnitLayout;
@@ -61,6 +61,22 @@ public class AddGroupActivity extends AppCompatActivity implements TimePickerDia
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //Setting user's theme.
+        this.theme = getIntent().getExtras().getString(getString(R.string.THEME_EXTRA));
+        switch(this.theme) {
+            case "DarkRed":
+                setTheme(R.style.Theme_DarkRed);
+                break;
+            case "DarkBlue":
+                setTheme(R.style.Theme_DarkBlue);
+                break;
+            case "LightRed":
+                setTheme(R.style.Theme_LightRed);
+                break;
+            case "LightBlue":
+                setTheme(R.style.Theme_LightBlue);
+                break;
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_group);
 
@@ -388,6 +404,7 @@ public class AddGroupActivity extends AppCompatActivity implements TimePickerDia
         groupsPage.putExtra(getString(R.string.TRIATHLON_CLUB_EXTRA), this.club);
         groupsPage.putExtra(getString(R.string.LOAD_DATA_EXTRA), this.loadData);
         groupsPage.putExtra(getString(R.string.SPORT_SELECTION_EXTRA), this.sportSelection);
+        groupsPage.putExtra(getString(R.string.THEME_EXTRA), this.theme);
         groupsPage.putExtra(getString(R.string.SELECTED_FRAGMENT_EXTRA), R.id.groupsFragment);
         startActivity(groupsPage);
         finish();
@@ -426,6 +443,7 @@ public class AddGroupActivity extends AppCompatActivity implements TimePickerDia
                 homePage.putExtra(getString(R.string.TRIATHLON_CLUB_EXTRA), club);
                 homePage.putExtra(getString(R.string.LOAD_DATA_EXTRA), this.loadData);
                 homePage.putExtra(getString(R.string.SPORT_SELECTION_EXTRA), this.sportSelection);
+                homePage.putExtra(getString(R.string.THEME_EXTRA), this.theme);
                 homePage.putExtra(getString(R.string.SELECTED_FRAGMENT_EXTRA), item.getItemId());
                 startActivity(homePage);
                 finish();

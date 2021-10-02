@@ -164,4 +164,8 @@
     <string name="FIRST_CHILD_DB">FIRST_CHILD</string>
     <string name="SPORT_SELECTION_EXTRA">SPORT_SELECTION</string>
     <string name="SPACE">" "</string>
+    <string name="DEVICES_DB">Devices</string>
+    <string name="DEVICE_ID_DB">DeviceID</string>
+    <string name="THEME_DB">DeviceTheme</string>
+    <string name="THEME_EXTRA">THEME</string>
 </resources>

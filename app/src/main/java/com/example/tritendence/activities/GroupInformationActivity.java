@@ -21,13 +21,29 @@ public class GroupInformationActivity extends AppCompatActivity {
     //Intent's extras
     private TriathlonClub club;
     private LoadData loadData;
-    private String signedUser, sportSelection;
+    private String signedUser, sportSelection, theme;
 
     private GroupInformationFragment groupInformationFragment;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //Setting user's theme.
+        this.theme = getIntent().getExtras().getString(getString(R.string.THEME_EXTRA));
+        switch(this.theme) {
+            case "DarkRed":
+                setTheme(R.style.Theme_DarkRed);
+                break;
+            case "DarkBlue":
+                setTheme(R.style.Theme_DarkBlue);
+                break;
+            case "LightRed":
+                setTheme(R.style.Theme_LightRed);
+                break;
+            case "LightBlue":
+                setTheme(R.style.Theme_LightBlue);
+                break;
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_information);
 
@@ -56,6 +72,7 @@ public class GroupInformationActivity extends AppCompatActivity {
                 homePage.putExtra(getString(R.string.TRIATHLON_CLUB_EXTRA), club);
                 homePage.putExtra(getString(R.string.LOAD_DATA_EXTRA), this.loadData);
                 homePage.putExtra(getString(R.string.SPORT_SELECTION_EXTRA), this.sportSelection);
+                homePage.putExtra(getString(R.string.THEME_EXTRA), this.theme);
                 homePage.putExtra(getString(R.string.SELECTED_FRAGMENT_EXTRA), item.getItemId());
                 startActivity(homePage);
                 finish();
@@ -91,6 +108,7 @@ public class GroupInformationActivity extends AppCompatActivity {
         addGroupPage.putExtra(getString(R.string.SIGNED_USER_EXTRA), signedUser);
         addGroupPage.putExtra(getString(R.string.LOAD_DATA_EXTRA), loadData);
         addGroupPage.putExtra(getString(R.string.SPORT_SELECTION_EXTRA), this.sportSelection);
+        addGroupPage.putExtra(getString(R.string.THEME_EXTRA), this.theme);
         addGroupPage.putExtra(getString(R.string.EDIT_GROUP_EXTRA), editGroup);
         startActivity(addGroupPage);
         finish();

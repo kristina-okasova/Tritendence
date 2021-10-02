@@ -1,11 +1,15 @@
 package com.example.tritendence.activities;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Patterns;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,8 +23,14 @@ import com.example.tritendence.model.users.Admin;
 import com.example.tritendence.model.users.Member;
 import com.example.tritendence.model.users.Trainer;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class LogInActivity extends AppCompatActivity {
     //Intent's extras
@@ -37,6 +47,7 @@ public class LogInActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.Theme_DarkRed);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
@@ -97,10 +108,15 @@ public class LogInActivity extends AppCompatActivity {
         homePage.putExtra(getString(R.string.SIGNED_USER_EXTRA), member.getFullName());
         homePage.putExtra(getString(R.string.TRIATHLON_CLUB_EXTRA), this.club);
         homePage.putExtra(getString(R.string.LOAD_DATA_EXTRA), this.loadData);
-        if (member instanceof Trainer)
+        if (member instanceof Trainer) {
             homePage.putExtra(getString(R.string.SPORT_SELECTION_EXTRA), ((Trainer) member).getSport());
-        else
+            homePage.putExtra(getString(R.string.THEME_EXTRA), ((Trainer) member).getTheme());
+        }
+        else {
             homePage.putExtra(getString(R.string.SPORT_SELECTION_EXTRA), ((Admin) member).getSport());
+            homePage.putExtra(getString(R.string.THEME_EXTRA), ((Admin) member).getTheme());
+        }
+
         startActivity(homePage);
         finish();
     }

@@ -19,8 +19,11 @@ import com.example.tritendence.fragments.GroupsFragment;
 import com.example.tritendence.fragments.ProfileFragment;
 import com.example.tritendence.fragments.TrainersFragment;
 import com.example.tritendence.model.LoadData;
+import com.example.tritendence.model.TrainingUnit;
 import com.example.tritendence.model.TriathlonClub;
+import com.example.tritendence.model.users.Admin;
 import com.example.tritendence.model.users.Member;
+import com.example.tritendence.model.users.Trainer;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.SimpleTimeZone;
@@ -31,7 +34,7 @@ public class HomeActivity extends AppCompatActivity {
     private Fragment selectedFragment;
     private TriathlonClub club;
     private LoadData loadData;
-    private String signedUser, sportSelection;
+    private String signedUser, sportSelection, theme;
 
     //Fragments
     private AttendanceFragment attendanceFragment;
@@ -46,14 +49,30 @@ public class HomeActivity extends AppCompatActivity {
     @SuppressLint("NonConstantResourceId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //Setting user's theme.
+        this.theme = getIntent().getExtras().getString(getString(R.string.THEME_EXTRA));
+        switch(this.theme) {
+            case "DarkRed":
+                setTheme(R.style.Theme_DarkRed);
+                break;
+            case "DarkBlue":
+                setTheme(R.style.Theme_DarkBlue);
+                break;
+            case "LightRed":
+                setTheme(R.style.Theme_LightRed);
+                break;
+            case "LightBlue":
+                setTheme(R.style.Theme_LightBlue);
+                break;
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
         //Getting extras of the intent and setting load data's activity.
         this.club = (TriathlonClub) getIntent().getExtras().getSerializable(getString(R.string.TRIATHLON_CLUB_EXTRA));
-        this.signedUser = getIntent().getExtras().getString(getString(R.string.SIGNED_USER_EXTRA));
         this.sportSelection = getIntent().getExtras().getString(getString(R.string.SPORT_SELECTION_EXTRA));
         this.loadData = (LoadData) getIntent().getExtras().getSerializable(getString(R.string.LOAD_DATA_EXTRA));
+        this.signedUser = getIntent().getExtras().getString(getString(R.string.SIGNED_USER_EXTRA));
         this.loadData.setActivity(this);
 
         //Creating instances of all fragments available from Home Activity.
@@ -93,6 +112,19 @@ public class HomeActivity extends AppCompatActivity {
 
         //Attaching fragment to the activity.
         getSupportFragmentManager().beginTransaction().replace(R.id.homeFragment, this.selectedFragment).commit();
+    }
+
+    private String findSignedUser() {
+        System.out.println(this.club.getTrainersSortedByAlphabet());
+        for (Member user : this.club.getTrainersSortedByAlphabet()) {
+            if (user.getFullName().equals(this.signedUser)) {
+                if (user instanceof Trainer)
+                    return ((Trainer) user).getTheme();
+                if (user instanceof Admin)
+                    return ((Admin) user).getTheme();
+            }
+        }
+        return "DarkRed";
     }
 
     private void findTypeOfSignedUser() {
@@ -142,6 +174,7 @@ public class HomeActivity extends AppCompatActivity {
         groupInformationPage.putExtra(getString(R.string.LOAD_DATA_EXTRA), this.loadData);
         groupInformationPage.putExtra(getString(R.string.SIGNED_USER_EXTRA), this.signedUser);
         groupInformationPage.putExtra(getString(R.string.SPORT_SELECTION_EXTRA), this.sportSelection);
+        groupInformationPage.putExtra(getString(R.string.THEME_EXTRA), this.theme);
         startActivity(groupInformationPage);
         finish();
     }
@@ -156,6 +189,7 @@ public class HomeActivity extends AppCompatActivity {
         athleteInformationPage.putExtra(getString(R.string.LOAD_DATA_EXTRA), this.loadData);
         athleteInformationPage.putExtra(getString(R.string.SIGNED_USER_EXTRA), this.signedUser);
         athleteInformationPage.putExtra(getString(R.string.SPORT_SELECTION_EXTRA), this.sportSelection);
+        athleteInformationPage.putExtra(getString(R.string.THEME_EXTRA), this.theme);
         startActivity(athleteInformationPage);
         finish();
     }
@@ -170,6 +204,7 @@ public class HomeActivity extends AppCompatActivity {
         trainerInformationPage.putExtra(getString(R.string.LOAD_DATA_EXTRA), this.loadData);
         trainerInformationPage.putExtra(getString(R.string.SIGNED_USER_EXTRA), this.signedUser);
         trainerInformationPage.putExtra(getString(R.string.SPORT_SELECTION_EXTRA), this.sportSelection);
+        trainerInformationPage.putExtra(getString(R.string.THEME_EXTRA), this.theme);
         startActivity(trainerInformationPage);
         finish();
     }
@@ -181,6 +216,7 @@ public class HomeActivity extends AppCompatActivity {
         addGroupPage.putExtra(getString(R.string.LOAD_DATA_EXTRA), this.loadData);
         addGroupPage.putExtra(getString(R.string.SIGNED_USER_EXTRA), this.signedUser);
         addGroupPage.putExtra(getString(R.string.SPORT_SELECTION_EXTRA), this.sportSelection);
+        addGroupPage.putExtra(getString(R.string.THEME_EXTRA), this.theme);
         startActivity(addGroupPage);
         finish();
     }
@@ -192,6 +228,7 @@ public class HomeActivity extends AppCompatActivity {
         addAthletePage.putExtra(getString(R.string.SIGNED_USER_EXTRA), this.signedUser);
         addAthletePage.putExtra(getString(R.string.LOAD_DATA_EXTRA), this.loadData);
         addAthletePage.putExtra(getString(R.string.SPORT_SELECTION_EXTRA), this.sportSelection);
+        addAthletePage.putExtra(getString(R.string.THEME_EXTRA), this.theme);
         startActivity(addAthletePage);
         finish();
     }
@@ -202,6 +239,11 @@ public class HomeActivity extends AppCompatActivity {
 
     public String getSportSelection() {
         return this.sportSelection;
+    }
+
+
+    public String getThemesName() {
+        return this.theme;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -225,5 +267,4 @@ public class HomeActivity extends AppCompatActivity {
         if (this.trainersFragment.isAdded())
             this.trainersFragment.notifyAboutChange(this.club);
     }
-
 }

@@ -22,13 +22,29 @@ import static com.example.tritendence.R.*;
 public class AthleteInformationActivity extends AppCompatActivity {
     //Intent's extras
     private TriathlonClub club;
-    private String signedUser, sportSelection;
+    private String signedUser, sportSelection, theme;
     private LoadData loadData;
 
     private AthleteInformationFragment athleteInformationFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //Setting user's theme.
+        this.theme = getIntent().getExtras().getString(getString(R.string.THEME_EXTRA));
+        switch(this.theme) {
+            case "DarkRed":
+                setTheme(R.style.Theme_DarkRed);
+                break;
+            case "DarkBlue":
+                setTheme(R.style.Theme_DarkBlue);
+                break;
+            case "LightRed":
+                setTheme(R.style.Theme_LightRed);
+                break;
+            case "LightBlue":
+                setTheme(R.style.Theme_LightBlue);
+                break;
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_athlete_information);
 
@@ -57,6 +73,7 @@ public class AthleteInformationActivity extends AppCompatActivity {
                 homePage.putExtra(getString(string.TRIATHLON_CLUB_EXTRA), this.club);
                 homePage.putExtra(getString(R.string.LOAD_DATA_EXTRA), this.loadData);
                 homePage.putExtra(getString(string.SPORT_SELECTION_EXTRA), this.sportSelection);
+                homePage.putExtra(getString(string.THEME_EXTRA), this.theme);
                 homePage.putExtra(getString(string.SELECTED_FRAGMENT_EXTRA), item.getItemId());
                 startActivity(homePage);
                 finish();
@@ -87,6 +104,7 @@ public class AthleteInformationActivity extends AppCompatActivity {
         addAthletePage.putExtra(getString(string.SIGNED_USER_EXTRA), this.signedUser);
         addAthletePage.putExtra(getString(string.LOAD_DATA_EXTRA), this.loadData);
         addAthletePage.putExtra(getString(string.SPORT_SELECTION_EXTRA), this.sportSelection);
+        addAthletePage.putExtra(getString(string.THEME_EXTRA), this.theme);
         addAthletePage.putExtra(getString(string.EDIT_ATHLETE_EXTRA), editAthlete);
         startActivity(addAthletePage);
         finish();

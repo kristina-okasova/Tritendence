@@ -211,6 +211,7 @@ public class AdapterOfExpendableList extends BaseExpandableListAdapter {
         filledAttendanceSheetPage.putExtra(this.context.getString(R.string.TRIATHLON_CLUB_EXTRA), club);
         filledAttendanceSheetPage.putExtra(this.context.getString(R.string.LOAD_DATA_EXTRA), this.loadData);
         filledAttendanceSheetPage.putExtra(this.context.getString(R.string.SPORT_SELECTION_EXTRA), ((HomeActivity) this.context).getSportSelection());
+        filledAttendanceSheetPage.putExtra(this.context.getString(R.string.THEME_EXTRA), ((HomeActivity) this.context).getThemesName());
         filledAttendanceSheetPage.putExtra(this.context.getString(R.string.ATTENDANCE_DATA_EXTRA), attendanceData);
         filledAttendanceSheetPage.putExtra(this.context.getString(R.string.TRAINING_UNIT_EXTRA), selectedUnit);
         context.startActivity(filledAttendanceSheetPage);
@@ -226,6 +227,7 @@ public class AdapterOfExpendableList extends BaseExpandableListAdapter {
         attendanceSheetPage.putExtra(this.context.getString(R.string.TRIATHLON_CLUB_EXTRA), club);
         attendanceSheetPage.putExtra(this.context.getString(R.string.LOAD_DATA_EXTRA), this.loadData);
         attendanceSheetPage.putExtra(this.context.getString(R.string.SPORT_SELECTION_EXTRA), ((HomeActivity) this.context).getSportSelection());
+        attendanceSheetPage.putExtra(this.context.getString(R.string.THEME_EXTRA), ((HomeActivity) this.context).getThemesName());
         attendanceSheetPage.putExtra(this.context.getString(R.string.TRAINING_UNIT_EXTRA), selectedUnit);
         attendanceSheetPage.putExtra(this.context.getString(R.string.DATE_EXTRA), date);
         context.startActivity(attendanceSheetPage);

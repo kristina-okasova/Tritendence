@@ -19,4 +19,7 @@
 
     <color name="hint_light">#66E6E6E6</color>
     <color name="hint_dark">#66404040</color>
+
+    <color name="add_unit_dark">#423E3E</color>
+    <color name="add_unit_light">#CCCCCC</color>
 </resources>

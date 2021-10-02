@@ -12,14 +12,15 @@ public class Trainer extends Member {
     private static final String NUMBER_OF_TRAININGS = "NumberOfTrainings";
 
     private final String email;
-    private String sport;
+    private String sport, theme;
     private int numberOfTrainings;
 
-    public Trainer(int ID, String name, String surname, String email, String sport, int numberOfTrainings) {
+    public Trainer(int ID, String name, String surname, String email, String sport, int numberOfTrainings, String theme) {
         super(ID, name, surname);
         this.email = email;
         this.sport = sport;
         this.numberOfTrainings = numberOfTrainings;
+        this.theme = theme;
     }
 
     public Map<String, Object> getMappedData() {
@@ -30,6 +31,7 @@ public class Trainer extends Member {
         data.put("E-Mail", this.email);
         data.put("Sport", this.sport);
         data.put("NumberOfTrainings", 0);
+        data.put("Theme", this.theme);
 
         return data;
     }
@@ -74,5 +76,9 @@ public class Trainer extends Member {
 
     public String getSport() {
         return this.sport;
+    }
+
+    public String getTheme() {
+        return this.theme;
     }
 }

@@ -24,7 +24,7 @@
         android:id="@+id/addAthleteConstraintView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#17252a"
+        android:background="?attr/colorOnBackground"
         android:layout_marginBottom="60dp"
         app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
         app:layout_constraintEnd_toEndOf="parent"
