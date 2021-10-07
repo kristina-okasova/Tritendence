@@ -208,12 +208,12 @@ public class AdapterOfExpendableList extends BaseExpandableListAdapter {
         //Creating intent of Filled Attendance Sheet activity to display all accessible information about filled attendance.
         Intent filledAttendanceSheetPage = new Intent(context, FilledAttendanceSheetActivity.class);
         filledAttendanceSheetPage.putExtra(this.context.getString(R.string.SIGNED_USER_EXTRA), signedUser);
-        filledAttendanceSheetPage.putExtra(this.context.getString(R.string.TRIATHLON_CLUB_EXTRA), club);
+        filledAttendanceSheetPage.putExtra(this.context.getString(R.string.TRIATHLON_CLUB_EXTRA), this.club);
         filledAttendanceSheetPage.putExtra(this.context.getString(R.string.LOAD_DATA_EXTRA), this.loadData);
         filledAttendanceSheetPage.putExtra(this.context.getString(R.string.SPORT_SELECTION_EXTRA), ((HomeActivity) this.context).getSportSelection());
         filledAttendanceSheetPage.putExtra(this.context.getString(R.string.THEME_EXTRA), ((HomeActivity) this.context).getThemesName());
         filledAttendanceSheetPage.putExtra(this.context.getString(R.string.ATTENDANCE_DATA_EXTRA), attendanceData);
-        filledAttendanceSheetPage.putExtra(this.context.getString(R.string.TRAINING_UNIT_EXTRA), selectedUnit);
+        filledAttendanceSheetPage.putExtra(this.context.getString(R.string.TRAINING_UNIT_EXTRA), this.selectedUnit);
         context.startActivity(filledAttendanceSheetPage);
         context.finish();
     }
@@ -224,11 +224,12 @@ public class AdapterOfExpendableList extends BaseExpandableListAdapter {
         Intent attendanceSheetPage = new Intent(context, AttendanceSheetActivity.class);
         attendanceSheetPage.putExtra(this.context.getString(R.string.GROUP_EXTRA), group);
         attendanceSheetPage.putExtra(this.context.getString(R.string.SIGNED_USER_EXTRA), signedUser);
-        attendanceSheetPage.putExtra(this.context.getString(R.string.TRIATHLON_CLUB_EXTRA), club);
+        attendanceSheetPage.putExtra(this.context.getString(R.string.TRIATHLON_CLUB_EXTRA), this.club);
         attendanceSheetPage.putExtra(this.context.getString(R.string.LOAD_DATA_EXTRA), this.loadData);
         attendanceSheetPage.putExtra(this.context.getString(R.string.SPORT_SELECTION_EXTRA), ((HomeActivity) this.context).getSportSelection());
         attendanceSheetPage.putExtra(this.context.getString(R.string.THEME_EXTRA), ((HomeActivity) this.context).getThemesName());
-        attendanceSheetPage.putExtra(this.context.getString(R.string.TRAINING_UNIT_EXTRA), selectedUnit);
+        attendanceSheetPage.putExtra(this.context.getString(R.string.THEME_EXTRA), ((HomeActivity) this.context).getThemesName());
+        attendanceSheetPage.putExtra(this.context.getString(R.string.TRAINING_UNIT_EXTRA), this.selectedUnit);
         attendanceSheetPage.putExtra(this.context.getString(R.string.DATE_EXTRA), date);
         context.startActivity(attendanceSheetPage);
         context.finish();

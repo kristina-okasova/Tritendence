@@ -66,7 +66,7 @@ public class LoadData implements Serializable {
 
     private final TriathlonClub club;
     private transient Activity activity;
-    private transient DatabaseReference database;
+    private final transient DatabaseReference database;
     private int numberOfGroups, numberOfAthletes, numberOfTrainers, numberOfFilledAttendances;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -81,8 +81,6 @@ public class LoadData implements Serializable {
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void setActivity(Activity activity) {
         this.activity = activity;
-        //this.database = FirebaseDatabase.getInstance().getReference();
-        //this.loadData();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

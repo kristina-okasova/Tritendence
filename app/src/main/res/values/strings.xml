@@ -166,6 +166,11 @@
     <string name="SPACE">" "</string>
     <string name="DEVICES_DB">Devices</string>
     <string name="DEVICE_ID_DB">DeviceID</string>
-    <string name="THEME_DB">DeviceTheme</string>
+    <string name="THEME_DB">Theme</string>
     <string name="THEME_EXTRA">THEME</string>
+    <string name="THEME_OF_USER">Aktuálna téma</string>
+    <string name="TRAINERS_DB">Trainers</string>
+    <string name="ADMIN_DB">Admin</string>
+    <string name="LAST_SIGNED_DATE">LastSignedDate</string>
+    <string name="NUMBER_OF_WEEK">NumberOfWeek</string>
 </resources>

@@ -42,11 +42,12 @@ public class AttendanceFragment extends Fragment {
     private LoadData loadData;
     private String signedUser, sportSelection = null;
 
+    private TextView currentWeek;
+
     private HomeActivity activity;
     private List<String> daysOfTheWeek;
     private final Map<String, List<String>> timetable;
     private ExpandableListView expandableTimetable;
-    private AdapterOfExpendableList adapterOfTimetable;
 
     public AttendanceFragment() {
         this.timetable = new HashMap<>();
@@ -135,15 +136,14 @@ public class AttendanceFragment extends Fragment {
 
     @SuppressLint("DefaultLocale")
     private void initializeCurrentWeek(View view) {
-        TextView currentWeek = view.findViewById(R.id.currentWeek);
-        currentWeek.setText(String.format("%s %d", getString(R.string.WEEK), this.club.getNumberOfWeek()));
+        this.currentWeek = view.findViewById(R.id.currentWeek);
+        this.currentWeek.setText(String.format("%s %d", getString(R.string.WEEK), this.club.getNumberOfWeek()));
     }
 
     public void initializeExpandableTimetable() {
         //Creating adapter and setting it to the expandable list of attendance.
-        System.out.println(this.expandableTimetable.getAdapter() + " " + this.adapterOfTimetable);
-        this.adapterOfTimetable = new AdapterOfExpendableList(this.activity, this.daysOfTheWeek, this.timetable, this.club, this.loadData);
-        this.expandableTimetable.setAdapter(this.adapterOfTimetable);
+        AdapterOfExpendableList adapterOfTimetable = new AdapterOfExpendableList(this.activity, this.daysOfTheWeek, this.timetable, this.club, this.loadData);
+        this.expandableTimetable.setAdapter(adapterOfTimetable);
         this.expandableTimetable.setGroupIndicator(null);
     }
 

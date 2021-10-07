@@ -25,11 +25,20 @@ import com.example.tritendence.model.users.Admin;
 import com.example.tritendence.model.users.Member;
 import com.example.tritendence.model.users.Trainer;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Objects;
 import java.util.SimpleTimeZone;
 
 @RequiresApi(api = Build.VERSION_CODES.O)
 public class HomeActivity extends AppCompatActivity {
+    private final static int START_WEEK = 35;
+
     //Intent's extras
     private Fragment selectedFragment;
     private TriathlonClub club;
@@ -78,7 +87,7 @@ public class HomeActivity extends AppCompatActivity {
         //Creating instances of all fragments available from Home Activity.
         this.attendanceFragment = new AttendanceFragment(this);
         this.groupsFragment = new GroupsFragment();
-        this.profileFragment = new ProfileFragment();
+        this.profileFragment = new ProfileFragment(this);
         this.athletesFragment = new AthletesFragment();
         this.trainersFragment = new TrainersFragment();
 
@@ -112,19 +121,7 @@ public class HomeActivity extends AppCompatActivity {
 
         //Attaching fragment to the activity.
         getSupportFragmentManager().beginTransaction().replace(R.id.homeFragment, this.selectedFragment).commit();
-    }
-
-    private String findSignedUser() {
-        System.out.println(this.club.getTrainersSortedByAlphabet());
-        for (Member user : this.club.getTrainersSortedByAlphabet()) {
-            if (user.getFullName().equals(this.signedUser)) {
-                if (user instanceof Trainer)
-                    return ((Trainer) user).getTheme();
-                if (user instanceof Admin)
-                    return ((Admin) user).getTheme();
-            }
-        }
-        return "DarkRed";
+        this.updateLastSignedDate();
     }
 
     private void findTypeOfSignedUser() {
@@ -132,6 +129,15 @@ public class HomeActivity extends AppCompatActivity {
             this.navigation.getMenu().clear();
             this.navigation.inflateMenu(R.menu.home_bottom_menu_admin);
         }
+    }
+
+    private void updateLastSignedDate() {
+        Calendar today = Calendar.getInstance();
+        int numberOfWeek = today.get(Calendar.WEEK_OF_YEAR) - START_WEEK;
+
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+        database.child(getString(R.string.NUMBER_OF_WEEK)).setValue(numberOfWeek);
+        this.club.setNumberOfWeek(numberOfWeek);
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -237,10 +243,35 @@ public class HomeActivity extends AppCompatActivity {
         this.sportSelection = sportSelection;
     }
 
+    public void changeTheme(String theme) {
+        Member member = null;
+        for (Member trainer : this.club.getTrainersSortedByAlphabet()) {
+            if (trainer instanceof Trainer && trainer.getFullName().equals(this.signedUser))
+                member = trainer;
+        }
+        if (this.club.getAdminOfClub().getFullName().equals(this.signedUser))
+            member = this.club.getAdminOfClub();
+
+        Intent homePage = new Intent(this, HomeActivity.class);
+        homePage.putExtra(getString(R.string.SIGNED_USER_EXTRA), this.signedUser);
+        homePage.putExtra(getString(R.string.TRIATHLON_CLUB_EXTRA), this.club);
+        homePage.putExtra(getString(R.string.LOAD_DATA_EXTRA), this.loadData);
+        if (member instanceof Trainer) {
+            homePage.putExtra(getString(R.string.SPORT_SELECTION_EXTRA), ((Trainer) member).getSport());
+            homePage.putExtra(getString(R.string.THEME_EXTRA), theme);
+        }
+        else {
+            homePage.putExtra(getString(R.string.SPORT_SELECTION_EXTRA), ((Admin) Objects.requireNonNull(member)).getSport());
+            homePage.putExtra(getString(R.string.THEME_EXTRA), theme);
+        }
+
+        startActivity(homePage);
+        finish();
+    }
+
     public String getSportSelection() {
         return this.sportSelection;
     }
-
 
     public String getThemesName() {
         return this.theme;

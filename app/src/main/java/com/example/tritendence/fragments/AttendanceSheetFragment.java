@@ -47,7 +47,7 @@ public class AttendanceSheetFragment extends Fragment {
     //Intent's extras
     private TriathlonClub club;
     private LoadData loadData;
-    private String sportSelection;
+    private String sportSelection, theme;
     private Group group;
     private TrainingUnit unit;
     private String currentTrainersName;
@@ -79,6 +79,7 @@ public class AttendanceSheetFragment extends Fragment {
         this.club = (TriathlonClub) requireActivity().getIntent().getExtras().getSerializable(getString(R.string.TRIATHLON_CLUB_EXTRA));
         this.loadData = (LoadData) requireActivity().getIntent().getExtras().getSerializable(getString(R.string.LOAD_DATA_EXTRA));
         this.sportSelection = requireActivity().getIntent().getExtras().getString(getString(R.string.SPORT_SELECTION_EXTRA));
+        this.theme = requireActivity().getIntent().getExtras().getString(getString(R.string.THEME_EXTRA));
         this.group = (Group) requireActivity().getIntent().getExtras().getSerializable(getString(R.string.GROUP_EXTRA));
         this.unit = (TrainingUnit) requireActivity().getIntent().getExtras().getSerializable(getString(R.string.TRAINING_UNIT_EXTRA));
         this.currentTrainersName = requireActivity().getIntent().getExtras().getString(getString(R.string.SIGNED_USER_EXTRA));
@@ -87,12 +88,11 @@ public class AttendanceSheetFragment extends Fragment {
         this.initializeLayoutItems(view);
 
         //Filling attendance sheet information.
-        trainingData.setText(String.format("%s\n%s - %s", this.unit.getSportTranslation(), this.unit.getDay(), this.unit.getTime()));
-        nameOfGroup.setText(this.group.getName());
+        this.trainingData.setText(String.format("%s\n%s - %s", this.unit.getSportTranslation(), this.unit.getDay(), this.unit.getTime()));
+        this.nameOfGroup.setText(this.group.getName());
         this.addTrainersNames(this.firstTrainersName);
         this.fillAttendedAthletes();
 
-        System.out.println(this.attendanceData);
         if (this.attendanceData != null)
             this.fillAttendanceSheetInformation();
     }
@@ -216,6 +216,7 @@ public class AttendanceSheetFragment extends Fragment {
         attendancePage.putExtra(getString(R.string.SIGNED_USER_EXTRA), this.currentTrainersName);
         attendancePage.putExtra(getString(R.string.SPORT_SELECTION_EXTRA), this.sportSelection);
         attendancePage.putExtra(getString(R.string.SELECTED_FRAGMENT_EXTRA), R.id.attendanceFragment);
+        attendancePage.putExtra(getString(R.string.THEME_EXTRA), this.theme);
         startActivity(attendancePage);
         requireActivity().finish();
     }

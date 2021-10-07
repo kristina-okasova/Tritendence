@@ -28,4 +28,8 @@ public class Admin extends Member {
     public String getTheme() {
         return this.theme;
     }
+
+    public void setTheme(String theme) {
+        this.theme = theme;
+    }
 }
