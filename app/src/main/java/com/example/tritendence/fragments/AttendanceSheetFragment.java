@@ -114,6 +114,8 @@ public class AttendanceSheetFragment extends Fragment {
         //Adding trainer's names to the spinner beginning with the name of currently signed trainer, followed by other trainers.
         ArrayList<String> namesOfTrainers = new ArrayList<>();
         namesOfTrainers.add(this.currentTrainersName);
+        if (!this.currentTrainersName.equals(this.club.getAdminOfClub().getFullName()))
+            namesOfTrainers.add(this.club.getAdminOfClub().getFullName());
         namesOfTrainers = this.club.getNamesOfTrainers(namesOfTrainers);
 
         //Creating adapter and setting it to the trainer's spinner.

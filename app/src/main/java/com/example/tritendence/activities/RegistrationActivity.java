@@ -36,13 +36,14 @@ public class RegistrationActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.Theme_DarkRed);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
 
         //Getting extras of the intent.
         this.club = (TriathlonClub) getIntent().getExtras().getSerializable(getString(R.string.TRIATHLON_CLUB_EXTRA));
         this.initializeLayoutItems();
-        this.operator = new AddEntity();
+        this.operator = new AddEntity(this.club);
 
         //Setting listeners on switch buttons to set currently selected type of sport.
         this.setListenerForSwitch(this.swimmingSwitch, this.athleticsSwitch, this.cyclingSwitch, getString(R.string.SWIMMING));
@@ -52,37 +53,6 @@ public class RegistrationActivity extends AppCompatActivity {
         //Setting onclick listeners on registration button and sign in note.
         this.registration.setOnClickListener(v -> register());
         this.signIn.setOnClickListener(v -> loadSignIn());
-
-
-        /*swimmingSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                athleticsSwitch.setChecked(false);
-                cyclingSwitch.setChecked(false);
-                sportText = getString(R.string.SWIMMING);
-            }
-            else
-                sportText = getString(R.string.EMPTY_STRING);
-        });
-
-        athleticsSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                swimmingSwitch.setChecked(false);
-                cyclingSwitch.setChecked(false);
-                sportText = getString(R.string.ATHLETICS);
-            }
-            else
-                sportText = getString(R.string.EMPTY_STRING);
-        });
-
-        cyclingSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                swimmingSwitch.setChecked(false);
-                athleticsSwitch.setChecked(false);
-                sportText = getString(R.string.CYCLING);
-            }
-            else
-                sportText = getString(R.string.EMPTY_STRING);
-        });*/
     }
 
     private void initializeLayoutItems() {

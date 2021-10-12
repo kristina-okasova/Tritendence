@@ -15,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.SimpleAdapter;
 
 import com.example.tritendence.R;
@@ -28,6 +29,7 @@ import java.util.HashMap;
 public class TrainersFragment extends Fragment {
     private ListScrollable listOfTrainers;
     private TriathlonClub club;
+    private String signedUser;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,10 +41,21 @@ public class TrainersFragment extends Fragment {
 
         //Getting extras of the intent.
         this.club = (TriathlonClub) requireActivity().getIntent().getExtras().getSerializable(getString(R.string.TRIATHLON_CLUB_EXTRA));
+        this.signedUser = requireActivity().getIntent().getExtras().getString(getString(R.string.SIGNED_USER_EXTRA));
 
+        this.findTypeOfUser(view);
         this.listOfTrainers = view.findViewById(R.id.listOfTrainers);
         //Displaying list of trainers.
         this.displayTrainers(this.club.getTrainersSortedByAlphabet());
+    }
+
+    private void findTypeOfUser(View view) {
+        //If signed user is admin then show imageview to add new group.
+        if (this.club.getAdminOfClub().getFullName().equals(this.signedUser)) {
+            ImageView addTrainerIcon = view.findViewById(R.id.addTrainerIcon);
+
+            addTrainerIcon.setVisibility(View.VISIBLE);
+        }
     }
 
     private void displayTrainers(ArrayList<Member> trainersNames) {

@@ -186,6 +186,8 @@ public class AddGroupActivity extends AppCompatActivity implements TimePickerDia
         categories.add(getString(R.string.SPORTING_ATHLETES));
         categories.add(getString(R.string.START_SPORTING_ATHLETES));
         categories.add(getString(R.string.BEGINNER_ATHLETES));
+        categories.add(getString(R.string.RECRE_ATHLETES));
+        categories.add(getString(R.string.ADULT_ATHLETES));
 
         //Setting adapter for category's spinner.
         ArrayAdapter<String> adapterSpinner = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, categories);

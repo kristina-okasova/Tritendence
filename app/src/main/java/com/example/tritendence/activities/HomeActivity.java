@@ -239,6 +239,18 @@ public class HomeActivity extends AppCompatActivity {
         finish();
     }
 
+    public void addTrainer(View view) {
+        //Creating intent of Add Group Activity to show layout to add new athlete.
+        Intent addTrainerPage = new Intent(this, AddTrainerActivity.class);
+        addTrainerPage.putExtra(getString(R.string.TRIATHLON_CLUB_EXTRA), this.club);
+        addTrainerPage.putExtra(getString(R.string.SIGNED_USER_EXTRA), this.signedUser);
+        addTrainerPage.putExtra(getString(R.string.LOAD_DATA_EXTRA), this.loadData);
+        addTrainerPage.putExtra(getString(R.string.SPORT_SELECTION_EXTRA), this.sportSelection);
+        addTrainerPage.putExtra(getString(R.string.THEME_EXTRA), this.theme);
+        startActivity(addTrainerPage);
+        finish();
+    }
+
     public void updateSportSelection(String sportSelection) {
         this.sportSelection = sportSelection;
     }

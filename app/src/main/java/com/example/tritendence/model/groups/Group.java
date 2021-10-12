@@ -10,9 +10,13 @@ public class Group implements Serializable {
     private static final String ONE = "1";
     private static final String TWO = "2";
     private static final String THREE = "3";
+    private static final String FOUR = "4";
+    private static final String FIVE = "5";
     private static final String CATEGORY_ONE = "Športovci";
     private static final String CATEGORY_TWO = "Prípravka";
     private static final String CATEGORY_THREE = "Začiatočníci";
+    private static final String CATEGORY_FOUR = "Rekreační";
+    private static final String CATEGORY_FIVE = "Dospelácí";
 
     private final int ID;
     private String name;
@@ -37,8 +41,17 @@ public class Group implements Serializable {
         this.timetable.add(unit);
     }
 
-    public void addAthlete(Athlete athlete) {
-        this.athletesOfGroup.add(athlete);
+    public void addAthlete(Athlete newAthlete) {
+        int i;
+        for (i = 0; i < this.athletesOfGroup.size(); i++) {
+            if (this.athletesOfGroup.get(i).getSurname().compareTo(newAthlete.getSurname()) == 0) {
+                if (this.athletesOfGroup.get(i).getName().compareTo(newAthlete.getName()) > 0)
+                    break;
+            }
+            else if (this.athletesOfGroup.get(i).getSurname().compareTo(newAthlete.getSurname()) > 0)
+                break;
+        }
+        this.athletesOfGroup.add(i, newAthlete);
     }
 
     public ArrayList<TrainingUnit> getTimetable() {
@@ -84,6 +97,10 @@ public class Group implements Serializable {
                 return CATEGORY_TWO;
             case THREE:
                 return CATEGORY_THREE;
+            case FOUR:
+                return CATEGORY_FOUR;
+            case FIVE:
+                return CATEGORY_FIVE;
             default:
                 return null;
         }

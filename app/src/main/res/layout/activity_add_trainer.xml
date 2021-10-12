@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/addAthleteActivity"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:screenOrientation="portrait"
+    android:navigationBarColor="?attr/colorPrimary"
+    tools:context=".activities.AddTrainerActivity"
+    tools:targetApi="lollipop">
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationView"
+        style="@style/bottomNavigationStyle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:itemIconTint="@drawable/bottom_nav_icon_color_selector"
+        app:itemTextColor="@drawable/bottom_nav_icon_color_selector"
+        app:menu="@menu/home_bottom_menu_admin" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/addTrainerConstraintView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/colorOnBackground"
+        android:layout_marginBottom="60dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:context=".activities.AddAthleteActivity">
+
+        <Button
+            android:id="@+id/addTrainerBtn"
+            style="@style/buttonStyle"
+            android:layout_marginBottom="60dp"
+            android:onClick="createTrainer"
+            android:text="@string/CREATE_TRAINER"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="UsingOnClickInXml"
+            tools:layout_constraintTop_toBottomOf="@id/groupOfAthlete" />
+
+        <EditText
+            android:id="@+id/nameOfTrainerCreate"
+            style="@style/textViewBasicStyle"
+            android:layout_marginTop="40dp"
+            android:autofillHints="@string/REGISTRATION_NAME"
+            android:hint="@string/REGISTRATION_NAME"
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/surnameOfTrainerCreate"
+            style="@style/textViewBasicStyle"
+            android:layout_marginTop="20dp"
+            android:autofillHints="@string/REGISTRATION_SURNAME"
+            android:hint="@string/REGISTRATION_SURNAME"
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/nameOfTrainerCreate" />
+
+        <TextView
+            android:id="@+id/trainersSport"
+            style="@style/noteStyle"
+            android:layout_width="300dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/REGISTRATION_SPORT"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/surnameOfTrainerCreate" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/trainersSportSwitch"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/trainersSport">
+
+            <Switch
+                android:id="@+id/trainersSwimmingSwitch"
+                style="@style/switchStyle"
+                android:text="@string/SWIMMING"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+            <Switch
+                android:id="@+id/trainersAthleticsSwitch"
+                style="@style/switchStyle"
+                android:text="@string/ATHLETICS"
+                app:layout_constraintEnd_toStartOf="@+id/trainersCyclingSwitch"
+                app:layout_constraintStart_toEndOf="@+id/trainersSwimmingSwitch"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+            <Switch
+                android:id="@+id/trainersCyclingSwitch"
+                style="@style/switchStyle"
+                android:text="@string/CYCLING"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="UseSwitchCompatOrMaterialXml" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

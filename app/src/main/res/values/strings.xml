@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Tritendence</string>
-    <string name="EMAIL">E-mail</string>
+    <string name="EMAIL">E-Mail</string>
     <string name="PASSWORD">Heslo</string>
     <string name="SIGN_IN">Prihlásenie</string>
     <string name="REGISTRATION_NOTE">Ešte nemáte konto? Zaregistrujte sa!</string>
@@ -173,4 +173,9 @@
     <string name="ADMIN_DB">Admin</string>
     <string name="LAST_SIGNED_DATE">LastSignedDate</string>
     <string name="NUMBER_OF_WEEK">NumberOfWeek</string>
+    <string name="RECRE_ATHLETES">Rekreační</string>
+    <string name="ADULT_ATHLETES">Dospeláci</string>
+    <string name="CREATE_TRAINER">Vytvoriť trénera</string>
+    <string name="EDIT_TRAINER_EXTRA">EDIT_TRAINER</string>
+    <string name="TRAINERS_CHILD_DB">Trainers</string>
 </resources>

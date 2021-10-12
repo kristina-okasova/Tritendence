@@ -180,18 +180,22 @@ public class AddAthleteActivity extends AppCompatActivity {
         dayOfBirth = dayOfBirth.substring(dayOfBirth.indexOf(':') + 2);
 
         //Setting athlete's ID and selected group.
-        int athleteID;
-        if (this.editAthlete != null)
+        int athleteID, numberOfTrainings;
+        if (this.editAthlete != null) {
             athleteID = this.editAthlete.getID();
-        else
+            numberOfTrainings = this.editAthlete.getNumberOfTrainings();
+        }
+        else {
             athleteID = this.club.getNumberOfAthletes() + 1;
+            numberOfTrainings = 0;
+        }
         String groupID = String.valueOf(this.groupOfAthlete.getSelectedItemPosition());
 
         //Writing athlete's data to the database.
-        root.child(getString(R.string.ATHLETES_CHILD_DB) + "/" + athleteID + "/" + getString(R.string.NAME_DB)).setValue(this.nameOfAthlete.getText().toString().trim());
-        root.child(getString(R.string.ATHLETES_CHILD_DB) + "/" + athleteID + "/" + getString(R.string.SURNAME_DB)).setValue(this.surnameOfAthlete.getText().toString().trim());
+        root.child(getString(R.string.ATHLETES_CHILD_DB) + "/" + athleteID + "/" + getString(R.string.NAME_DB)).setValue(name);
+        root.child(getString(R.string.ATHLETES_CHILD_DB) + "/" + athleteID + "/" + getString(R.string.SURNAME_DB)).setValue(surname);
         root.child(getString(R.string.ATHLETES_CHILD_DB) + "/" + athleteID + "/" + getString(R.string.GROUP_ID_DB)).setValue(groupID);
-        root.child(getString(R.string.ATHLETES_CHILD_DB) + "/" + athleteID + "/" + getString(R.string.NUMBER_OF_TRAININGS_DB)).setValue(0);
+        root.child(getString(R.string.ATHLETES_CHILD_DB) + "/" + athleteID + "/" + getString(R.string.NUMBER_OF_TRAININGS_DB)).setValue(numberOfTrainings);
         root.child(getString(R.string.ATHLETES_CHILD_DB) + "/" + athleteID + "/" + getString(R.string.DAY_OF_BIRTH_DB)).setValue(dayOfBirth);
         this.loadAthletesPage();
     }

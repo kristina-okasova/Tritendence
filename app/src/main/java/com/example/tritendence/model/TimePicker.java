@@ -31,6 +31,6 @@ public class TimePicker extends DialogFragment {
             this.minute = calendar.get(Calendar.MINUTE);
         }
 
-        return new TimePickerDialog(getActivity(), AlertDialog.THEME_DEVICE_DEFAULT_DARK, (TimePickerDialog.OnTimeSetListener) getActivity(), this.hour, this.minute, DateFormat.is24HourFormat(getActivity()));
+        return new TimePickerDialog(getActivity(), AlertDialog.THEME_HOLO_DARK, (TimePickerDialog.OnTimeSetListener) getActivity(), this.hour, this.minute, DateFormat.is24HourFormat(getActivity()));
     }
 }

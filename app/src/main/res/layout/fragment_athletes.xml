@@ -29,7 +29,6 @@
             android:id="@+id/addAthleteIcon"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginTop="10dp"
             android:layout_marginEnd="30dp"
             android:layout_marginRight="30dp"
             android:layout_marginBottom="30dp"
@@ -37,7 +36,6 @@
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/listOfAthletes"
             app:srcCompat="@drawable/add_circle_icon"
             app:tint="?attr/colorSecondary"
             tools:ignore="UsingOnClickInXml,VectorDrawableCompat" />
