@@ -5,9 +5,15 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.time.LocalDate;
 
 public class Athlete extends Member {
+    private static final String ATHLETES_CHILD_DB = "Athletes";
+    private static final String NUMBER_OF_TRAININGS = "NumberOfTrainings";
+
     private int groupID;
     private int numberOfTrainings;
     private LocalDate dayOfBirth;
@@ -61,5 +67,9 @@ public class Athlete extends Member {
 
     public void addAttendedTraining() {
         this.numberOfTrainings++;
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference root = database.getReference();
+        root.child(ATHLETES_CHILD_DB + "/" + this.ID + "/" + NUMBER_OF_TRAININGS).setValue(this.numberOfTrainings);
     }
 }

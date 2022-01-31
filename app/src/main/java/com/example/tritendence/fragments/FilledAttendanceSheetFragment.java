@@ -26,7 +26,7 @@ public class FilledAttendanceSheetFragment extends Fragment {
     //Intent's extras
     private AttendanceData selectedAttendanceData;
 
-    private TextView trainingData, nameOfGroup, trainerOfGroup;
+    private TextView trainingData, nameOfGroup, trainerOfGroup, numberOfAttendedAthletes;
     private AutoCompleteTextView note;
     private ListScrollable attendanceSheet;
 
@@ -50,8 +50,8 @@ public class FilledAttendanceSheetFragment extends Fragment {
     private void initializeLayoutItems(View view) {
         this.trainerOfGroup = view.findViewById(R.id.filledAttendanceTrainer);
         this.nameOfGroup = view.findViewById(R.id.filledAttendanceGroupName);
+        this.numberOfAttendedAthletes = view.findViewById(R.id.filledAttendanceNumberOfAthletes);
         this.trainingData = view.findViewById(R.id.filledAttendanceTrainingData);
-        this.note = view.findViewById(R.id.filledAttendanceNote);
         this.attendanceSheet = view.findViewById(R.id.filledAttendanceSheet);
     }
 
@@ -61,7 +61,7 @@ public class FilledAttendanceSheetFragment extends Fragment {
         this.trainingData.setText(String.format("%s\n%s - %s", this.selectedAttendanceData.getSport(), this.selectedAttendanceData.getDayTranslation(), this.selectedAttendanceData.getTime()));
         this.nameOfGroup.setText(this.selectedAttendanceData.getGroup().getName());
         this.trainerOfGroup.setText(this.selectedAttendanceData.getAllTrainers());
-        this.note.setText(this.selectedAttendanceData.getNote());
+        this.numberOfAttendedAthletes.setText(String.valueOf(this.selectedAttendanceData.getAttendedAthletes().size()));
 
         //Creating hashmap consisting of the attended athlete's name.
         ArrayList<HashMap<String, Object>> dataForListOfAthletes = new ArrayList<>();

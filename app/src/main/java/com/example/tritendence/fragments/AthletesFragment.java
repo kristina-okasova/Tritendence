@@ -1,6 +1,7 @@
 package com.example.tritendence.fragments;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -9,6 +10,8 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,8 +26,11 @@ import com.example.tritendence.R;
 import com.example.tritendence.model.TriathlonClub;
 import com.example.tritendence.model.users.Member;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 public class AthletesFragment extends Fragment {
     //Intent's extras
@@ -88,11 +94,21 @@ public class AthletesFragment extends Fragment {
         this.listOfAthletes.setAdapter(adapter);
     }
 
+    @SuppressLint("ResourceAsColor")
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         //Attaching options menu to the fragment.
         inflater = requireActivity().getMenuInflater();
         inflater.inflate(R.menu.athletes_sort_menu, menu);
+
+        List<String> optionsInMenu = Arrays.asList("Zoradiť abecedne", "Zoradiť podľa veku");
+        for (int i = 0; i < 2; i++) {
+            MenuItem item = menu.getItem(i);
+            SpannableString s = new SpannableString(optionsInMenu.get(i));
+            s.setSpan(new ForegroundColorSpan(Color.BLACK), 0, s.length(), 0);
+            item.setTitle(s);
+        }
+
         super.onCreateOptionsMenu(menu, inflater);
     }
 

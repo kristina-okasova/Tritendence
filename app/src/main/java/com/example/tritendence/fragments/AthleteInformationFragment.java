@@ -61,6 +61,7 @@ public class AthleteInformationFragment extends Fragment {
         this.loadData = (LoadData) requireActivity().getIntent().getExtras().getSerializable(getString(R.string.LOAD_DATA_EXTRA));
         this.selectedAthlete =  requireActivity().getIntent().getExtras().getString(getString(R.string.ATHLETE_NAME_EXTRA));
         this.initializeLayoutItems(view);
+        this.loadData.setActivity(getActivity());
 
         //Finding type of user and displaying accurate layout items and information about selected athlete.
         this.findTypeOfUser(view);

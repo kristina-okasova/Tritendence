@@ -178,4 +178,5 @@
     <string name="CREATE_TRAINER">Vytvoriť trénera</string>
     <string name="EDIT_TRAINER_EXTRA">EDIT_TRAINER</string>
     <string name="TRAINERS_CHILD_DB">Trainers</string>
+    <string name="NUMBER_ATTENDED_OF_ATHLETES">Počet zúčastnených členov</string>
 </resources>

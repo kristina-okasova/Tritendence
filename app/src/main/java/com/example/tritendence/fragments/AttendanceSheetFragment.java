@@ -86,6 +86,7 @@ public class AttendanceSheetFragment extends Fragment {
         this.date = (LocalDate) requireActivity().getIntent().getExtras().getSerializable(getString(R.string.DATE_EXTRA));
         this.attendanceData = (AttendanceData) requireActivity().getIntent().getExtras().getSerializable(getString(R.string.ATTENDANCE_DATA_EXTRA));
         this.initializeLayoutItems(view);
+        this.loadData.setActivity(getActivity());
 
         //Filling attendance sheet information.
         this.trainingData.setText(String.format("%s\n%s - %s", this.unit.getSportTranslation(), this.unit.getDay(), this.unit.getTime()));

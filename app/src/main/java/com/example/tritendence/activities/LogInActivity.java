@@ -109,11 +109,11 @@ public class LogInActivity extends AppCompatActivity {
         homePage.putExtra(getString(R.string.TRIATHLON_CLUB_EXTRA), this.club);
         homePage.putExtra(getString(R.string.LOAD_DATA_EXTRA), this.loadData);
         if (member instanceof Trainer) {
-            homePage.putExtra(getString(R.string.SPORT_SELECTION_EXTRA), ((Trainer) member).getSport());
+            homePage.putExtra(getString(R.string.SPORT_SELECTION_EXTRA), ((Trainer) member).getSportTranslation());
             homePage.putExtra(getString(R.string.THEME_EXTRA), ((Trainer) member).getTheme());
         }
         else {
-            homePage.putExtra(getString(R.string.SPORT_SELECTION_EXTRA), ((Admin) member).getSport());
+            homePage.putExtra(getString(R.string.SPORT_SELECTION_EXTRA), ((Admin) member).getSportTranslation());
             homePage.putExtra(getString(R.string.THEME_EXTRA), ((Admin) member).getTheme());
         }
 

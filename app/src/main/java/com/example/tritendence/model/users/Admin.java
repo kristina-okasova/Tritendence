@@ -29,6 +29,24 @@ public class Admin extends Member {
         return this.theme;
     }
 
+    public String getSportTranslation() {
+        String sportTranslation;
+        switch (this.sport) {
+            case "Atletika":
+                sportTranslation = "Athletics";
+                break;
+            case "Plávanie":
+                sportTranslation = "Swimming";
+                break;
+            case "Cyklistika":
+                sportTranslation = "Cycling";
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + sport);
+        }
+        return sportTranslation;
+    }
+
     public void setTheme(String theme) {
         this.theme = theme;
     }

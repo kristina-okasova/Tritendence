@@ -129,11 +129,20 @@ public class HomeActivity extends AppCompatActivity {
             this.navigation.getMenu().clear();
             this.navigation.inflateMenu(R.menu.home_bottom_menu_admin);
         }
+        else {
+            this.navigation.getMenu().clear();
+            this.navigation.inflateMenu(R.menu.home_bottom_menu);
+        }
     }
 
     private void updateLastSignedDate() {
         Calendar today = Calendar.getInstance();
-        int numberOfWeek = today.get(Calendar.WEEK_OF_YEAR) - START_WEEK;
+        int numberOfWeek;
+        if (today.get(Calendar.MONTH) > 7)
+            numberOfWeek = today.get(Calendar.WEEK_OF_YEAR) - START_WEEK;
+        else
+            numberOfWeek = today.get(Calendar.WEEK_OF_YEAR) + today.getActualMaximum
+                    (Calendar.WEEK_OF_YEAR) - START_WEEK;
 
         DatabaseReference database = FirebaseDatabase.getInstance().getReference();
         database.child(getString(R.string.NUMBER_OF_WEEK)).setValue(numberOfWeek);

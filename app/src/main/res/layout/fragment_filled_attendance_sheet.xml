@@ -50,6 +50,20 @@
                 app:layout_constraintStart_toEndOf="@+id/textView19"
                 app:layout_constraintTop_toBottomOf="@+id/filledAttendanceGroupName" />
 
+            <TextView
+                android:id="@+id/textView20"
+                style="@style/informationHeadingStyle"
+                android:text="@string/NUMBER_ATTENDED_OF_ATHLETES"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView19" />
+
+            <TextView
+                android:id="@+id/filledAttendanceNumberOfAthletes"
+                style="@style/informationInputStyle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textView20"
+                app:layout_constraintTop_toBottomOf="@+id/filledAttendanceTrainer" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
@@ -71,24 +85,15 @@
         <Button
             android:id="@+id/filledAttendanceEditBtn"
             style="@style/buttonStyle"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"
             android:onClick="editAttendanceSheet"
             android:text="@string/EDIT_ATTENDANCE"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/filledAttendanceNote"
+            app:layout_constraintTop_toBottomOf="@+id/filledAttendanceSheet"
             tools:ignore="OnClick,UsingOnClickInXml" />
-
-        <AutoCompleteTextView
-            android:id="@+id/filledAttendanceNote"
-            style="@style/textViewBasicStyle"
-            android:layout_marginTop="30dp"
-            android:hint="@string/NOTE"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/filledAttendanceSheet" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

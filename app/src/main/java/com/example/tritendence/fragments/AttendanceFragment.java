@@ -1,8 +1,11 @@
 package com.example.tritendence.fragments;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -30,6 +33,7 @@ import com.example.tritendence.model.users.Member;
 import com.example.tritendence.model.users.Trainer;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -78,9 +82,9 @@ public class AttendanceFragment extends Fragment {
             this.sportSelection = requireActivity().getIntent().getExtras().getString(getString(R.string.SPORT_SELECTION_EXTRA));
 
         //Finding signed trainer by name and initializing timetable.
-        Member signedTrainer = this.findCurrentUser();
         this.initializeTimetable();
         this.initializeCurrentWeek(view);
+        this.loadData.setActivity(getActivity());
 
         //Adding specific groups to timetable based on the current type of sport selection.
         this.addGroups(this.sportSelection);
@@ -99,14 +103,6 @@ public class AttendanceFragment extends Fragment {
                 previousGroup = groupPosition;
             }
         });
-    }
-
-    private Member findCurrentUser() {
-        for (Member member : this.club.getMembersOfClub()) {
-            if ((member instanceof Trainer || member instanceof Admin) && member.getFullName().equals(this.signedUser))
-                return member;
-        }
-        return null;
     }
 
     private void initializeTimetable() {
@@ -203,6 +199,15 @@ public class AttendanceFragment extends Fragment {
         //Attaching options menu to the fragment.
         inflater = requireActivity().getMenuInflater();
         inflater.inflate(R.menu.attendance_selection_menu, menu);
+
+        List<String> optionsInMenu = Arrays.asList("Zobraziť plavecké tréningy", "Zobraziť atletické tréningy", "Zobraziť cyklistické tréningy", "Zobraziť všetky tréningy");
+        for (int i = 0; i < 4; i++) {
+            MenuItem item = menu.getItem(i);
+            SpannableString s = new SpannableString(optionsInMenu.get(i));
+            s.setSpan(new ForegroundColorSpan(Color.BLACK), 0, s.length(), 0);
+            item.setTitle(s);
+        }
+
         super.onCreateOptionsMenu(menu, inflater);
     }
 

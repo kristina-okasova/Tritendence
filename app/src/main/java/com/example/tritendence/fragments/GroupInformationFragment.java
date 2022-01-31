@@ -83,6 +83,7 @@ public class GroupInformationFragment extends Fragment implements Serializable {
         this.sportSelection = requireActivity().getIntent().getExtras().getString(getString(R.string.SPORT_SELECTION_EXTRA));
         this.selectedGroup =  requireActivity().getIntent().getExtras().getString(getString(R.string.GROUP_NAME_EXTRA));
         this.initializeLayoutItems(view);
+        this.loadData.setActivity(getActivity());
 
         //Initializing lists of data required for the layout to display all group information.
         this.findTypeOfUser(view);

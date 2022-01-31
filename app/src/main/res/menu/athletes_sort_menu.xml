@@ -5,5 +5,5 @@
         android:title="@string/ALPHABET_SORTING" />
     <item
         android:id="@+id/ageSorting"
-        android:title="@string/AGE_SORTING" />
+        android:title="@string/AGE_SORTING"/>
 </menu>
