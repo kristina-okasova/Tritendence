@@ -194,6 +194,7 @@ public class AdapterOfExpendableList extends BaseExpandableListAdapter {
             this.loadAttendanceSheetPage(selectedGroup, signedUser, date);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private AttendanceData checkFilledAttendance(TrainingUnit unit, LocalDate date) {
         //Checking if the attendance sheet has already been filled before.
         for (AttendanceData attendanceData : this.club.getAttendanceData()) {

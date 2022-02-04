@@ -11,6 +11,7 @@ import com.example.tritendence.model.users.Member;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -68,6 +69,12 @@ public class AttendanceData implements Serializable {
 
     public String getDate() {
         return this.date.toString();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public String getFormatDate() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        return formatter.format(this.date);
     }
 
     public LocalDate getLocalDate() {

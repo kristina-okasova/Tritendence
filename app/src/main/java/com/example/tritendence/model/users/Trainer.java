@@ -1,25 +1,17 @@
 package com.example.tritendence.model.users;
 
-import com.example.tritendence.R;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
 import java.util.HashMap;
 import java.util.Map;
 
 public class Trainer extends Member {
-    private static final String TRAINERS_CHILD_DB = "Trainers";
-    private static final String NUMBER_OF_TRAININGS = "NumberOfTrainings";
 
     private final String email;
     private String sport, theme;
-    private int numberOfTrainings;
 
-    public Trainer(int ID, String name, String surname, String email, String sport, int numberOfTrainings, String theme) {
+    public Trainer(int ID, String name, String surname, String email, String sport, String theme) {
         super(ID, name, surname);
         this.email = email;
         this.sport = sport;
-        this.numberOfTrainings = numberOfTrainings;
         this.theme = theme;
     }
 
@@ -30,7 +22,6 @@ public class Trainer extends Member {
         data.put("Surname", this.surname);
         data.put("E-Mail", this.email);
         data.put("Sport", this.sport);
-        data.put("NumberOfTrainings", 0);
         data.put("Theme", this.theme);
 
         return data;
@@ -38,10 +29,6 @@ public class Trainer extends Member {
 
     public String getEmail() {
         return this.email;
-    }
-
-    public int getNumberOfTrainings() {
-        return this.numberOfTrainings;
     }
 
     public String getIDText() {
@@ -64,14 +51,6 @@ public class Trainer extends Member {
                 throw new IllegalStateException("Unexpected value: " + sport);
         }
         return sportTranslation;
-    }
-
-    public void addTraining() {
-        this.numberOfTrainings++;
-
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference root = database.getReference();
-        root.child(TRAINERS_CHILD_DB + "/" + this.ID + "/" + NUMBER_OF_TRAININGS).setValue(this.numberOfTrainings);
     }
 
     public String getSport() {

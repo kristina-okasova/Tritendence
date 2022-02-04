@@ -85,11 +85,32 @@
                 android:layout_marginStart="30dp"
                 android:layout_marginLeft="30dp"
                 android:layout_marginTop="20dp"
-                android:layout_marginBottom="30dp"
                 android:text="@string/NUMBER_OF_TRAINING_UNITS"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/themeOfUser" />
+                app:layout_constraintTop_toBottomOf="@+id/themeOfUser" />
+
+            <TextView
+                android:id="@+id/textView8"
+                style="@style/informationHeadingStyle"
+                android:layout_marginStart="30dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="20dp"
+                android:text="@string/FIRST_WEEK"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textView7" />
+
+            <Spinner
+                android:id="@+id/firstWeekOfTheYear"
+                style="@style/basicSpinnerStyle"
+                android:layout_width="300dp"
+                android:dropDownWidth="match_parent"
+                android:theme="@style/setFirstWeekStyle"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView8"
+                tools:layout_marginTop="20dp" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -99,6 +120,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
             android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="30dp"
             android:layout_marginRight="30dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -111,11 +133,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/TRAINING_OF_TRAINER"
-                android:textColor="?attr/colorOnPrimary"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.498"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 

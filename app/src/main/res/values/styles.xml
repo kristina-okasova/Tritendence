@@ -5,6 +5,11 @@
         <item name="android:textSize">18sp</item>
     </style>
 
+    <style name="setFirstWeekStyle" parent="@android:style/Widget.Holo.DropDownItem.Spinner">
+        <item name="android:textColor">?attr/colorOnPrimary</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
     <style name="buttonStyle" parent="Widget.MaterialComponents.Button">
         <item name="android:layout_width">300dp</item>
         <item name="android:layout_height">wrap_content</item>
@@ -175,6 +180,16 @@
         <item name="android:textSize">16sp</item>
         <item name="android:popupBackground">?attr/colorSecondary</item>
         <item name="android:background">@drawable/gradient_spinner</item>
+        <item name="android:overlapAnchor" tools:targetApi="lollipop">false</item>
+    </style>
+
+    <style name="basicSpinnerStyle" parent="Widget.MaterialComponents.TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textAlignment" tools:targetApi="jelly_bean_mr1">center</item>
+        <item name="android:popupBackground">?attr/colorOnPrimarySurface</item>
+        <item name="android:background">@drawable/basic_gradient_spinner</item>
         <item name="android:overlapAnchor" tools:targetApi="lollipop">false</item>
     </style>
 

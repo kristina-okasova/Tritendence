@@ -122,8 +122,7 @@ public class GroupInformationFragment extends Fragment implements Serializable {
         this.dateOfAttendances = new ArrayList<>();
         for (AttendanceData attendanceData : this.club.getAttendanceData()) {
             if (attendanceData.getGroup().getName().equals(selectedGroup)) {
-                DateTimeFormatter format = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-                String trainingData = String.format(attendanceData.getDate(), format) + " " + attendanceData.getTime() + " " + attendanceData.getSport();
+                String trainingData = attendanceData.getFormatDate() + " " + attendanceData.getTime() + " " + attendanceData.getSport();
                 this.dateOfAttendances.add(trainingData);
 
                 //Adding list of attended athletes as expandable child.

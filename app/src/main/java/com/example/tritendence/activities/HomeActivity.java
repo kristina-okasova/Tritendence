@@ -139,10 +139,10 @@ public class HomeActivity extends AppCompatActivity {
         Calendar today = Calendar.getInstance();
         int numberOfWeek;
         if (today.get(Calendar.MONTH) > 7)
-            numberOfWeek = today.get(Calendar.WEEK_OF_YEAR) - START_WEEK;
+            numberOfWeek = today.get(Calendar.WEEK_OF_YEAR) - this.club.getFirstWeek();
         else
             numberOfWeek = today.get(Calendar.WEEK_OF_YEAR) + today.getActualMaximum
-                    (Calendar.WEEK_OF_YEAR) - START_WEEK;
+                    (Calendar.WEEK_OF_YEAR) - this.club.getFirstWeek();
 
         DatabaseReference database = FirebaseDatabase.getInstance().getReference();
         database.child(getString(R.string.NUMBER_OF_WEEK)).setValue(numberOfWeek);

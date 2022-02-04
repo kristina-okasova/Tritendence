@@ -24,6 +24,7 @@ public class GroupInformationActivity extends AppCompatActivity {
     private String signedUser, sportSelection, theme;
 
     private GroupInformationFragment groupInformationFragment;
+    private BottomNavigationView navigation;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -54,13 +55,26 @@ public class GroupInformationActivity extends AppCompatActivity {
         this.sportSelection = getIntent().getExtras().getString(getString(R.string.SPORT_SELECTION_EXTRA));
 
         //Setting currently selected navigation item and navigation listener.
-        BottomNavigationView navigation = findViewById(R.id.bottomNavigationView);
-        navigation.setSelectedItemId(R.id.groupsFragment);
-        navigation.setOnNavigationItemSelectedListener(navigationListener);
+        this.navigation = findViewById(R.id.bottomNavigationView);
+        this.findTypeOfSignedUser();
+
+        this.navigation.setSelectedItemId(R.id.groupsFragment);
+        this.navigation.setOnNavigationItemSelectedListener(navigationListener);
 
         //Attaching fragment to the activity.
         this.groupInformationFragment = new GroupInformationFragment(this);
         getSupportFragmentManager().beginTransaction().replace(R.id.groupFragmentContainerView, this.groupInformationFragment).commit();
+    }
+
+    private void findTypeOfSignedUser() {
+        if (this.club.getAdminOfClub().getFullName().equals(signedUser)) {
+            this.navigation.getMenu().clear();
+            this.navigation.inflateMenu(R.menu.home_bottom_menu_admin);
+        }
+        else {
+            this.navigation.getMenu().clear();
+            this.navigation.inflateMenu(R.menu.home_bottom_menu);
+        }
     }
 
     @SuppressLint("NonConstantResourceId")

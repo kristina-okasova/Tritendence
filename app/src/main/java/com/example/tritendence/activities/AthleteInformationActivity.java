@@ -26,6 +26,7 @@ public class AthleteInformationActivity extends AppCompatActivity {
     private LoadData loadData;
 
     private AthleteInformationFragment athleteInformationFragment;
+    private BottomNavigationView navigation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,13 +56,26 @@ public class AthleteInformationActivity extends AppCompatActivity {
         this.loadData = (LoadData) getIntent().getExtras().getSerializable(getString(string.LOAD_DATA_EXTRA));
 
         //Setting currently selected navigation item and navigation listener.
-        BottomNavigationView navigation = findViewById(R.id.bottomNavigationView);
-        navigation.setSelectedItemId(id.athletesFragment);
-        navigation.setOnNavigationItemSelectedListener(navigationListener);
+        this.navigation = findViewById(R.id.bottomNavigationView);
+        this.findTypeOfSignedUser();
+
+        this.navigation.setSelectedItemId(id.athletesFragment);
+        this.navigation.setOnNavigationItemSelectedListener(navigationListener);
 
         //Attaching fragment to the activity.
         this.athleteInformationFragment = new AthleteInformationFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.athleteFragmentContainerView, this.athleteInformationFragment).commit();
+    }
+
+    private void findTypeOfSignedUser() {
+        if (this.club.getAdminOfClub().getFullName().equals(signedUser)) {
+            this.navigation.getMenu().clear();
+            this.navigation.inflateMenu(R.menu.home_bottom_menu_admin);
+        }
+        else {
+            this.navigation.getMenu().clear();
+            this.navigation.inflateMenu(R.menu.home_bottom_menu);
+        }
     }
 
     @SuppressLint("NonConstantResourceId")

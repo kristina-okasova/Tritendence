@@ -20,7 +20,7 @@ public class TriathlonClub implements Serializable {
     private ArrayList<Member> membersOfClub;
     private ArrayList<Group> groupsOfClub;
     private ArrayList<AttendanceData> attendanceData;
-    private int numberOfUsers, numberOfGroups, numberOfAthletes, numberOfTrainers, numberOfFilledAttendances, numberOfWeek;
+    private int numberOfUsers, numberOfGroups, numberOfAthletes, numberOfTrainers, numberOfFilledAttendances, numberOfWeek, firstWeek;
     private Admin adminOfClub;
 
     public TriathlonClub() {
@@ -188,6 +188,14 @@ public class TriathlonClub implements Serializable {
 
     public void setNumberOfWeek(int numberOfWeek) {
         this.numberOfWeek = numberOfWeek;
+    }
+
+    public void setFirstWeek(int firstWeek) {
+        this.firstWeek = firstWeek;
+    }
+
+    public int getFirstWeek() {
+        return this.firstWeek;
     }
 
     public int getNumberOfWeek() {

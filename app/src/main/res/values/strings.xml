@@ -179,4 +179,6 @@
     <string name="EDIT_TRAINER_EXTRA">EDIT_TRAINER</string>
     <string name="TRAINERS_CHILD_DB">Trainers</string>
     <string name="NUMBER_ATTENDED_OF_ATHLETES">Počet zúčastnených členov</string>
+    <string name="FIRST_WEEK">Prvý týždeň školského roka</string>
+    <string name="FIRST_WEEK_DB">FirstWeek</string>
 </resources>

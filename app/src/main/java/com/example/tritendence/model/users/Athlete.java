@@ -15,14 +15,12 @@ public class Athlete extends Member {
     private static final String NUMBER_OF_TRAININGS = "NumberOfTrainings";
 
     private int groupID;
-    private int numberOfTrainings;
     private LocalDate dayOfBirth;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public Athlete(int ID, String name, String surname, int groupID, int numberOfTrainings, String dayOfBirth) {
+    public Athlete(int ID, String name, String surname, int groupID, String dayOfBirth) {
         super(ID, name, surname);
         this.groupID = groupID;
-        this.numberOfTrainings = numberOfTrainings;
 
         this.setDayOfBirth(dayOfBirth);
     }
@@ -43,10 +41,6 @@ public class Athlete extends Member {
         this.groupID = groupID;
     }
 
-    public int getNumberOfTrainings() {
-        return this.numberOfTrainings;
-    }
-
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void setDayOfBirth(String dayOfBirth) {
         int year = Integer.parseInt(dayOfBirth.substring(6, 10));
@@ -63,13 +57,5 @@ public class Athlete extends Member {
 
     public LocalDate getDate() {
         return this.dayOfBirth;
-    }
-
-    public void addAttendedTraining() {
-        this.numberOfTrainings++;
-
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference root = database.getReference();
-        root.child(ATHLETES_CHILD_DB + "/" + this.ID + "/" + NUMBER_OF_TRAININGS).setValue(this.numberOfTrainings);
     }
 }

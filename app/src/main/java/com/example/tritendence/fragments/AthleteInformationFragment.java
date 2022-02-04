@@ -65,8 +65,8 @@ public class AthleteInformationFragment extends Fragment {
 
         //Finding type of user and displaying accurate layout items and information about selected athlete.
         this.findTypeOfUser(view);
-        this.fillInAthleteInformation();
-        this.fillInAthletesAttendance(view);
+        int numberOfTrainings = this.fillInAthletesAttendance(view);
+        this.fillInAthleteInformation(numberOfTrainings);
     }
 
     private void initializeLayoutItems(View view) {
@@ -88,26 +88,27 @@ public class AthleteInformationFragment extends Fragment {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void fillInAthleteInformation() {
+    public void fillInAthleteInformation(int numberOfTrainings) {
         //Finding athlete in the club by name and filling its information.
         for (Member athlete : this.club.getMembersOfClub()) {
             if (athlete instanceof Athlete && athlete.getFullName().equals(selectedAthlete)) {
                 this.nameOfAthlete.setText(athlete.getFullName());
                 this.dayOfBirth.setText(((Athlete) athlete).getDayOfBirth());
-                this.numberOfTrainings.setText(String.valueOf(((Athlete) athlete).getNumberOfTrainings()));
+                this.numberOfTrainings.setText(String.valueOf(numberOfTrainings));
                 this.group.setText(this.findGroupByID(((Athlete) athlete).getGroupID()));
             }
         }
     }
 
-    private void fillInAthletesAttendance(View view) {
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private int fillInAthletesAttendance(View view) {
         ArrayList<HashMap<String, Object>> dataForListOfAthletes = new ArrayList<>();
         //Creating hashmap consisting of the attendance's data for adapter.
         for (AttendanceData attendanceData : this.club.getAttendanceData()) {
             if (attendanceData.containsAthlete(this.selectedAthlete)) {
                 HashMap<String, Object> mappedData = new HashMap<>();
 
-                mappedData.put(getString(R.string.TRAINING_DATA), attendanceData.getDate() + " " + attendanceData.getTime() + "\n" + attendanceData.getSport());
+                mappedData.put(getString(R.string.TRAINING_DATA), attendanceData.getFormatDate() + " " + attendanceData.getTime() + "\n" + attendanceData.getSport());
                 dataForListOfAthletes.add(mappedData);
             }
         }
@@ -121,6 +122,7 @@ public class AthleteInformationFragment extends Fragment {
         SimpleAdapter adapter = new SimpleAdapter(getActivity(), dataForListOfAthletes, R.layout.attendance_of_athlete, insertingData, UIData);
         athletesAttendance.setAdapter(adapter);
 
+        return dataForListOfAthletes.size();
     }
 
     private String findGroupByID(int groupID) {

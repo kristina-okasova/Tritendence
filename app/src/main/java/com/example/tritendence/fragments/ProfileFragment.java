@@ -1,6 +1,8 @@
 package com.example.tritendence.fragments;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -28,9 +30,16 @@ import com.example.tritendence.model.users.Trainer;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Objects;
+
+import static java.time.temporal.TemporalAdjusters.firstInMonth;
 
 public class ProfileFragment extends Fragment {
     //Intent's extras
@@ -39,8 +48,8 @@ public class ProfileFragment extends Fragment {
 
     //Layout's items
     private ListView trainersTrainings;
-    private TextView signedTrainerName, signedTrainerEmail, numberOfTrainings;
-    private Spinner themeOfUser;
+    private TextView signedTrainerName, signedTrainerEmail, numberOfTrainings, firstWeekOfTheYearText;
+    private Spinner themeOfUser, firstWeekOfTheYear;
 
     private HomeActivity activity;
 
@@ -52,6 +61,7 @@ public class ProfileFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -63,9 +73,11 @@ public class ProfileFragment extends Fragment {
 
         this.initializeLayoutItems(view);
         this.setThemesSpinner();
+        this.setWeekSpinner();
 
         //Fill information about currently signed trainer.
         this.fillTrainerInformation();
+        this.displayFirstWeekSelection();
 
         //Setting listener of themes spinner.
         this.themeOfUser.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -116,6 +128,8 @@ public class ProfileFragment extends Fragment {
         this.numberOfTrainings = view.findViewById(R.id.numberOfTrainingUnits);
         this.trainersTrainings = view.findViewById(R.id.trainersTrainings);
         this.themeOfUser = view.findViewById(R.id.themeOfUser);
+        this.firstWeekOfTheYearText = view.findViewById(R.id.textView8);
+        this.firstWeekOfTheYear = view.findViewById(R.id.firstWeekOfTheYear);
     }
 
     private void setThemesSpinner() {
@@ -156,6 +170,58 @@ public class ProfileFragment extends Fragment {
         this.themeOfUser.setSelection(0);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void setWeekSpinner() {
+        LocalDate mondayOfTheWeek = this.getFirstMonday(Calendar.getInstance().get(Calendar.YEAR));
+        ArrayList<String> numberOfWeeks = new ArrayList<>();
+        for (int i = 1; i <= Calendar.getInstance().getActualMaximum(Calendar.WEEK_OF_YEAR); i++) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.");
+            numberOfWeeks.add(String.valueOf(i) + ". týždeň: " + formatter.format(mondayOfTheWeek)
+                    + " - " + formatter.format((mondayOfTheWeek.plusDays(6))));
+            mondayOfTheWeek = mondayOfTheWeek.plusDays(7);
+        }
+
+        //Setting adapter for the first week of the current year.
+        ArrayAdapter<String> adapterSpinner = new ArrayAdapter<>(this.getActivity(), android.R.layout.simple_list_item_1, numberOfWeeks);
+        adapterSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        this.firstWeekOfTheYear.setAdapter(adapterSpinner);
+
+        //Setting default value of the first week to the currently selected week.
+        this.firstWeekOfTheYear.setSelection(this.club.getFirstWeek() - 1);
+
+        this.firstWeekOfTheYear.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position == club.getFirstWeek() - 1)
+                    return;
+                AlertDialog.Builder acknowledgement = new AlertDialog.Builder(getContext());
+                acknowledgement.setCancelable(true);
+                acknowledgement.setTitle("Potvrdenie");
+                acknowledgement.setMessage("Ste si istý, že chcete zmeniť prvý týždeň školského roka?");
+                acknowledgement.setPositiveButton("Áno", (dialog, which) -> {
+                        FirebaseDatabase database = FirebaseDatabase.getInstance();
+                        DatabaseReference root = database.getReference();
+
+                        club.setFirstWeek(position + 1);
+                        root.child(getString(R.string.FIRST_WEEK_DB)).setValue(position + 1);
+                    });
+                acknowledgement.setNegativeButton("Nie", (dialog, which) -> {});
+
+                AlertDialog dialog = acknowledgement.create();
+                dialog.show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private LocalDate getFirstMonday(int year) {
+        LocalDate now = LocalDate.of(year, Month.JANUARY, 1);
+        return now.with(firstInMonth(DayOfWeek.MONDAY));
+    }
+
     private void fillTrainerInformation() {
         ArrayList<HashMap<String, Object>> dataForListOfTrainings = new ArrayList<>();
 
@@ -180,13 +246,13 @@ public class ProfileFragment extends Fragment {
                 //Fill in data if the signed user is trainer.
                 if (member instanceof Trainer) {
                     this.signedTrainerEmail.setText(((Trainer) member).getEmail());
-                    this.numberOfTrainings.setText(String.valueOf(((Trainer) member).getNumberOfTrainings()));
+                    this.numberOfTrainings.setText(String.valueOf(dataForListOfTrainings.size()));
                 }
 
                 //Fill in data if the signed user is admin.
                 if (member instanceof Admin) {
                     this.signedTrainerEmail.setText(((Admin) member).getEmail());
-                    this.numberOfTrainings.setText(String.valueOf(((Admin) member).getNumberOfTrainings()));
+                    this.numberOfTrainings.setText(String.valueOf(dataForListOfTrainings.size()));
                 }
 
                 //Linking keys of hashmap to items of the layout used by adapter.
@@ -197,6 +263,13 @@ public class ProfileFragment extends Fragment {
                 SimpleAdapter adapter = new SimpleAdapter(getActivity(), dataForListOfTrainings, R.layout.training_in_list_of_trainers_trainings, insertingData, UIData);
                 this.trainersTrainings.setAdapter(adapter);
             }
+        }
+    }
+
+    private void displayFirstWeekSelection() {
+        if (this.signedTrainer.equals(this.club.getAdminOfClub().getFullName())) {
+            this.firstWeekOfTheYearText.setVisibility(View.VISIBLE);
+            this.firstWeekOfTheYear.setVisibility(View.VISIBLE);
         }
     }
 

@@ -1,9 +1,11 @@
 package com.example.tritendence.fragments;
 
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -36,6 +38,7 @@ public class TrainerInformationFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -46,8 +49,8 @@ public class TrainerInformationFragment extends Fragment {
         this.initializeLayoutItems(view);
 
         //Filling all the required information about the trainer.
-        this.initializeTrainersAttendance(view);
-        this.fillInTrainersInformation();
+        int numberOfTrainings = this.initializeTrainersAttendance();
+        this.fillInTrainersInformation(numberOfTrainings);
     }
 
     private void initializeLayoutItems(View view) {
@@ -57,7 +60,8 @@ public class TrainerInformationFragment extends Fragment {
         this.trainersAttendance = view.findViewById(R.id.attendanceOfTrainerInformation);
     }
 
-    private void initializeTrainersAttendance(View view) {
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private int initializeTrainersAttendance() {
         ArrayList<HashMap<String, Object>> dataForListOfTrainings = new ArrayList<>();
         //Creating hashmap consisting of the trainer's attendance data.
         for (AttendanceData attendanceData : this.club.getAttendanceData()) {
@@ -65,7 +69,7 @@ public class TrainerInformationFragment extends Fragment {
                 if (trainer.getFullName().equals(this.selectedTrainer)) {
                     HashMap<String, Object> mappedData = new HashMap<>();
 
-                    mappedData.put(getString(R.string.TRAINING_DATA_ADAPTER), attendanceData.getDate() + " " + attendanceData.getTime() + "\n" + attendanceData.getSport());
+                    mappedData.put(getString(R.string.TRAINING_DATA_ADAPTER), attendanceData.getFormatDate() + " " + attendanceData.getTime() + "\n" + attendanceData.getSport());
                     dataForListOfTrainings.add(mappedData);
                 }
             }
@@ -78,15 +82,17 @@ public class TrainerInformationFragment extends Fragment {
         //Creating adapter and setting it to the list of attendance data.
         SimpleAdapter adapter = new SimpleAdapter(getActivity(), dataForListOfTrainings, R.layout.attendance_of_athlete, insertingData, UIData);
         this.trainersAttendance.setAdapter(adapter);
+
+        return dataForListOfTrainings.size();
     }
 
-    private void fillInTrainersInformation() {
+    private void fillInTrainersInformation(int numberOfTrainings) {
         //Finding signed trainer in the club by its name and filling its data.
         for (Member member : this.club.getMembersOfClub()) {
             if (member instanceof Trainer && member.getFullName().equals(this.selectedTrainer)) {
                 this.nameOfTrainer.setText(member.getFullName());
                 this.email.setText(((Trainer) member).getEmail());
-                this.numberOfTrainings.setText(String.valueOf(((Trainer) member).getNumberOfTrainings()));
+                this.numberOfTrainings.setText(String.valueOf(numberOfTrainings));
             }
         }
     }

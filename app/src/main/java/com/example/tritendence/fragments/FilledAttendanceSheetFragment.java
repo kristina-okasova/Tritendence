@@ -19,6 +19,7 @@ import com.example.tritendence.R;
 import com.example.tritendence.model.AttendanceData;
 import com.example.tritendence.model.lists.ListScrollable;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -58,7 +59,7 @@ public class FilledAttendanceSheetFragment extends Fragment {
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void fillAttendanceInformation() {
         //Filling data of the filled attendance sheet.
-        this.trainingData.setText(String.format("%s\n%s - %s", this.selectedAttendanceData.getSport(), this.selectedAttendanceData.getDayTranslation(), this.selectedAttendanceData.getTime()));
+        this.trainingData.setText(String.format("%s\n%s, %s, %s", this.selectedAttendanceData.getSport(), this.selectedAttendanceData.getFormatDate(), this.selectedAttendanceData.getDayTranslation(), this.selectedAttendanceData.getTime()));
         this.nameOfGroup.setText(this.selectedAttendanceData.getGroup().getName());
         this.trainerOfGroup.setText(this.selectedAttendanceData.getAllTrainers());
         this.numberOfAttendedAthletes.setText(String.valueOf(this.selectedAttendanceData.getAttendedAthletes().size()));

@@ -31,6 +31,7 @@ public class LoadData implements Serializable {
     private static final String ATTENDANCE_CHILD_DATABASE = "Attendance";
     private static final String ADMINS_CHILD_DATABASE = "Admin";
     private static final String NUMBER_OF_WEEK = "NumberOfWeek";
+    private static final String FIRST_WEEK = "FirstWeek";
 
     private static final String NAME = "Name";
     private static final String SURNAME = "Surname";
@@ -59,10 +60,10 @@ public class LoadData implements Serializable {
     private static final String ATTENDANCE_NOTE = "Note";
 
     private static final int NUMBER_OF_REQUIRED_DATA_FOR_ATTENDANCE = 5;
-    private static final int NUMBER_OF_REQUIRED_DATA_FOR_TRAINER = 6;
+    private static final int NUMBER_OF_REQUIRED_DATA_FOR_TRAINER = 5;
     private static final int NUMBER_OF_REQUIRED_DATA_FOR_GROUP = 3;
     private static final int NUMBER_OF_REQUIRED_DATA_FOR_TRAINING_UNIT = 3;
-    private static final int NUMBER_OF_REQUIRED_DATA_FOR_ATHLETE = 5;
+    private static final int NUMBER_OF_REQUIRED_DATA_FOR_ATHLETE = 4;
 
     private final TriathlonClub club;
     private transient Activity activity;
@@ -122,6 +123,7 @@ public class LoadData implements Serializable {
         this.numberOfTrainers = (int) snapshot.child(TRAINERS_CHILD_DATABASE).getChildrenCount();
         this.numberOfFilledAttendances = (int) snapshot.child(ATTENDANCE_CHILD_DATABASE).getChildrenCount();
         int numberOfWeek = Integer.parseInt(Objects.requireNonNull(snapshot.child(NUMBER_OF_WEEK).getValue()).toString());
+        int firstWeek = Integer.parseInt(Objects.requireNonNull(snapshot.child(FIRST_WEEK).getValue()).toString());
 
         this.club.setNumberOfGroups(this.numberOfGroups);
         this.club.setNumberOfAthletes(this.numberOfAthletes);
@@ -129,6 +131,7 @@ public class LoadData implements Serializable {
         this.club.setNumberOfFilledAttendances(this.numberOfFilledAttendances);
         this.club.setNumberOfUsers(this.numberOfAthletes + this.numberOfTrainers);
         this.club.setNumberOfWeek(numberOfWeek);
+        this.club.setFirstWeek(firstWeek);
     }
 
     private void loadGroupInformation(DataSnapshot snapshot) {
@@ -183,12 +186,11 @@ public class LoadData implements Serializable {
             String name = Objects.requireNonNull(snapshot.child(athleteID).child(NAME).getValue()).toString();
             String surname = Objects.requireNonNull(snapshot.child(athleteID).child(SURNAME).getValue()).toString();
             String groupID = Objects.requireNonNull(snapshot.child(athleteID).child(ATHLETE_GROUP_ID).getValue()).toString();
-            String numberOfTrainings = Objects.requireNonNull(snapshot.child(athleteID).child(NUMBER_OF_TRAININGS).getValue()).toString();
             String dayOfBirth = Objects.requireNonNull(snapshot.child(athleteID).child(ATHLETE_DAY_OF_BIRTH).getValue()).toString();
 
             if (Integer.parseInt(groupID) == -1)
                 continue;
-            Athlete athlete = new Athlete(i, name, surname, Integer.parseInt(groupID), Integer.parseInt(numberOfTrainings), dayOfBirth);
+            Athlete athlete = new Athlete(i, name, surname, Integer.parseInt(groupID), dayOfBirth);
             this.club.addMember(athlete);
         }
     }
@@ -205,9 +207,8 @@ public class LoadData implements Serializable {
             String eMail = Objects.requireNonNull(snapshot.child(trainerID).child(EMAIL).getValue()).toString();
             String sport = Objects.requireNonNull(snapshot.child(trainerID).child(SPORT).getValue()).toString();
             String theme = Objects.requireNonNull(snapshot.child(trainerID).child(THEME).getValue()).toString();
-            int numberOfTrainings = Integer.parseInt(Objects.requireNonNull(snapshot.child(trainerID).child(NUMBER_OF_TRAININGS).getValue()).toString());
 
-            Trainer trainer = new Trainer(i, name, surname, eMail, sport, numberOfTrainings, theme);
+            Trainer trainer = new Trainer(i, name, surname, eMail, sport, theme);
             this.club.addMember(trainer);
         }
     }
@@ -218,9 +219,8 @@ public class LoadData implements Serializable {
         String surname = Objects.requireNonNull(snapshot.child(SURNAME).getValue()).toString();
         String email = Objects.requireNonNull(snapshot.child(EMAIL).getValue()).toString();
         String theme = Objects.requireNonNull(snapshot.child(THEME).getValue()).toString();
-        int numberOfTrainings = Integer.parseInt(Objects.requireNonNull(snapshot.child(NUMBER_OF_TRAININGS).getValue()).toString());
 
-        Admin admin = new Admin(0, name, surname, email, numberOfTrainings, theme);
+        Admin admin = new Admin(0, name, surname, email, theme);
         this.club.setAdminOfClub(admin);
         this.club.addMember(admin);
     }

@@ -20,7 +20,7 @@ public class AddEntity {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference root = database.getReference();
 
-        Trainer trainer = new Trainer(this.club.getNumberOfTrainers() + 1, name.trim(), surname.trim(), email.trim(), sport, 0, "DarkRed");
+        Trainer trainer = new Trainer(this.club.getNumberOfTrainers() + 1, name.trim(), surname.trim(), email.trim(), sport, "DarkRed");
         Map<String, Object> userData = trainer.getMappedData();
         root.child(TRAINERS_CHILD_DATABASE + "/" + trainer.getIDText()).setValue(userData);
 

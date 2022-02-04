@@ -137,13 +137,11 @@ public class AddTrainerActivity extends AppCompatActivity {
         String email, theme;
         if (this.editTrainer != null) {
             trainerID = this.editTrainer.getID();
-            numberOfTrainings = this.editTrainer.getNumberOfTrainings();
             email = this.editTrainer.getEmail();
             theme = this.editTrainer.getTheme();
         }
         else {
             trainerID = this.club.getNumberOfTrainers() + 1;
-            numberOfTrainings = 0;
             email = "null";
             theme = "DarkRed";
         }
@@ -152,7 +150,6 @@ public class AddTrainerActivity extends AppCompatActivity {
         root.child(getString(R.string.TRAINERS_CHILD_DB) + "/" + trainerID + "/" + getString(R.string.NAME_DB)).setValue(name);
         root.child(getString(R.string.TRAINERS_CHILD_DB) + "/" + trainerID + "/" + getString(R.string.SURNAME_DB)).setValue(surname);
         root.child(getString(R.string.TRAINERS_CHILD_DB) + "/" + trainerID + "/" + getString(R.string.EMAIL)).setValue(email);
-        root.child(getString(R.string.TRAINERS_CHILD_DB) + "/" + trainerID + "/" + getString(R.string.NUMBER_OF_TRAININGS_DB)).setValue(numberOfTrainings);
         root.child(getString(R.string.TRAINERS_CHILD_DB) + "/" + trainerID + "/" + getString(R.string.THEME_DB)).setValue(theme);
         root.child(getString(R.string.TRAINERS_CHILD_DB) + "/" + trainerID + "/" + getString(R.string.SPORT_DB)).setValue(this.sportText);
 

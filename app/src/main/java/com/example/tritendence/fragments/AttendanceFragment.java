@@ -194,6 +194,7 @@ public class AttendanceFragment extends Fragment {
         }
     }
 
+    @SuppressLint("ResourceAsColor")
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         //Attaching options menu to the fragment.
@@ -204,7 +205,7 @@ public class AttendanceFragment extends Fragment {
         for (int i = 0; i < 4; i++) {
             MenuItem item = menu.getItem(i);
             SpannableString s = new SpannableString(optionsInMenu.get(i));
-            s.setSpan(new ForegroundColorSpan(Color.BLACK), 0, s.length(), 0);
+            s.setSpan(new ForegroundColorSpan(R.color.dark_text), 0, s.length(), 0);
             item.setTitle(s);
         }
 

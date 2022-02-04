@@ -32,7 +32,6 @@ import com.example.tritendence.model.TriathlonClub;
 import com.example.tritendence.model.groups.Group;
 import com.example.tritendence.model.users.Athlete;
 import com.example.tritendence.model.users.Member;
-import com.example.tritendence.model.users.Trainer;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -192,7 +191,7 @@ public class AttendanceSheetFragment extends Fragment {
         for (Athlete attendedAthlete : this.attendanceData.getAttendedAthletes()) {
             athleteInList = false;
             //Looking for attended athlete in the list of athletes of the group.
-            for (int i = 0; i < this.attendanceSheet.getChildCount(); i++) {
+            for (int i = 0; i < this.attendanceSheet.getCount(); i++) {
                 if (attendedAthlete.getFullName().equals(this.attendanceSheet.getItemAtPosition(i).toString())) {
                     this.attendanceSheet.setItemChecked(i, true);
                     athleteInList = true;
@@ -230,10 +229,8 @@ public class AttendanceSheetFragment extends Fragment {
         //Finding an athlete in the club by its name and increasing number of trainings of the athlete.
         for (Member athlete : this.club.getMembersOfClub()) {
             for (String name : athletesNames) {
-                if (name.equals(athlete.getFullName())) {
+                if (name.equals(athlete.getFullName()))
                     requestedAthletes.add((Athlete) athlete);
-                    ((Athlete) athlete).addAttendedTraining();
-                }
             }
         }
 
@@ -258,24 +255,28 @@ public class AttendanceSheetFragment extends Fragment {
             trainersNames.add((String) this.thirdTrainersName.getSelectedItem());
 
         //Creating map of names of attended athletes.
-        Map<String, String> attendanceData = new HashMap<>();
+        Map<String, String> newAttendanceData = new HashMap<>();
         int number = 1;
         for (Athlete athlete : athletes) {
-            attendanceData.put(String.valueOf(number), athlete.getFullName());
+            newAttendanceData.put(String.valueOf(number), athlete.getFullName());
             number++;
         }
-        attendanceData = this.analyzeNote(noteText, attendanceData, number);
+        newAttendanceData = this.analyzeNote(noteText, newAttendanceData, number);
         //Creating date format consisting of date of the attendance, time of the training unit and group ID.
         String dateInformation = String.valueOf(this.date.getYear()) + String.valueOf(dateFormat.format(this.date.getMonthValue())) + String.valueOf(dateFormat.format(this.date.getDayOfMonth())) + "_" + this.unit.getTime() + "_" + this.group.getID();
 
         int numberOfFilledAttendance = this.club.getNumberOfFilledAttendances() + 1;
+        if (this.attendanceData != null) {
+            this.rewriteAttendance(root, athletes, newAttendanceData, dateInformation, noteText, trainersNames);
+            return;
+        }
         //Writing attendance data to the database.
         root.child(getString(R.string.ATTENDANCE_CHILD_DB) + "/" + numberOfFilledAttendance + "/" + getString(R.string.DATE_DB)).setValue(dateInformation);
         root.child(getString(R.string.ATTENDANCE_CHILD_DB) + "/" + numberOfFilledAttendance + "/" + getString(R.string.SPORT_DB)).setValue(this.unit.getSportTranslation());
-        if (attendanceData.size() == 0)
+        if (newAttendanceData.size() == 0)
             root.child(getString(R.string.ATTENDANCE_CHILD_DB) + "/" + numberOfFilledAttendance + "/" + getString(R.string.ATHLETES_DB)).setValue(getString(R.string.EMPTY_STRING));
         else
-            root.child(getString(R.string.ATTENDANCE_CHILD_DB) + "/" + numberOfFilledAttendance + "/" + getString(R.string.ATHLETES_DB)).setValue(attendanceData);
+            root.child(getString(R.string.ATTENDANCE_CHILD_DB) + "/" + numberOfFilledAttendance + "/" + getString(R.string.ATHLETES_DB)).setValue(newAttendanceData);
         root.child(getString(R.string.ATTENDANCE_CHILD_DB) + "/" + numberOfFilledAttendance + "/" + getString(R.string.NOTE_DB)).setValue(noteText);
         for (int i = 0; i < trainersNames.size(); i++) {
             String trainerID = getString(R.string.TRAINER_DB) + String.valueOf(i+1);
@@ -285,8 +286,6 @@ public class AttendanceSheetFragment extends Fragment {
         //If the attendance data are the first ones then delete the sign of the empty attendance's child.
         if (this.club.getNumberOfFilledAttendances() == 0)
             root.child(getString(R.string.ATTENDANCE_CHILD_DB) + "/" + getString(R.string.FIRST_CHILD_DB)).removeValue();
-
-        this.addTrainingToTrainers(trainersNames);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -305,13 +304,23 @@ public class AttendanceSheetFragment extends Fragment {
         return attendanceData;
     }
 
-    private void addTrainingToTrainers(ArrayList<String> trainersNames) {
-        //Finding trainer by its name and increasing number of training units of the trainer.
-        for (String nameOfTrainer : trainersNames) {
-            for (Member trainer : this.club.getTrainersSortedByAlphabet()) {
-                if (trainer.getFullName().equals(nameOfTrainer))
-                    ((Trainer) trainer).addTraining();
+    private void rewriteAttendance(DatabaseReference root, ArrayList<Athlete> athletes, Map<String, String> newAttendanceData, String dateInformation, String noteText, ArrayList<String> trainersNames) {
+        int attendanceIndex = 1;
+        for (AttendanceData data : this.club.getAttendanceData()) {
+            if (data.getGroup().getName().equals(this.attendanceData.getGroup().getName()) && data.getDate().equals(this.attendanceData.getDate()) && data.getTime().equals(this.attendanceData.getTime()) && data.getSport().equals(this.attendanceData.getSport())) {
+                root.child(getString(R.string.ATTENDANCE_CHILD_DB) + "/" + attendanceIndex + "/" + getString(R.string.DATE_DB)).setValue(dateInformation);
+                root.child(getString(R.string.ATTENDANCE_CHILD_DB) + "/" + attendanceIndex + "/" + getString(R.string.SPORT_DB)).setValue(this.unit.getSportTranslation());
+                if (newAttendanceData.size() == 0)
+                    root.child(getString(R.string.ATTENDANCE_CHILD_DB) + "/" + attendanceIndex + "/" + getString(R.string.ATHLETES_DB)).setValue(getString(R.string.EMPTY_STRING));
+                else
+                    root.child(getString(R.string.ATTENDANCE_CHILD_DB) + "/" + attendanceIndex + "/" + getString(R.string.ATHLETES_DB)).setValue(newAttendanceData);
+                root.child(getString(R.string.ATTENDANCE_CHILD_DB) + "/" + attendanceIndex + "/" + getString(R.string.NOTE_DB)).setValue(noteText);
+                for (int i = 0; i < trainersNames.size(); i++) {
+                    String trainerID = getString(R.string.TRAINER_DB) + String.valueOf(i+1);
+                    root.child(getString(R.string.ATTENDANCE_CHILD_DB) + "/" + attendanceIndex + "/" + trainerID).setValue(trainersNames.get(i));
+                }
             }
+            attendanceIndex += 1;
         }
     }
 
