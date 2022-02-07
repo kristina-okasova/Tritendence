@@ -6,7 +6,8 @@ import java.util.Map;
 public class Trainer extends Member {
 
     private final String email;
-    private String sport, theme;
+    private final String sport;
+    private String theme;
 
     public Trainer(int ID, String name, String surname, String email, String sport, String theme) {
         super(ID, name, surname);

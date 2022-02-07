@@ -1,7 +1,6 @@
 package com.example.tritendence.fragments;
 
 import android.annotation.SuppressLint;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.SpannableString;
@@ -12,7 +11,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
@@ -28,25 +26,20 @@ import com.example.tritendence.model.adapters.AdapterOfExpendableList;
 import com.example.tritendence.model.TrainingUnit;
 import com.example.tritendence.model.TriathlonClub;
 import com.example.tritendence.model.groups.Group;
-import com.example.tritendence.model.users.Admin;
-import com.example.tritendence.model.users.Member;
-import com.example.tritendence.model.users.Trainer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 public class AttendanceFragment extends Fragment {
     //Intent's extras
     private TriathlonClub club;
     private LoadData loadData;
-    private String signedUser, sportSelection = null;
-
-    private TextView currentWeek;
+    private String sportSelection = null;
 
     private HomeActivity activity;
     private List<String> daysOfTheWeek;
@@ -76,7 +69,6 @@ public class AttendanceFragment extends Fragment {
         //Getting extras of the intent.
         this.club = (TriathlonClub) requireActivity().getIntent().getExtras().getSerializable(getString(R.string.TRIATHLON_CLUB_EXTRA));
         this.loadData = (LoadData) requireActivity().getIntent().getExtras().getSerializable(getString(R.string.LOAD_DATA_EXTRA));
-        this.signedUser = requireActivity().getIntent().getExtras().getString(getString(R.string.SIGNED_USER_EXTRA));
 
         if (this.sportSelection == null)
             this.sportSelection = requireActivity().getIntent().getExtras().getString(getString(R.string.SPORT_SELECTION_EXTRA));
@@ -132,8 +124,15 @@ public class AttendanceFragment extends Fragment {
 
     @SuppressLint("DefaultLocale")
     private void initializeCurrentWeek(View view) {
-        this.currentWeek = view.findViewById(R.id.currentWeek);
-        this.currentWeek.setText(String.format("%s %d", getString(R.string.WEEK), this.club.getNumberOfWeek()));
+        TextView currentWeek = view.findViewById(R.id.currentWeek);
+        Calendar today = Calendar.getInstance();
+        int numberOfWeek;
+        if (today.get(Calendar.MONTH) > 7)
+            numberOfWeek = today.get(Calendar.WEEK_OF_YEAR) - this.club.getFirstWeek() + 1;
+        else
+            numberOfWeek = today.get(Calendar.WEEK_OF_YEAR) + today.getActualMaximum
+                    (Calendar.WEEK_OF_YEAR) - this.club.getFirstWeek() + 1;
+        currentWeek.setText(String.format("%s %d", getString(R.string.WEEK), numberOfWeek));
     }
 
     public void initializeExpandableTimetable() {
@@ -201,7 +200,7 @@ public class AttendanceFragment extends Fragment {
         inflater = requireActivity().getMenuInflater();
         inflater.inflate(R.menu.attendance_selection_menu, menu);
 
-        List<String> optionsInMenu = Arrays.asList("Zobraziť plavecké tréningy", "Zobraziť atletické tréningy", "Zobraziť cyklistické tréningy", "Zobraziť všetky tréningy");
+        List<String> optionsInMenu = Arrays.asList(getString(R.string.SWIMMING_SORTING), getString(R.string.ATHLETICS_SORTING), getString(R.string.CYCLING_SORTING), getString(R.string.ALL_SPORT_SORTING));
         for (int i = 0; i < 4; i++) {
             MenuItem item = menu.getItem(i);
             SpannableString s = new SpannableString(optionsInMenu.get(i));

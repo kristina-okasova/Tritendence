@@ -10,7 +10,7 @@ public class AddEntity {
     private final static String TRAINERS_CHILD_DATABASE = "Trainers";
     private final static String FIRST_CHILD_DB = "-1";
 
-    private TriathlonClub club;
+    private final TriathlonClub club;
 
     public AddEntity(TriathlonClub club) {
         this.club = club;

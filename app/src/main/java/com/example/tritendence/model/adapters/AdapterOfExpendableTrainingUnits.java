@@ -36,12 +36,7 @@ public class AdapterOfExpendableTrainingUnits extends BaseExpandableListAdapter 
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        int numberOfChildren = Objects.requireNonNull(this.timetable.get(this.sportTypes.get(groupPosition))).size();
-        //Displaying Toast when there are no children in the group to be displayed.
-        if (numberOfChildren == 0)
-            Toast.makeText(this.context, this.context.getString(R.string.NO_TRAININGS_IN_CATEGORY), Toast.LENGTH_LONG).show();
-
-        return numberOfChildren;
+        return Objects.requireNonNull(this.timetable.get(this.sportTypes.get(groupPosition))).size();
     }
 
     //Getters for specific object of expandable list.
@@ -86,6 +81,11 @@ public class AdapterOfExpendableTrainingUnits extends BaseExpandableListAdapter 
         //Setting text to the created view.
         TextView sportType = convertView.findViewById(R.id.data);
         sportType.setText(sportData);
+
+        convertView.setOnClickListener(v -> {
+            if (Objects.requireNonNull(this.timetable.get(sportData)).size() == 0)
+                Toast.makeText(this.context, this.context.getString(R.string.NO_TRAININGS_IN_CATEGORY), Toast.LENGTH_LONG).show();
+        });
 
         return convertView;
     }

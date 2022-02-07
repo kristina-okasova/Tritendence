@@ -267,7 +267,7 @@ public class AttendanceSheetFragment extends Fragment {
 
         int numberOfFilledAttendance = this.club.getNumberOfFilledAttendances() + 1;
         if (this.attendanceData != null) {
-            this.rewriteAttendance(root, athletes, newAttendanceData, dateInformation, noteText, trainersNames);
+            this.rewriteAttendance(root, newAttendanceData, dateInformation, noteText, trainersNames);
             return;
         }
         //Writing attendance data to the database.
@@ -304,7 +304,7 @@ public class AttendanceSheetFragment extends Fragment {
         return attendanceData;
     }
 
-    private void rewriteAttendance(DatabaseReference root, ArrayList<Athlete> athletes, Map<String, String> newAttendanceData, String dateInformation, String noteText, ArrayList<String> trainersNames) {
+    private void rewriteAttendance(DatabaseReference root, Map<String, String> newAttendanceData, String dateInformation, String noteText, ArrayList<String> trainersNames) {
         int attendanceIndex = 1;
         for (AttendanceData data : this.club.getAttendanceData()) {
             if (data.getGroup().getName().equals(this.attendanceData.getGroup().getName()) && data.getDate().equals(this.attendanceData.getDate()) && data.getTime().equals(this.attendanceData.getTime()) && data.getSport().equals(this.attendanceData.getSport())) {

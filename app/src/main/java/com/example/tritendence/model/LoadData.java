@@ -13,7 +13,6 @@ import com.example.tritendence.model.users.Admin;
 import com.example.tritendence.model.users.Athlete;
 import com.example.tritendence.model.users.Member;
 import com.example.tritendence.model.users.Trainer;
-import com.google.android.material.internal.ThemeEnforcement;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,7 +29,6 @@ public class LoadData implements Serializable {
     private static final String TRAINERS_CHILD_DATABASE = "Trainers";
     private static final String ATTENDANCE_CHILD_DATABASE = "Attendance";
     private static final String ADMINS_CHILD_DATABASE = "Admin";
-    private static final String NUMBER_OF_WEEK = "NumberOfWeek";
     private static final String FIRST_WEEK = "FirstWeek";
 
     private static final String NAME = "Name";
@@ -53,7 +51,6 @@ public class LoadData implements Serializable {
 
     private static final String ATHLETE_GROUP_ID = "GroupID";
     private static final String ATHLETE_DAY_OF_BIRTH = "DayOfBirth";
-    private static final String NUMBER_OF_TRAININGS = "NumberOfTrainings";
 
     private static final String ATTENDANCE_DATE = "Date";
     private static final String ATTENDANCE_TRAINER = "Trainer";
@@ -122,7 +119,6 @@ public class LoadData implements Serializable {
         this.numberOfAthletes = (int) snapshot.child(ATHLETES_CHILD_DATABASE).getChildrenCount();
         this.numberOfTrainers = (int) snapshot.child(TRAINERS_CHILD_DATABASE).getChildrenCount();
         this.numberOfFilledAttendances = (int) snapshot.child(ATTENDANCE_CHILD_DATABASE).getChildrenCount();
-        int numberOfWeek = Integer.parseInt(Objects.requireNonNull(snapshot.child(NUMBER_OF_WEEK).getValue()).toString());
         int firstWeek = Integer.parseInt(Objects.requireNonNull(snapshot.child(FIRST_WEEK).getValue()).toString());
 
         this.club.setNumberOfGroups(this.numberOfGroups);
@@ -130,7 +126,6 @@ public class LoadData implements Serializable {
         this.club.setNumberOfTrainers(this.numberOfTrainers);
         this.club.setNumberOfFilledAttendances(this.numberOfFilledAttendances);
         this.club.setNumberOfUsers(this.numberOfAthletes + this.numberOfTrainers);
-        this.club.setNumberOfWeek(numberOfWeek);
         this.club.setFirstWeek(firstWeek);
     }
 

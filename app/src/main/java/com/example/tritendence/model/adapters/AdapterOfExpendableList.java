@@ -57,12 +57,7 @@ public class AdapterOfExpendableList extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        int numberOfChildren = Objects.requireNonNull(this.timetable.get(this.daysOfTheWeek.get(groupPosition))).size();
-        //Displaying Toast when there are no children in the group to be displayed.
-        if (numberOfChildren == 0)
-            Toast.makeText(this.context, this.context.getString(R.string.NO_TRAININGS), Toast.LENGTH_LONG).show();
-
-        return numberOfChildren;
+        return Objects.requireNonNull(this.timetable.get(this.daysOfTheWeek.get(groupPosition))).size();
     }
 
     //Getters for specific object of expandable list.
@@ -121,6 +116,11 @@ public class AdapterOfExpendableList extends BaseExpandableListAdapter {
         DateTimeFormatter format = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         TextView dayName = convertView.findViewById(R.id.dayName);
         dayName.setText(String.format("%s :  %s", date.format(format), day));
+
+        convertView.setOnClickListener(v -> {
+            if (Objects.requireNonNull(this.timetable.get(day)).size() == 0)
+                Toast.makeText(this.context, this.context.getString(R.string.NO_TRAININGS), Toast.LENGTH_LONG).show();
+        });
 
         return convertView;
     }

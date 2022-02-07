@@ -2,7 +2,8 @@ package com.example.tritendence.model.users;
 
 public class Admin extends Member {
     private final String email;
-    private String sport, theme;
+    private final String sport;
+    private String theme;
 
     public Admin(int ID, String name, String surname, String email, String theme) {
         super(ID, name, surname);

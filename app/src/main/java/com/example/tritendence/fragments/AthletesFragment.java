@@ -1,7 +1,6 @@
 package com.example.tritendence.fragments;
 
 import android.annotation.SuppressLint;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -26,7 +25,6 @@ import com.example.tritendence.R;
 import com.example.tritendence.model.TriathlonClub;
 import com.example.tritendence.model.users.Member;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -101,7 +99,7 @@ public class AthletesFragment extends Fragment {
         inflater = requireActivity().getMenuInflater();
         inflater.inflate(R.menu.athletes_sort_menu, menu);
 
-        List<String> optionsInMenu = Arrays.asList("Zoradiť abecedne", "Zoradiť podľa veku");
+        List<String> optionsInMenu = Arrays.asList(getString(R.string.ALPHABET_SORTING), getString(R.string.AGE_SORTING));
         for (int i = 0; i < 2; i++) {
             MenuItem item = menu.getItem(i);
             SpannableString s = new SpannableString(optionsInMenu.get(i));

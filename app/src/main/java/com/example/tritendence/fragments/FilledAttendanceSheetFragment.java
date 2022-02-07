@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AutoCompleteTextView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
@@ -19,7 +18,6 @@ import com.example.tritendence.R;
 import com.example.tritendence.model.AttendanceData;
 import com.example.tritendence.model.lists.ListScrollable;
 
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -28,7 +26,6 @@ public class FilledAttendanceSheetFragment extends Fragment {
     private AttendanceData selectedAttendanceData;
 
     private TextView trainingData, nameOfGroup, trainerOfGroup, numberOfAttendedAthletes;
-    private AutoCompleteTextView note;
     private ListScrollable attendanceSheet;
 
     @Override

@@ -16,7 +16,6 @@ import androidx.fragment.app.Fragment;
 
 import com.example.tritendence.R;
 import com.example.tritendence.model.TriathlonClub;
-import com.example.tritendence.model.groups.Group;
 
 import java.util.ArrayList;
 import java.util.HashMap;

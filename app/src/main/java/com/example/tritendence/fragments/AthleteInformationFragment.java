@@ -21,7 +21,6 @@ import com.example.tritendence.R;
 import com.example.tritendence.activities.HomeActivity;
 import com.example.tritendence.model.AttendanceData;
 import com.example.tritendence.model.LoadData;
-import com.example.tritendence.model.TrainingUnit;
 import com.example.tritendence.model.TriathlonClub;
 import com.example.tritendence.model.groups.Group;
 import com.example.tritendence.model.users.Athlete;

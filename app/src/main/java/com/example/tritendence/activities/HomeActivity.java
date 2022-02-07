@@ -14,12 +14,10 @@ import android.widget.TextView;
 import com.example.tritendence.R;
 import com.example.tritendence.fragments.AthletesFragment;
 import com.example.tritendence.fragments.AttendanceFragment;
-import com.example.tritendence.fragments.AttendanceSheetFragment;
 import com.example.tritendence.fragments.GroupsFragment;
 import com.example.tritendence.fragments.ProfileFragment;
 import com.example.tritendence.fragments.TrainersFragment;
 import com.example.tritendence.model.LoadData;
-import com.example.tritendence.model.TrainingUnit;
 import com.example.tritendence.model.TriathlonClub;
 import com.example.tritendence.model.users.Admin;
 import com.example.tritendence.model.users.Member;
@@ -28,17 +26,11 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Objects;
-import java.util.SimpleTimeZone;
 
 @RequiresApi(api = Build.VERSION_CODES.O)
 public class HomeActivity extends AppCompatActivity {
-    private final static int START_WEEK = 35;
-
     //Intent's extras
     private Fragment selectedFragment;
     private TriathlonClub club;
@@ -97,9 +89,6 @@ public class HomeActivity extends AppCompatActivity {
         //Finding fragment based on selected item ID passed from the previous activity.
         int selectedItemID = getIntent().getExtras().getInt(getString(R.string.SELECTED_FRAGMENT_EXTRA));
         switch (selectedItemID) {
-            case R.id.attendanceFragment:
-                this.selectedFragment = this.attendanceFragment;
-                break;
             case R.id.groupsFragment:
                 this.selectedFragment = this.groupsFragment;
                 break;
@@ -121,7 +110,6 @@ public class HomeActivity extends AppCompatActivity {
 
         //Attaching fragment to the activity.
         getSupportFragmentManager().beginTransaction().replace(R.id.homeFragment, this.selectedFragment).commit();
-        this.updateLastSignedDate();
     }
 
     private void findTypeOfSignedUser() {
@@ -133,20 +121,6 @@ public class HomeActivity extends AppCompatActivity {
             this.navigation.getMenu().clear();
             this.navigation.inflateMenu(R.menu.home_bottom_menu);
         }
-    }
-
-    private void updateLastSignedDate() {
-        Calendar today = Calendar.getInstance();
-        int numberOfWeek;
-        if (today.get(Calendar.MONTH) > 7)
-            numberOfWeek = today.get(Calendar.WEEK_OF_YEAR) - this.club.getFirstWeek();
-        else
-            numberOfWeek = today.get(Calendar.WEEK_OF_YEAR) + today.getActualMaximum
-                    (Calendar.WEEK_OF_YEAR) - this.club.getFirstWeek();
-
-        DatabaseReference database = FirebaseDatabase.getInstance().getReference();
-        database.child(getString(R.string.NUMBER_OF_WEEK)).setValue(numberOfWeek);
-        this.club.setNumberOfWeek(numberOfWeek);
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -277,14 +251,11 @@ public class HomeActivity extends AppCompatActivity {
         homePage.putExtra(getString(R.string.SIGNED_USER_EXTRA), this.signedUser);
         homePage.putExtra(getString(R.string.TRIATHLON_CLUB_EXTRA), this.club);
         homePage.putExtra(getString(R.string.LOAD_DATA_EXTRA), this.loadData);
-        if (member instanceof Trainer) {
+        homePage.putExtra(getString(R.string.THEME_EXTRA), theme);
+        if (member instanceof Trainer)
             homePage.putExtra(getString(R.string.SPORT_SELECTION_EXTRA), ((Trainer) member).getSport());
-            homePage.putExtra(getString(R.string.THEME_EXTRA), theme);
-        }
-        else {
+        else
             homePage.putExtra(getString(R.string.SPORT_SELECTION_EXTRA), ((Admin) Objects.requireNonNull(member)).getSport());
-            homePage.putExtra(getString(R.string.THEME_EXTRA), theme);
-        }
 
         startActivity(homePage);
         finish();

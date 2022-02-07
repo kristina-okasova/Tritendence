@@ -13,7 +13,6 @@ import android.widget.Toast;
 import com.example.tritendence.R;
 import com.example.tritendence.model.LoadData;
 import com.example.tritendence.model.TriathlonClub;
-import com.example.tritendence.model.users.Athlete;
 import com.example.tritendence.model.users.Member;
 import com.example.tritendence.model.users.Trainer;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -133,7 +132,7 @@ public class AddTrainerActivity extends AppCompatActivity {
         }
 
         //Setting trainer's ID, numberOfTrainings, email and theme.
-        int trainerID, numberOfTrainings;
+        int trainerID;
         String email, theme;
         if (this.editTrainer != null) {
             trainerID = this.editTrainer.getID();

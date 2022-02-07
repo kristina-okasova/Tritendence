@@ -4,16 +4,9 @@ import android.annotation.SuppressLint;
 import android.os.Build;
 
 import androidx.annotation.RequiresApi;
-
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
 import java.time.LocalDate;
 
 public class Athlete extends Member {
-    private static final String ATHLETES_CHILD_DB = "Athletes";
-    private static final String NUMBER_OF_TRAININGS = "NumberOfTrainings";
-
     private int groupID;
     private LocalDate dayOfBirth;
 

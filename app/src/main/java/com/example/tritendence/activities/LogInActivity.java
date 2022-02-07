@@ -1,16 +1,11 @@
 package com.example.tritendence.activities;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
-import android.util.Patterns;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -23,14 +18,8 @@ import com.example.tritendence.model.users.Admin;
 import com.example.tritendence.model.users.Member;
 import com.example.tritendence.model.users.Trainer;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
-import java.util.Objects;
 
 public class LogInActivity extends AppCompatActivity {
     //Intent's extras
@@ -71,7 +60,7 @@ public class LogInActivity extends AppCompatActivity {
 
     private void checkData() {
         //Checking if the application has Internet connection.
-        if (!this.isOnline()) {
+        if (this.isOffline()) {
             Toast.makeText(this, getString(R.string.INTERNET_CONNECTION_REQUIRED), Toast.LENGTH_LONG).show();
             return;
         }
@@ -81,7 +70,7 @@ public class LogInActivity extends AppCompatActivity {
 
         //Checking if email and password are filled in.
         if (!emailText.isEmpty() && !passwordText.isEmpty()) {
-            //Authenticate the user by filled in email and password. On success Home Activityis displayed. Otherwise the Toast is shown.
+            //Authenticate the user by filled in email and password. On success Home Activity is displayed. Otherwise the Toast is shown.
             this.authentication.signInWithEmailAndPassword(emailText, passwordText).addOnSuccessListener(task -> this.findUser(emailText)).
                     addOnFailureListener(task -> Toast.makeText(LogInActivity.this, getString(R.string.WRONG_SIGN_IN_DATA), Toast.LENGTH_LONG).show());
         }
@@ -123,7 +112,7 @@ public class LogInActivity extends AppCompatActivity {
 
     private void loadRegistration() {
         //Checking if the application has Internet connection.
-        if (!this.isOnline()) {
+        if (this.isOffline()) {
             Toast.makeText(this, getString(R.string.INTERNET_CONNECTION_REQUIRED), Toast.LENGTH_LONG).show();
             return;
         }
@@ -134,13 +123,13 @@ public class LogInActivity extends AppCompatActivity {
         finish();
     }
 
-    private boolean isOnline() {
+    private boolean isOffline() {
         //Checking Internet connection by ping.
         Runtime runtime = Runtime.getRuntime();
         try {
             Process ipProcess = runtime.exec("/system/bin/ping -c 1 8.8.8.8");
             int     exitValue = ipProcess.waitFor();
-            return (exitValue == 0);
+            return (exitValue != 0);
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -148,8 +137,7 @@ public class LogInActivity extends AppCompatActivity {
         catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-        return false;
+        return true;
     }
 
     public void notifyAboutChange(TriathlonClub club) {

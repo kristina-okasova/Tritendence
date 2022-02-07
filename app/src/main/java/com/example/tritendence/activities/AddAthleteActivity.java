@@ -1,26 +1,21 @@
 package com.example.tritendence.activities;
 
-import androidx.annotation.ColorInt;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.ContextCompat;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.TypedValue;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,7 +27,6 @@ import com.example.tritendence.model.groups.Group;
 import com.example.tritendence.model.users.Athlete;
 import com.example.tritendence.model.users.Member;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.color.MaterialColors;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -180,7 +174,7 @@ public class AddAthleteActivity extends AppCompatActivity {
         dayOfBirth = dayOfBirth.substring(dayOfBirth.indexOf(':') + 2);
 
         //Setting athlete's ID and selected group.
-        int athleteID, numberOfTrainings;
+        int athleteID;
         if (this.editAthlete != null)
             athleteID = this.editAthlete.getID();
         else

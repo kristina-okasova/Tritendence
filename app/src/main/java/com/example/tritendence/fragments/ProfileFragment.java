@@ -1,8 +1,6 @@
 package com.example.tritendence.fragments;
 
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -51,7 +49,7 @@ public class ProfileFragment extends Fragment {
     private TextView signedTrainerName, signedTrainerEmail, numberOfTrainings, firstWeekOfTheYearText;
     private Spinner themeOfUser, firstWeekOfTheYear;
 
-    private HomeActivity activity;
+    private final HomeActivity activity;
 
     public ProfileFragment(HomeActivity activity) {
         this.activity = activity;
@@ -176,7 +174,7 @@ public class ProfileFragment extends Fragment {
         ArrayList<String> numberOfWeeks = new ArrayList<>();
         for (int i = 1; i <= Calendar.getInstance().getActualMaximum(Calendar.WEEK_OF_YEAR); i++) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.");
-            numberOfWeeks.add(String.valueOf(i) + ". týždeň: " + formatter.format(mondayOfTheWeek)
+            numberOfWeeks.add(String.valueOf(i) + ". " + getString(R.string.WEEK_LOW) + ": " + formatter.format(mondayOfTheWeek)
                     + " - " + formatter.format((mondayOfTheWeek.plusDays(6))));
             mondayOfTheWeek = mondayOfTheWeek.plusDays(7);
         }
@@ -196,16 +194,16 @@ public class ProfileFragment extends Fragment {
                     return;
                 AlertDialog.Builder acknowledgement = new AlertDialog.Builder(getContext());
                 acknowledgement.setCancelable(true);
-                acknowledgement.setTitle("Potvrdenie");
-                acknowledgement.setMessage("Ste si istý, že chcete zmeniť prvý týždeň školského roka?");
-                acknowledgement.setPositiveButton("Áno", (dialog, which) -> {
+                acknowledgement.setTitle(getString(R.string.ACKNOWLEDGMENT));
+                acknowledgement.setMessage(getString(R.string.CHANGE_OF_FIRST_WEEK));
+                acknowledgement.setPositiveButton(getString(R.string.YES), (dialog, which) -> {
                         FirebaseDatabase database = FirebaseDatabase.getInstance();
                         DatabaseReference root = database.getReference();
 
                         club.setFirstWeek(position + 1);
                         root.child(getString(R.string.FIRST_WEEK_DB)).setValue(position + 1);
                     });
-                acknowledgement.setNegativeButton("Nie", (dialog, which) -> {});
+                acknowledgement.setNegativeButton(getString(R.string.NO), (dialog, which) -> {});
 
                 AlertDialog dialog = acknowledgement.create();
                 dialog.show();

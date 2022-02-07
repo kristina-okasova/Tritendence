@@ -181,4 +181,11 @@
     <string name="NUMBER_ATTENDED_OF_ATHLETES">Počet zúčastnených členov</string>
     <string name="FIRST_WEEK">Prvý týždeň školského roka</string>
     <string name="FIRST_WEEK_DB">FirstWeek</string>
+    <string name="SWIMMING_SORTING">Zobraziť plavecké tréningy</string>
+    <string name="ATHLETICS_SORTING">Zobraziť atletické tréningy</string>
+    <string name="CYCLING_SORTING">Zobraziť cyklistické tréningy</string>
+    <string name="ALL_SPORT_SORTING">Zobraziť všetky tréningy</string>
+    <string name="WEEK_LOW">týždeň</string>
+    <string name="ACKNOWLEDGMENT">Potvrdenie</string>
+    <string name="CHANGE_OF_FIRST_WEEK">Ste si istý, že chcete zmeniť prvý týždeň školského roka?</string>
 </resources>
