@@ -49,7 +49,7 @@ public class AttendanceSheetFragment extends Fragment {
     private String sportSelection, theme;
     private Group group;
     private TrainingUnit unit;
-    private String currentTrainersName;
+    private String currentTrainersName, signedUser;
     private LocalDate date;
     private AttendanceData attendanceData;
 
@@ -77,6 +77,7 @@ public class AttendanceSheetFragment extends Fragment {
         //Getting extras of the intent.
         this.club = (TriathlonClub) requireActivity().getIntent().getExtras().getSerializable(getString(R.string.TRIATHLON_CLUB_EXTRA));
         this.loadData = (LoadData) requireActivity().getIntent().getExtras().getSerializable(getString(R.string.LOAD_DATA_EXTRA));
+        this.signedUser = requireActivity().getIntent().getExtras().getString(getString(R.string.SIGNED_USER_EXTRA));
         this.sportSelection = requireActivity().getIntent().getExtras().getString(getString(R.string.SPORT_SELECTION_EXTRA));
         this.theme = requireActivity().getIntent().getExtras().getString(getString(R.string.THEME_EXTRA));
         this.group = (Group) requireActivity().getIntent().getExtras().getSerializable(getString(R.string.GROUP_EXTRA));
@@ -157,7 +158,7 @@ public class AttendanceSheetFragment extends Fragment {
             //Finding athletes by their names selected in the list.
             findAthletesByName(athletesNames);
             Toast.makeText(getActivity(), getString(R.string.ATTENDANCE_SUCCESS), Toast.LENGTH_LONG).show();
-            loadAttendancePage();
+            this.loadAttendancePage();
         });
     }
 

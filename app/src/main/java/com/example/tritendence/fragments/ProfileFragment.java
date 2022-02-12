@@ -230,7 +230,7 @@ public class ProfileFragment extends Fragment {
             //Looking for signed trainer in list of trainers of concrete attendance data.
             for (Member trainer : attendance.getTrainers()) {
                 if (trainer.getFullName().equals(signedTrainer)) {
-                    mappedData.put(getString(R.string.TRAINING_OF_TRAINER_ADAPTER), attendance.getDate() + " " + attendance.getTime() + "\n" + attendance.getGroup().getName());
+                    mappedData.put(getString(R.string.TRAINING_OF_TRAINER_ADAPTER), attendance.getFormatDate() + " " + attendance.getTime() + "\n" + attendance.getGroup().getName());
                     dataForListOfTrainings.add(mappedData);
                 }
             }

@@ -40,6 +40,7 @@ public class AdapterOfExpendableList extends BaseExpandableListAdapter {
     private final TriathlonClub club;
     private final LoadData loadData;
     private TrainingUnit selectedUnit;
+    private int counter;
 
     public AdapterOfExpendableList(Activity context, List<String> daysOfTheWeek, Map<String, List<String>> timetable, TriathlonClub club, LoadData loadData) {
         this.context = context;
@@ -47,6 +48,7 @@ public class AdapterOfExpendableList extends BaseExpandableListAdapter {
         this.timetable = timetable;
         this.club = club;
         this.loadData = loadData;
+        this.counter = 0;
     }
 
     //Getters for counts.
@@ -57,7 +59,11 @@ public class AdapterOfExpendableList extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return Objects.requireNonNull(this.timetable.get(this.daysOfTheWeek.get(groupPosition))).size();
+        int numberOfChildren = Objects.requireNonNull(this.timetable.get(this.daysOfTheWeek.get(groupPosition))).size();
+        if (this.counter % 2 == 0 && numberOfChildren == 0)
+            Toast.makeText(this.context, this.context.getString(R.string.NO_TRAININGS), Toast.LENGTH_LONG).show();
+        this.counter++;
+        return numberOfChildren;
     }
 
     //Getters for specific object of expandable list.
@@ -116,11 +122,6 @@ public class AdapterOfExpendableList extends BaseExpandableListAdapter {
         DateTimeFormatter format = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         TextView dayName = convertView.findViewById(R.id.dayName);
         dayName.setText(String.format("%s :  %s", date.format(format), day));
-
-        convertView.setOnClickListener(v -> {
-            if (Objects.requireNonNull(this.timetable.get(day)).size() == 0)
-                Toast.makeText(this.context, this.context.getString(R.string.NO_TRAININGS), Toast.LENGTH_LONG).show();
-        });
 
         return convertView;
     }
